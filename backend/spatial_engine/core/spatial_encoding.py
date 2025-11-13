@@ -91,3 +91,57 @@ class SpatialPositionEncoding(nn.Module):
         )
 
         return freqs
+
+    def encode_dimension(
+        self, coords: torch.Tensor, dim_idx: int
+    ) -> torch.Tensor:
+        """
+        Encode single spatial dimension (x, y, or z).
+
+        Args:
+            coords: Coordinates for one dimension
+                    [batch] for single positions or
+                    [batch, seq_len] for sequences
+            dim_idx: Dimension index (0=X, 1=Y, 2=Z)
+
+        Returns:
+            Encoding tensor
+            [batch, d_per_dim] for single positions or
+            [batch, seq_len, d_per_dim] for sequences
+
+        Example:
+            >>> encoder = SpatialPositionEncoding(d_model=768)
+            >>> x_coords = torch.tensor([0.0, 100.0, 500.0])  # [3]
+            >>> x_enc = encoder.encode_dimension(x_coords, dim_idx=0)
+            >>> x_enc.shape
+            torch.Size([3, 256])
+        """
+        # Check if 1D input (single position per batch)
+        is_1d = coords.dim() == 1
+
+        # Normalize to [-1, 1] range
+        coords_norm = coords / self.max_position
+
+        # Reshape for broadcasting
+        if is_1d:
+            # [batch] -> [batch, 1]
+            coords_norm = coords_norm.unsqueeze(-1)
+        else:
+            # [batch, seq_len] -> [batch, seq_len, 1]
+            coords_norm = coords_norm.unsqueeze(-1)
+
+        # Compute angles: coord * freq * 2π
+        # freqs: [num_freqs]
+        # coords_norm: [batch, 1] or [batch, seq_len, 1]
+        # angles: [batch, num_freqs] or [batch, seq_len, num_freqs]
+        angles = coords_norm * self.freqs * 2 * math.pi
+
+        # Compute sin and cos components
+        sin_enc = torch.sin(angles)
+        cos_enc = torch.cos(angles)
+
+        # Concatenate
+        # result: [batch, d_per_dim] or [batch, seq_len, d_per_dim]
+        encoding = torch.cat([sin_enc, cos_enc], dim=-1)
+
+        return encoding
