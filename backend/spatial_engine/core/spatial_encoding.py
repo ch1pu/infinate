@@ -188,19 +188,27 @@ class SpatialPositionEncoding(nn.Module):
 
         batch, seq_len, spatial_dim = positions_3d.shape
 
-        # Extract x, y, z coordinates
-        x = positions_3d[:, :, 0]  # [batch, seq_len]
-        y = positions_3d[:, :, 1]  # [batch, seq_len]
-        z = positions_3d[:, :, 2]  # [batch, seq_len]
+        # Normalize all positions at once [batch, seq_len, 3]
+        positions_norm = positions_3d / self.max_position
 
-        # Encode each dimension independently
-        x_enc = self.encode_dimension(x, dim_idx=0)  # [batch, seq_len, d_per_dim]
-        y_enc = self.encode_dimension(y, dim_idx=1)  # [batch, seq_len, d_per_dim]
-        z_enc = self.encode_dimension(z, dim_idx=2)  # [batch, seq_len, d_per_dim]
+        # Reshape for broadcasting: [batch, seq_len, 3, 1]
+        positions_norm = positions_norm.unsqueeze(-1)
 
-        # Concatenate all dimensions
-        # [batch, seq_len, 3 * d_per_dim]
-        encoding = torch.cat([x_enc, y_enc, z_enc], dim=-1)
+        # Compute angles for all dimensions at once
+        # freqs: [num_freqs]
+        # positions_norm: [batch, seq_len, 3, 1]
+        # angles: [batch, seq_len, 3, num_freqs]
+        angles = positions_norm * self.freqs * 2 * math.pi
+
+        # Compute sin and cos
+        sin_enc = torch.sin(angles)  # [batch, seq_len, 3, num_freqs]
+        cos_enc = torch.cos(angles)  # [batch, seq_len, 3, num_freqs]
+
+        # Concatenate sin and cos: [batch, seq_len, 3, d_per_dim]
+        dim_encodings = torch.cat([sin_enc, cos_enc], dim=-1)
+
+        # Flatten spatial dimensions: [batch, seq_len, 3 * d_per_dim]
+        encoding = dim_encodings.reshape(batch, seq_len, -1)
 
         # Pad if d_model not divisible by 3
         if encoding.shape[-1] < self.d_model:
