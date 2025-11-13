@@ -107,3 +107,40 @@ class TestSpatialToken:
 
         distance = token.distance_to(origin)
         assert distance == pytest.approx(expected_norm, rel=1e-2)
+
+    @pytest.mark.benchmark
+    def test_batch_distance_performance(self):
+        """Test distance calculation performance for 1000 tokens."""
+        import time
+
+        # Create 1000 tokens
+        tokens = [
+            SpatialToken(
+                token_id=i,
+                position=(float(i), float(i*2), float(i*3)),
+                embedding=torch.randn(768),
+                spatial_encoding=torch.randn(768)
+            )
+            for i in range(1000)
+        ]
+
+        origin = SpatialToken(
+            token_id=0,
+            position=(0.0, 0.0, 0.0),
+            embedding=torch.randn(768),
+            spatial_encoding=torch.randn(768)
+        )
+
+        # Benchmark
+        start = time.perf_counter()
+        distances = [origin.distance_to(token) for token in tokens]
+        elapsed = time.perf_counter() - start
+
+        elapsed_ms = elapsed * 1000
+
+        # Performance target: <1ms for 1000 pairs
+        assert elapsed_ms < 1.0, \
+            f"Too slow: {elapsed_ms:.3f}ms (target: <1ms)"
+
+        print(f"✓ Distance calculation: {elapsed_ms:.3f}ms for 1000 tokens")
+        assert len(distances) == 1000
