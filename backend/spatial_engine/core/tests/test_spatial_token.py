@@ -81,3 +81,29 @@ class TestSpatialToken:
                 spatial_encoding=torch.randn(384)  # 384D - mismatch!
             )
             # Validation happens in __post_init__
+
+    @pytest.mark.parametrize("x,y,z,expected_norm", [
+        (1.0, 0.0, 0.0, 1.0),           # Unit vector X
+        (0.0, 1.0, 0.0, 1.0),           # Unit vector Y
+        (0.0, 0.0, 1.0, 1.0),           # Unit vector Z
+        (3.0, 4.0, 0.0, 5.0),           # 3-4-5 triangle
+        (1.0, 1.0, 1.0, 1.732),         # Diagonal
+        (5.0, 12.0, 0.0, 13.0),         # 5-12-13 triangle
+    ])
+    def test_position_norms(self, x, y, z, expected_norm):
+        """Test distance calculations for various positions."""
+        token = SpatialToken(
+            token_id=1,
+            position=(x, y, z),
+            embedding=torch.randn(768),
+            spatial_encoding=torch.randn(768)
+        )
+        origin = SpatialToken(
+            token_id=0,
+            position=(0.0, 0.0, 0.0),
+            embedding=torch.randn(768),
+            spatial_encoding=torch.randn(768)
+        )
+
+        distance = token.distance_to(origin)
+        assert distance == pytest.approx(expected_norm, rel=1e-2)
