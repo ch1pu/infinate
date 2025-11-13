@@ -28,3 +28,66 @@ References:
 Author: ch1pu (System Architect, Lead Developer)
 Created: 2025-01-13
 """
+
+import math
+
+import torch
+import torch.nn as nn
+
+
+class SpatialPositionEncoding(nn.Module):
+    """
+    3D spatial positional encoding with sinusoidal patterns.
+
+    Extends standard transformer positional encoding from 1D sequences
+    to continuous 3D coordinates. Each dimension (X, Y, Z) is encoded
+    independently with sinusoidal patterns at multiple frequency scales.
+
+    Args:
+        d_model: Embedding dimension (must be divisible by 3 ideally)
+        max_position: Maximum expected position value for normalization
+        temperature: Temperature parameter for frequency scaling (default: 10000)
+
+    Attributes:
+        d_model: Embedding dimension
+        max_position: Maximum position for normalization
+        temperature: Frequency scaling temperature
+        d_per_dim: Dimensions allocated per spatial axis (d_model // 3)
+        freqs: Registered frequency buffer [d_per_dim // 2]
+    """
+
+    def __init__(
+        self,
+        d_model: int = 768,
+        max_position: float = 1000.0,
+        temperature: float = 10000.0,
+    ) -> None:
+        super().__init__()
+
+        self.d_model = d_model
+        self.max_position = max_position
+        self.temperature = temperature
+
+        # Each dimension (x, y, z) gets d_model/3 features
+        self.d_per_dim = d_model // 3
+
+        # Generate frequency bands (non-trainable)
+        freqs = self._generate_frequencies()
+        self.register_buffer("freqs", freqs)
+
+    def _generate_frequencies(self) -> torch.Tensor:
+        """
+        Generate logarithmic frequency bands for sinusoidal encoding.
+
+        Returns:
+            Frequency tensor [d_per_dim // 2]
+        """
+        # Logarithmic spacing like original transformer
+        # freqs = exp(linspace(0, -log(temperature), num_freqs))
+        num_freqs = self.d_per_dim // 2
+
+        freqs = torch.exp(
+            torch.linspace(0, -math.log(self.temperature), num_freqs)
+        )
+
+        return freqs
