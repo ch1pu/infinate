@@ -56,6 +56,8 @@ class SpatialPositionEncoding(nn.Module):
         freqs: Registered frequency buffer [d_per_dim // 2]
     """
 
+    freqs: torch.Tensor  # Type hint for registered buffer
+
     def __init__(
         self,
         d_model: int = 768,
@@ -86,15 +88,11 @@ class SpatialPositionEncoding(nn.Module):
         # freqs = exp(linspace(0, -log(temperature), num_freqs))
         num_freqs = self.d_per_dim // 2
 
-        freqs = torch.exp(
-            torch.linspace(0, -math.log(self.temperature), num_freqs)
-        )
+        freqs = torch.exp(torch.linspace(0, -math.log(self.temperature), num_freqs))
 
         return freqs
 
-    def encode_dimension(
-        self, coords: torch.Tensor, dim_idx: int
-    ) -> torch.Tensor:
+    def encode_dimension(self, coords: torch.Tensor, dim_idx: int) -> torch.Tensor:
         """
         Encode single spatial dimension (x, y, or z).
 
@@ -116,19 +114,11 @@ class SpatialPositionEncoding(nn.Module):
             >>> x_enc.shape
             torch.Size([3, 256])
         """
-        # Check if 1D input (single position per batch)
-        is_1d = coords.dim() == 1
-
         # Normalize to [-1, 1] range
         coords_norm = coords / self.max_position
 
-        # Reshape for broadcasting
-        if is_1d:
-            # [batch] -> [batch, 1]
-            coords_norm = coords_norm.unsqueeze(-1)
-        else:
-            # [batch, seq_len] -> [batch, seq_len, 1]
-            coords_norm = coords_norm.unsqueeze(-1)
+        # Reshape for broadcasting: [batch, 1] or [batch, seq_len, 1]
+        coords_norm = coords_norm.unsqueeze(-1)
 
         # Compute angles: coord * freq * 2π
         # freqs: [num_freqs]
@@ -182,9 +172,7 @@ class SpatialPositionEncoding(nn.Module):
             )
 
         if positions_3d.shape[-1] != 3:
-            raise ValueError(
-                f"Last dimension must be 3 (x, y, z), got {positions_3d.shape[-1]}"
-            )
+            raise ValueError(f"Last dimension must be 3 (x, y, z), got {positions_3d.shape[-1]}")
 
         batch, seq_len, spatial_dim = positions_3d.shape
 

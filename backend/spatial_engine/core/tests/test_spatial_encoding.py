@@ -8,7 +8,6 @@ Author: ch1pu (System Architect, Lead Developer)
 Created: 2025-01-13
 """
 
-import math
 import time
 
 import pytest
@@ -23,9 +22,7 @@ class TestSpatialPositionEncoding:
     @pytest.fixture
     def encoder(self):
         """Create standard encoder (768D, max_position=1000)."""
-        return SpatialPositionEncoding(
-            d_model=768, max_position=1000.0, temperature=10000.0
-        )
+        return SpatialPositionEncoding(d_model=768, max_position=1000.0, temperature=10000.0)
 
     def test_initialization(self):
         """Test SpatialPositionEncoding can be instantiated."""
