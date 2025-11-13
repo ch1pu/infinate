@@ -145,3 +145,56 @@ class SpatialPositionEncoding(nn.Module):
         encoding = torch.cat([sin_enc, cos_enc], dim=-1)
 
         return encoding
+
+    def forward(self, positions_3d: torch.Tensor) -> torch.Tensor:
+        """
+        Encode 3D positions into high-dimensional space.
+
+        Combines independent X, Y, Z encodings into unified representation
+        for spatial attention computation.
+
+        Args:
+            positions_3d: 3D coordinates [batch, seq_len, 3] where
+                         last dimension is (x, y, z)
+
+        Returns:
+            Spatial encoding [batch, seq_len, d_model]
+
+        Raises:
+            ValueError: If input shape is invalid
+
+        Example:
+            >>> encoder = SpatialPositionEncoding(d_model=768)
+            >>> positions = torch.tensor([[[100.0, 50.0, 25.0]]])  # [1, 1, 3]
+            >>> encoding = encoder(positions)
+            >>> encoding.shape
+            torch.Size([1, 1, 768])
+
+        Note:
+            If d_model is not divisible by 3, the encoding will be padded
+            to reach d_model dimensions.
+        """
+        batch, seq_len, spatial_dim = positions_3d.shape
+
+        # Extract x, y, z coordinates
+        x = positions_3d[:, :, 0]  # [batch, seq_len]
+        y = positions_3d[:, :, 1]  # [batch, seq_len]
+        z = positions_3d[:, :, 2]  # [batch, seq_len]
+
+        # Encode each dimension independently
+        x_enc = self.encode_dimension(x, dim_idx=0)  # [batch, seq_len, d_per_dim]
+        y_enc = self.encode_dimension(y, dim_idx=1)  # [batch, seq_len, d_per_dim]
+        z_enc = self.encode_dimension(z, dim_idx=2)  # [batch, seq_len, d_per_dim]
+
+        # Concatenate all dimensions
+        # [batch, seq_len, 3 * d_per_dim]
+        encoding = torch.cat([x_enc, y_enc, z_enc], dim=-1)
+
+        # Pad if d_model not divisible by 3
+        if encoding.shape[-1] < self.d_model:
+            padding_size = self.d_model - encoding.shape[-1]
+            encoding = torch.nn.functional.pad(
+                encoding, (0, padding_size), mode="constant", value=0
+            )
+
+        return encoding
