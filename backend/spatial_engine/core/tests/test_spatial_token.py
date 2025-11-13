@@ -44,3 +44,19 @@ class TestSpatialToken:
 
         distance = token1.distance_to(token2)
         assert distance == pytest.approx(5.0)  # 3-4-5 right triangle
+
+    def test_full_embedding_shape(self):
+        """Test full_embedding combines semantic + spatial correctly."""
+        token = SpatialToken(
+            token_id=1,
+            position=(0.0, 0.0, 0.0),
+            embedding=torch.randn(768),
+            spatial_encoding=torch.randn(768)
+        )
+
+        full_emb = token.full_embedding
+        assert full_emb.shape == (768,)
+
+        # Verify it's actually the sum
+        expected = token.embedding + token.spatial_encoding
+        assert torch.allclose(full_emb, expected)
