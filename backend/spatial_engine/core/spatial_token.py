@@ -32,7 +32,7 @@ Created: 2025-01-13
 """
 
 from dataclasses import dataclass
-from typing import Tuple
+
 import torch
 
 
@@ -49,17 +49,15 @@ class SpatialToken:
     """
 
     token_id: int
-    position: Tuple[float, float, float]
+    position: tuple[float, float, float]
     embedding: torch.Tensor
     spatial_encoding: torch.Tensor
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Validate inputs after initialization."""
         # Validate position is 3D
         if len(self.position) != 3:
-            raise ValueError(
-                f"Position must be 3D (x, y, z), got {len(self.position)}D"
-            )
+            raise ValueError(f"Position must be 3D (x, y, z), got {len(self.position)}D")
 
         # Validate embedding dimensions match
         if self.embedding.shape != self.spatial_encoding.shape:
@@ -69,7 +67,7 @@ class SpatialToken:
                 f"spatial_encoding={self.spatial_encoding.shape}"
             )
 
-    def distance_to(self, other: 'SpatialToken') -> float:
+    def distance_to(self, other: "SpatialToken") -> float:
         """
         Calculate 3D Euclidean distance to another token.
 
@@ -93,7 +91,7 @@ class SpatialToken:
         """
         x1, y1, z1 = self.position
         x2, y2, z2 = other.position
-        return ((x2 - x1)**2 + (y2 - y1)**2 + (z2 - z1)**2) ** 0.5
+        return float(((x2 - x1) ** 2 + (y2 - y1) ** 2 + (z2 - z1) ** 2) ** 0.5)
 
     @property
     def full_embedding(self) -> torch.Tensor:

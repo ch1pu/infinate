@@ -7,6 +7,7 @@ including 3D position tracking and distance calculations.
 
 import pytest
 import torch
+
 from spatial_engine.core.spatial_token import SpatialToken
 
 
@@ -19,7 +20,7 @@ class TestSpatialToken:
             token_id=42,
             position=(1.0, 2.0, 3.0),
             embedding=torch.randn(768),
-            spatial_encoding=torch.randn(768)
+            spatial_encoding=torch.randn(768),
         )
 
         assert token.token_id == 42
@@ -33,13 +34,13 @@ class TestSpatialToken:
             token_id=1,
             position=(0.0, 0.0, 0.0),
             embedding=torch.randn(768),
-            spatial_encoding=torch.randn(768)
+            spatial_encoding=torch.randn(768),
         )
         token2 = SpatialToken(
             token_id=2,
             position=(3.0, 4.0, 0.0),
             embedding=torch.randn(768),
-            spatial_encoding=torch.randn(768)
+            spatial_encoding=torch.randn(768),
         )
 
         distance = token1.distance_to(token2)
@@ -51,7 +52,7 @@ class TestSpatialToken:
             token_id=1,
             position=(0.0, 0.0, 0.0),
             embedding=torch.randn(768),
-            spatial_encoding=torch.randn(768)
+            spatial_encoding=torch.randn(768),
         )
 
         full_emb = token.full_embedding
@@ -64,45 +65,48 @@ class TestSpatialToken:
     def test_invalid_position(self):
         """Test error handling for invalid positions."""
         with pytest.raises((ValueError, TypeError)):
-            token = SpatialToken(
+            token = SpatialToken(  # noqa: F841
                 token_id=1,
                 position=(1.0, 2.0),  # Only 2D, should be 3D!
                 embedding=torch.randn(768),
-                spatial_encoding=torch.randn(768)
+                spatial_encoding=torch.randn(768),
             )
 
     def test_embedding_dimension_mismatch(self):
         """Test error handling for mismatched embedding dimensions."""
         with pytest.raises((ValueError, RuntimeError)):
-            token = SpatialToken(
+            token = SpatialToken(  # noqa: F841
                 token_id=1,
                 position=(1.0, 2.0, 3.0),
-                embedding=torch.randn(768),      # 768D
-                spatial_encoding=torch.randn(384)  # 384D - mismatch!
+                embedding=torch.randn(768),  # 768D
+                spatial_encoding=torch.randn(384),  # 384D - mismatch!
             )
             # Validation happens in __post_init__
 
-    @pytest.mark.parametrize("x,y,z,expected_norm", [
-        (1.0, 0.0, 0.0, 1.0),           # Unit vector X
-        (0.0, 1.0, 0.0, 1.0),           # Unit vector Y
-        (0.0, 0.0, 1.0, 1.0),           # Unit vector Z
-        (3.0, 4.0, 0.0, 5.0),           # 3-4-5 triangle
-        (1.0, 1.0, 1.0, 1.732),         # Diagonal
-        (5.0, 12.0, 0.0, 13.0),         # 5-12-13 triangle
-    ])
+    @pytest.mark.parametrize(
+        "x,y,z,expected_norm",
+        [
+            (1.0, 0.0, 0.0, 1.0),  # Unit vector X
+            (0.0, 1.0, 0.0, 1.0),  # Unit vector Y
+            (0.0, 0.0, 1.0, 1.0),  # Unit vector Z
+            (3.0, 4.0, 0.0, 5.0),  # 3-4-5 triangle
+            (1.0, 1.0, 1.0, 1.732),  # Diagonal
+            (5.0, 12.0, 0.0, 13.0),  # 5-12-13 triangle
+        ],
+    )
     def test_position_norms(self, x, y, z, expected_norm):
         """Test distance calculations for various positions."""
         token = SpatialToken(
             token_id=1,
             position=(x, y, z),
             embedding=torch.randn(768),
-            spatial_encoding=torch.randn(768)
+            spatial_encoding=torch.randn(768),
         )
         origin = SpatialToken(
             token_id=0,
             position=(0.0, 0.0, 0.0),
             embedding=torch.randn(768),
-            spatial_encoding=torch.randn(768)
+            spatial_encoding=torch.randn(768),
         )
 
         distance = token.distance_to(origin)
@@ -117,9 +121,9 @@ class TestSpatialToken:
         tokens = [
             SpatialToken(
                 token_id=i,
-                position=(float(i), float(i*2), float(i*3)),
+                position=(float(i), float(i * 2), float(i * 3)),
                 embedding=torch.randn(768),
-                spatial_encoding=torch.randn(768)
+                spatial_encoding=torch.randn(768),
             )
             for i in range(1000)
         ]
@@ -128,7 +132,7 @@ class TestSpatialToken:
             token_id=0,
             position=(0.0, 0.0, 0.0),
             embedding=torch.randn(768),
-            spatial_encoding=torch.randn(768)
+            spatial_encoding=torch.randn(768),
         )
 
         # Benchmark
@@ -139,8 +143,7 @@ class TestSpatialToken:
         elapsed_ms = elapsed * 1000
 
         # Performance target: <1ms for 1000 pairs
-        assert elapsed_ms < 1.0, \
-            f"Too slow: {elapsed_ms:.3f}ms (target: <1ms)"
+        assert elapsed_ms < 1.0, f"Too slow: {elapsed_ms:.3f}ms (target: <1ms)"
 
         print(f"✓ Distance calculation: {elapsed_ms:.3f}ms for 1000 tokens")
         assert len(distances) == 1000
