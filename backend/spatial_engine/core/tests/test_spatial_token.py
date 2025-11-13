@@ -60,3 +60,24 @@ class TestSpatialToken:
         # Verify it's actually the sum
         expected = token.embedding + token.spatial_encoding
         assert torch.allclose(full_emb, expected)
+
+    def test_invalid_position(self):
+        """Test error handling for invalid positions."""
+        with pytest.raises((ValueError, TypeError)):
+            token = SpatialToken(
+                token_id=1,
+                position=(1.0, 2.0),  # Only 2D, should be 3D!
+                embedding=torch.randn(768),
+                spatial_encoding=torch.randn(768)
+            )
+
+    def test_embedding_dimension_mismatch(self):
+        """Test error handling for mismatched embedding dimensions."""
+        with pytest.raises((ValueError, RuntimeError)):
+            token = SpatialToken(
+                token_id=1,
+                position=(1.0, 2.0, 3.0),
+                embedding=torch.randn(768),      # 768D
+                spatial_encoding=torch.randn(384)  # 384D - mismatch!
+            )
+            # Validation happens in __post_init__
