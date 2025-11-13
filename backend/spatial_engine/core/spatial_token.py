@@ -53,6 +53,22 @@ class SpatialToken:
     embedding: torch.Tensor
     spatial_encoding: torch.Tensor
 
+    def __post_init__(self):
+        """Validate inputs after initialization."""
+        # Validate position is 3D
+        if len(self.position) != 3:
+            raise ValueError(
+                f"Position must be 3D (x, y, z), got {len(self.position)}D"
+            )
+
+        # Validate embedding dimensions match
+        if self.embedding.shape != self.spatial_encoding.shape:
+            raise ValueError(
+                f"Embedding dimensions must match: "
+                f"embedding={self.embedding.shape}, "
+                f"spatial_encoding={self.spatial_encoding.shape}"
+            )
+
     def distance_to(self, other: 'SpatialToken') -> float:
         """
         Calculate 3D Euclidean distance to another token.
