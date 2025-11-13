@@ -161,7 +161,7 @@ class SpatialPositionEncoding(nn.Module):
             Spatial encoding [batch, seq_len, d_model]
 
         Raises:
-            ValueError: If input shape is invalid
+            ValueError: If input tensor is not 3D or last dimension is not 3
 
         Example:
             >>> encoder = SpatialPositionEncoding(d_model=768)
@@ -174,6 +174,18 @@ class SpatialPositionEncoding(nn.Module):
             If d_model is not divisible by 3, the encoding will be padded
             to reach d_model dimensions.
         """
+        # Validate input shape
+        if positions_3d.dim() != 3:
+            raise ValueError(
+                f"positions_3d must be 3D tensor [batch, seq_len, 3], "
+                f"got {positions_3d.dim()}D tensor"
+            )
+
+        if positions_3d.shape[-1] != 3:
+            raise ValueError(
+                f"Last dimension must be 3 (x, y, z), got {positions_3d.shape[-1]}"
+            )
+
         batch, seq_len, spatial_dim = positions_3d.shape
 
         # Extract x, y, z coordinates
