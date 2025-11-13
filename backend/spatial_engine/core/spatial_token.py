@@ -78,3 +78,28 @@ class SpatialToken:
         x1, y1, z1 = self.position
         x2, y2, z2 = other.position
         return ((x2 - x1)**2 + (y2 - y1)**2 + (z2 - z1)**2) ** 0.5
+
+    @property
+    def full_embedding(self) -> torch.Tensor:
+        """
+        Combine semantic and spatial embeddings.
+
+        The full embedding is the sum of:
+        - Semantic embedding (what the token means)
+        - Spatial encoding (where the token is located)
+
+        Returns:
+            Sum of semantic embedding and spatial encoding (torch.Tensor)
+
+        Example:
+            >>> token = SpatialToken(
+            ...     token_id=42,
+            ...     position=(1, 2, 3),
+            ...     embedding=torch.ones(768),
+            ...     spatial_encoding=torch.ones(768) * 0.5
+            ... )
+            >>> full_emb = token.full_embedding
+            >>> torch.allclose(full_emb, torch.ones(768) * 1.5)
+            True
+        """
+        return self.embedding + self.spatial_encoding
