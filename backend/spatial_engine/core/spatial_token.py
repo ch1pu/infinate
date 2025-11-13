@@ -52,3 +52,29 @@ class SpatialToken:
     position: Tuple[float, float, float]
     embedding: torch.Tensor
     spatial_encoding: torch.Tensor
+
+    def distance_to(self, other: 'SpatialToken') -> float:
+        """
+        Calculate 3D Euclidean distance to another token.
+
+        Uses the standard Euclidean distance formula:
+        d = sqrt((x2-x1)² + (y2-y1)² + (z2-z1)²)
+
+        Args:
+            other: Target SpatialToken to measure distance to
+
+        Returns:
+            Euclidean distance in 3D space (float)
+
+        Example:
+            >>> token1 = SpatialToken(position=(0, 0, 0), ...)
+            >>> token2 = SpatialToken(position=(3, 4, 0), ...)
+            >>> token1.distance_to(token2)
+            5.0  # 3-4-5 right triangle
+
+        Note:
+            This is an O(1) operation.
+        """
+        x1, y1, z1 = self.position
+        x2, y2, z2 = other.position
+        return ((x2 - x1)**2 + (y2 - y1)**2 + (z2 - z1)**2) ** 0.5
