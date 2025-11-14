@@ -12,11 +12,10 @@ import time
 
 import pytest
 import torch
-import torch.nn as nn
 
 from spatial_engine.core.spatial_attention import SpatialAttention
-from spatial_engine.core.spatial_token import SpatialToken
 from spatial_engine.core.spatial_encoding import SpatialPositionEncoding
+from spatial_engine.core.spatial_token import SpatialToken
 
 
 class TestSpatialAttention:
@@ -26,11 +25,7 @@ class TestSpatialAttention:
     def attention(self):
         """Create standard spatial attention module."""
         return SpatialAttention(
-            d_model=768,
-            n_heads=12,
-            spatial_radius=50.0,
-            distance_decay='exponential',
-            dropout=0.1
+            d_model=768, n_heads=12, spatial_radius=50.0, distance_decay="exponential", dropout=0.1
         )
 
     # =========================================================================
@@ -40,17 +35,13 @@ class TestSpatialAttention:
     def test_initialization(self):
         """Test SpatialAttention can be instantiated with valid parameters."""
         attention = SpatialAttention(
-            d_model=768,
-            n_heads=12,
-            spatial_radius=50.0,
-            distance_decay='exponential',
-            dropout=0.1
+            d_model=768, n_heads=12, spatial_radius=50.0, distance_decay="exponential", dropout=0.1
         )
 
         assert attention.d_model == 768
         assert attention.n_heads == 12
         assert attention.spatial_radius == 50.0
-        assert attention.distance_decay == 'exponential'
+        assert attention.distance_decay == "exponential"
         assert attention.d_head == 64  # 768 / 12
 
     def test_parameter_validation(self):
@@ -61,8 +52,8 @@ class TestSpatialAttention:
                 d_model=768,
                 n_heads=12,
                 spatial_radius=50.0,
-                distance_decay='invalid_type',  # Should be exponential/linear/gaussian
-                dropout=0.1
+                distance_decay="invalid_type",  # Should be exponential/linear/gaussian
+                dropout=0.1,
             )
 
         # d_model not divisible by n_heads
@@ -71,8 +62,8 @@ class TestSpatialAttention:
                 d_model=768,
                 n_heads=11,  # 768 not divisible by 11
                 spatial_radius=50.0,
-                distance_decay='exponential',
-                dropout=0.1
+                distance_decay="exponential",
+                dropout=0.1,
             )
 
     def test_device_placement(self):
@@ -85,7 +76,7 @@ class TestSpatialAttention:
 
         output_cpu = attention_cpu(x, positions)
         assert output_cpu.shape == (2, 10, 768)
-        assert output_cpu.device.type == 'cpu'
+        assert output_cpu.device.type == "cpu"
 
         # Test on GPU if available
         if torch.cuda.is_available():
@@ -95,7 +86,7 @@ class TestSpatialAttention:
 
             output_gpu = attention_gpu(x_gpu, positions_gpu)
             assert output_gpu.shape == (2, 10, 768)
-            assert output_gpu.device.type == 'cuda'
+            assert output_gpu.device.type == "cuda"
 
     # =========================================================================
     # Distance Matrix Tests (4 tests)
@@ -104,11 +95,9 @@ class TestSpatialAttention:
     def test_distance_matrix_computation(self, attention):
         """Test pairwise distance matrix is computed correctly."""
         # Create known positions
-        positions = torch.tensor([
-            [[0.0, 0.0, 0.0],
-             [3.0, 4.0, 0.0],
-             [0.0, 0.0, 5.0]]
-        ])  # [batch=1, seq=3, 3]
+        positions = torch.tensor(
+            [[[0.0, 0.0, 0.0], [3.0, 4.0, 0.0], [0.0, 0.0, 5.0]]]
+        )  # [batch=1, seq=3, 3]
 
         distances = attention.compute_distance_matrix(positions)
 
@@ -163,18 +152,13 @@ class TestSpatialAttention:
     def test_exponential_decay_mask(self):
         """Test exponential decay masking: exp(-d/r)."""
         attention = SpatialAttention(
-            d_model=768,
-            n_heads=12,
-            spatial_radius=50.0,
-            distance_decay='exponential'
+            d_model=768, n_heads=12, spatial_radius=50.0, distance_decay="exponential"
         )
 
         # Create distance matrix
-        distances = torch.tensor([
-            [[0.0, 50.0, 100.0],
-             [50.0, 0.0, 50.0],
-             [100.0, 50.0, 0.0]]
-        ])  # [batch=1, seq=3, seq=3]
+        distances = torch.tensor(
+            [[[0.0, 50.0, 100.0], [50.0, 0.0, 50.0], [100.0, 50.0, 0.0]]]
+        )  # [batch=1, seq=3, seq=3]
 
         mask = attention.compute_spatial_mask(distances)
 
@@ -194,15 +178,10 @@ class TestSpatialAttention:
     def test_linear_decay_mask(self):
         """Test linear decay masking: max(0, 1 - d/r)."""
         attention = SpatialAttention(
-            d_model=768,
-            n_heads=12,
-            spatial_radius=50.0,
-            distance_decay='linear'
+            d_model=768, n_heads=12, spatial_radius=50.0, distance_decay="linear"
         )
 
-        distances = torch.tensor([
-            [[0.0, 25.0, 50.0, 100.0]]
-        ])  # [batch=1, seq=1, 4]
+        distances = torch.tensor([[[0.0, 25.0, 50.0, 100.0]]])  # [batch=1, seq=1, 4]
 
         mask = attention.compute_spatial_mask(distances)
 
@@ -222,15 +201,10 @@ class TestSpatialAttention:
     def test_gaussian_decay_mask(self):
         """Test Gaussian decay masking: exp(-(d/r)²)."""
         attention = SpatialAttention(
-            d_model=768,
-            n_heads=12,
-            spatial_radius=50.0,
-            distance_decay='gaussian'
+            d_model=768, n_heads=12, spatial_radius=50.0, distance_decay="gaussian"
         )
 
-        distances = torch.tensor([
-            [[0.0, 50.0, 100.0]]
-        ])  # [batch=1, seq=1, 3]
+        distances = torch.tensor([[[0.0, 50.0, 100.0]]])  # [batch=1, seq=1, 3]
 
         mask = attention.compute_spatial_mask(distances)
 
@@ -247,9 +221,7 @@ class TestSpatialAttention:
     def test_hard_cutoff(self, attention):
         """Test hard cutoff at 3×radius sets distant weights to zero."""
         # radius = 50.0, so cutoff at 150.0
-        distances = torch.tensor([
-            [[0.0, 50.0, 100.0, 149.0, 151.0, 200.0]]
-        ])  # [batch=1, seq=1, 6]
+        distances = torch.tensor([[[0.0, 50.0, 100.0, 149.0, 151.0, 200.0]]])  # [batch=1, seq=1, 6]
 
         mask = attention.compute_spatial_mask(distances)
 
@@ -277,11 +249,15 @@ class TestSpatialAttention:
     def test_nearby_high_distant_low(self, attention):
         """Test nearby tokens get high weights, distant tokens get low weights."""
         # Create positions: one central, one near, one far
-        positions = torch.tensor([
-            [[0.0, 0.0, 0.0],   # Central
-             [1.0, 0.0, 0.0],   # Near (distance=1)
-             [200.0, 0.0, 0.0]]  # Far (distance=200, beyond cutoff)
-        ])  # [batch=1, seq=3, 3]
+        positions = torch.tensor(
+            [
+                [
+                    [0.0, 0.0, 0.0],  # Central
+                    [1.0, 0.0, 0.0],  # Near (distance=1)
+                    [200.0, 0.0, 0.0],
+                ]  # Far (distance=200, beyond cutoff)
+            ]
+        )  # [batch=1, seq=3, 3]
 
         distances = attention.compute_distance_matrix(positions)
         mask = attention.compute_spatial_mask(distances)
@@ -322,11 +298,15 @@ class TestSpatialAttention:
         """Test spatial and semantic scores are combined multiplicatively."""
         # Create inputs where semantic and spatial give different preferences
         x = torch.randn(1, 3, 768)
-        positions = torch.tensor([
-            [[0.0, 0.0, 0.0],   # Query position
-             [1.0, 0.0, 0.0],   # Near semantically, near spatially
-             [200.0, 0.0, 0.0]]  # Far spatially (beyond cutoff)
-        ])  # [batch=1, seq=3, 3]
+        positions = torch.tensor(
+            [
+                [
+                    [0.0, 0.0, 0.0],  # Query position
+                    [1.0, 0.0, 0.0],  # Near semantically, near spatially
+                    [200.0, 0.0, 0.0],
+                ]  # Far spatially (beyond cutoff)
+            ]
+        )  # [batch=1, seq=3, 3]
 
         output = attention(x, positions)
 
@@ -341,10 +321,10 @@ class TestSpatialAttention:
         """Test attention output has correct dimensions."""
         # Test various batch sizes and sequence lengths
         test_cases = [
-            (1, 10),   # Single item, short sequence
-            (4, 32),   # Small batch
+            (1, 10),  # Single item, short sequence
+            (4, 32),  # Small batch
             (16, 64),  # Medium batch
-            (32, 128), # Large batch
+            (32, 128),  # Large batch
         ]
 
         for batch_size, seq_len in test_cases:
@@ -353,8 +333,11 @@ class TestSpatialAttention:
 
             output = attention(x, positions)
 
-            assert output.shape == (batch_size, seq_len, 768), \
-                f"Failed for batch_size={batch_size}, seq_len={seq_len}"
+            assert output.shape == (
+                batch_size,
+                seq_len,
+                768,
+            ), f"Failed for batch_size={batch_size}, seq_len={seq_len}"
 
     def test_residual_connections(self, attention):
         """Test attention can be used in transformer with residual connections."""
@@ -386,7 +369,7 @@ class TestSpatialAttention:
                 token_id=i,
                 position=(float(i * 10), float(i * 5), float(i * 2)),
                 embedding=torch.randn(768),
-                spatial_encoding=torch.randn(768)
+                spatial_encoding=torch.randn(768),
             )
             for i in range(10)
         ]
@@ -397,7 +380,7 @@ class TestSpatialAttention:
 
         # Add batch dimension
         embeddings = embeddings.unsqueeze(0)  # [1, 10, 768]
-        positions = positions.unsqueeze(0)    # [1, 10, 3]
+        positions = positions.unsqueeze(0)  # [1, 10, 3]
 
         # Run attention
         output = attention(embeddings, positions)
@@ -448,12 +431,9 @@ class TestSpatialAttention:
     def test_all_tokens_distant(self, attention):
         """Test attention when all tokens are beyond cutoff distance."""
         # Create positions where all tokens are >150 units apart
-        positions = torch.tensor([
-            [[0.0, 0.0, 0.0],
-             [200.0, 0.0, 0.0],
-             [400.0, 0.0, 0.0],
-             [600.0, 0.0, 0.0]]
-        ])  # [batch=1, seq=4, 3]
+        positions = torch.tensor(
+            [[[0.0, 0.0, 0.0], [200.0, 0.0, 0.0], [400.0, 0.0, 0.0], [600.0, 0.0, 0.0]]]
+        )  # [batch=1, seq=4, 3]
 
         x = torch.randn(1, 4, 768)
 
@@ -466,12 +446,9 @@ class TestSpatialAttention:
     def test_identical_positions(self, attention):
         """Test attention when multiple tokens at same position."""
         # Multiple tokens at origin
-        positions = torch.tensor([
-            [[0.0, 0.0, 0.0],
-             [0.0, 0.0, 0.0],
-             [0.0, 0.0, 0.0],
-             [1.0, 0.0, 0.0]]
-        ])  # [batch=1, seq=4, 3]
+        positions = torch.tensor(
+            [[[0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [1.0, 0.0, 0.0]]]
+        )  # [batch=1, seq=4, 3]
 
         x = torch.randn(1, 4, 768)
 
@@ -482,12 +459,9 @@ class TestSpatialAttention:
 
     def test_negative_coordinates(self, attention):
         """Test attention with negative (x, y, z) coordinates."""
-        positions = torch.tensor([
-            [[-100.0, -50.0, -25.0],
-             [-10.0, -5.0, -2.0],
-             [10.0, 5.0, 2.0],
-             [100.0, 50.0, 25.0]]
-        ])  # [batch=1, seq=4, 3]
+        positions = torch.tensor(
+            [[[-100.0, -50.0, -25.0], [-10.0, -5.0, -2.0], [10.0, 5.0, 2.0], [100.0, 50.0, 25.0]]]
+        )  # [batch=1, seq=4, 3]
 
         x = torch.randn(1, 4, 768)
 
@@ -509,10 +483,7 @@ class TestSpatialAttention:
         double runtime (linear scaling), not quadruple it (O(n²)).
         """
         attention = SpatialAttention(
-            d_model=768,
-            n_heads=12,
-            spatial_radius=50.0,
-            distance_decay='exponential'
+            d_model=768, n_heads=12, spatial_radius=50.0, distance_decay="exponential"
         )
 
         # Test different sequence lengths with constant k ≈ 50
@@ -541,7 +512,7 @@ class TestSpatialAttention:
         # For O(k): ratios should be ~2.0 and ~4.0 (linear)
         # For O(n²): ratios would be ~4.0 and ~16.0 (quadratic)
 
-        print(f"\n=== O(k) Complexity Verification ===")
+        print("\n=== O(k) Complexity Verification ===")
         print(f"n=100: {times[100]*1000:.2f}ms")
         print(f"n=200: {times[200]*1000:.2f}ms (ratio={ratio_2x:.2f}, expect ≈2.0)")
         print(f"n=400: {times[400]*1000:.2f}ms (ratio={ratio_4x:.2f}, expect ≈4.0)")
@@ -553,16 +524,14 @@ class TestSpatialAttention:
         # We demonstrate MUCH better than O(n²) even at small scale!
 
         # Accept sub-quadratic performance (better than O(n²) but not pure O(k) at small n)
-        assert ratio_2x < 3.5, \
-            f"Too slow: 2x ratio={ratio_2x:.2f} (pure O(n²) would be ~4.0)"
-        assert ratio_4x < 12.0, \
-            f"Too slow: 4x ratio={ratio_4x:.2f} (pure O(n²) would be ~16.0)"
+        assert ratio_2x < 3.5, f"Too slow: 2x ratio={ratio_2x:.2f} (pure O(n²) would be ~4.0)"
+        assert ratio_4x < 12.0, f"Too slow: 4x ratio={ratio_4x:.2f} (pure O(n²) would be ~16.0)"
 
-        print(f"✓ O(k) VERIFIED: Sub-quadratic scaling confirmed!")
+        print("✓ O(k) VERIFIED: Sub-quadratic scaling confirmed!")
         print(f"  2x ratio: {ratio_2x:.2f} (pure O(n²) would be ~4.0)")
         print(f"  4x ratio: {ratio_4x:.2f} (pure O(n²) would be ~16.0)")
-        print(f"  Distance matrix is O(n²) but fast; sparse attention is O(k)!")
-        print(f"  At large n (millions), sparse attention dominates → true O(k)")
+        print("  Distance matrix is O(n²) but fast; sparse attention is O(k)!")
+        print("  At large n (millions), sparse attention dominates → true O(k)")
 
     @pytest.mark.benchmark
     def test_batch_attention_performance(self):
@@ -573,10 +542,7 @@ class TestSpatialAttention:
         Note: GPU execution would achieve <50ms for 32×1024
         """
         attention = SpatialAttention(
-            d_model=768,
-            n_heads=12,
-            spatial_radius=50.0,
-            distance_decay='exponential'
+            d_model=768, n_heads=12, spatial_radius=50.0, distance_decay="exponential"
         )
 
         # CPU-realistic batch size and sequence length
@@ -594,15 +560,14 @@ class TestSpatialAttention:
         iterations = 10
 
         for _ in range(iterations):
-            output = attention(x, positions)
+            output = attention(x, positions)  # noqa: F841
 
         elapsed = time.perf_counter() - start
         avg_ms = (elapsed / iterations) * 1000
 
         # Performance target: <2000ms per batch on CPU
         # (GPU would achieve <50ms for larger batches)
-        assert avg_ms < 2000.0, \
-            f"Too slow: {avg_ms:.2f}ms (target: <2000ms on CPU)"
+        assert avg_ms < 2000.0, f"Too slow: {avg_ms:.2f}ms (target: <2000ms on CPU)"
 
         print(f"\n✓ Batch attention: {avg_ms:.2f}ms per batch (32×256, k≈50, CPU)")
-        print(f"  GPU would achieve <50ms for 32×1024")
+        print("  GPU would achieve <50ms for 32×1024")

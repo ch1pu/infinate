@@ -47,8 +47,6 @@ Author: ch1pu (System Architect, Revolutionary Innovator)
 Created: 2025-01-13
 """
 
-from typing import Optional
-
 import torch
 import torch.nn as nn
 
@@ -115,18 +113,16 @@ class SpatialAttention(nn.Module):
         d_model: int = 768,
         n_heads: int = 12,
         spatial_radius: float = 50.0,
-        distance_decay: str = 'exponential',
-        dropout: float = 0.1
+        distance_decay: str = "exponential",
+        dropout: float = 0.1,
     ) -> None:
         super().__init__()
 
         # Validate parameters
         if d_model % n_heads != 0:
-            raise ValueError(
-                f"d_model ({d_model}) must be divisible by n_heads ({n_heads})"
-            )
+            raise ValueError(f"d_model ({d_model}) must be divisible by n_heads ({n_heads})")
 
-        if distance_decay not in ['exponential', 'linear', 'gaussian']:
+        if distance_decay not in ["exponential", "linear", "gaussian"]:
             raise ValueError(
                 f"distance_decay must be 'exponential', 'linear', or 'gaussian', "
                 f"got '{distance_decay}'"
@@ -151,8 +147,7 @@ class SpatialAttention(nn.Module):
         self.dropout = nn.Dropout(dropout)
 
     def compute_distance_matrix(
-        self,
-        positions: torch.Tensor  # [batch, seq_len, 3]
+        self, positions: torch.Tensor  # [batch, seq_len, 3]
     ) -> torch.Tensor:
         """
         Compute pairwise Euclidean distances in 3D space.
@@ -179,13 +174,12 @@ class SpatialAttention(nn.Module):
         # Compute Euclidean distance via broadcasting
         # (p1 - p2) gives [batch, seq_len, seq_len, 3] differences
         # norm(..., dim=-1) computes L2 norm over the 3D coordinates
-        distances = torch.norm(p1 - p2, dim=-1)  # [batch, seq_len, seq_len]
+        distances: torch.Tensor = torch.norm(p1 - p2, dim=-1)  # [batch, seq_len, seq_len]
 
         return distances
 
     def compute_spatial_mask(
-        self,
-        distances: torch.Tensor  # [batch, seq_len, seq_len]
+        self, distances: torch.Tensor  # [batch, seq_len, seq_len]
     ) -> torch.Tensor:
         """
         Create distance-based attention mask (ch1pu's KEY INNOVATION).
@@ -216,40 +210,34 @@ class SpatialAttention(nn.Module):
             tensor(0.0)  # Hard cutoff!
         """
         # Apply distance decay based on selected function
-        if self.distance_decay == 'exponential':
+        if self.distance_decay == "exponential":
             # Exponential decay: exp(-d/r)
             # d=0 → 1.0, d=r → exp(-1) ≈ 0.368, d=2r → exp(-2) ≈ 0.135
             mask = torch.exp(-distances / self.spatial_radius)
 
-        elif self.distance_decay == 'linear':
+        elif self.distance_decay == "linear":
             # Linear decay: max(0, 1 - d/r)
             # d=0 → 1.0, d=r/2 → 0.5, d≥r → 0.0
-            mask = torch.clamp(
-                1.0 - distances / self.spatial_radius,
-                min=0.0
-            )
+            mask = torch.clamp(1.0 - distances / self.spatial_radius, min=0.0)
 
-        elif self.distance_decay == 'gaussian':
+        elif self.distance_decay == "gaussian":
             # Gaussian decay: exp(-(d/r)²)
             # d=0 → 1.0, d=r → exp(-1) ≈ 0.368, d=2r → exp(-4) ≈ 0.018
-            mask = torch.exp(-(distances / self.spatial_radius) ** 2)
+            mask = torch.exp(-((distances / self.spatial_radius) ** 2))
 
         # CRITICAL: Hard cutoff at 3×radius (THE O(k) OPTIMIZATION!)
         # This is what makes spatial attention O(k) instead of O(n²)
         # Beyond 3r, ALL weights become exactly 0.0
         # Softmax then only operates over ~k non-zero values!
-        mask = mask.masked_fill(
-            distances > 3 * self.spatial_radius,
-            0.0
-        )
+        mask = mask.masked_fill(distances > 3 * self.spatial_radius, 0.0)
 
         return mask
 
     def forward(
         self,
-        x: torch.Tensor,            # [batch, seq_len, d_model]
-        positions: torch.Tensor,    # [batch, seq_len, 3]
-        attention_mask: Optional[torch.Tensor] = None
+        x: torch.Tensor,  # [batch, seq_len, d_model]
+        positions: torch.Tensor,  # [batch, seq_len, 3]
+        attention_mask: torch.Tensor | None = None,
     ) -> torch.Tensor:
         """
         Compute O(k) spatial attention (ch1pu's breakthrough!).
@@ -297,20 +285,20 @@ class SpatialAttention(nn.Module):
         batch, seq_len, d_model = x.shape
 
         # Step 1: Project to Q, K, V
-        Q = self.query(x)   # [batch, seq_len, d_model]
-        K = self.key(x)     # [batch, seq_len, d_model]
-        V = self.value(x)   # [batch, seq_len, d_model]
+        Q = self.query(x)  # [batch, seq_len, d_model]  # noqa: N806
+        K = self.key(x)  # [batch, seq_len, d_model]  # noqa: N806
+        V = self.value(x)  # [batch, seq_len, d_model]  # noqa: N806
 
         # Reshape for multi-head attention
         # Split d_model into n_heads × d_head
-        Q = Q.view(batch, seq_len, self.n_heads, self.d_head).transpose(1, 2)
-        K = K.view(batch, seq_len, self.n_heads, self.d_head).transpose(1, 2)
-        V = V.view(batch, seq_len, self.n_heads, self.d_head).transpose(1, 2)
+        Q = Q.view(batch, seq_len, self.n_heads, self.d_head).transpose(1, 2)  # noqa: N806
+        K = K.view(batch, seq_len, self.n_heads, self.d_head).transpose(1, 2)  # noqa: N806
+        V = V.view(batch, seq_len, self.n_heads, self.d_head).transpose(1, 2)  # noqa: N806
         # Now: [batch, n_heads, seq_len, d_head]
 
         # Step 2: Compute semantic attention scores (Q·K^T / √d_head)
         semantic_scores = torch.matmul(Q, K.transpose(-2, -1))  # [batch, n_heads, seq_len, seq_len]
-        semantic_scores = semantic_scores / (self.d_head ** 0.5)
+        semantic_scores = semantic_scores / (self.d_head**0.5)
 
         # Step 3: Compute spatial mask from 3D distances
         distances = self.compute_distance_matrix(positions)  # [batch, seq_len, seq_len]
@@ -325,15 +313,14 @@ class SpatialAttention(nn.Module):
 
         # Step 5: Apply additional mask if provided (padding, causality, etc.)
         if attention_mask is not None:
-            combined_scores = combined_scores.masked_fill(
-                attention_mask == 0,
-                float('-inf')
-            )
+            combined_scores = combined_scores.masked_fill(attention_mask == 0, float("-inf"))
 
         # Step 6: Softmax over ~k non-zero weights (THE O(k) MAGIC!)
         # Because of the hard cutoff at 3×radius, most weights are 0.0
         # Softmax only normalizes over the ~k non-zero values
-        attention_weights = torch.softmax(combined_scores, dim=-1)  # [batch, n_heads, seq_len, seq_len]
+        attention_weights = torch.softmax(
+            combined_scores, dim=-1
+        )  # [batch, n_heads, seq_len, seq_len]
         attention_weights = self.dropout(attention_weights)
 
         # Step 7: Apply attention to values
@@ -344,6 +331,6 @@ class SpatialAttention(nn.Module):
         output = output.view(batch, seq_len, d_model)  # [batch, seq_len, d_model]
 
         # Output projection
-        output = self.output(output)  # [batch, seq_len, d_model]
+        output_final: torch.Tensor = self.output(output)  # [batch, seq_len, d_model]
 
-        return output
+        return output_final
