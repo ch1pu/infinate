@@ -170,7 +170,18 @@ class SpatialAttention(nn.Module):
             >>> distances[0, 0, 1]
             tensor(5.0)  # 3-4-5 triangle
         """
-        raise NotImplementedError
+        # Expand dimensions for broadcasting
+        # p1: [batch, seq_len, 1, 3] - each position repeated across columns
+        # p2: [batch, 1, seq_len, 3] - each position repeated across rows
+        p1 = positions.unsqueeze(2)  # [batch, seq_len, 1, 3]
+        p2 = positions.unsqueeze(1)  # [batch, 1, seq_len, 3]
+
+        # Compute Euclidean distance via broadcasting
+        # (p1 - p2) gives [batch, seq_len, seq_len, 3] differences
+        # norm(..., dim=-1) computes L2 norm over the 3D coordinates
+        distances = torch.norm(p1 - p2, dim=-1)  # [batch, seq_len, seq_len]
+
+        return distances
 
     def compute_spatial_mask(
         self,
