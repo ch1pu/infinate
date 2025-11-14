@@ -215,7 +215,35 @@ class SpatialAttention(nn.Module):
             >>> mask[0, 0, 2]  # Beyond 3×radius
             tensor(0.0)  # Hard cutoff!
         """
-        raise NotImplementedError
+        # Apply distance decay based on selected function
+        if self.distance_decay == 'exponential':
+            # Exponential decay: exp(-d/r)
+            # d=0 → 1.0, d=r → exp(-1) ≈ 0.368, d=2r → exp(-2) ≈ 0.135
+            mask = torch.exp(-distances / self.spatial_radius)
+
+        elif self.distance_decay == 'linear':
+            # Linear decay: max(0, 1 - d/r)
+            # d=0 → 1.0, d=r/2 → 0.5, d≥r → 0.0
+            mask = torch.clamp(
+                1.0 - distances / self.spatial_radius,
+                min=0.0
+            )
+
+        elif self.distance_decay == 'gaussian':
+            # Gaussian decay: exp(-(d/r)²)
+            # d=0 → 1.0, d=r → exp(-1) ≈ 0.368, d=2r → exp(-4) ≈ 0.018
+            mask = torch.exp(-(distances / self.spatial_radius) ** 2)
+
+        # CRITICAL: Hard cutoff at 3×radius (THE O(k) OPTIMIZATION!)
+        # This is what makes spatial attention O(k) instead of O(n²)
+        # Beyond 3r, ALL weights become exactly 0.0
+        # Softmax then only operates over ~k non-zero values!
+        mask = mask.masked_fill(
+            distances > 3 * self.spatial_radius,
+            0.0
+        )
+
+        return mask
 
     def forward(
         self,
