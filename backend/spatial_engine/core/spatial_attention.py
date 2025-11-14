@@ -294,4 +294,56 @@ class SpatialAttention(nn.Module):
             - ch1pu's O(k): 5×10⁷ operations (totally feasible!)
             - 20,000× reduction in computation!
         """
-        raise NotImplementedError
+        batch, seq_len, d_model = x.shape
+
+        # Step 1: Project to Q, K, V
+        Q = self.query(x)   # [batch, seq_len, d_model]
+        K = self.key(x)     # [batch, seq_len, d_model]
+        V = self.value(x)   # [batch, seq_len, d_model]
+
+        # Reshape for multi-head attention
+        # Split d_model into n_heads × d_head
+        Q = Q.view(batch, seq_len, self.n_heads, self.d_head).transpose(1, 2)
+        K = K.view(batch, seq_len, self.n_heads, self.d_head).transpose(1, 2)
+        V = V.view(batch, seq_len, self.n_heads, self.d_head).transpose(1, 2)
+        # Now: [batch, n_heads, seq_len, d_head]
+
+        # Step 2: Compute semantic attention scores (Q·K^T / √d_head)
+        semantic_scores = torch.matmul(Q, K.transpose(-2, -1))  # [batch, n_heads, seq_len, seq_len]
+        semantic_scores = semantic_scores / (self.d_head ** 0.5)
+
+        # Step 3: Compute spatial mask from 3D distances
+        distances = self.compute_distance_matrix(positions)  # [batch, seq_len, seq_len]
+        spatial_mask = self.compute_spatial_mask(distances)  # [batch, seq_len, seq_len]
+
+        # Expand spatial mask for multi-head (broadcast across heads)
+        spatial_mask = spatial_mask.unsqueeze(1)  # [batch, 1, seq_len, seq_len]
+
+        # Step 4: COMBINE semantic and spatial (multiplicative)
+        # This is ch1pu's KEY INNOVATION: requires BOTH semantic similarity AND spatial proximity
+        combined_scores = semantic_scores * spatial_mask  # [batch, n_heads, seq_len, seq_len]
+
+        # Step 5: Apply additional mask if provided (padding, causality, etc.)
+        if attention_mask is not None:
+            combined_scores = combined_scores.masked_fill(
+                attention_mask == 0,
+                float('-inf')
+            )
+
+        # Step 6: Softmax over ~k non-zero weights (THE O(k) MAGIC!)
+        # Because of the hard cutoff at 3×radius, most weights are 0.0
+        # Softmax only normalizes over the ~k non-zero values
+        attention_weights = torch.softmax(combined_scores, dim=-1)  # [batch, n_heads, seq_len, seq_len]
+        attention_weights = self.dropout(attention_weights)
+
+        # Step 7: Apply attention to values
+        output = torch.matmul(attention_weights, V)  # [batch, n_heads, seq_len, d_head]
+
+        # Concatenate heads back together
+        output = output.transpose(1, 2).contiguous()  # [batch, seq_len, n_heads, d_head]
+        output = output.view(batch, seq_len, d_model)  # [batch, seq_len, d_model]
+
+        # Output projection
+        output = self.output(output)  # [batch, seq_len, d_model]
+
+        return output
