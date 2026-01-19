@@ -17,14 +17,14 @@ Test Count: 6 benchmark tests
 
 import gc
 import time
-from typing import Generator
+from collections.abc import Generator
 
 import pytest
 import torch
 
 from spatial_engine.core.spatial_transformer import SpatialTransformer
-from spatial_engine.vector_store.qdrant_adapter import QdrantAdapter
 from spatial_engine.integration import TransformerBridge
+from spatial_engine.vector_store.qdrant_adapter import QdrantAdapter
 
 # Check for pgvector availability
 try:
@@ -136,7 +136,7 @@ class TestPerformanceBenchmarks:
         print(f"  Average: {avg_latency:.2f}ms")
         print(f"  Min:     {min_latency:.2f}ms")
         print(f"  Max:     {max_latency:.2f}ms")
-        print(f"  Target:  <100ms")
+        print("  Target:  <100ms")
         print(f"  Status:  {'PASS' if avg_latency < 100 else 'FAIL'}")
         print(f"{'='*60}")
 
@@ -188,7 +188,7 @@ class TestPerformanceBenchmarks:
         print("End-to-End Latency Benchmark (pgvector)")
         print(f"{'='*60}")
         print(f"  Average: {avg_latency:.2f}ms")
-        print(f"  Target:  <150ms")
+        print("  Target:  <150ms")
         print(f"  Status:  {'PASS' if avg_latency < 150 else 'FAIL'}")
         print(f"{'='*60}")
 
@@ -262,9 +262,9 @@ class TestPerformanceBenchmarks:
         print(f"  Context 1000: {times[1000]*1000:.2f}ms")
         print(f"  Context 2000: {times[2000]*1000:.2f}ms  (ratio: {ratio_2x:.2f}x)")
         print(f"  Context 4000: {times[4000]*1000:.2f}ms  (ratio: {ratio_4x:.2f}x)")
-        print(f"  Expected for O(k):  ratio ~1.0")
-        print(f"  Expected for O(n):  ratio ~2.0, ~4.0")
-        print(f"  Expected for O(n²): ratio ~4.0, ~16.0")
+        print("  Expected for O(k):  ratio ~1.0")
+        print("  Expected for O(n):  ratio ~2.0, ~4.0")
+        print("  Expected for O(n²): ratio ~4.0, ~16.0")
         print(f"{'='*60}")
 
         # O(k) should have ratios close to 1.0 (allowing for overhead)
@@ -319,7 +319,7 @@ class TestPerformanceBenchmarks:
         print(f"  Total tokens:    {total_tokens}")
         print(f"  Total time:      {elapsed:.2f}s")
         print(f"  Throughput:      {throughput:.0f} tokens/sec")
-        print(f"  Target:          >1000 tokens/sec")
+        print("  Target:          >1000 tokens/sec")
         print(f"  Status:          {'PASS' if throughput > 1000 else 'FAIL'}")
         print(f"{'='*60}")
 
@@ -338,7 +338,6 @@ class TestPerformanceBenchmarks:
 
         RED Phase: This test will fail until TransformerBridge is implemented.
         """
-        import sys
 
         def get_memory_mb() -> float:
             """Get current memory usage in MB (approximate)."""

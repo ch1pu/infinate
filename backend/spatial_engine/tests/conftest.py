@@ -6,9 +6,11 @@ Provides fixtures for:
 - In-memory Qdrant adapter
 - SpatialTransformer instances
 - Sample embeddings and positions
+- GPU compatibility checking (M1.9)
 
 Author: ch1pu
 Milestone: 1.7 - Integration Testing
+Updated: M1.9 - Test Stabilization (GPU skip fixture)
 """
 
 import os
@@ -17,6 +19,52 @@ from collections.abc import Generator
 
 import pytest
 import torch
+
+
+# ---------------------------------------------------------------------------
+# GPU Compatibility Check (M1.9)
+# ---------------------------------------------------------------------------
+
+
+def check_cuda_compatible() -> tuple[bool, str]:
+    """Check if CUDA is available and compatible with PyTorch.
+
+    RTX 50xx series (SM_120/Blackwell) is not yet supported by PyTorch 2.x.
+    This function detects incompatible GPUs to allow graceful test skipping.
+
+    Returns:
+        Tuple of (is_compatible, reason_if_not)
+    """
+    if not torch.cuda.is_available():
+        return False, "CUDA not available"
+
+    try:
+        cap = torch.cuda.get_device_capability()
+        # RTX 50xx series (SM_120) not yet supported by PyTorch 2.x
+        # SM_90 (Hopper) is the latest fully supported architecture
+        if cap[0] >= 12:
+            return False, f"GPU SM_{cap[0]}{cap[1]} not supported by PyTorch"
+        return True, ""
+    except Exception as e:
+        return False, f"GPU capability check failed: {e}"
+
+
+@pytest.fixture
+def skip_incompatible_gpu():
+    """Skip test if GPU is not compatible with PyTorch.
+
+    Use this fixture for tests that require CUDA but may fail on
+    unsupported GPU architectures like RTX 50xx (SM_120).
+
+    Example:
+        def test_gpu_feature(skip_incompatible_gpu):
+            # Test will be skipped if GPU is incompatible
+            model = MyModel().cuda()
+            ...
+    """
+    is_compatible, reason = check_cuda_compatible()
+    if torch.cuda.is_available() and not is_compatible:
+        pytest.skip(reason)
 
 from spatial_engine.core.spatial_transformer import SpatialTransformer
 from spatial_engine.vector_store.qdrant_adapter import QdrantAdapter
@@ -317,6 +365,11 @@ def pytest_configure(config: pytest.Config) -> None:
         "markers",
         "stress: mark test as stress/stability test",
     )
+    # M1.9 markers
+    config.addinivalue_line(
+        "markers",
+        "m19: mark test as M1.9 stability test",
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -333,3 +386,116 @@ def pytest_collection_modifyitems(
         # Add requires_docker marker to pgvector tests
         if "pgvector" in item.name.lower():
             item.add_marker(pytest.mark.requires_docker)
+
+
+# ---------------------------------------------------------------------------
+# M1.9 Fixtures - Stability Test Support
+# ---------------------------------------------------------------------------
+
+# Import integration components (may not be available during early development)
+try:
+    from spatial_engine.integration.transformer_bridge import TransformerBridge
+
+    BRIDGE_AVAILABLE = True
+except ImportError:
+    BRIDGE_AVAILABLE = False
+    TransformerBridge = None  # type: ignore
+
+# M1.9 benchmark configuration
+M19_D_MODEL = 256
+M19_N_LAYERS = 2
+M19_N_HEADS = 8
+
+
+@pytest.fixture(scope="module")
+def m19_transformer() -> SpatialTransformer:
+    """Transformer for M1.9 stability tests.
+
+    Uses smaller dimensions for faster testing while still
+    validating the core O(k) complexity behavior.
+
+    Returns:
+        SpatialTransformer configured for M1.9 stability tests
+    """
+    return SpatialTransformer(
+        n_layers=M19_N_LAYERS,
+        d_model=M19_D_MODEL,
+        n_heads=M19_N_HEADS,
+        d_ff=1024,
+        spatial_radius=50.0,
+        dropout=0.0,
+    )
+
+
+@pytest.fixture(scope="function")
+def m19_bridge_factory(
+    m19_transformer: SpatialTransformer,
+):
+    """Factory for creating bridges with automatic warmup.
+
+    This factory creates TransformerBridge instances with pre-populated
+    vector stores and automatic warmup queries to eliminate cold-start
+    variance in benchmarks.
+
+    Args:
+        m19_transformer: The shared transformer instance
+
+    Yields:
+        Factory function that creates warmed-up bridges
+    """
+    if not BRIDGE_AVAILABLE:
+        pytest.skip("TransformerBridge not available")
+
+    created_adapters: list[QdrantAdapter] = []
+
+    def create_bridge(
+        context_size: int,
+        k_neighbors: int = 50,
+        warmup_queries: int = 5,
+    ):
+        """Create a bridge with specified context size and warmup.
+
+        Args:
+            context_size: Number of tokens to store in vector store
+            k_neighbors: Number of neighbors for spatial attention
+            warmup_queries: Number of warmup queries to run
+
+        Returns:
+            TransformerBridge ready for benchmarking
+        """
+        adapter = QdrantAdapter(
+            collection_name=f"m19_{context_size}_{int(time.time() * 1000)}",
+            d_model=M19_D_MODEL,
+            use_memory=True,
+        )
+        created_adapters.append(adapter)
+
+        # Store tokens with reproducible positions
+        torch.manual_seed(42)
+        embeddings = torch.randn(context_size, M19_D_MODEL)
+        positions = torch.randn(context_size, 3) * 500.0
+        adapter.store(embeddings, positions)
+
+        bridge = TransformerBridge(
+            transformer=m19_transformer,
+            vector_store=adapter,
+            k_neighbors=k_neighbors,
+        )
+
+        # Auto-warmup to eliminate cold-start variance
+        if warmup_queries > 0:
+            x = torch.randn(1, 64, M19_D_MODEL)
+            pos = torch.randn(1, 64, 3) * 100.0
+            for _ in range(warmup_queries):
+                _ = bridge(x, pos)
+
+        return bridge
+
+    yield create_bridge
+
+    # Cleanup all created adapters
+    import contextlib
+
+    for adapter in created_adapters:
+        with contextlib.suppress(Exception):
+            adapter.close()

@@ -67,7 +67,11 @@ class TestSpatialAttention:
             )
 
     def test_device_placement(self):
-        """Test attention works on both CPU and GPU."""
+        """Test attention works on both CPU and GPU.
+
+        Note: RTX 50xx series (SM_120) is not yet supported by PyTorch 2.x.
+        This test gracefully skips GPU testing when incompatible hardware is detected.
+        """
         attention_cpu = SpatialAttention(d_model=768, n_heads=12)
 
         # Test on CPU
@@ -78,8 +82,19 @@ class TestSpatialAttention:
         assert output_cpu.shape == (2, 10, 768)
         assert output_cpu.device.type == "cpu"
 
-        # Test on GPU if available
+        # Test on GPU if available AND compatible
         if torch.cuda.is_available():
+            try:
+                cap = torch.cuda.get_device_capability()
+                # RTX 50xx series (SM_120) not yet supported by PyTorch 2.x
+                if cap[0] >= 12:
+                    pytest.skip(
+                        f"GPU compute capability sm_{cap[0]}{cap[1]} "
+                        "not supported by current PyTorch"
+                    )
+            except Exception as e:
+                pytest.skip(f"GPU capability check failed: {e}")
+
             attention_gpu = attention_cpu.cuda()
             x_gpu = x.cuda()
             positions_gpu = positions.cuda()

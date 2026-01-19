@@ -19,9 +19,8 @@ import pytest
 import torch
 
 from spatial_engine.core.spatial_transformer import SpatialTransformer
+from spatial_engine.integration import ContextManager, TransformerBridge
 from spatial_engine.vector_store.qdrant_adapter import QdrantAdapter
-from spatial_engine.integration import TransformerBridge, ContextManager
-
 
 # ---------------------------------------------------------------------------
 # TestTransformerBridge - Core Bridge Tests (3 tests)
