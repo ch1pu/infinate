@@ -1,8 +1,9 @@
 # Milestone Documentation
 
 **Project:** Infinite - Spatial AI Development Environment
-**Current Progress:** Phase 1 Complete (M1.1-M1.4, M1.6-M1.9 | M1.5 skipped)
+**Current Progress:** Phase 1 Complete (M1.1-M1.4, M1.6-M1.9 | M1.5 skipped) | M1.10 Planned
 **Total Development Time:** ~20+ hours
+**License:** Apache 2.0 - Open Source
 
 ---
 
@@ -12,7 +13,7 @@ This directory contains implementation guides for all Infinite milestones. Each 
 
 ---
 
-## Completed Milestones (8/10)
+## Completed Milestones (8/10) + 1 Planned
 
 | Milestone | Name | Status | Duration | Guide |
 |-----------|------|--------|----------|-------|
@@ -25,6 +26,7 @@ This directory contains implementation guides for all Infinite milestones. Each 
 | **M1.7** | Integration Testing | ✅ Complete | ~2h | [milestone-1.7-integration-testing.md](milestone-1.7-integration-testing.md) |
 | **M1.8** | MIT RLM Comparison | ✅ Complete | ~3h | [milestone-1.8-mit-comparison.md](milestone-1.8-mit-comparison.md) |
 | **M1.9** | Test Stabilization | ✅ Complete | ~2h | [milestone-1.9-test-stabilization.md](milestone-1.9-test-stabilization.md) |
+| **M1.10** | Hierarchical LOD | 📋 Planned | 3-4 days | [milestone-1.10-hierarchical-lod.md](milestone-1.10-hierarchical-lod.md) |
 
 **Total Time:** ~20 hours for completed milestones
 
@@ -32,12 +34,29 @@ This directory contains implementation guides for all Infinite milestones. Each 
 
 ## Upcoming Milestones
 
-| Milestone | Name | Priority | Est. Time |
-|-----------|------|----------|-----------|
-| **M2.0** | Spatial LLM Integration | High | 10-12 hours |
-| **M2.1** | Spatial Transformer Training | High | 10-12 hours |
-| **M2.2** | Navigation Network | Medium | 8-10 hours |
-| **M3.1** | 3D Visualization | Medium | 12-15 hours |
+| Milestone | Name | Priority | Est. Time | Description |
+|-----------|------|----------|-----------|-------------|
+| **M1.10** | Hierarchical LOD | 🔴 Next | 3-4 days | 100× context expansion via LOD compression |
+| **M2.0** | Spatial LLM Integration | High | 10-12 hours | LLM integration with spatial attention |
+| **M2.1** | Spatial Transformer Training | High | 10-12 hours | Training pipeline |
+| **M2.2** | Navigation Network | Medium | 8-10 hours | Learned navigation |
+| **M3.1** | 3D Visualization | Medium | 12-15 hours | Minecraft-style visualization |
+
+### Why M1.10 (Hierarchical LOD) is Next
+
+Current O(k) attention has a hard cutoff - token 51 is completely invisible. LOD fixes this:
+
+```
+WITHOUT LOD:  50 tokens visible, everything else = GONE
+WITH LOD:     90 tokens visible, representing 5,000+ tokens (60× expansion)
+              Same O(k) compute cost!
+```
+
+**Benefits:**
+- Eliminates information cliff (smooth falloff instead of hard cutoff)
+- 100× more context for same compute
+- Mimics human cognition (sharp focus + fuzzy awareness)
+- Open source under Apache 2.0
 
 ---
 
@@ -62,7 +81,9 @@ M1.8 MIT RLM Comparison ────→ 1,100-4,331x FASTER THAN MIT!
     ↓
 M1.9 Test Stabilization ────→ 150 TESTS, 92% COVERAGE!
     ↓
-M2.0 Spatial LLM (next)
+M1.10 Hierarchical LOD ─────→ 100× CONTEXT EXPANSION! (NEXT)
+    ↓
+M2.0 Spatial LLM
 ```
 
 ---
@@ -112,6 +133,7 @@ The core innovation proven across milestones:
 7. **[M1.7](milestone-1.7-integration-testing.md)** - Integration verified
 8. **[M1.8](milestone-1.8-mit-comparison.md)** - MIT RLM comparison (we win!)
 9. **[M1.9](milestone-1.9-test-stabilization.md)** - Test stabilization
+10. **[M1.10](milestone-1.10-hierarchical-lod.md)** - Hierarchical LOD (100× context) 📋 *NEXT*
 
 ### Run Tests
 
@@ -161,10 +183,12 @@ from spatial_engine.vector_store import QdrantAdapter
 | M1.7 Integration Testing | January 2026 |
 | M1.8 MIT RLM Comparison | January 2026 |
 | M1.9 Test Stabilization | January 18, 2026 |
+| M1.10 LOD Planning | January 19, 2026 |
 
 ---
 
 **Author:** Adolfo Lopez (ch1pu)
-**Last Updated:** January 18, 2026
+**Last Updated:** January 19, 2026
+**License:** Apache 2.0 - Open Source
 
-**Note:** M1.5 (Position Encoding Enhancements) was skipped - the core spatial encoding from M1.2 proved sufficient for O(k) complexity. Can be revisited if advanced encoding features are needed.
+**Note:** M1.5 (Position Encoding Enhancements) was skipped - the core spatial encoding from M1.2 proved sufficient for O(k) complexity. M1.10 (Hierarchical LOD) applies graphics Level-of-Detail techniques to AI context compression - a novel innovation now freely available under Apache 2.0.
