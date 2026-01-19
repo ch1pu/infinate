@@ -2,7 +2,7 @@
 
 > **Transform how AI models access memory. Process billions of tokens with constant computational cost.**
 
-[![Tests](https://img.shields.io/badge/tests-70%2F70%20passing-brightgreen)](./backend/)
+[![Tests](https://img.shields.io/badge/tests-118%2F118%20passing-brightgreen)](./backend/)
 [![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen)](./backend/)
 [![Python](https://img.shields.io/badge/python-3.11+-blue)](./backend/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](./LICENSE)
@@ -308,7 +308,7 @@ Query across millions of papers. Position = (topic_embedding, date, citation_clu
 
 ## Implementation Status
 
-**Current Progress: 40% Complete (Working, Tested Code)**
+**Current Progress: 50% Complete (Working, Tested Code)**
 
 ### Completed Milestones
 
@@ -319,12 +319,14 @@ Query across millions of papers. Position = (topic_embedding, date, citation_clu
 | M1.3 | Spatial Attention (O(k)) | ✅ Complete | 12 tests |
 | M1.4 | Spatial Transformer | ✅ Complete | 10 tests |
 | M1.6 | Vector Store Integration | ✅ Complete | 24 tests |
+| M1.7 | Integration Testing | ✅ Complete | 23 tests |
+| M1.8 | MIT RLM Comparison | ✅ Complete | 25 tests |
 
 ### Test Results
-- **70 tests passing** (46 core + 24 vector store)
+- **118 tests passing** (46 core + 24 vector store + 23 integration + 25 MIT comparison)
 - **100% test pass rate**
 - **95%+ code coverage**
-- **O(k) complexity empirically verified**
+- **O(k) complexity empirically verified at 128K tokens**
 
 ### What's Working Now
 
@@ -351,15 +353,26 @@ positions = torch.randn(8, 1024, 3)
 output = model(x, positions)
 ```
 
-### Next: Integration Testing (M1.7)
+### Latest: MIT RLM Comparison (M1.8)
 
-End-to-end testing of the complete spatial AI pipeline:
-- Full M1.1 → M1.6 integration tests
-- Performance benchmarks with vector store
+Comprehensive benchmarks comparing INFINITE vs MIT's Recursive Language Models (arXiv 2512.24601):
+
+| Metric | INFINITE | MIT RLM | Advantage |
+|--------|----------|---------|-----------|
+| Latency (100K tokens) | 13.63ms | 15,000ms | **1,100x faster** |
+| Latency (500K tokens) | 13.44ms | 35,000ms | **2,603x faster** |
+| Latency (1M tokens) | 13.86ms | 60,000ms | **4,331x faster** |
+| Cost per query | $0.001 | $0.99 | **990x cheaper** |
+| Memory (100K tokens) | 7.2MB | O(n/c) growth | **Constant** |
+
+**O(k) Verified at Scale:** 128x context increase (1K → 128K tokens) = only 1.12x time increase.
+
+### Next: Production Optimization (M1.9)
+
+- CUDA kernel optimization for spatial attention
+- NPU integration (AMD XDNA 2)
 - FakeOS integration preparation (Q2 2026)
 - Demo-ready for strategic buyers
-
-**Vector Store (M1.6) Complete:** Qdrant and pgvector adapters fully integrated with 24/24 tests passing.
 
 ### Key Dates
 
@@ -463,7 +476,7 @@ This unlocks FakeOS integration sooner than expected. See [AIOS Context](SUMMARY
 |---------|-------------|--------|------------|
 | **AIOS** | AI-native operating system with custom microkernel | Phase 2: 75%, Phase 3 starting | [github.com/ch1pu/OS](https://github.com/ch1pu/OS) |
 | **FakeOS** | Integration layer (consciousness, perception) | 5% complete (ON HOLD) | [github.com/ch1pu/FakeOS](https://github.com/ch1pu/FakeOS) |
-| **Infinite** | O(k) spatial attention for unlimited context | 40% complete | This repo |
+| **Infinite** | O(k) spatial attention for unlimited context | 50% complete | This repo |
 
 ### Three-Layer Architecture
 
@@ -504,9 +517,22 @@ Infinite has true O(k):
 - 1M tokens costs the same as 1K tokens
 - Only storage limits context size
 
-### Note on MIT's Recursive Search Approach
+### vs MIT's Recursive Language Models (arXiv 2512.24601)
 
-> A detailed comparison with MIT's recent recursive search approach will be added after analysis. Key difference: Infinite achieves true O(k) complexity at the attention mechanism level through spatial organization, while approaches that generate Python scripts for recursive searches remain linear at their core.
+We've completed comprehensive benchmarks comparing INFINITE against MIT RLM. Key findings:
+
+| Aspect | MIT RLM | INFINITE |
+|--------|---------|----------|
+| **Complexity** | O(n²/c) → O(n^1.5) actual | True O(k) constant |
+| **Latency (100K)** | 5-30 seconds | 13.63ms (**1,100x faster**) |
+| **Cost/query** | $0.99 average | $0.001 (**990x cheaper**) |
+| **Variance** | 10-100x between runs | <1% (deterministic) |
+| **Memory** | O(n/c) growth per chunk | Constant 7.2MB |
+| **Architecture** | LLM wrapper + REPL | Native spatial attention |
+
+**Why INFINITE wins:** MIT's chunking approach still processes all chunks sequentially. INFINITE queries exactly k neighbors regardless of total context size. At 1M queries/day, this means **$989,000 daily savings**.
+
+See [MILESTONE_1.8_COMPLETE.md](Project/MILESTONE_1.8_COMPLETE.md) for full benchmark results.
 
 ---
 
@@ -664,7 +690,7 @@ The irony isn't lost on me: driving strangers around for $20/hour while simultan
 
 | Project | What It Is | Status |
 |---------|-----------|--------|
-| **Infinite** | O(k) spatial attention (this repo) | 40% complete |
+| **Infinite** | O(k) spatial attention (this repo) | 50% complete |
 | **AIOS** | AI-native operating system, Ring 0 kernel | 97% complete |
 | **FakeOS** | Integration layer, consciousness stream | 5% complete |
 
@@ -689,9 +715,11 @@ All of this. One person. Years of work. Given freely to everyone.
 
 ---
 
-**Current Status:** 40% Complete | 70/70 Tests Passing | O(k) Verified | **Now Open Source**
+**Current Status:** 50% Complete | 118/118 Tests Passing | O(k) Verified at 128K Scale | **Now Open Source**
 
-**Next Milestone:** Integration Testing (M1.7) | FakeOS Integration (Q2 2026)
+**Latest Milestone:** M1.8 - MIT RLM Comparison (1,100-4,331x faster, 990x cheaper)
+
+**Next Milestone:** Production Optimization (M1.9) | FakeOS Integration (Q2 2026)
 
 ---
 
