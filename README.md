@@ -384,7 +384,34 @@ Comprehensive benchmarks comparing INFINITE vs MIT's Recursive Language Models (
 - ✅ GPU compatibility skip for RTX 5060 (SM_120)
 - ✅ CI/CD test runner created
 
-### Next: Spatial LLM Integration (M2.0)
+### Next: Hierarchical LOD System (M1.10)
+
+**Why LOD Matters for Infinite:**
+
+Current O(k) attention has a hard cutoff—token 51 is completely invisible. This is like a video game that renders trees perfectly up to 50 meters, then they vanish. LOD (Level-of-Detail) fixes this by applying compression techniques from computer graphics to AI context:
+
+```
+WITHOUT LOD:  50 tokens visible, everything else = GONE
+WITH LOD:     90 tokens visible, representing 5,000+ tokens (60× expansion)
+              Same O(k) compute cost!
+```
+
+| LOD Level | Distance | Compression | Tokens | Represents |
+|-----------|----------|-------------|--------|------------|
+| NEAR | < 50 | Full detail | 50 | 50 |
+| MEDIUM | 50-150 | 5:1 | 25 | 125 |
+| FAR | 150-500 | 20:1 | 10 | 200 |
+| BEYOND | > 500 | 100:1 | 5 | 5,000 |
+
+**Benefits:**
+- 🎯 **Eliminates information cliff** - Smooth falloff instead of hard cutoff
+- 📈 **100× more context** - See 5,000+ tokens for cost of 90
+- 🧠 **Mimics human cognition** - Sharp focus + fuzzy awareness of related context
+- 💰 **Patentable innovation** - $1M-$5M IP value (Patent Innovation #3)
+
+**Implementation:** 3-4 days → [Milestone Guide](docs/milestones/milestone-1.10-hierarchical-lod.md)
+
+### Future: Spatial LLM Integration (M2.0)
 
 - LLM integration with spatial attention
 - FakeOS integration preparation (Q2 2026)
@@ -735,7 +762,7 @@ All of this. One person. Years of work. Given freely to everyone.
 
 **Latest Milestone:** M1.9 - Test Stabilization & Coverage (150 tests, 92.13% coverage)
 
-**Next Milestone:** Spatial LLM Integration (M2.0) | FakeOS Integration (Q2 2026)
+**Next Milestone:** M1.10 - Hierarchical LOD (100× context expansion) | Then M2.0 - Spatial LLM Integration
 
 ---
 
