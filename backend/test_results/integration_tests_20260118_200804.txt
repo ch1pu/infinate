@@ -1,0 +1,146 @@
+Integration Test Results - 2026-01-18T20:08:20.816985
+======================================================================
+
+Docker PostgreSQL: CONNECTED
+Exit Code: 1
+
+======================================================================
+TEST OUTPUT
+======================================================================
+
+============================= test session starts ==============================
+platform linux -- Python 3.13.9, pytest-7.4.4, pluggy-1.6.0 -- /home/ch1pu/infinate/backend/.venv/bin/python
+cachedir: .pytest_cache
+benchmark: 4.0.0 (defaults: timer=time.perf_counter disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=False warmup_iterations=100000)
+rootdir: /home/ch1pu/infinate/backend
+configfile: pyproject.toml
+plugins: benchmark-4.0.0, cov-4.1.0, asyncio-0.21.2, anyio-4.12.0
+asyncio: mode=Mode.STRICT
+collecting ... collected 23 items
+
+spatial_engine/tests/test_integration_benchmarks.py::TestPerformanceBenchmarks::test_end_to_end_latency_qdrant 
+============================================================
+End-to-End Latency Benchmark (Qdrant)
+============================================================
+  Average: 13.91ms
+  Min:     4.05ms
+  Max:     98.82ms
+  Target:  <100ms
+  Status:  PASS
+============================================================
+PASSED
+spatial_engine/tests/test_integration_benchmarks.py::TestPerformanceBenchmarks::test_end_to_end_latency_pgvector 
+============================================================
+End-to-End Latency Benchmark (pgvector)
+============================================================
+  Average: 25.85ms
+  Target:  <150ms
+  Status:  PASS
+============================================================
+PASSED
+spatial_engine/tests/test_integration_benchmarks.py::TestPerformanceBenchmarks::test_ok_complexity_with_vector_store 
+============================================================
+O(k) Complexity Verification with Vector Store
+============================================================
+  Context 1000: 11.82ms
+  Context 2000: 12.96ms  (ratio: 1.10x)
+  Context 4000: 12.61ms  (ratio: 1.07x)
+  Expected for O(k):  ratio ~1.0
+  Expected for O(n):  ratio ~2.0, ~4.0
+  Expected for O(n²): ratio ~4.0, ~16.0
+============================================================
+
+  O(k) VERIFIED: 2x=1.10, 4x=1.07
+PASSED
+spatial_engine/tests/test_integration_benchmarks.py::TestPerformanceBenchmarks::test_throughput_tokens_per_second 
+============================================================
+Throughput Benchmark
+============================================================
+  Total tokens:    5120
+  Total time:      0.42s
+  Throughput:      12161 tokens/sec
+  Target:          >1000 tokens/sec
+  Status:          PASS
+============================================================
+PASSED
+spatial_engine/tests/test_integration_benchmarks.py::TestPerformanceBenchmarks::test_memory_usage_scaling 
+============================================================
+Memory Usage Scaling
+============================================================
+  Context 500: 10.2MB
+  Context 1000: 10.2MB
+  Context 2000: 10.2MB
+============================================================
+PASSED
+spatial_engine/tests/test_integration_benchmarks.py::TestPerformanceBenchmarks::test_scaling_comparison 
+============================================================
+Backend Scaling Comparison
+============================================================
+  Qdrant (in-memory): 2.69ms avg
+  pgvector: (requires Docker - skipped)
+============================================================
+PASSED
+spatial_engine/tests/test_integration_core.py::TestTransformerBridge::test_bridge_initialization PASSED
+spatial_engine/tests/test_integration_core.py::TestTransformerBridge::test_bridge_connects_transformer_to_vectorstore PASSED
+spatial_engine/tests/test_integration_core.py::TestTransformerBridge::test_bridge_query_during_forward PASSED
+spatial_engine/tests/test_integration_core.py::TestQdrantIntegration::test_qdrant_query_during_forward_pass PASSED
+spatial_engine/tests/test_integration_core.py::TestQdrantIntegration::test_qdrant_handles_batch_queries PASSED
+spatial_engine/tests/test_integration_core.py::TestQdrantIntegration::test_qdrant_error_handling PASSED
+spatial_engine/tests/test_integration_core.py::TestQdrantIntegration::test_qdrant_cache_behavior PASSED
+spatial_engine/tests/test_integration_core.py::TestQdrantIntegration::test_qdrant_memory_cleanup PASSED
+spatial_engine/tests/test_integration_core.py::TestPgvectorIntegration::test_pgvector_query_during_forward_pass PASSED
+spatial_engine/tests/test_integration_core.py::TestPgvectorIntegration::test_pgvector_handles_batch_queries PASSED
+spatial_engine/tests/test_integration_core.py::TestPgvectorIntegration::test_pgvector_error_handling PASSED
+spatial_engine/tests/test_integration_core.py::TestPgvectorIntegration::test_pgvector_connection_pooling PASSED
+spatial_engine/tests/test_integration_core.py::TestPgvectorIntegration::test_pgvector_memory_cleanup PASSED
+spatial_engine/tests/test_integration_core.py::TestEdgeCases::test_empty_vector_store PASSED
+spatial_engine/tests/test_integration_core.py::TestEdgeCases::test_large_batch_queries PASSED
+spatial_engine/tests/test_integration_core.py::TestEdgeCases::test_malformed_positions PASSED
+spatial_engine/tests/test_integration_core.py::TestEdgeCases::test_transformer_state_consistency PASSED
+
+---------- coverage: platform linux, python 3.13.9-final-0 -----------
+Name                                                          Stmts   Miss  Cover   Missing
+-------------------------------------------------------------------------------------------
+spatial_engine/__init__.py                                        4      0   100%
+spatial_engine/core/__init__.py                                   0      0   100%
+spatial_engine/core/feedforward.py                               25      6    76%   129-134
+spatial_engine/core/spatial_attention.py                         56      7    88%   123, 126, 218-226, 316
+spatial_engine/core/spatial_encoding.py                          42     42     0%   32-208
+spatial_engine/core/spatial_token.py                             20     20     0%   34-119
+spatial_engine/core/spatial_transformer.py                       32     12    62%   103, 158, 194-195, 201-215
+spatial_engine/core/spatial_transformer_block.py                 31      7    77%   171-183
+spatial_engine/core/tests/__init__.py                             0      0   100%
+spatial_engine/core/tests/test_feedforward.py                    61     61     0%   12-168
+spatial_engine/core/tests/test_spatial_attention.py             229    229     0%   11-573
+spatial_engine/core/tests/test_spatial_encoding.py               79     79     0%   11-163
+spatial_engine/core/tests/test_spatial_token.py                  45     45     0%   8-149
+spatial_engine/core/tests/test_spatial_transformer.py           155    155     0%   13-370
+spatial_engine/core/tests/test_spatial_transformer_block.py      97     97     0%   13-272
+spatial_engine/integration/__init__.py                            3      0   100%
+spatial_engine/integration/context_manager.py                    64     18    72%   91-92, 190-210, 221-224, 232, 277-278
+spatial_engine/integration/transformer_bridge.py                 67     19    72%   222-223, 237, 242-281
+spatial_engine/models/__init__.py                                 0      0   100%
+spatial_engine/models/tests/__init__.py                           0      0   100%
+spatial_engine/tests/__init__.py                                  0      0   100%
+spatial_engine/tests/conftest.py                                102     18    82%   31-33, 92, 130-136, 149, 165-169, 181-182, 237-240
+spatial_engine/tests/test_integration_benchmarks.py             200      4    98%   34-35, 345-348
+spatial_engine/tests/test_integration_core.py                   135      0   100%
+spatial_engine/utils/__init__.py                                  0      0   100%
+spatial_engine/utils/tests/__init__.py                            0      0   100%
+spatial_engine/vector_store/__init__.py                           5      0   100%
+spatial_engine/vector_store/base.py                              16      4    75%   77, 118, 136, 149
+spatial_engine/vector_store/pgvector_adapter.py                  91     15    84%   23-27, 250-260, 302, 333-348
+spatial_engine/vector_store/qdrant_adapter.py                    75     13    83%   33-35, 86-90, 213-218, 309-320
+spatial_engine/vector_store/spatial_index.py                    113     96    15%   37-42, 71-80, 109-119, 156-169, 211-213, 222-223, 235-240, 263-268, 278-295, 306-321, 325-358, 371-391, 403-414
+spatial_engine/vector_store/tests/__init__.py                     0      0   100%
+spatial_engine/vector_store/tests/test_base.py                   36     36     0%   13-116
+spatial_engine/vector_store/tests/test_pgvector_adapter.py       81     81     0%   14-253
+spatial_engine/vector_store/tests/test_qdrant_adapter.py         96     96     0%   14-300
+spatial_engine/vector_store/tests/test_spatial_index.py          80     80     0%   14-216
+-------------------------------------------------------------------------------------------
+TOTAL                                                          2040   1240    39%
+Coverage HTML written to dir htmlcov
+
+FAIL Required test coverage of 90% not reached. Total coverage: 39.22%
+
+============================= 23 passed in 13.36s ==============================
