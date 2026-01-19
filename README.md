@@ -55,6 +55,41 @@ This isn't just theory. We've built it, tested it, and empirically verified O(k)
 
 **128× more tokens = only 1.12× time** (not 16,384×!)
 
+### Visual: O(k) vs O(n²) Scaling
+
+```
+Time Scaling
+     │
+     │                                          ╱ O(n²) = 16,384×
+     │                                        ╱
+     │                                      ╱
+     │                                    ╱
+     │                                  ╱
+     │                                ╱
+     │                              ╱
+     │                            ╱
+     │                          ╱
+     │                        ╱
+     │                      ╱
+     │                    ╱
+     │                  ╱
+     │                ╱
+     │              ╱
+     │            ╱
+     │          ╱
+     │        ╱
+     │      ╱
+     │    ╱
+ 1.12×├──●─────────────────────────────────────── O(k) = 1.12× (INFINITE)
+     │
+  1× ├──┬────────────────────────────────────────
+     1K    8K    32K    64K    128K         Context Size
+
+     └─────────────── 128× MORE TOKENS ───────────────┘
+```
+
+**The gap widens exponentially.** At 1M tokens, O(n²) would be 1,000,000× while O(k) stays near 1×.
+
 ### Production Metrics (vs MIT RLM)
 
 | Metric | INFINITE | MIT RLM | Advantage |
@@ -65,6 +100,31 @@ This isn't just theory. We've built it, tested it, and empirically verified O(k)
 | **Throughput** | 15,246 tok/s | ~1,000 tok/s | **15× higher** |
 | **Cost per query** | $0.001 | $0.99 | **990× cheaper** |
 | **Memory (100K tokens)** | 7.2MB | O(n/c) growth | **Constant** |
+
+### Visual: INFINITE vs MIT RLM
+
+```
+LATENCY AT 100K TOKENS
+├──────────────────────────────────────────────────────────────────────────────────┤
+│ MIT RLM  │████████████████████████████████████████████████████████████│ 15,000ms │
+│ INFINITE │▌                                                           │ 13.63ms  │
+├──────────────────────────────────────────────────────────────────────────────────┤
+                                1,100× FASTER
+
+COST PER QUERY
+├──────────────────────────────────────────────────────────────────────────────────┤
+│ MIT RLM  │████████████████████████████████████████████████████████████│ $0.99    │
+│ INFINITE │▌                                                           │ $0.001   │
+├──────────────────────────────────────────────────────────────────────────────────┤
+                                 990× CHEAPER
+
+THROUGHPUT (tokens/sec)
+├──────────────────────────────────────────────────────────────────────────────────┤
+│ MIT RLM  │████                                                        │ ~1,000   │
+│ INFINITE │████████████████████████████████████████████████████████████│ 15,246   │
+├──────────────────────────────────────────────────────────────────────────────────┤
+                                  15× FASTER
+```
 
 This is true O(k) complexity: **constant time and memory regardless of context size**.
 
@@ -265,6 +325,25 @@ Infinite isn't just algorithmically faster (O(k) vs O(n²))—it's **hardware-na
 ---
 
 ## Architecture
+
+```mermaid
+graph TB
+    subgraph "INFINITE O(k) Architecture"
+        A["🔷 SpatialToken<br/>M1.1 ✅"] --> B["📐 SpatialEncoding<br/>M1.2 ✅"]
+        B --> C["⚡ SpatialAttention<br/>M1.3 ✅ O(k)!"]
+        C --> D["🔄 SpatialTransformer<br/>M1.4 ✅"]
+        D --> E["💾 VectorStore<br/>M1.6 ✅"]
+        E --> F["🔭 LOD System<br/>M1.10 📋"]
+    end
+
+    G["♾️ Unlimited Context<br/>Billions of Tokens"] -.->|"O(k) queries"| E
+    F -.->|"100× expansion"| H["🎯 Query Result"]
+
+    style C fill:#90EE90,stroke:#228B22
+    style G fill:#87CEEB,stroke:#4169E1
+```
+
+### Pipeline Flow
 
 ```
 Input Query

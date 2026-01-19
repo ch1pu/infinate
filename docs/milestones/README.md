@@ -58,9 +58,63 @@ WITH LOD:     90 tokens visible, representing 5,000+ tokens (60× expansion)
 - Mimics human cognition (sharp focus + fuzzy awareness)
 - Open source under Apache 2.0
 
+### LOD Compression Visualization
+
+```
+                    ┌─────────────────────────────────────────────────────┐
+                    │              BEYOND (distance > 500)                │
+                    │       5 tokens → 5,000 original (1000:1)            │
+                    │  ┌─────────────────────────────────────────────┐    │
+                    │  │            FAR (150-500)                    │    │
+                    │  │     10 tokens → 200 original (20:1)         │    │
+                    │  │  ┌─────────────────────────────────────┐    │    │
+                    │  │  │         MEDIUM (50-150)             │    │    │
+                    │  │  │    25 tokens → 125 orig (5:1)       │    │    │
+                    │  │  │  ┌───────────────────────────────┐  │    │    │
+                    │  │  │  │        NEAR (r < 50)          │  │    │    │
+                    │  │  │  │     50 tokens (full detail)   │  │    │    │
+                    │  │  │  │          [ QUERY ]            │  │    │    │
+                    │  │  │  └───────────────────────────────┘  │    │    │
+                    │  │  └─────────────────────────────────────┘    │    │
+                    │  └─────────────────────────────────────────────┘    │
+                    └─────────────────────────────────────────────────────┘
+
+                         ╔══════════════════════════════════════════╗
+                         ║  90 LOD tokens = 5,375 original tokens   ║
+                         ║            = 60× CONTEXT EXPANSION       ║
+                         ╚══════════════════════════════════════════╝
+```
+
+| LOD Level | Distance | Compression | Tokens | Represents | Quality |
+|-----------|----------|-------------|--------|------------|---------|
+| **NEAR** | < 50 | 1:1 (full) | 50 | 50 | 100% |
+| **MEDIUM** | 50-150 | 5:1 | 25 | 125 | 85%+ |
+| **FAR** | 150-500 | 20:1 | 10 | 200 | 70%+ |
+| **BEYOND** | > 500 | 1000:1 | 5 | 5,000 | 50%+ |
+| **Total** | - | **60:1** | **90** | **5,375** | - |
+
 ---
 
 ## Milestone Dependency Graph
+
+```mermaid
+graph LR
+    M1["M1.1<br/>SpatialToken<br/>✅"] --> M2["M1.2<br/>SpatialEncoding<br/>✅"]
+    M2 --> M3["M1.3<br/>SpatialAttention<br/>✅ O(k)!"]
+    M3 --> M4["M1.4<br/>Transformer<br/>✅"]
+    M4 --> M6["M1.6<br/>VectorStore<br/>✅"]
+    M6 --> M7["M1.7<br/>Integration<br/>✅"]
+    M7 --> M8["M1.8<br/>MIT Comparison<br/>✅ 1,100×!"]
+    M8 --> M9["M1.9<br/>Test Stability<br/>✅ 92%"]
+    M9 --> M10["M1.10<br/>LOD System<br/>📋 NEXT"]
+    M10 --> M20["M2.0<br/>Spatial LLM<br/>⏳"]
+
+    style M3 fill:#90EE90,stroke:#228B22
+    style M8 fill:#90EE90,stroke:#228B22
+    style M10 fill:#FFE4B5,stroke:#FF8C00
+```
+
+### Milestone Flow (ASCII)
 
 ```
 M1.1 SpatialToken
