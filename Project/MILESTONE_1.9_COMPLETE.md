@@ -222,10 +222,11 @@ With M1.9 complete, the project status is:
 | Milestone | Status | Achievement |
 |-----------|--------|-------------|
 | M1.1-M1.4 | ✅ Complete | Core transformer with O(k) |
+| M1.5 | ⏭️ Skipped | Position encoding enhancements (not needed) |
 | M1.6-M1.7 | ✅ Complete | Vector store integration |
 | M1.8 | ✅ Complete | MIT comparison (1,100-4,331x faster) |
 | **M1.9** | ✅ **Complete** | **Test stabilization (92.13% coverage)** |
-| M1.5 | 🔜 Next | Hierarchical LOD system |
+| M2.0 | 🔜 Next | Spatial LLM integration |
 
 ---
 
