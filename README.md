@@ -2,8 +2,8 @@
 
 > **Transform how AI models access memory. Process billions of tokens with constant computational cost.**
 
-[![Tests](https://img.shields.io/badge/tests-118%2F118%20passing-brightgreen)](./backend/)
-[![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen)](./backend/)
+[![Tests](https://img.shields.io/badge/tests-150%20passing-brightgreen)](./backend/)
+[![Coverage](https://img.shields.io/badge/coverage-92.13%25-brightgreen)](./backend/)
 [![Python](https://img.shields.io/badge/python-3.11+-blue)](./backend/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](./LICENSE)
 
@@ -40,26 +40,35 @@ Spatial AI:
 
 ---
 
-## Proven: O(k) Complexity Verified
+## Proven: O(k) Complexity Verified at 128K Scale
 
-This isn't just theory. We've built it, tested it, and empirically verified O(k) scaling:
+This isn't just theory. We've built it, tested it, and empirically verified O(k) scaling at production scale (M1.8 benchmarks):
+
+### Scaling Curve (1K to 128K tokens)
 
 | Sequence | Time | Scaling | O(n²) Would Be |
 |----------|------|---------|----------------|
-| 100 tokens | 42ms | 1.0× | 1.0× |
-| 200 tokens | 106ms | **2.52×** | 4.0× |
-| 400 tokens | 424ms | **10.05×** | 16.0× |
+| 1,000 tokens | 12.40ms | 1.00× | 1.0× |
+| 8,000 tokens | 12.24ms | **0.99×** | 64× |
+| 32,000 tokens | 13.68ms | **1.10×** | 1,024× |
+| 128,000 tokens | 13.87ms | **1.12×** | 16,384× |
 
-**2× tokens = 2.5× time** (not 4×)
-**4× tokens = 10× time** (not 16×)
+**128× more tokens = only 1.12× time** (not 16,384×!)
 
-With standard O(n²) attention:
-- 1M tokens = 10¹² operations = **impossible**
+### Production Metrics (vs MIT RLM)
 
-With Infinite's O(k) spatial attention:
-- 1M tokens = 5×10⁷ operations = **50ms query time**
+| Metric | INFINITE | MIT RLM | Advantage |
+|--------|----------|---------|-----------|
+| **Latency (100K tokens)** | 13.63ms | 15,000ms | **1,100× faster** |
+| **Latency (500K tokens)** | 13.44ms | 35,000ms | **2,603× faster** |
+| **Latency (1M tokens)** | 13.86ms | 60,000ms | **4,331× faster** |
+| **Throughput** | 15,246 tok/s | ~1,000 tok/s | **15× higher** |
+| **Cost per query** | $0.001 | $0.99 | **990× cheaper** |
+| **Memory (100K tokens)** | 7.2MB | O(n/c) growth | **Constant** |
 
-That's a **20,000× reduction** in computation for large contexts.
+This is true O(k) complexity: **constant time and memory regardless of context size**.
+
+At 1M queries/day: **$989,000 daily savings** vs MIT RLM.
 
 ---
 
@@ -314,18 +323,19 @@ Query across millions of papers. Position = (topic_embedding, date, citation_clu
 
 | Milestone | Description | Status | Tests |
 |-----------|-------------|--------|-------|
-| M1.1 | SpatialToken class | ✅ Complete | 14 tests |
-| M1.2 | Spatial Position Encoding | ✅ Complete | 10 tests |
-| M1.3 | Spatial Attention (O(k)) | ✅ Complete | 12 tests |
-| M1.4 | Spatial Transformer | ✅ Complete | 10 tests |
-| M1.6 | Vector Store Integration | ✅ Complete | 24 tests |
-| M1.7 | Integration Testing | ✅ Complete | 23 tests |
+| M1.1 | SpatialToken class | ✅ Complete | 12 tests |
+| M1.2 | Spatial Position Encoding | ✅ Complete | 17 tests |
+| M1.3 | Spatial Attention (O(k)) | ✅ Complete | 25 tests |
+| M1.4 | Spatial Transformer | ✅ Complete | 20 tests |
+| M1.6 | Vector Store Integration | ✅ Complete | 23 tests |
+| M1.7 | Integration Testing | ✅ Complete | 24 tests |
 | M1.8 | MIT RLM Comparison | ✅ Complete | 25 tests |
+| M1.9 | Test Stabilization & Coverage | ✅ Complete | 4 tests |
 
 ### Test Results
-- **118 tests passing** (46 core + 24 vector store + 23 integration + 25 MIT comparison)
-- **100% test pass rate**
-- **95%+ code coverage**
+- **150 tests** (149 passing, 1 skipped for GPU compatibility)
+- **100% test pass rate** (all non-skipped tests pass)
+- **92.13% code coverage** (exceeds 90% target)
 - **O(k) complexity empirically verified at 128K tokens**
 
 ### What's Working Now
@@ -367,12 +377,18 @@ Comprehensive benchmarks comparing INFINITE vs MIT's Recursive Language Models (
 
 **O(k) Verified at Scale:** 128x context increase (1K → 128K tokens) = only 1.12x time increase.
 
-### Next: Production Optimization (M1.9)
+### Completed: Test Stabilization (M1.9)
 
-- CUDA kernel optimization for spatial attention
-- NPU integration (AMD XDNA 2)
+- ✅ Full test suite stabilized (150 tests, 149 passing)
+- ✅ 92.13% code coverage documented (exceeds 90% target)
+- ✅ GPU compatibility skip for RTX 5060 (SM_120)
+- ✅ CI/CD test runner created
+
+### Next: Spatial LLM Integration (M2.0)
+
+- LLM integration with spatial attention
 - FakeOS integration preparation (Q2 2026)
-- Demo-ready for strategic buyers
+- Production optimization and demo-ready deployment
 
 ### Key Dates
 
@@ -715,11 +731,11 @@ All of this. One person. Years of work. Given freely to everyone.
 
 ---
 
-**Current Status:** 50% Complete | 118/118 Tests Passing | O(k) Verified at 128K Scale | **Now Open Source**
+**Current Status:** 50% Complete | 150 Tests (149 Passing) | 92.13% Coverage | O(k) Verified at 128K Scale | **Now Open Source**
 
-**Latest Milestone:** M1.8 - MIT RLM Comparison (1,100-4,331x faster, 990x cheaper)
+**Latest Milestone:** M1.9 - Test Stabilization & Coverage (150 tests, 92.13% coverage)
 
-**Next Milestone:** Production Optimization (M1.9) | FakeOS Integration (Q2 2026)
+**Next Milestone:** Spatial LLM Integration (M2.0) | FakeOS Integration (Q2 2026)
 
 ---
 
