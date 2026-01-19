@@ -13,18 +13,18 @@ Milestone: 1.7 - Integration Testing
 
 import os
 import time
-from typing import Generator
+from collections.abc import Generator
 
 import pytest
 import torch
 
 from spatial_engine.core.spatial_transformer import SpatialTransformer
 from spatial_engine.vector_store.qdrant_adapter import QdrantAdapter
-from spatial_engine.vector_store.base import VectorStoreBase
 
 # Check if pgvector dependencies are available
 try:
     import psycopg2
+
     from spatial_engine.vector_store.pgvector_adapter import PgvectorAdapter
 
     PGVECTOR_AVAILABLE = True
@@ -303,6 +303,19 @@ def pytest_configure(config: pytest.Config) -> None:
     config.addinivalue_line(
         "markers",
         "requires_docker: mark test as requiring Docker PostgreSQL",
+    )
+    # M1.8 markers
+    config.addinivalue_line(
+        "markers",
+        "mit_comparison: mark test as MIT RLM comparison benchmark",
+    )
+    config.addinivalue_line(
+        "markers",
+        "extended_scaling: mark test as extended scaling benchmark",
+    )
+    config.addinivalue_line(
+        "markers",
+        "stress: mark test as stress/stability test",
     )
 
 
