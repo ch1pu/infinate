@@ -6,6 +6,90 @@
 
 ---
 
+## The Core Problem: Fast Search ≠ Complete Context
+
+**Your concern is exactly right:** INFINITE can search 10,317× faster than MIT RLM, but speed alone doesn't guarantee we gather enough relevant data to correctly answer an LLM query.
+
+### The Fear (Valid)
+
+```
+Traditional LLM (128K context):
+┌─────────────────────────────────────────────────────────────────┐
+│  LLM sees ALL 128,000 tokens simultaneously                     │
+│  → Can find ANY relevant fact                                   │
+│  → Can connect ideas across the ENTIRE context                  │
+│  → Quality: EXCELLENT (if it fits in memory)                    │
+└─────────────────────────────────────────────────────────────────┘
+
+INFINITE Current State:
+┌─────────────────────────────────────────────────────────────────┐
+│  LLM sees ~90 tokens per attention pass                         │
+│  → Might MISS relevant facts in unseen areas                    │
+│  → Might FAIL to connect distant ideas                          │
+│  → Quality: DEPENDS on whether navigation found the right tokens│
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**The risk:** We return results in 3ms, but those results might be INCOMPLETE or WRONG because we didn't look in the right places.
+
+### What Pre-M2.0 Improvements Actually Do
+
+These aren't just optimizations—they're **quality assurance mechanisms** to ensure we gather enough context:
+
+| Improvement | What It Does | How It Helps LLM Quality |
+|-------------|--------------|--------------------------|
+| **GPU Support** | 11× faster operations | Enables more search passes within latency budget |
+| **Multi-Pass Navigation** | Search 3-5× instead of once | Visit 270-450 tokens instead of 90 |
+| **Quality Benchmarks** | Measure retrieval accuracy | Know when we're missing relevant context |
+| **Confidence Re-Navigation** | Detect uncertain results | Automatically search more when unsure |
+| **Adaptive LOD** | Adjust compression per query | Less compression for fact-finding queries |
+
+### The Goal: Enough Context for Correct Answers
+
+```
+BEFORE Pre-M2.0:
+  Query → Single pass → ~90 tokens → LLM → Answer (maybe wrong)
+
+AFTER Pre-M2.0:
+  Query → Multi-pass → ~300+ tokens → Confidence check →
+    → If low: search more → ~500+ tokens →
+    → Quality verified → LLM → Answer (reliable)
+```
+
+### Concrete Example
+
+**Query:** "What was the revenue in Q3 and how did it compare to the CEO's prediction from the January meeting?"
+
+```
+INFINITE Current (Single Pass):
+  Pass 1: Finds Q3 revenue data (good!)
+  Result: 90 tokens about Q3
+  Problem: Never searched for January meeting → MISSING the CEO prediction
+  LLM Answer: "Q3 revenue was $X" (INCOMPLETE - can't compare)
+
+INFINITE After Pre-M2.0 (Multi-Pass + Confidence):
+  Pass 1: Finds Q3 revenue data
+  Pass 2: Searches for "prediction" → finds January meeting
+  Pass 3: Searches for "CEO" → confirms prediction context
+  Confidence: HIGH (found both pieces)
+  Result: 270 tokens covering both topics
+  LLM Answer: "Q3 revenue was $X, which exceeded CEO's $Y prediction by 15%"
+```
+
+### Why GPU Matters for Quality (Not Just Speed)
+
+GPU enables **more passes within the same time budget**:
+
+| Scenario | CPU (current) | GPU (after) | Quality Impact |
+|----------|---------------|-------------|----------------|
+| 10ms budget | 1 pass, 90 tokens | 10 passes, 900 tokens | **10× more context** |
+| 50ms budget | 4 passes, 360 tokens | 50 passes, 4,500 tokens | **12× more context** |
+| Same quality, less time | 1 pass @ 10ms | 1 pass @ 1ms | **10× faster, same context** |
+
+**GPU doesn't just make us faster—it lets us be MORE THOROUGH within acceptable latency.**
+
+---
+
 ## Overview
 
 Before moving to Milestone 2.0 (Spatial LLM Integration), we need to:
@@ -13,6 +97,8 @@ Before moving to Milestone 2.0 (Spatial LLM Integration), we need to:
 1. **Get GPU SM_120 working with PyTorch** (RTX 50-series support)
 2. **Address known weaknesses** in INFINITE's current implementation
 3. **Maximize the foundation** before adding LLM complexity
+
+**The goal is not just speed—it's ensuring we gather ENOUGH relevant context for the LLM to give correct answers.**
 
 ---
 
