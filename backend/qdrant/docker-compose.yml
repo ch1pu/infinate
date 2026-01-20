@@ -1,0 +1,39 @@
+version: '3.8'
+
+# Qdrant Vector Database for Infinite Spatial AI
+# M1.11 - Strafe Jumping Navigation (Warp Lane Detection)
+#
+# Usage:
+#   Start:   docker-compose up -d
+#   Stop:    docker-compose down
+#   Logs:    docker-compose logs -f
+#   Status:  docker-compose ps
+#
+# Access:
+#   HTTP API:  http://localhost:6333
+#   Dashboard: http://localhost:6333/dashboard
+#   gRPC:      localhost:6334
+
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: infinate_qdrant
+    ports:
+      - "6333:6333"  # HTTP API + Dashboard
+      - "6334:6334"  # gRPC
+    volumes:
+      - qdrant_data:/qdrant/storage
+    environment:
+      # Optional: Set API key for production
+      # QDRANT__SERVICE__API_KEY: your-api-key-here
+      QDRANT__LOG_LEVEL: INFO
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:6333/healthz"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  qdrant_data:
+    name: infinate_qdrant_data

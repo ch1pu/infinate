@@ -22,6 +22,7 @@
 # I'm actively seeking software engineering roles. If you're reading this code
 # and like what you see, let's connect:
 #   - GitHub: github.com/ch1pu
+#   - Twitter/X: @2006_adolfo
 #   - Project: This codebase demonstrates O(k) spatial attention, achieving
 #     10,317x speedup over MIT's approach with 89.58% test coverage.
 # ============================================================================
