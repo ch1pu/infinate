@@ -190,6 +190,66 @@ RESULT: O(k) MEMORY VERIFIED — 0.96× << 10×
 
 **Memory stays essentially FLAT at ~1.5 MB regardless of token count.**
 
+### Understanding the 1.5 MB: Working Memory vs Total Context
+
+**Important clarification:** The 1.5 MB is **working memory for attention**, not total context storage.
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              VECTOR STORE (Qdrant - Disk/SSD)                   │
+│                                                                 │
+│   Stores: Millions or BILLIONS of tokens                        │
+│   Size: Gigabytes on disk, minimal RAM footprint                │
+│   Role: Long-term memory, searchable by semantic similarity     │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              │ Query: "Find k nearest neighbors"
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│              INFINITE ATTENTION (1.5 MB Working RAM)            │
+│                                                                 │
+│   Receives: ~50 most relevant tokens per query                  │
+│   Computes: Full attention over those 50 (not n²)               │
+│   Navigates: Multi-step traversal through semantic space        │
+│   LOD: Compressed summaries of distant context (~40 more)       │
+│                                                                 │
+│   Total per attention pass: ~90 tokens (50 near + 40 LOD)       │
+│   Represents: Thousands of original tokens via compression      │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**The tradeoff is real but addressable:**
+
+| Aspect | Traditional 128K | INFINITE |
+|--------|------------------|----------|
+| Tokens visible per pass | ALL 128K | ~90 (50 + LOD) |
+| Max context possible | 128K (then OOM) | **Unlimited** |
+| RAM per request | 600 GB | 1.5 MB |
+| Simple lookup quality | Excellent | Excellent |
+| Full-doc understanding | Excellent | Requires navigation |
+
+**When to use each approach:**
+
+| Use Case | Best Approach | Why |
+|----------|---------------|-----|
+| Context < 128K, quality critical | Traditional | Sees everything at once |
+| Context > 128K | INFINITE | Traditional can't fit |
+| RAG / retrieval from large corpus | INFINITE | Designed for this |
+| Cost-sensitive (many requests) | INFINITE | 1000× less RAM |
+| Long-running agents | INFINITE | Accumulates unlimited memory |
+
+**The code is designed to be adapted:**
+
+1. **Multi-step navigation**: Query → refine → query again (like human memory)
+2. **Iterative deepening**: Broad search first, then focused retrieval
+3. **Warp lanes**: Jump directly to high-similarity distant tokens
+4. **LOD summaries**: Compressed awareness of distant context
+5. **Hybrid approaches**: Use traditional attention for critical sections, INFINITE for the rest
+
+**INFINITE is not a replacement for traditional attention at small scale.** It's an enabler for scales where traditional attention is impossible—and a cost reducer for scales where traditional attention is merely expensive.
+
 ### Latency Benchmark: 10,317× Faster
 
 Compared against MIT's Recursive Language Models (arXiv 2512.24601):
@@ -420,18 +480,41 @@ from spatial_engine.core import (
 
 The 2026 RAM crisis is real, severe, and structural. But it's not inevitable.
 
-The crisis exists because AI architecture assumes O(n²) memory scaling. **INFINITE proves this assumption is false.** With O(k) spatial attention, context length becomes independent of memory requirements.
+The crisis exists because AI architecture assumes O(n²) memory scaling. **INFINITE provides an alternative path** with O(k) spatial attention, where working memory stays constant regardless of total context size.
 
-### The Choice
+### Understanding the Tradeoff
 
-| Path | Memory for 1M tokens | Cost per query | RAM crisis impact |
-|------|---------------------|----------------|-------------------|
-| Status quo (O(n²)) | ~1 TB | $2.50 | Continues through 2028 |
-| **INFINITE (O(k))** | **1.5 MB** | **$0.001** | **Solved** |
+INFINITE is not a drop-in replacement for traditional attention. It's a different paradigm:
 
-The technology exists. The code is open source. The benchmarks are verified.
+| Aspect | Traditional Attention | INFINITE |
+|--------|----------------------|----------|
+| Memory model | Everything in RAM | Vector store + working memory |
+| Per-pass visibility | All tokens at once | ~90 tokens (navigable) |
+| Max context | ~128K (then OOM) | Unlimited (billions) |
+| RAM per request | Scales with O(n²) | Constant 1.5 MB |
+| Best for | Quality-critical, fits in memory | Large-scale, cost-sensitive |
 
-**The RAM crisis is a choice, not a destiny.**
+### When INFINITE Makes Sense
+
+| Scenario | Recommendation |
+|----------|----------------|
+| Context fits in 128K, quality paramount | Use traditional attention |
+| Context > 128K tokens | **INFINITE (only option)** |
+| RAG over large document corpus | **INFINITE (designed for this)** |
+| High-volume API (cost matters) | **INFINITE (1000× cheaper)** |
+| Long-running agents with memory | **INFINITE (unlimited accumulation)** |
+| Hybrid: critical sections + large context | **Both (traditional for focus, INFINITE for breadth)** |
+
+### The Path Forward
+
+| Path | Memory for 1M tokens | Visibility | Cost per query | RAM crisis impact |
+|------|---------------------|------------|----------------|-------------------|
+| Status quo (O(n²)) | ~1 TB | All at once | $2.50 | Continues through 2028 |
+| **INFINITE (O(k))** | **1.5 MB working** | **Navigate ~90 at a time** | **$0.001** | **Dramatically reduced** |
+
+The code is adaptable—multi-step navigation, iterative refinement, and hybrid approaches can close the quality gap while maintaining the memory advantage.
+
+**INFINITE doesn't eliminate the RAM crisis for all use cases, but it eliminates the *necessity* of O(n²) scaling for large-context applications—which is where the crisis hits hardest.**
 
 ---
 
