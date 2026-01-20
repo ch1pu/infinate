@@ -4,6 +4,8 @@
 **Status:** Planning
 **Goal:** Strengthen INFINATE before Spatial LLM Integration (M2.0)
 
+**Related:** [FUTURE_VISION.md](FUTURE_VISION.md) - Full roadmap and vision document
+
 ---
 
 ## The Core Problem: Fast Search ≠ Complete Context
