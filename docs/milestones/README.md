@@ -122,7 +122,9 @@ Physics-inspired navigation from Quake game mechanics. After rigorous research v
 - **10,317× faster** than MIT RLM (in-memory)
 - **533× faster** than MIT RLM (Qdrant production)
 - **1,330× cheaper** than MIT RLM
-- **O(k) verified** (2.85× time for 20× tokens, not 400×)
+- **O(k) latency verified** (2.85× time for 20× tokens, not 400×)
+- **O(k) memory verified** (0.96× memory for 10× tokens, not 10×)
+- **1.50 MB constant memory** (Qdrant container, regardless of token count)
 - **151 new tests** (all passed)
 - **89.58% coverage** overall
 
@@ -152,7 +154,25 @@ Physics-inspired navigation from Quake game mechanics. After rigorous research v
 | 5,000 tokens | 6.90ms | 5.09ms | 0.74× |
 | 10,000 tokens | 10.80ms | 26.93ms | **2.49×** |
 
-**20× tokens → 2.85× time** (vs 400× for O(n²)) = **O(k) VERIFIED**
+**20× tokens → 2.85× time** (vs 400× for O(n²)) = **O(k) LATENCY VERIFIED**
+
+### O(k) Memory Verification (Qdrant Container)
+
+| Tokens | Peak Memory | Scaling vs 500 |
+|--------|-------------|----------------|
+| 500 | 1.56 MB | baseline |
+| 1,000 | 1.50 MB | 0.96× |
+| 2,000 | 1.50 MB | 0.96× |
+| 5,000 | 1.50 MB | 0.96× |
+
+**10× tokens → 0.96× memory** (vs 10× for O(n)) = **O(k) MEMORY VERIFIED**
+
+| Mode | Peak Memory | Comparison |
+|------|-------------|------------|
+| Qdrant In-Memory | 3.97 MB | baseline |
+| Qdrant Docker Container | 1.50 MB | **-62.2%** |
+
+**Key Finding:** Container mode uses **62% LESS memory** than in-memory mode!
 
 ---
 
