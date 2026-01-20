@@ -60,7 +60,9 @@
 
 Result: **10,317× faster than MIT RLM** (Qdrant in-memory) or **533× faster** with Qdrant Docker container!
 
-📚 **Details:** [Milestone Guide](docs/milestones/milestone-1.11-strafe-navigation.md) | [Completion Report](Project/MILESTONE_1.11_COMPLETE.md)
+📚 **Details:** [Milestone Guide](docs/milestones/milestone-1.11-strafe-navigation.md) | [Completion Report](Project/MILESTONE_1.11_COMPLETE.md) | [Full Roadmap](Project/FUTURE_VISION.md)
+
+**Note:** All benchmarks run on CPU (PyTorch doesn't support SM_120/Blackwell yet). Even CPU-only multi-pass dominates MIT RLM - see [Pre-M2.0 Improvements](Project/PRE_M2.0_IMPROVEMENTS.md).
 
 ---
 
@@ -515,6 +517,8 @@ Query across millions of papers. Position = (topic_embedding, date, citation_clu
 
 **Current Progress: 60% Complete (Working, Tested Code)**
 
+📚 **Full roadmap and vision:** [FUTURE_VISION.md](Project/FUTURE_VISION.md)
+
 ### Completed Milestones
 
 | Milestone | Description | Status | Tests |
@@ -732,11 +736,19 @@ RESULT: O(k) VERIFIED - 2.85x scaling << 400x (O(n²))
 
 **Documentation:** [Milestone Guide](docs/milestones/milestone-1.11-strafe-navigation.md) | [Completion Report](Project/MILESTONE_1.11_COMPLETE.md)
 
-### Next: Spatial LLM Integration (M2.0)
+### Next: Pre-M2.0 Improvements → M2.0 LLM Integration
 
+**Pre-M2.0 (3-5 days):**
+- GPU SM_120 support (PyTorch nightly or build from source)
+- Multi-pass navigation (3-5 passes for better coverage)
+- Quality benchmarks (measure retrieval accuracy, not just speed)
+
+**M2.0 (After Pre-M2.0):**
 - LLM integration with spatial attention + LOD
-- FakeOS integration preparation (Q2 2026)
-- Production optimization and demo-ready deployment
+- End-to-end question answering demo
+- FakeOS integration preparation
+
+📚 **Full Roadmap:** [FUTURE_VISION.md](Project/FUTURE_VISION.md) | [Pre-M2.0 Improvements](Project/PRE_M2.0_IMPROVEMENTS.md)
 
 ### Key Dates
 
