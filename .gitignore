@@ -299,9 +299,25 @@ backups/
 *.model
 
 # ================================
+# PRIVATE/STRATEGIC DOCUMENTS
+# ================================
+# Keep locally, don't push to public repo
+CLAUDE.md
+README_STRATEGIC_DOCS.md
+Documents/SESSION_STRATEGIC_PIVOT_COMPLETE.md
+Documents/MASTER_INDEX.md
+Documents/INVESTOR_PITCH_DECK_GUIDE.md
+Documents/PATENT_FILING_GUIDE.md
+Documents/ZERO_CAPITAL_BOOTSTRAP_STRATEGY.md
+Documents/ALPHADEPLOY_DEPLOYMENT_PLAN.md
+Documents/ADOLFO_LOPEZ_ALPHA_DEPLOY_PROFILE.md
+Documents/MONETIZATION_STRATEGY_DEEP_DIVE.md
+Documents/INFINITE_MARKET_VALUATION.md
+Documents/THREE_PROJECT_ECOSYSTEM_STATUS.md
+
+# ================================
 # ALLOW SPECIFIC FILES
 # ================================
 # Use ! to explicitly allow certain files if needed
 # !.vscode/settings.json.example
 # !docker-compose.example.yml
-CLAUDE.md
