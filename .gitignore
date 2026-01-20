@@ -286,6 +286,13 @@ backups/
 *.tgz
 *.tar.bz2
 
+# Milestone backup files (local development snapshots)
+*.backup-m1.*
+*.backup-m2.*
+
+# CUDA/system packages (downloaded locally)
+*.deb
+
 # Large files that should use Git LFS
 *.gguf
 *.ggml
