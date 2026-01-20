@@ -88,6 +88,64 @@ GPU enables **more passes within the same time budget**:
 
 **GPU doesn't just make us faster—it lets us be MORE THOROUGH within acceptable latency.**
 
+### Performance Cost of Multi-Pass (The Tradeoff)
+
+More passes = more context = better quality, BUT also more time:
+
+| Passes | Tokens Found | GPU Latency | CPU Latency | vs MIT RLM (15,000ms) |
+|--------|--------------|-------------|-------------|----------------------|
+| 1 | 90 | ~1ms | ~10ms | **15,000× faster** (GPU) |
+| 3 | 270 | ~3ms | ~30ms | **5,000× faster** (GPU) |
+| 5 | 450 | ~5ms | ~50ms | **3,000× faster** (GPU) |
+| 10 | 900 | ~10ms | ~100ms | **1,500× faster** (GPU) |
+| 20 | 1,800 | ~20ms | ~200ms | **750× faster** (GPU) |
+| 50 | 4,500 | ~50ms | ~500ms | **300× faster** (GPU) |
+
+**Key Insight:** Even at 50 passes (4,500 tokens), we're still **300× faster than MIT RLM** on GPU.
+
+### Choosing the Right Tradeoff
+
+| Use Case | Recommended Passes | Latency (GPU) | Context | Why |
+|----------|-------------------|---------------|---------|-----|
+| Real-time chat | 1-3 | 1-3ms | 90-270 | Speed critical |
+| Standard query | 5-10 | 5-10ms | 450-900 | Balanced |
+| Complex reasoning | 10-20 | 10-20ms | 900-1,800 | Need more context |
+| Research/analysis | 20-50 | 20-50ms | 1,800-4,500 | Quality critical |
+| Batch processing | 50+ | 50ms+ | 4,500+ | No latency pressure |
+
+### Comparison: Multi-Pass INFINITE vs Traditional Attention
+
+| Approach | Tokens Visible | Latency | Memory |
+|----------|---------------|---------|--------|
+| Traditional (128K) | 128,000 (all) | 15,000ms | 600 GB |
+| INFINITE 1-pass | 90 | 1ms | 1.5 MB |
+| INFINITE 10-pass | 900 | 10ms | 1.5 MB |
+| INFINITE 50-pass | 4,500 | 50ms | 1.5 MB |
+| **INFINITE 150-pass** | **13,500** | **150ms** | **1.5 MB** |
+
+**At 150 passes (150ms), we see 13,500 tokens—still 100× faster than traditional AND using 400,000× less memory.**
+
+### The Bottom Line
+
+```
+Quality vs Speed Tradeoff:
+
+  Quality
+     │
+High │                              ● Traditional (all tokens)
+     │                        ●───────── 150 passes (13,500 tokens)
+     │                  ●─────────────── 50 passes (4,500 tokens)
+     │            ●───────────────────── 10 passes (900 tokens)
+     │      ●─────────────────────────── 3 passes (270 tokens)
+Low  │●───────────────────────────────── 1 pass (90 tokens)
+     └────────────────────────────────────────────────────
+      1ms    10ms    50ms   150ms              15,000ms
+                      Latency
+
+You choose where on this curve to operate based on your use case.
+INFINITE gives you the CHOICE. Traditional gives you one point (all or nothing).
+```
+
 ---
 
 ## Overview
