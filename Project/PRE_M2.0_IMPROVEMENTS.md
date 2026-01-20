@@ -1,14 +1,14 @@
-# Pre-M2.0 Improvements: GPU Support & Addressing INFINITE Weaknesses
+# Pre-M2.0 Improvements: GPU Support & Addressing INFINATE Weaknesses
 
 **Date:** January 20, 2026
 **Status:** Planning
-**Goal:** Strengthen INFINITE before Spatial LLM Integration (M2.0)
+**Goal:** Strengthen INFINATE before Spatial LLM Integration (M2.0)
 
 ---
 
 ## The Core Problem: Fast Search ≠ Complete Context
 
-**Your concern is exactly right:** INFINITE can search 10,317× faster than MIT RLM, but speed alone doesn't guarantee we gather enough relevant data to correctly answer an LLM query.
+**Your concern is exactly right:** INFINATE can search 10,317× faster than MIT RLM, but speed alone doesn't guarantee we gather enough relevant data to correctly answer an LLM query.
 
 ### The Fear (Valid)
 
@@ -21,7 +21,7 @@ Traditional LLM (128K context):
 │  → Quality: EXCELLENT (if it fits in memory)                    │
 └─────────────────────────────────────────────────────────────────┘
 
-INFINITE Current State:
+INFINATE Current State:
 ┌─────────────────────────────────────────────────────────────────┐
 │  LLM sees ~90 tokens per attention pass                         │
 │  → Might MISS relevant facts in unseen areas                    │
@@ -61,13 +61,13 @@ AFTER Pre-M2.0:
 **Query:** "What was the revenue in Q3 and how did it compare to the CEO's prediction from the January meeting?"
 
 ```
-INFINITE Current (Single Pass):
+INFINATE Current (Single Pass):
   Pass 1: Finds Q3 revenue data (good!)
   Result: 90 tokens about Q3
   Problem: Never searched for January meeting → MISSING the CEO prediction
   LLM Answer: "Q3 revenue was $X" (INCOMPLETE - can't compare)
 
-INFINITE After Pre-M2.0 (Multi-Pass + Confidence):
+INFINATE After Pre-M2.0 (Multi-Pass + Confidence):
   Pass 1: Finds Q3 revenue data
   Pass 2: Searches for "prediction" → finds January meeting
   Pass 3: Searches for "CEO" → confirms prediction context
@@ -113,15 +113,15 @@ More passes = more context = better quality, BUT also more time:
 | Research/analysis | 20-50 | 20-50ms | 1,800-4,500 | Quality critical |
 | Batch processing | 50+ | 50ms+ | 4,500+ | No latency pressure |
 
-### Comparison: Multi-Pass INFINITE vs Traditional Attention
+### Comparison: Multi-Pass INFINATE vs Traditional Attention
 
 | Approach | Tokens Visible | Latency | Memory |
 |----------|---------------|---------|--------|
 | Traditional (128K) | 128,000 (all) | 15,000ms | 600 GB |
-| INFINITE 1-pass | 90 | 1ms | 1.5 MB |
-| INFINITE 10-pass | 900 | 10ms | 1.5 MB |
-| INFINITE 50-pass | 4,500 | 50ms | 1.5 MB |
-| **INFINITE 150-pass** | **13,500** | **150ms** | **1.5 MB** |
+| INFINATE 1-pass | 90 | 1ms | 1.5 MB |
+| INFINATE 10-pass | 900 | 10ms | 1.5 MB |
+| INFINATE 50-pass | 4,500 | 50ms | 1.5 MB |
+| **INFINATE 150-pass** | **13,500** | **150ms** | **1.5 MB** |
 
 **At 150 passes (150ms), we see 13,500 tokens—still 100× faster than traditional AND using 400,000× less memory.**
 
@@ -143,7 +143,7 @@ Low  │●───────────────────────
                       Latency
 
 You choose where on this curve to operate based on your use case.
-INFINITE gives you the CHOICE. Traditional gives you one point (all or nothing).
+INFINATE gives you the CHOICE. Traditional gives you one point (all or nothing).
 ```
 
 ---
@@ -153,7 +153,7 @@ INFINITE gives you the CHOICE. Traditional gives you one point (all or nothing).
 Before moving to Milestone 2.0 (Spatial LLM Integration), we need to:
 
 1. **Get GPU SM_120 working with PyTorch** (RTX 50-series support)
-2. **Address known weaknesses** in INFINITE's current implementation
+2. **Address known weaknesses** in INFINATE's current implementation
 3. **Maximize the foundation** before adding LLM complexity
 
 **The goal is not just speed—it's ensuring we gather ENOUGH relevant context for the LLM to give correct answers.**
@@ -274,7 +274,7 @@ python setup.py develop
 
 ---
 
-## Part 2: Current INFINITE Weaknesses
+## Part 2: Current INFINATE Weaknesses
 
 ### Weakness 1: Limited Per-Pass Visibility
 
@@ -288,7 +288,7 @@ python setup.py develop
 **Current State:**
 ```
 Traditional (128K context):  See 128,000 tokens at once
-INFINITE (any context):      See ~90 tokens per pass
+INFINATE (any context):      See ~90 tokens per pass
 ```
 
 ### Weakness 2: Navigation Quality Dependency
@@ -463,7 +463,7 @@ class ConfidenceNavigator:
 
 ### Improvement 5: Hybrid Attention Mode
 
-**What:** For critical sections, use traditional attention; for context, use INFINITE.
+**What:** For critical sections, use traditional attention; for context, use INFINATE.
 
 **Implementation:**
 ```python
@@ -473,7 +473,7 @@ class HybridAttention:
             # Use traditional attention for critical section
             critical_output = self.traditional_attention(query, critical_tokens)
 
-        # Use INFINITE for broader context
+        # Use INFINATE for broader context
         context_output = self.spatial_attention(query, context)
 
         # Merge with learned weighting
@@ -483,7 +483,7 @@ class HybridAttention:
 **Expected Impact:**
 - Best of both worlds for mixed workloads
 - Traditional quality for small critical sections
-- INFINITE scalability for large context
+- INFINATE scalability for large context
 
 **Effort:** 6-8 hours
 
