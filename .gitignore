@@ -297,3 +297,4 @@ backups/
 # Use ! to explicitly allow certain files if needed
 # !.vscode/settings.json.example
 # !docker-compose.example.yml
+CLAUDE.md
