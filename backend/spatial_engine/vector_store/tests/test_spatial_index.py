@@ -6,7 +6,8 @@ used to accelerate both Qdrant and pgvector queries.
 
 Author: ch1pu
 Milestone: 1.6 - Vector Store Integration
-Test Count: 6
+Updated: 1.11 - Strafe Jumping Navigation (added distance range tests)
+Test Count: 10+ (6 original + 4+ for M1.11)
 Coverage Target: ≥95%
 """
 
@@ -209,6 +210,214 @@ class TestSpatialIndex:
         assert distance_time < 2.0, f"Distance calculation too slow: {distance_time:.2f}ms"
         assert filter_time < 5.0, f"Radius filter too slow: {filter_time:.2f}ms"
         assert knn_time < 10.0, f"k-nearest too slow: {knn_time:.2f}ms"
+
+
+class TestDistanceRangeFiltering:
+    """Tests for M1.11 distance range filtering functions.
+
+    Added in Milestone 1.11 for warp lane detection support.
+    These functions enable finding tokens within a specific distance
+    range (min_distance, max_distance] for semantic warping.
+    """
+
+    @pytest.fixture
+    def positioned_data(self):
+        """Create positions at specific known distances for testing.
+
+        Returns:
+            torch.Tensor: (10, 3) tensor with positions at known distances
+        """
+        # Create positions at specific distances along x-axis for easy verification
+        return torch.tensor([
+            [10.0, 0.0, 0.0],   # Distance 10
+            [25.0, 0.0, 0.0],   # Distance 25
+            [50.0, 0.0, 0.0],   # Distance 50
+            [75.0, 0.0, 0.0],   # Distance 75
+            [100.0, 0.0, 0.0],  # Distance 100
+            [125.0, 0.0, 0.0],  # Distance 125
+            [150.0, 0.0, 0.0],  # Distance 150
+            [200.0, 0.0, 0.0],  # Distance 200
+            [300.0, 0.0, 0.0],  # Distance 300
+            [500.0, 0.0, 0.0],  # Distance 500
+        ])
+
+    def test_filter_by_distance_range_basic(self, positioned_data):
+        """Test basic distance range filtering.
+
+        Verifies:
+        - Only positions within (min, max] returned
+        - Correct indices returned
+        - Works with standard distance values
+        """
+        from spatial_engine.vector_store.spatial_index import filter_by_distance_range
+
+        query_position = torch.zeros(3)
+        min_distance = 50.0
+        max_distance = 150.0
+
+        filtered_positions, filtered_indices = filter_by_distance_range(
+            query_position, positioned_data, min_distance, max_distance
+        )
+
+        # Expected: positions at 75, 100, 125, 150 (indices 3, 4, 5, 6)
+        # Note: min is exclusive (>), max is inclusive (<=)
+        expected_indices = [3, 4, 5, 6]
+
+        assert len(filtered_indices) == 4
+        assert set(filtered_indices) == set(expected_indices)
+
+        # Verify all filtered positions are in range
+        from spatial_engine.vector_store.spatial_index import calculate_distances
+        distances = calculate_distances(query_position, filtered_positions)
+        assert all(d > min_distance for d in distances)
+        assert all(d <= max_distance for d in distances)
+
+    def test_filter_by_distance_range_boundary(self, positioned_data):
+        """Test distance range boundary behavior.
+
+        Verifies:
+        - min_distance is exclusive (>)
+        - max_distance is inclusive (<=)
+        """
+        from spatial_engine.vector_store.spatial_index import filter_by_distance_range
+
+        query_position = torch.zeros(3)
+
+        # Test with exact boundary values
+        # Position at 100 should NOT be included with min=100
+        # Position at 100 SHOULD be included with max=100
+        filtered_pos, filtered_idx = filter_by_distance_range(
+            query_position, positioned_data, min_distance=100.0, max_distance=150.0
+        )
+
+        # Position at 100 is at index 4, should NOT be included (> not >=)
+        assert 4 not in filtered_idx
+
+        # Positions at 125, 150 (indices 5, 6) should be included
+        assert 5 in filtered_idx
+        assert 6 in filtered_idx
+
+    def test_filter_by_distance_range_empty(self, positioned_data):
+        """Test distance range filtering with no matches.
+
+        Verifies:
+        - Returns empty results when no positions in range
+        """
+        from spatial_engine.vector_store.spatial_index import filter_by_distance_range
+
+        query_position = torch.zeros(3)
+
+        # Range that contains no positions
+        filtered_positions, filtered_indices = filter_by_distance_range(
+            query_position, positioned_data,
+            min_distance=600.0, max_distance=700.0
+        )
+
+        assert len(filtered_positions) == 0
+        assert len(filtered_indices) == 0
+
+    def test_find_k_nearest_in_range_basic(self, positioned_data):
+        """Test k-nearest within distance range.
+
+        Verifies:
+        - Combines distance range filtering with k-nearest
+        - Returns at most k positions
+        - All positions within specified range
+        """
+        from spatial_engine.vector_store.spatial_index import find_k_nearest_in_range
+
+        query_position = torch.zeros(3)
+        k = 2
+        min_distance = 50.0
+        max_distance = 200.0
+
+        nearest_positions, nearest_indices = find_k_nearest_in_range(
+            query_position, positioned_data, k, min_distance, max_distance
+        )
+
+        # Should return 2 nearest positions in range (50, 200]
+        assert nearest_positions.shape[0] == k
+        assert len(nearest_indices) == k
+
+        # Verify all in range
+        from spatial_engine.vector_store.spatial_index import calculate_distances
+        distances = calculate_distances(query_position, nearest_positions)
+        assert all(d > min_distance for d in distances)
+        assert all(d <= max_distance for d in distances)
+
+    def test_find_k_nearest_in_range_fewer_than_k(self, positioned_data):
+        """Test k-nearest when fewer than k positions in range.
+
+        Verifies:
+        - Returns all available positions when fewer than k
+        - Does not error when k > available
+        """
+        from spatial_engine.vector_store.spatial_index import find_k_nearest_in_range
+
+        query_position = torch.zeros(3)
+        k = 100  # More than available in range
+        min_distance = 100.0
+        max_distance = 130.0
+
+        nearest_positions, nearest_indices = find_k_nearest_in_range(
+            query_position, positioned_data, k, min_distance, max_distance
+        )
+
+        # Only positions at 125 (index 5) in range (100, 130]
+        assert nearest_positions.shape[0] == 1
+        assert 5 in nearest_indices
+
+    def test_find_k_nearest_in_range_empty(self, positioned_data):
+        """Test k-nearest with no positions in range.
+
+        Verifies:
+        - Returns empty when no positions in range
+        """
+        from spatial_engine.vector_store.spatial_index import find_k_nearest_in_range
+
+        query_position = torch.zeros(3)
+
+        nearest_positions, nearest_indices = find_k_nearest_in_range(
+            query_position, positioned_data, k=10,
+            min_distance=600.0, max_distance=700.0
+        )
+
+        assert nearest_positions.shape == (0, 3)
+        assert len(nearest_indices) == 0
+
+    def test_warp_lane_use_case(self):
+        """Test typical warp lane detection use case.
+
+        Simulates finding distant but not too distant tokens
+        for semantic warping (M1.11 Exploit 1).
+        """
+        from spatial_engine.vector_store.spatial_index import find_k_nearest_in_range
+
+        # Simulate 1000 tokens spread in 3D space
+        positions = torch.randn(1000, 3) * 300  # Spread out to 300 units
+
+        query_position = torch.zeros(3)
+        attention_radius = 50.0
+
+        # Warp lane search: beyond 2r but within 10r
+        min_warp_distance = 2 * attention_radius   # 100
+        max_warp_distance = 10 * attention_radius  # 500
+        k = 50  # Top 50 warp candidates
+
+        warp_candidates, indices = find_k_nearest_in_range(
+            query_position, positions, k, min_warp_distance, max_warp_distance
+        )
+
+        # Verify we got some candidates
+        assert warp_candidates.shape[0] <= k
+
+        # Verify all are in warp range
+        from spatial_engine.vector_store.spatial_index import calculate_distances
+        distances = calculate_distances(query_position, warp_candidates)
+
+        if len(distances) > 0:
+            assert all(d > min_warp_distance for d in distances)
+            assert all(d <= max_warp_distance for d in distances)
 
 
 # Test execution marker

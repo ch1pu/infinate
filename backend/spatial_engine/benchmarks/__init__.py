@@ -1,7 +1,10 @@
 """
-benchmarks - MIT RLM comparison and extended benchmarking utilities.
+benchmarks - MIT RLM comparison, M1.11 navigation benchmarks, and extended utilities.
 
-Milestone: 1.8 - Extended Benchmarking & MIT RLM Comparison
+Milestones:
+- 1.8 - Extended Benchmarking & MIT RLM Comparison
+- 1.11 - Strafe Jumping Navigation Benchmarks
+
 Author: ch1pu
 
 Provides utilities for:
@@ -9,6 +12,7 @@ Provides utilities for:
 - Extended scaling benchmarks up to 128K tokens
 - Determinism and variance testing
 - Memory and throughput analysis
+- M1.11: Navigation benchmarks (momentum, warp lanes, LOD, shell memory)
 """
 
 from spatial_engine.benchmarks.mit_comparison import (
@@ -17,10 +21,28 @@ from spatial_engine.benchmarks.mit_comparison import (
     MITComparison,
     MITReference,
 )
+from spatial_engine.benchmarks.navigation_benchmarks import (
+    benchmark_distance_range_filtering,
+    benchmark_lod_optimization,
+    benchmark_momentum_navigator,
+    benchmark_shell_memory,
+    benchmark_warp_lane_detection,
+    compare_with_baseline,
+    run_all_benchmarks,
+)
 
 __all__ = [
+    # MIT comparison (M1.8)
     "BenchmarkResult",
     "MITBenchmarkRunner",
     "MITComparison",
     "MITReference",
+    # Navigation benchmarks (M1.11)
+    "benchmark_distance_range_filtering",
+    "benchmark_lod_optimization",
+    "benchmark_momentum_navigator",
+    "benchmark_shell_memory",
+    "benchmark_warp_lane_detection",
+    "compare_with_baseline",
+    "run_all_benchmarks",
 ]

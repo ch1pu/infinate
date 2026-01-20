@@ -110,6 +110,13 @@ markers = [
     "gpu: Tests requiring GPU",
     "npu: Tests requiring NPU",
     "benchmark: Performance benchmark tests",
+    "mit_comparison: MIT RLM comparison tests (M1.8)",
+    "m19: M1.9 stability tests",
+    "m111: M1.11 Strafe Jumping Navigation tests",
+    "m111_benchmark: M1.11 benchmark tests",
+    "m111_integration: M1.11 integration tests",
+    "m111_qdrant: M1.11 Qdrant integration tests",
+    "m111_mit: M1.11 MIT RLM comparison tests",
 ]
 
 [build-system]

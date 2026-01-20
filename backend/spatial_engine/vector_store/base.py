@@ -83,6 +83,7 @@ class VectorStoreBase(ABC):
         query_position: tuple[float, float, float],
         k: int = 50,
         radius: Optional[float] = None,
+        min_distance: Optional[float] = None,
     ) -> tuple[torch.Tensor, torch.Tensor, list[str]]:
         """Query for similar tokens using vector similarity and spatial proximity.
 
@@ -94,7 +95,9 @@ class VectorStoreBase(ABC):
             query_vector: (d_model,) tensor of query embedding
             query_position: (x, y, z) tuple of query position
             k: Number of nearest neighbors to return
-            radius: Optional spatial radius filter (only return tokens within this distance)
+            radius: Optional max spatial radius filter (only tokens within this distance)
+            min_distance: Optional min spatial radius filter (only tokens beyond this distance)
+                          Added in M1.11 for warp lane detection.
 
         Returns:
             Tuple of (embeddings, positions, ids):
@@ -107,11 +110,21 @@ class VectorStoreBase(ABC):
             query_vector = torch.randn(768)
             query_position = (10.0, 20.0, 30.0)
 
+            # Standard query - tokens within 100 units
             embeddings, positions, ids = store.query(
                 query_vector,
                 query_position,
                 k=50,
-                radius=100.0  # Only tokens within 100 units
+                radius=100.0
+            )
+
+            # Warp lane query - distant tokens only (M1.11)
+            embeddings, positions, ids = store.query(
+                query_vector,
+                query_position,
+                k=50,
+                min_distance=100.0,  # Beyond normal attention
+                radius=500.0         # But not too far
             )
             ```
         """

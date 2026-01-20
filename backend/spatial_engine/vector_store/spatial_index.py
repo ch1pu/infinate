@@ -169,6 +169,113 @@ def find_k_nearest_within_radius(
     return nearest_positions, original_indices
 
 
+def filter_by_distance_range(
+    query_position: torch.Tensor,
+    positions: torch.Tensor,
+    min_distance: float,
+    max_distance: float,
+) -> tuple[torch.Tensor, list[int]]:
+    """Filter positions to those within a distance range.
+
+    Added in M1.11 for warp lane detection - enables finding distant
+    but not too distant tokens for semantic warping.
+
+    Args:
+        query_position: (3,) tensor of query position
+        positions: (n, 3) tensor of positions to filter
+        min_distance: Minimum distance from query position (exclusive lower bound)
+        max_distance: Maximum distance from query position (inclusive upper bound)
+
+    Returns:
+        Tuple of (filtered_positions, filtered_indices):
+        - filtered_positions: (m, 3) tensor where m <= n
+        - filtered_indices: List of original indices
+
+    Example:
+        ```python
+        query = torch.tensor([0.0, 0.0, 0.0])
+        positions = torch.randn(100, 3) * 200.0
+        min_dist = 100.0  # Beyond normal attention radius
+        max_dist = 500.0  # But not too far
+
+        filtered_pos, indices = filter_by_distance_range(
+            query, positions, min_dist, max_dist
+        )
+        # Returns positions between 100 and 500 units from query
+        ```
+    """
+    # Calculate distances
+    distances = calculate_distances(query_position, positions)
+
+    # Find indices within range (min_distance < distance <= max_distance)
+    mask = (distances > min_distance) & (distances <= max_distance)
+    indices = torch.where(mask)[0].tolist()
+
+    # Filter positions
+    filtered_positions = positions[mask]
+
+    return filtered_positions, indices
+
+
+def find_k_nearest_in_range(
+    query_position: torch.Tensor,
+    positions: torch.Tensor,
+    k: int,
+    min_distance: float,
+    max_distance: float,
+) -> tuple[torch.Tensor, list[int]]:
+    """Find k-nearest neighbors within a distance range.
+
+    Added in M1.11 for warp lane detection. Combines distance range
+    filtering with k-nearest selection for efficient warp target search.
+
+    Args:
+        query_position: (3,) tensor of query position
+        positions: (n, 3) tensor of positions
+        k: Number of nearest neighbors to return
+        min_distance: Minimum distance from query position
+        max_distance: Maximum distance from query position
+
+    Returns:
+        Tuple of (nearest_positions, nearest_indices):
+        - nearest_positions: (m, 3) tensor where m <= k
+        - nearest_indices: List of m original indices
+
+    Example:
+        ```python
+        query = torch.tensor([0.0, 0.0, 0.0])
+        positions = torch.randn(1000, 3) * 500.0
+        k = 50
+        min_dist = 100.0   # Beyond 2r
+        max_dist = 500.0   # Within 10r
+
+        # Find distant tokens for warp lane candidates
+        nearest_pos, indices = find_k_nearest_in_range(
+            query, positions, k, min_dist, max_dist
+        )
+        ```
+    """
+    # First, filter by distance range
+    filtered_positions, filtered_indices = filter_by_distance_range(
+        query_position, positions, min_distance, max_distance
+    )
+
+    # If no positions in range, return empty
+    if len(filtered_positions) == 0:
+        return torch.empty(0, 3), []
+
+    # Then, find k-nearest from filtered results
+    # Note: "nearest" here means closest to min_distance bound
+    nearest_positions, relative_indices = find_k_nearest(
+        query_position, filtered_positions, k
+    )
+
+    # Map back to original indices
+    original_indices = [filtered_indices[i] for i in relative_indices]
+
+    return nearest_positions, original_indices
+
+
 class OctreeIndex:
     """Octree-based spatial partitioning for efficient range queries.
 

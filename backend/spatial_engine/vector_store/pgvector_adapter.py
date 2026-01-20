@@ -215,6 +215,7 @@ class PgvectorAdapter(VectorStoreBase):
         query_position: tuple[float, float, float],
         k: int = 50,
         radius: Optional[float] = None,
+        min_distance: Optional[float] = None,
     ) -> tuple[torch.Tensor, torch.Tensor, list[str]]:
         """Query for similar tokens using vector similarity and spatial proximity.
 
@@ -222,7 +223,9 @@ class PgvectorAdapter(VectorStoreBase):
             query_vector: (d_model,) tensor of query embedding
             query_position: (x, y, z) tuple of query position
             k: Number of nearest neighbors to return
-            radius: Optional spatial radius filter
+            radius: Optional maximum spatial radius filter
+            min_distance: Optional minimum distance filter (for warp lane detection)
+                         Tokens closer than min_distance are excluded.
 
         Returns:
             Tuple of (embeddings, positions, ids)
@@ -232,11 +235,21 @@ class PgvectorAdapter(VectorStoreBase):
             query_vector = torch.randn(768)
             query_position = (10.0, 20.0, 30.0)
 
+            # Standard query with max radius
             embeddings, positions, ids = adapter.query(
                 query_vector,
                 query_position,
                 k=50,
                 radius=100.0
+            )
+
+            # Warp lane query: find distant tokens (M1.11)
+            embeddings, positions, ids = adapter.query(
+                query_vector,
+                query_position,
+                k=50,
+                min_distance=100.0,  # Exclude nearby tokens
+                radius=500.0         # But within max range
             )
             ```
         """
@@ -244,29 +257,41 @@ class PgvectorAdapter(VectorStoreBase):
         query_vec = query_vector.cpu().numpy().tolist()
         qx, qy, qz = query_position
 
-        # Build SQL query
+        # Build WHERE clauses
+        where_clauses = []
+        params_list = []
+
+        # Max radius filter (bounding box approximation)
         if radius is not None:
-            # With spatial filter
+            where_clauses.append("position_x BETWEEN %s AND %s")
+            params_list.extend([qx - radius, qx + radius])
+            where_clauses.append("position_y BETWEEN %s AND %s")
+            params_list.extend([qy - radius, qy + radius])
+            where_clauses.append("position_z BETWEEN %s AND %s")
+            params_list.extend([qz - radius, qz + radius])
+
+        # Min distance filter (Euclidean distance > min_distance)
+        # M1.11: For warp lane detection - exclude tokens within min_distance
+        if min_distance is not None:
+            # Use Euclidean distance formula in SQL
+            # sqrt((x-qx)^2 + (y-qy)^2 + (z-qz)^2) > min_distance
+            # Optimized: compare squared distances to avoid sqrt
+            where_clauses.append(
+                "((position_x - %s)^2 + (position_y - %s)^2 + (position_z - %s)^2) > %s"
+            )
+            params_list.extend([qx, qy, qz, min_distance * min_distance])
+
+        # Build SQL query
+        if where_clauses:
+            where_sql = " AND ".join(where_clauses)
             sql = f"""
                 SELECT id, embedding, position_x, position_y, position_z
                 FROM {self.table_name}
-                WHERE
-                    position_x BETWEEN %s AND %s
-                    AND position_y BETWEEN %s AND %s
-                    AND position_z BETWEEN %s AND %s
+                WHERE {where_sql}
                 ORDER BY embedding <=> %s::vector
                 LIMIT %s;
             """
-            params = (
-                qx - radius,
-                qx + radius,
-                qy - radius,
-                qy + radius,
-                qz - radius,
-                qz + radius,
-                query_vec,
-                k,
-            )
+            params = tuple(params_list) + (query_vec, k)
         else:
             # Without spatial filter
             sql = f"""

@@ -179,6 +179,7 @@ class QdrantAdapter(VectorStoreBase):
         query_position: tuple[float, float, float],
         k: int = 50,
         radius: Optional[float] = None,
+        min_distance: Optional[float] = None,
     ) -> tuple[torch.Tensor, torch.Tensor, list[str]]:
         """Query for similar tokens using vector similarity and spatial proximity.
 
@@ -186,7 +187,9 @@ class QdrantAdapter(VectorStoreBase):
             query_vector: (d_model,) tensor of query embedding
             query_position: (x, y, z) tuple of query position
             k: Number of nearest neighbors to return
-            radius: Optional spatial radius filter
+            radius: Optional maximum spatial radius filter
+            min_distance: Optional minimum distance filter (for warp lane detection)
+                         Tokens closer than min_distance are excluded.
 
         Returns:
             Tuple of (embeddings, positions, ids)
@@ -196,56 +199,65 @@ class QdrantAdapter(VectorStoreBase):
             query_vector = torch.randn(768)
             query_position = (10.0, 20.0, 30.0)
 
+            # Standard query with max radius
             embeddings, positions, ids = adapter.query(
                 query_vector,
                 query_position,
                 k=50,
                 radius=100.0
             )
+
+            # Warp lane query: find distant tokens (M1.11)
+            embeddings, positions, ids = adapter.query(
+                query_vector,
+                query_position,
+                k=50,
+                min_distance=100.0,  # Exclude nearby tokens
+                radius=500.0         # But within max range
+            )
             ```
         """
         # Convert query vector to list
         query_vec = query_vector.cpu().numpy().tolist()
+        qx, qy, qz = query_position
 
         # Build spatial filter if radius provided
         query_filter = None
-        if radius is not None:
-            qx, qy, qz = query_position
+        filter_conditions = []
 
-            # Create range filters for each dimension
-            # This is an approximation - creates a bounding box instead of sphere
+        if radius is not None:
+            # Create range filters for each dimension (bounding box approximation)
             # Qdrant doesn't natively support spherical range queries
-            query_filter = Filter(
-                must=[
-                    FieldCondition(
-                        key="position_x",
-                        range=Range(
-                            gte=qx - radius,
-                            lte=qx + radius,
-                        ),
-                    ),
-                    FieldCondition(
-                        key="position_y",
-                        range=Range(
-                            gte=qy - radius,
-                            lte=qy + radius,
-                        ),
-                    ),
-                    FieldCondition(
-                        key="position_z",
-                        range=Range(
-                            gte=qz - radius,
-                            lte=qz + radius,
-                        ),
-                    ),
-                ]
-            )
+            filter_conditions.extend([
+                FieldCondition(
+                    key="position_x",
+                    range=Range(gte=qx - radius, lte=qx + radius),
+                ),
+                FieldCondition(
+                    key="position_y",
+                    range=Range(gte=qy - radius, lte=qy + radius),
+                ),
+                FieldCondition(
+                    key="position_z",
+                    range=Range(gte=qz - radius, lte=qz + radius),
+                ),
+            ])
+
+        if filter_conditions:
+            query_filter = Filter(must=filter_conditions)
+
+        # If min_distance is set, we need to fetch extra results for post-filtering
+        # since Qdrant doesn't support "greater than distance" natively
+        fetch_limit = k
+        if min_distance is not None:
+            # Fetch 3x more to account for filtering (heuristic)
+            fetch_limit = k * 3
 
         # Query Qdrant
         response = self.client.query_points(
             collection_name=self.collection_name,
             query=query_vec,
-            limit=k,
+            limit=fetch_limit,
             query_filter=query_filter,
             with_vectors=True,
             with_payload=True,
@@ -266,25 +278,44 @@ class QdrantAdapter(VectorStoreBase):
         positions_list = []
         ids_list = []
 
+        # M1.11: Pre-compute min_distance_squared for efficient filtering
+        min_distance_sq = min_distance * min_distance if min_distance is not None else None
+
         for result in results:
+            # Get position from payload
+            payload = result.payload or {}
+            pos_x = payload.get("position_x", 0.0)
+            pos_y = payload.get("position_y", 0.0)
+            pos_z = payload.get("position_z", 0.0)
+
+            # M1.11: Filter by min_distance (post-filtering since Qdrant lacks native support)
+            if min_distance_sq is not None:
+                dist_sq = (pos_x - qx) ** 2 + (pos_y - qy) ** 2 + (pos_z - qz) ** 2
+                if dist_sq <= min_distance_sq:
+                    continue  # Skip tokens too close
+
             # Get embedding from vector
             embedding = torch.tensor(result.vector, dtype=torch.float32)
             embeddings_list.append(embedding)
 
-            # Get position from payload
-            payload = result.payload or {}
-            position = torch.tensor(
-                [
-                    payload.get("position_x", 0.0),
-                    payload.get("position_y", 0.0),
-                    payload.get("position_z", 0.0),
-                ],
-                dtype=torch.float32,
-            )
+            # Get position
+            position = torch.tensor([pos_x, pos_y, pos_z], dtype=torch.float32)
             positions_list.append(position)
 
             # Get ID
             ids_list.append(str(result.id))
+
+            # Stop once we have k results
+            if len(embeddings_list) >= k:
+                break
+
+        # Handle empty results after filtering
+        if len(embeddings_list) == 0:
+            return (
+                torch.empty(0, self.d_model),
+                torch.empty(0, 3),
+                [],
+            )
 
         # Stack into tensors
         embeddings = torch.stack(embeddings_list)

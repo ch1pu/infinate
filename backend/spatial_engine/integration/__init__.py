@@ -35,6 +35,17 @@ Example:
 """
 
 from spatial_engine.integration.context_manager import ContextManager
+from spatial_engine.integration.navigation_attention import (
+    BaselineAttention,
+    NavigationAttention,
+    NavigationMetrics,
+)
 from spatial_engine.integration.transformer_bridge import TransformerBridge
 
-__all__ = ["TransformerBridge", "ContextManager"]
+__all__ = [
+    "TransformerBridge",
+    "ContextManager",
+    "NavigationAttention",
+    "BaselineAttention",
+    "NavigationMetrics",
+]

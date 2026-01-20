@@ -1,0 +1,481 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.9, pytest-7.4.4, pluggy-1.6.0 -- /home/ch1pu/infinate/backend/.venv/bin/python
+cachedir: .pytest_cache
+benchmark: 4.0.0 (defaults: timer=time.perf_counter disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=False warmup_iterations=100000)
+rootdir: /home/ch1pu/infinate/backend
+configfile: pyproject.toml
+testpaths: spatial_engine
+plugins: benchmark-4.0.0, cov-4.1.0, asyncio-0.21.2, anyio-4.12.0
+asyncio: mode=Mode.STRICT
+collecting ... collected 372 items
+
+spatial_engine/core/tests/test_feedforward.py::TestFeedForward::test_initialization PASSED [  0%]
+spatial_engine/core/tests/test_feedforward.py::TestFeedForward::test_forward_shape PASSED [  0%]
+spatial_engine/core/tests/test_feedforward.py::TestFeedForward::test_expansion_ratio PASSED [  0%]
+spatial_engine/core/tests/test_feedforward.py::TestFeedForward::test_dropout_application PASSED [  1%]
+spatial_engine/core/tests/test_feedforward.py::TestFeedForward::test_gelu_activation PASSED [  1%]
+spatial_engine/core/tests/test_lod.py::TestLODLevel::test_lod_level_dataclass PASSED [  1%]
+spatial_engine/core/tests/test_lod.py::TestLODLevel::test_lod_level_medium PASSED [  1%]
+spatial_engine/core/tests/test_lod.py::TestLODLevel::test_lod_level_infinity PASSED [  2%]
+spatial_engine/core/tests/test_lod.py::TestLODConfig::test_default_config_values PASSED [  2%]
+spatial_engine/core/tests/test_lod.py::TestLODConfig::test_default_config_near_level PASSED [  2%]
+spatial_engine/core/tests/test_lod.py::TestLODConfig::test_default_config_beyond_level PASSED [  2%]
+spatial_engine/core/tests/test_lod.py::TestLODConfig::test_get_level_by_distance_near PASSED [  3%]
+spatial_engine/core/tests/test_lod.py::TestLODConfig::test_get_level_by_distance_medium PASSED [  3%]
+spatial_engine/core/tests/test_lod.py::TestLODConfig::test_get_level_by_distance_far PASSED [  3%]
+spatial_engine/core/tests/test_lod.py::TestLODConfig::test_get_level_by_distance_beyond PASSED [  4%]
+spatial_engine/core/tests/test_lod.py::TestLODConfig::test_get_level_by_distance_boundary PASSED [  4%]
+spatial_engine/core/tests/test_lod.py::TestLODConfig::test_get_level_negative_distance_raises PASSED [  4%]
+spatial_engine/core/tests/test_lod.py::TestLODConfig::test_total_tokens PASSED [  4%]
+spatial_engine/core/tests/test_lod.py::TestLODConfig::test_theoretical_context PASSED [  5%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_initialization PASSED [  5%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_initialization_with_merge PASSED [  5%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_initialization_invalid_method PASSED [  5%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_initialization_custom_config PASSED [  6%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_near_level_assignment PASSED [  6%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_medium_level_assignment PASSED [  6%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_far_level_assignment PASSED [  6%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_beyond_level_assignment PASSED [  7%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_mixed_level_assignment PASSED [  7%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_batched_level_assignment PASSED [  7%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_merge_compression_ratio PASSED [  8%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_merge_preserves_shape PASSED [  8%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_merge_no_compression_near PASSED [  8%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_merge_max_tokens_limit PASSED [  8%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_merge_empty_input PASSED [  9%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_merge_batched PASSED [  9%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_cluster_compression_ratio PASSED [  9%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_cluster_finds_representatives PASSED [  9%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_cluster_gradient_flow PASSED [ 10%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_cluster_empty_input PASSED [ 10%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_cluster_fewer_than_max PASSED [ 10%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_kmeans_convergence PASSED [ 11%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_kmeans_single_cluster PASSED [ 11%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_forward_output_shapes PASSED [ 11%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_forward_gradient_flow PASSED [ 11%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_context_expansion_ratio PASSED [ 12%]
+spatial_engine/core/tests/test_lod.py::TestHierarchicalLOD::test_context_expansion_at_least_50x PASSED [ 12%]
+spatial_engine/core/tests/test_lod.py::TestLODIntegration::test_compress_tokens_interface PASSED [ 12%]
+spatial_engine/core/tests/test_lod.py::TestLODIntegration::test_default_config_singleton PASSED [ 12%]
+spatial_engine/core/tests/test_lod.py::TestLODIntegration::test_empty_level_handling PASSED [ 13%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestNavigationState::test_initialization PASSED [ 13%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestNavigationState::test_clone PASSED [ 13%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestMomentumNavigatorInitialization::test_default_initialization PASSED [ 13%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestMomentumNavigatorInitialization::test_custom_initialization PASSED [ 14%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestMomentumNavigatorInitialization::test_learned_components_created PASSED [ 14%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestMomentumNavigatorInitialization::test_exploit_tracking_initialized PASSED [ 14%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestMomentumNavigatorReset::test_reset_with_default_position PASSED [ 15%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestMomentumNavigatorReset::test_reset_with_custom_position PASSED [ 15%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestMomentumNavigatorReset::test_reset_clears_previous_state PASSED [ 15%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestTemperatureSurfing::test_temperature_schedule_start PASSED [ 15%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestTemperatureSurfing::test_temperature_schedule_end PASSED [ 16%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestTemperatureSurfing::test_temperature_schedule_middle PASSED [ 16%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestTemperatureSurfing::test_temperature_schedule_zero_max_steps PASSED [ 16%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestBunnyHopMomentum::test_momentum_accumulates PASSED [ 16%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestBunnyHopMomentum::test_momentum_disabled PASSED [ 17%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestCircleJump::test_query_broadening PASSED [ 17%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestCircleJump::test_initial_jump_with_context PASSED [ 17%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestCircleJump::test_initial_jump_no_context PASSED [ 18%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestShellMemory::test_shell_radii_defined PASSED [ 18%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestShellMemory::test_snap_to_shell_near_boundary PASSED [ 18%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestLODHopping::test_lod_boundaries_defined PASSED [ 18%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestLODHopping::test_respect_lod_boundary_pulls_back PASSED [ 19%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestLODHopping::test_respect_lod_boundary_far_unchanged PASSED [ 19%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestNavigationStep::test_step_updates_position PASSED [ 19%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestNavigationStep::test_step_increments_counters PASSED [ 19%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestFullNavigation::test_navigate_returns_result PASSED [ 20%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestFullNavigation::test_navigate_with_context PASSED [ 20%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestFullNavigation::test_navigate_without_circle_jump PASSED [ 20%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestExploitManagement::test_disable_exploit PASSED [ 20%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestExploitManagement::test_enable_exploit PASSED [ 21%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestExploitManagement::test_get_enabled_exploits PASSED [ 21%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestExploitManagement::test_update_exploit_success PASSED [ 21%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestForwardPass::test_forward_single_query PASSED [ 22%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestForwardPass::test_forward_batched_query PASSED [ 22%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestConvergence::test_convergence_detection PASSED [ 22%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestConvergence::test_no_convergence_large_movement PASSED [ 22%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestWarpLaneIntegration::test_find_warp_lane_no_targets PASSED [ 23%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestWarpLaneIntegration::test_reversibility_check PASSED [ 23%]
+spatial_engine/core/tests/test_momentum_navigator.py::TestMomentumNavigatorBenchmarks::test_navigation_speed PASSED [ 23%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_initialization PASSED [ 23%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_parameter_validation PASSED [ 24%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_device_placement SKIPPED [ 24%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_distance_matrix_computation PASSED [ 24%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_distance_matrix_symmetry PASSED [ 25%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_distance_matrix_diagonal_zeros PASSED [ 25%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_distance_matrix_batch_processing PASSED [ 25%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_exponential_decay_mask PASSED [ 25%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_linear_decay_mask PASSED [ 26%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_gaussian_decay_mask PASSED [ 26%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_hard_cutoff PASSED [ 26%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_mask_values_range PASSED [ 26%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_nearby_high_distant_low PASSED [ 27%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_semantic_attention_scores PASSED [ 27%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_spatial_semantic_combination PASSED [ 27%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_attention_output_shape PASSED [ 27%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_residual_connections PASSED [ 28%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_with_spatial_tokens PASSED [ 28%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_with_spatial_encoding PASSED [ 28%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_single_token PASSED [ 29%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_all_tokens_distant PASSED [ 29%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_identical_positions PASSED [ 29%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_negative_coordinates PASSED [ 29%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_ok_complexity_verification PASSED [ 30%]
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_batch_attention_performance PASSED [ 30%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestSpatialAttentionWithLODInit::test_initialization PASSED [ 30%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestSpatialAttentionWithLODInit::test_initialization_with_custom_config PASSED [ 30%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestSpatialAttentionWithLODInit::test_initialization_lod_disabled PASSED [ 31%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestSpatialAttentionWithLODInit::test_has_spatial_attention PASSED [ 31%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestSpatialAttentionWithLODInit::test_compression_methods PASSED [ 31%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestSpatialAttentionWithLODForward::test_forward_pass_shapes PASSED [ 31%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestSpatialAttentionWithLODForward::test_output_dtype_device PASSED [ 32%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestSpatialAttentionWithLODForward::test_attention_weights_valid PASSED [ 32%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestSpatialAttentionWithLODForward::test_gradient_flow PASSED [ 32%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestSpatialAttentionWithLODForward::test_lod_disabled_bypass PASSED [ 33%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestSpatialAttentionWithLODForward::test_forward_with_attention_mask PASSED [ 33%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestSpatialAttentionWithLODForward::test_forward_with_context PASSED [ 33%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestLODContextExpansion::test_context_expansion_ratio PASSED [ 33%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestLODContextExpansion::test_lod_statistics PASSED [ 34%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestLODContextExpansion::test_lod_improves_context_coverage PASSED [ 34%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestBackwardCompatibility::test_same_interface_as_spatial_attention PASSED [ 34%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestBackwardCompatibility::test_lod_disabled_matches_base PASSED [ 34%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestCreateLODAttention::test_factory_default PASSED [ 35%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestCreateLODAttention::test_factory_custom_params PASSED [ 35%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestCreateLODAttention::test_factory_custom_levels PASSED [ 35%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestLODPerformance::test_large_sequence_handling PASSED [ 36%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestLODPerformance::test_output_quality_near_tokens PASSED [ 36%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestDevicePlacement::test_cpu_execution PASSED [ 36%]
+spatial_engine/core/tests/test_spatial_attention_lod.py::TestDevicePlacement::test_gpu_execution SKIPPED [ 36%]
+spatial_engine/core/tests/test_spatial_encoding.py::TestSpatialPositionEncoding::test_initialization PASSED [ 37%]
+spatial_engine/core/tests/test_spatial_encoding.py::TestSpatialPositionEncoding::test_output_shape PASSED [ 37%]
+spatial_engine/core/tests/test_spatial_encoding.py::TestSpatialPositionEncoding::test_single_dimension_encoding PASSED [ 37%]
+spatial_engine/core/tests/test_spatial_encoding.py::TestSpatialPositionEncoding::test_frequency_generation PASSED [ 37%]
+spatial_engine/core/tests/test_spatial_encoding.py::TestSpatialPositionEncoding::test_position_normalization PASSED [ 38%]
+spatial_engine/core/tests/test_spatial_encoding.py::TestSpatialPositionEncoding::test_sinusoidal_pattern PASSED [ 38%]
+spatial_engine/core/tests/test_spatial_encoding.py::TestSpatialPositionEncoding::test_different_d_model[384] PASSED [ 38%]
+spatial_engine/core/tests/test_spatial_encoding.py::TestSpatialPositionEncoding::test_different_d_model[512] PASSED [ 38%]
+spatial_engine/core/tests/test_spatial_encoding.py::TestSpatialPositionEncoding::test_different_d_model[768] PASSED [ 39%]
+spatial_engine/core/tests/test_spatial_encoding.py::TestSpatialPositionEncoding::test_different_d_model[1024] PASSED [ 39%]
+spatial_engine/core/tests/test_spatial_encoding.py::TestSpatialPositionEncoding::test_batch_processing PASSED [ 39%]
+spatial_engine/core/tests/test_spatial_encoding.py::TestSpatialPositionEncoding::test_edge_positions[0.0-0.0-0.0] PASSED [ 40%]
+spatial_engine/core/tests/test_spatial_encoding.py::TestSpatialPositionEncoding::test_edge_positions[1000.0-1000.0-1000.0] PASSED [ 40%]
+spatial_engine/core/tests/test_spatial_encoding.py::TestSpatialPositionEncoding::test_edge_positions[-500.0--500.0--500.0] PASSED [ 40%]
+spatial_engine/core/tests/test_spatial_encoding.py::TestSpatialPositionEncoding::test_edge_positions[1.5-2.7-3.9] PASSED [ 40%]
+spatial_engine/core/tests/test_spatial_encoding.py::TestSpatialPositionEncoding::test_deterministic PASSED [ 41%]
+spatial_engine/core/tests/test_spatial_encoding.py::TestSpatialPositionEncoding::test_batch_performance PASSED [ 41%]
+spatial_engine/core/tests/test_spatial_token.py::TestSpatialToken::test_initialization PASSED [ 41%]
+spatial_engine/core/tests/test_spatial_token.py::TestSpatialToken::test_distance_calculation PASSED [ 41%]
+spatial_engine/core/tests/test_spatial_token.py::TestSpatialToken::test_full_embedding_shape PASSED [ 42%]
+spatial_engine/core/tests/test_spatial_token.py::TestSpatialToken::test_invalid_position PASSED [ 42%]
+spatial_engine/core/tests/test_spatial_token.py::TestSpatialToken::test_embedding_dimension_mismatch PASSED [ 42%]
+spatial_engine/core/tests/test_spatial_token.py::TestSpatialToken::test_position_norms[1.0-0.0-0.0-1.0] PASSED [ 43%]
+spatial_engine/core/tests/test_spatial_token.py::TestSpatialToken::test_position_norms[0.0-1.0-0.0-1.0] PASSED [ 43%]
+spatial_engine/core/tests/test_spatial_token.py::TestSpatialToken::test_position_norms[0.0-0.0-1.0-1.0] PASSED [ 43%]
+spatial_engine/core/tests/test_spatial_token.py::TestSpatialToken::test_position_norms[3.0-4.0-0.0-5.0] PASSED [ 43%]
+spatial_engine/core/tests/test_spatial_token.py::TestSpatialToken::test_position_norms[1.0-1.0-1.0-1.732] PASSED [ 44%]
+spatial_engine/core/tests/test_spatial_token.py::TestSpatialToken::test_position_norms[5.0-12.0-0.0-13.0] PASSED [ 44%]
+spatial_engine/core/tests/test_spatial_token.py::TestSpatialToken::test_batch_distance_performance PASSED [ 44%]
+spatial_engine/core/tests/test_spatial_transformer.py::TestSpatialTransformer::test_initialization PASSED [ 44%]
+spatial_engine/core/tests/test_spatial_transformer.py::TestSpatialTransformer::test_forward_shape PASSED [ 45%]
+spatial_engine/core/tests/test_spatial_transformer.py::TestSpatialTransformer::test_layer_stacking PASSED [ 45%]
+spatial_engine/core/tests/test_spatial_transformer.py::TestSpatialTransformer::test_gradient_checkpointing PASSED [ 45%]
+spatial_engine/core/tests/test_spatial_transformer.py::TestSpatialTransformer::test_ok_complexity_scaling PASSED [ 45%]
+spatial_engine/core/tests/test_spatial_transformer.py::TestSpatialTransformer::test_performance_benchmark PASSED [ 46%]
+spatial_engine/core/tests/test_spatial_transformer.py::TestSpatialTransformer::test_full_integration PASSED [ 46%]
+spatial_engine/core/tests/test_spatial_transformer_block.py::TestSpatialTransformerBlock::test_initialization PASSED [ 46%]
+spatial_engine/core/tests/test_spatial_transformer_block.py::TestSpatialTransformerBlock::test_forward_shape PASSED [ 47%]
+spatial_engine/core/tests/test_spatial_transformer_block.py::TestSpatialTransformerBlock::test_residual_connections PASSED [ 47%]
+spatial_engine/core/tests/test_spatial_transformer_block.py::TestSpatialTransformerBlock::test_layer_norm_placement PASSED [ 47%]
+spatial_engine/core/tests/test_spatial_transformer_block.py::TestSpatialTransformerBlock::test_spatial_attention_integration PASSED [ 47%]
+spatial_engine/core/tests/test_spatial_transformer_block.py::TestSpatialTransformerBlock::test_with_attention_mask PASSED [ 48%]
+spatial_engine/core/tests/test_spatial_transformer_block.py::TestSpatialTransformerBlock::test_gradient_flow PASSED [ 48%]
+spatial_engine/core/tests/test_spatial_transformer_block.py::TestSpatialTransformerBlock::test_training_vs_eval_mode PASSED [ 48%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestWarpLaneDataclass::test_warp_lane_creation PASSED [ 48%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestWarpLaneDetectorInitialization::test_default_initialization PASSED [ 49%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestWarpLaneDetectorInitialization::test_custom_initialization PASSED [ 49%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestWarpLaneDetectorFindTargets::test_find_targets_basic PASSED [ 49%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestWarpLaneDetectorFindTargets::test_find_targets_distance_filtering PASSED [ 50%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestWarpLaneDetectorFindTargets::test_find_targets_similarity_filtering PASSED [ 50%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestWarpLaneDetectorDetectLanes::test_detect_lanes_returns_list PASSED [ 50%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestWarpLaneDetectorDetectLanes::test_detect_lanes_sorted_by_score PASSED [ 50%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestWarpThresholdComputation::test_compute_threshold_basic PASSED [ 51%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestWarpThresholdComputation::test_compute_threshold_same_distance PASSED [ 51%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestFindBestWarp::test_find_best_warp_no_targets PASSED [ 51%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestLODBoundaryOptimizer::test_default_boundaries PASSED [ 51%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestLODBoundaryOptimizer::test_optimize_pulls_back PASSED [ 52%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestLODBoundaryOptimizer::test_get_lod_level PASSED [ 52%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestLODBoundaryOptimizer::test_get_fidelity PASSED [ 52%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestShellMemoryOrganizer::test_default_shell_radii PASSED [ 52%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestShellMemoryOrganizer::test_place_token_on_shell PASSED [ 53%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestShellMemoryOrganizer::test_place_tokens_by_priority PASSED [ 53%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestShellMemoryOrganizer::test_snap_to_nearest_shell PASSED [ 53%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestWarpLaneDetectorForward::test_forward_single_query PASSED [ 54%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestWarpLaneDetectorForward::test_forward_batched PASSED [ 54%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestLODBoundaryOptimizerForward::test_forward_single PASSED [ 54%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestLODBoundaryOptimizerForward::test_forward_batched PASSED [ 54%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestShellMemoryOrganizerForward::test_forward_single PASSED [ 55%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestShellMemoryOrganizerForward::test_forward_batched PASSED [ 55%]
+spatial_engine/core/tests/test_warp_lane_detector.py::TestWarpLaneNetworkAnalysis::test_analyze_network_returns_structure PASSED [ 55%]
+spatial_engine/tests/test_extended_scaling.py::TestExtendedScaling::test_scaling_1k_to_128k PASSED [ 55%]
+spatial_engine/tests/test_extended_scaling.py::TestExtendedScaling::test_scaling_ratio_consistency PASSED [ 56%]
+spatial_engine/tests/test_extended_scaling.py::TestExtendedScaling::test_scaling_memory_constant PASSED [ 56%]
+spatial_engine/tests/test_extended_scaling.py::TestExtendedScaling::test_scaling_with_varying_k PASSED [ 56%]
+spatial_engine/tests/test_extended_scaling.py::TestExtendedScaling::test_scaling_batch_sizes PASSED [ 56%]
+spatial_engine/tests/test_extended_scaling.py::TestStressAndEdgeCases::test_rapid_sequential_queries PASSED [ 57%]
+spatial_engine/tests/test_extended_scaling.py::TestStressAndEdgeCases::test_mixed_context_sizes PASSED [ 57%]
+spatial_engine/tests/test_extended_scaling.py::TestStressAndEdgeCases::test_extreme_position_values PASSED [ 57%]
+spatial_engine/tests/test_extended_scaling.py::TestStressAndEdgeCases::test_sparse_vs_dense_positions PASSED [ 58%]
+spatial_engine/tests/test_extended_scaling.py::TestStressAndEdgeCases::test_long_running_stability PASSED [ 58%]
+spatial_engine/tests/test_integration_benchmarks.py::TestPerformanceBenchmarks::test_end_to_end_latency_qdrant PASSED [ 58%]
+spatial_engine/tests/test_integration_benchmarks.py::TestPerformanceBenchmarks::test_end_to_end_latency_pgvector PASSED [ 58%]
+spatial_engine/tests/test_integration_benchmarks.py::TestPerformanceBenchmarks::test_ok_complexity_with_vector_store PASSED [ 59%]
+spatial_engine/tests/test_integration_benchmarks.py::TestPerformanceBenchmarks::test_throughput_tokens_per_second PASSED [ 59%]
+spatial_engine/tests/test_integration_benchmarks.py::TestPerformanceBenchmarks::test_memory_usage_scaling PASSED [ 59%]
+spatial_engine/tests/test_integration_benchmarks.py::TestPerformanceBenchmarks::test_scaling_comparison PASSED [ 59%]
+spatial_engine/tests/test_integration_core.py::TestTransformerBridge::test_bridge_initialization PASSED [ 60%]
+spatial_engine/tests/test_integration_core.py::TestTransformerBridge::test_bridge_connects_transformer_to_vectorstore PASSED [ 60%]
+spatial_engine/tests/test_integration_core.py::TestTransformerBridge::test_bridge_query_during_forward PASSED [ 60%]
+spatial_engine/tests/test_integration_core.py::TestQdrantIntegration::test_qdrant_query_during_forward_pass PASSED [ 61%]
+spatial_engine/tests/test_integration_core.py::TestQdrantIntegration::test_qdrant_handles_batch_queries PASSED [ 61%]
+spatial_engine/tests/test_integration_core.py::TestQdrantIntegration::test_qdrant_error_handling PASSED [ 61%]
+spatial_engine/tests/test_integration_core.py::TestQdrantIntegration::test_qdrant_cache_behavior PASSED [ 61%]
+spatial_engine/tests/test_integration_core.py::TestQdrantIntegration::test_qdrant_memory_cleanup PASSED [ 62%]
+spatial_engine/tests/test_integration_core.py::TestPgvectorIntegration::test_pgvector_query_during_forward_pass PASSED [ 62%]
+spatial_engine/tests/test_integration_core.py::TestPgvectorIntegration::test_pgvector_handles_batch_queries PASSED [ 62%]
+spatial_engine/tests/test_integration_core.py::TestPgvectorIntegration::test_pgvector_error_handling PASSED [ 62%]
+spatial_engine/tests/test_integration_core.py::TestPgvectorIntegration::test_pgvector_connection_pooling PASSED [ 63%]
+spatial_engine/tests/test_integration_core.py::TestPgvectorIntegration::test_pgvector_memory_cleanup PASSED [ 63%]
+spatial_engine/tests/test_integration_core.py::TestEdgeCases::test_empty_vector_store PASSED [ 63%]
+spatial_engine/tests/test_integration_core.py::TestEdgeCases::test_large_batch_queries PASSED [ 63%]
+spatial_engine/tests/test_integration_core.py::TestEdgeCases::test_malformed_positions PASSED [ 64%]
+spatial_engine/tests/test_integration_core.py::TestEdgeCases::test_transformer_state_consistency PASSED [ 64%]
+spatial_engine/tests/test_m111_integration_speedup.py::TestNavigationAttention::test_navigation_attention_init PASSED [ 64%]
+spatial_engine/tests/test_m111_integration_speedup.py::TestNavigationAttention::test_navigation_attention_query PASSED [ 65%]
+spatial_engine/tests/test_m111_integration_speedup.py::TestNavigationAttention::test_navigation_attention_lod_compression PASSED [ 65%]
+spatial_engine/tests/test_m111_integration_speedup.py::TestBaselineAttention::test_baseline_greedy_navigation PASSED [ 65%]
+spatial_engine/tests/test_m111_integration_speedup.py::TestBaselineAttention::test_baseline_static_navigation PASSED [ 65%]
+spatial_engine/tests/test_m111_integration_speedup.py::TestSpeedupComparison::test_speedup_clustered_scenario PASSED [ 66%]
+spatial_engine/tests/test_m111_integration_speedup.py::TestSpeedupComparison::test_speedup_warp_lane_scenario PASSED [ 66%]
+spatial_engine/tests/test_m111_integration_speedup.py::TestScalingBehavior::test_scaling_with_token_count PASSED [ 66%]
+spatial_engine/tests/test_m111_integration_speedup.py::TestFullBenchmarkSuite::test_full_benchmark PASSED [ 66%]
+spatial_engine/tests/test_m111_integration_speedup.py::TestSemanticDataGenerator::test_clustered_scenario_creation PASSED [ 67%]
+spatial_engine/tests/test_m111_integration_speedup.py::TestSemanticDataGenerator::test_warp_scenario_creation PASSED [ 67%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestMITReferences::test_mit_references_exist PASSED [ 67%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestMITReferences::test_mit_reference_values PASSED [ 68%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestBenchmarkInfrastructure::test_benchmark_init PASSED [ 68%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestBenchmarkInfrastructure::test_context_creation PASSED [ 68%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestM111Benchmark::test_benchmark_m111_small PASSED [ 68%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestM111Benchmark::test_benchmark_m111_medium PASSED [ 69%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestM111Benchmark::test_benchmark_baseline PASSED [ 69%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestMITComparison::test_compare_to_codeqa PASSED [ 69%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestMITComparison::test_compare_to_oolong PASSED [ 69%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestMITComparison::test_compare_to_browsecomp PASSED [ 70%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestScaling::test_scaling_benchmark PASSED [ 70%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestScaling::test_scaling_is_sublinear PASSED [ 70%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestScaling::test_full_scaling_to_10k PASSED [ 70%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestFullBenchmark::test_full_comparison PASSED [ 71%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestFullBenchmark::test_report_generation PASSED [ 71%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestFullBenchmark::test_scaling_report_generation PASSED [ 71%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestQdrantBackedBenchmark::test_qdrant_benchmark_init PASSED [ 72%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestQdrantBackedBenchmark::test_qdrant_pipeline_benchmark PASSED [ 72%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestQdrantBackedBenchmark::test_qdrant_compare_to_codeqa PASSED [ 72%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestQdrantBackedBenchmark::test_qdrant_compare_to_oolong PASSED [ 72%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestQdrantBackedBenchmark::test_qdrant_full_comparison PASSED [ 73%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestQdrantBackedBenchmark::test_qdrant_scaling PASSED [ 73%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestCombinedComparison::test_inmemory_vs_qdrant PASSED [ 73%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestSummary::test_summary_inmemory PASSED [ 73%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestSummary::test_summary_qdrant PASSED [ 74%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestSummary::test_final_summary PASSED [ 74%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestMITLevelComprehensive::test_throughput_tokens_per_second PASSED [ 74%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestMITLevelComprehensive::test_cold_start_vs_warm_latency PASSED [ 75%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestMITLevelComprehensive::test_percentile_latency_p50_p95_p99 PASSED [ 75%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestMITLevelComprehensive::test_stress_1000_rapid_queries PASSED [ 75%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestMITLevelComprehensive::test_determinism_low_variance PASSED [ 75%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestMITLevelComprehensive::test_long_running_5000_queries PASSED [ 76%]
+spatial_engine/tests/test_m111_mit_comparison.py::TestMITLevelComprehensive::test_memory_under_sustained_load PASSED [ 76%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestMomentumNavigatorBenchmarks::test_navigator_all_exploits_performance PASSED [ 76%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestMomentumNavigatorBenchmarks::test_navigator_minimal_exploits_baseline PASSED [ 76%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestMomentumNavigatorBenchmarks::test_navigator_exploits_comparison PASSED [ 77%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestMomentumNavigatorBenchmarks::test_navigator_rapid_queries_stability PASSED [ 77%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestMomentumNavigatorBenchmarks::test_navigator_scaling_with_context_size PASSED [ 77%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestMomentumNavigatorBenchmarks::test_navigator_convergence_quality PASSED [ 77%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestWarpLaneDetectorBenchmarks::test_warp_detection_performance PASSED [ 78%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestWarpLaneDetectorBenchmarks::test_warp_detection_with_semantic_data PASSED [ 78%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestWarpLaneDetectorBenchmarks::test_warp_detection_scaling PASSED [ 78%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestWarpLaneDetectorBenchmarks::test_lod_optimizer_performance PASSED [ 79%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestWarpLaneDetectorBenchmarks::test_shell_organizer_performance PASSED [ 79%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestExploitValidation::test_temperature_surfing_behavior PASSED [ 79%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestExploitValidation::test_momentum_accumulation PASSED [ 79%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestExploitValidation::test_shell_memory_placement PASSED [ 80%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestExploitValidation::test_lod_boundary_optimization PASSED [ 80%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestM111Infrastructure::test_fixtures_available PASSED [ 80%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestM111Infrastructure::test_benchmark_runner_available PASSED [ 80%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestM111Infrastructure::test_trimmed_statistics_utility PASSED [ 81%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestMemoryComplexity::test_navigator_memory_scaling PASSED [ 81%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestMemoryComplexity::test_attention_memory_scaling PASSED [ 81%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestMemoryComplexity::test_lod_memory_reduction PASSED [ 81%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestMemoryComplexity::test_full_pipeline_memory PASSED [ 82%]
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestMemoryComplexity::test_gpu_memory_scaling SKIPPEDavailable for execution on the
+device
+CUDA kernel errors might be asynchronously reported at some other
+API call, so the stacktrace below might be incorrect.
+For debugging
+consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with
+`TORCH_USE_CUDA_DSA` to enable device-side assertions.)                  [ 82%]
+spatial_engine/tests/test_m111_qdrant_integration.py::TestQdrantMinDistance::test_min_distance_filters_nearby_tokens PASSED [ 82%]
+spatial_engine/tests/test_m111_qdrant_integration.py::TestQdrantMinDistance::test_min_distance_with_radius_combined PASSED [ 83%]
+spatial_engine/tests/test_m111_qdrant_integration.py::TestQdrantMinDistance::test_min_distance_empty_result PASSED [ 83%]
+spatial_engine/tests/test_m111_qdrant_integration.py::TestQdrantMinDistance::test_min_distance_boundary_precision PASSED [ 83%]
+spatial_engine/tests/test_m111_qdrant_integration.py::TestQdrantMinDistance::test_min_distance_performance PASSED [ 83%]
+spatial_engine/tests/test_m111_qdrant_integration.py::TestQdrantMinDistance::test_warp_lane_query_realistic PASSED [ 84%]
+spatial_engine/tests/test_m111_qdrant_integration.py::TestQdrantContainerIntegration::test_container_connection PASSED [ 84%]
+spatial_engine/tests/test_m111_qdrant_integration.py::TestQdrantContainerIntegration::test_container_min_distance_query PASSED [ 84%]
+spatial_engine/tests/test_m111_qdrant_integration.py::TestQdrantContainerIntegration::test_container_benchmark PASSED [ 84%]
+spatial_engine/tests/test_m111_qdrant_integration.py::TestM111EndToEnd::test_full_navigation_pipeline PASSED [ 85%]
+spatial_engine/tests/test_m111_qdrant_integration.py::TestM111EndToEnd::test_warp_lane_assisted_navigation PASSED [ 85%]
+spatial_engine/tests/test_m111_qdrant_integration.py::TestM111EndToEnd::test_combined_benchmark PASSED [ 85%]
+spatial_engine/tests/test_m111_qdrant_integration.py::TestContainerMemoryComplexity::test_container_memory_scaling PASSED [ 86%]
+spatial_engine/tests/test_m111_qdrant_integration.py::TestContainerMemoryComplexity::test_container_pipeline_memory PASSED [ 86%]
+spatial_engine/tests/test_m111_qdrant_integration.py::TestContainerMemoryComplexity::test_container_vs_inmemory_comparison PASSED [ 86%]
+spatial_engine/tests/test_m19_stability.py::TestM19StabilityImproved::test_rapid_queries_stable PASSED [ 86%]
+spatial_engine/tests/test_m19_stability.py::TestM19StabilityImproved::test_mixed_contexts_stable PASSED [ 87%]
+spatial_engine/tests/test_m19_stability.py::TestM19StabilityImproved::test_coverage_documentation PASSED [ 87%]
+spatial_engine/tests/test_m19_stability.py::TestM19StabilityImproved::test_m19_infrastructure PASSED [ 87%]
+spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITLatencyComparison::test_latency_vs_mit_at_100k_tokens PASSED [ 87%]
+spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITLatencyComparison::test_latency_vs_mit_at_500k_tokens PASSED [ 88%]
+spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITLatencyComparison::test_latency_vs_mit_at_1m_tokens PASSED [ 88%]
+spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITLatencyComparison::test_latency_variance_vs_mit PASSED [ 88%]
+spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITLatencyComparison::test_cold_start_vs_warm_latency PASSED [ 88%]
+spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITComplexityComparison::test_complexity_scaling_to_128k PASSED [ 89%]
+spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITComplexityComparison::test_complexity_ratio_vs_mit_theoretical PASSED [ 89%]
+spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITComplexityComparison::test_memory_scaling_vs_mit PASSED [ 89%]
+spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITComplexityComparison::test_gpu_utilization_comparison PASSED [ 90%]
+spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITComplexityComparison::test_determinism_proof PASSED [ 90%]
+spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITThroughputComparison::test_throughput_at_mit_codeqa_scale PASSED [ 90%]
+spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITThroughputComparison::test_throughput_at_mit_oolong_scale PASSED [ 90%]
+spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITThroughputComparison::test_batch_throughput_comparison PASSED [ 91%]
+spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITThroughputComparison::test_concurrent_query_performance PASSED [ 91%]
+spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITThroughputComparison::test_cost_per_query_comparison PASSED [ 91%]
+spatial_engine/vector_store/tests/test_base.py::TestVectorStoreBase::test_base_is_abstract PASSED [ 91%]
+spatial_engine/vector_store/tests/test_base.py::TestVectorStoreBase::test_required_methods PASSED [ 92%]
+spatial_engine/vector_store/tests/test_base.py::TestVectorStoreBase::test_minimal_implementation PASSED [ 92%]
+spatial_engine/vector_store/tests/test_pgvector_adapter.py::TestPgvectorAdapter::test_initialization PASSED [ 92%]
+spatial_engine/vector_store/tests/test_pgvector_adapter.py::TestPgvectorAdapter::test_store_single_token PASSED [ 93%]
+spatial_engine/vector_store/tests/test_pgvector_adapter.py::TestPgvectorAdapter::test_store_batch_tokens PASSED [ 93%]
+spatial_engine/vector_store/tests/test_pgvector_adapter.py::TestPgvectorAdapter::test_query_by_similarity PASSED [ 93%]
+spatial_engine/vector_store/tests/test_pgvector_adapter.py::TestPgvectorAdapter::test_query_with_spatial_filter PASSED [ 93%]
+spatial_engine/vector_store/tests/test_pgvector_adapter.py::TestPgvectorAdapter::test_delete_tokens PASSED [ 94%]
+spatial_engine/vector_store/tests/test_pgvector_adapter.py::TestPgvectorAdapter::test_close_connection PASSED [ 94%]
+spatial_engine/vector_store/tests/test_qdrant_adapter.py::TestQdrantAdapter::test_initialization PASSED [ 94%]
+spatial_engine/vector_store/tests/test_qdrant_adapter.py::TestQdrantAdapter::test_store_single_token PASSED [ 94%]
+spatial_engine/vector_store/tests/test_qdrant_adapter.py::TestQdrantAdapter::test_store_batch_tokens PASSED [ 95%]
+spatial_engine/vector_store/tests/test_qdrant_adapter.py::TestQdrantAdapter::test_query_by_similarity PASSED [ 95%]
+spatial_engine/vector_store/tests/test_qdrant_adapter.py::TestQdrantAdapter::test_query_with_spatial_filter PASSED [ 95%]
+spatial_engine/vector_store/tests/test_qdrant_adapter.py::TestQdrantAdapter::test_delete_tokens PASSED [ 95%]
+spatial_engine/vector_store/tests/test_qdrant_adapter.py::TestQdrantAdapter::test_close_connection PASSED [ 96%]
+spatial_engine/vector_store/tests/test_qdrant_adapter.py::TestQdrantAdapter::test_integration_with_spatial_tokens PASSED [ 96%]
+spatial_engine/vector_store/tests/test_spatial_index.py::TestSpatialIndex::test_distance_calculation PASSED [ 96%]
+spatial_engine/vector_store/tests/test_spatial_index.py::TestSpatialIndex::test_radius_filter PASSED [ 97%]
+spatial_engine/vector_store/tests/test_spatial_index.py::TestSpatialIndex::test_k_nearest_neighbors PASSED [ 97%]
+spatial_engine/vector_store/tests/test_spatial_index.py::TestSpatialIndex::test_combined_radius_and_k PASSED [ 97%]
+spatial_engine/vector_store/tests/test_spatial_index.py::TestSpatialIndex::test_octree_partitioning PASSED [ 97%]
+spatial_engine/vector_store/tests/test_spatial_index.py::TestSpatialIndex::test_performance_benchmark PASSED [ 98%]
+spatial_engine/vector_store/tests/test_spatial_index.py::TestDistanceRangeFiltering::test_filter_by_distance_range_basic PASSED [ 98%]
+spatial_engine/vector_store/tests/test_spatial_index.py::TestDistanceRangeFiltering::test_filter_by_distance_range_boundary PASSED [ 98%]
+spatial_engine/vector_store/tests/test_spatial_index.py::TestDistanceRangeFiltering::test_filter_by_distance_range_empty PASSED [ 98%]
+spatial_engine/vector_store/tests/test_spatial_index.py::TestDistanceRangeFiltering::test_find_k_nearest_in_range_basic PASSED [ 99%]
+spatial_engine/vector_store/tests/test_spatial_index.py::TestDistanceRangeFiltering::test_find_k_nearest_in_range_fewer_than_k PASSED [ 99%]
+spatial_engine/vector_store/tests/test_spatial_index.py::TestDistanceRangeFiltering::test_find_k_nearest_in_range_empty PASSED [ 99%]
+spatial_engine/vector_store/tests/test_spatial_index.py::TestDistanceRangeFiltering::test_warp_lane_use_case PASSED [100%]
+
+=============================== warnings summary ===============================
+spatial_engine/benchmarks/m111_speedup_benchmark.py:46
+  /home/ch1pu/infinate/backend/spatial_engine/benchmarks/m111_speedup_benchmark.py:46: PytestCollectionWarning: cannot collect test class 'TestScenario' because it has a __init__ constructor (from: spatial_engine/tests/test_m111_integration_speedup.py)
+    @dataclass
+
+spatial_engine/core/tests/test_spatial_attention.py::TestSpatialAttention::test_device_placement
+  /home/ch1pu/infinate/backend/.venv/lib/python3.13/site-packages/torch/cuda/__init__.py:287: UserWarning: 
+  NVIDIA GeForce RTX 5060 Laptop GPU with CUDA capability sm_120 is not compatible with the current PyTorch installation.
+  The current PyTorch install supports CUDA capabilities sm_50 sm_60 sm_70 sm_75 sm_80 sm_86 sm_90.
+  If you want to use the NVIDIA GeForce RTX 5060 Laptop GPU GPU with PyTorch, please check the instructions at https://pytorch.org/get-started/locally/
+  
+    warnings.warn(
+
+spatial_engine/tests/test_extended_scaling.py::TestExtendedScaling::test_scaling_1k_to_128k
+  /home/ch1pu/infinate/backend/spatial_engine/vector_store/qdrant_adapter.py:169: UserWarning: Local mode is not recommended for collections with more than 20,000 points. Current collection contains 32000 points. Consider using Qdrant in Docker or Qdrant Cloud for better performance with large datasets.
+    self.client.upsert(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+
+---------- coverage: platform linux, python 3.13.9-final-0 -----------
+Name                                                          Stmts   Miss  Cover   Missing
+-------------------------------------------------------------------------------------------
+spatial_engine/__init__.py                                        4      0   100%
+spatial_engine/benchmarks/__init__.py                             3      0   100%
+spatial_engine/benchmarks/lod_benchmarks.py                     134    134     0%   21-395
+spatial_engine/benchmarks/lod_mit_comparison.py                 148    148     0%   32-524
+spatial_engine/benchmarks/m111_mit_comparison.py                313     35    89%   44-46, 434, 465, 491, 519, 712, 857-859, 883-884, 941, 1027-1045, 1059-1077, 1086
+spatial_engine/benchmarks/m111_speedup_benchmark.py             218     16    93%   414, 531, 538-543, 548-553, 557-562
+spatial_engine/benchmarks/mit_comparison.py                     159     70    56%   288-325, 393, 395, 425-460, 476-504
+spatial_engine/benchmarks/navigation_benchmarks.py              153    130    15%   54-67, 87-112, 136-160, 183-203, 227-248, 270-292, 311-343, 363-401, 413-433
+spatial_engine/core/__init__.py                                   9      0   100%
+spatial_engine/core/feedforward.py                               25      6    76%   129-134
+spatial_engine/core/lod.py                                      204     14    93%   139, 316, 324, 333-336, 389, 395, 425-426, 437, 583, 616
+spatial_engine/core/momentum_navigator.py                       244     31    87%   246, 351-367, 378-379, 479, 511, 522, 540-544, 556, 579-583, 598, 605, 651, 671, 687
+spatial_engine/core/spatial_attention.py                         56      0   100%
+spatial_engine/core/spatial_attention_lod.py                     59      1    98%   202
+spatial_engine/core/spatial_encoding.py                          42      2    95%   169, 175
+spatial_engine/core/spatial_token.py                             20      0   100%
+spatial_engine/core/spatial_transformer.py                       32      9    72%   103, 201-215
+spatial_engine/core/spatial_transformer_block.py                 31      7    77%   171-183
+spatial_engine/core/tests/__init__.py                             0      0   100%
+spatial_engine/core/tests/test_feedforward.py                    61      1    98%   168
+spatial_engine/core/tests/test_lod.py                           327      0   100%
+spatial_engine/core/tests/test_momentum_navigator.py            288      0   100%
+spatial_engine/core/tests/test_spatial_attention.py             235      7    97%   96-104
+spatial_engine/core/tests/test_spatial_attention_lod.py         186      6    97%   385-394
+spatial_engine/core/tests/test_spatial_encoding.py               79      0   100%
+spatial_engine/core/tests/test_spatial_token.py                  45      0   100%
+spatial_engine/core/tests/test_spatial_transformer.py           155      2    99%   280, 370
+spatial_engine/core/tests/test_spatial_transformer_block.py      97      1    99%   272
+spatial_engine/core/tests/test_warp_lane_detector.py            220      0   100%
+spatial_engine/core/warp_lane_detector.py                       210     11    95%   301, 338, 342, 376-383, 674-676
+spatial_engine/integration/__init__.py                            4      0   100%
+spatial_engine/integration/context_manager.py                    64     18    72%   91-92, 190-210, 221-224, 232, 277-278
+spatial_engine/integration/navigation_attention.py              183     17    91%   126, 160, 195, 246, 296-297, 311-313, 328, 397, 415-419, 448, 511
+spatial_engine/integration/transformer_bridge.py                 67     19    72%   222-223, 237, 242-281
+spatial_engine/models/__init__.py                                 0      0   100%
+spatial_engine/models/tests/__init__.py                           0      0   100%
+spatial_engine/tests/__init__.py                                  0      0   100%
+spatial_engine/tests/conftest.py                                156     34    78%   38-49, 65-67, 79-81, 140, 178-184, 197, 213-217, 229-230, 285-288, 400-402, 447
+spatial_engine/tests/conftest_m18.py                            110     19    83%   66, 107, 117, 136, 146, 156, 166, 332-335, 345-348, 358-361
+spatial_engine/tests/conftest_m19.py                             48     23    52%   40, 71-123, 152, 161
+spatial_engine/tests/conftest_m111.py                           172     10    94%   82, 131, 139, 187-193, 248-249, 412-413
+spatial_engine/tests/test_extended_scaling.py                   333      3    99%   134, 474-475
+spatial_engine/tests/test_integration_benchmarks.py             199      4    98%   34-35, 344-347
+spatial_engine/tests/test_integration_core.py                   135      0   100%
+spatial_engine/tests/test_m19_stability.py                       98      0   100%
+spatial_engine/tests/test_m111_integration_speedup.py           257      0   100%
+spatial_engine/tests/test_m111_mit_comparison.py                694      7    99%   67-72, 79
+spatial_engine/tests/test_m111_navigation_benchmarks.py         548     41    93%   286, 535-536, 790, 994, 1006, 1011, 1015-1069, 1074
+spatial_engine/tests/test_m111_qdrant_integration.py            409     11    97%   322, 347, 384, 614-615, 649, 715-716, 785-786, 815
+spatial_engine/tests/test_mit_comparison_benchmarks.py          379      0   100%
+spatial_engine/utils/__init__.py                                  0      0   100%
+spatial_engine/utils/tests/__init__.py                            0      0   100%
+spatial_engine/vector_store/__init__.py                           5      0   100%
+spatial_engine/vector_store/base.py                              16      4    75%   77, 131, 149, 162
+spatial_engine/vector_store/pgvector_adapter.py                 104      9    91%   23-27, 279-282, 327, 359
+spatial_engine/vector_store/qdrant_adapter.py                    93      5    95%   33-35, 90, 341
+spatial_engine/vector_store/spatial_index.py                    126      4    97%   160, 386-388
+spatial_engine/vector_store/tests/__init__.py                     0      0   100%
+spatial_engine/vector_store/tests/test_base.py                   36      5    86%   81, 91, 98, 101, 116
+spatial_engine/vector_store/tests/test_pgvector_adapter.py       81      1    99%   253
+spatial_engine/vector_store/tests/test_qdrant_adapter.py         96      1    99%   300
+spatial_engine/vector_store/tests/test_spatial_index.py         153      1    99%   425
+-------------------------------------------------------------------------------------------
+TOTAL                                                          8323    867    90%
+Coverage HTML written to dir htmlcov
+
+FAIL Required test coverage of 90% not reached. Total coverage: 89.58%
+=========== 369 passed, 3 skipped, 3 warnings in 1016.11s (0:16:56) ============
