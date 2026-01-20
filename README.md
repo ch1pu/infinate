@@ -40,7 +40,7 @@
 ║   └─────────────────────────────────────────────────────────────────────────┘   ║
 ║                                                                                  ║
 ║   ┌─────────────────────────────────────────────────────────────────────────┐   ║
-║   │  ✅ 10,317× faster (in-memory)     ✅ 533× faster (Qdrant production)   │   ║
+║   │  ✅ 10,317× faster (Qdrant mem)    ✅ 533× faster (Qdrant Docker)       │   ║
 ║   │  ✅ 1,330× cheaper                 ✅ 369 tests (89.58% coverage)       │   ║
 ║   │  ✅ O(k) verified (2.85× for 20×)  ✅ 7 validated exploits              │   ║
 ║   └─────────────────────────────────────────────────────────────────────────┘   ║
@@ -58,7 +58,7 @@
 | **Bunny Hop** | Accumulate momentum for faster convergence | 10-15% |
 | **Total** | Combined physics-based navigation | **1.5-1.7×** |
 
-Result: **10,317× faster than MIT RLM** (in-memory) or **533× faster** in production with Qdrant!
+Result: **10,317× faster than MIT RLM** (Qdrant in-memory) or **533× faster** with Qdrant Docker container!
 
 📚 **Details:** [Milestone Guide](docs/milestones/milestone-1.11-strafe-navigation.md) | [Completion Report](Project/MILESTONE_1.11_COMPLETE.md)
 
@@ -183,7 +183,7 @@ Time Scaling
 
 #### With Strafe Jumping Navigation (M1.11) - THE FASTEST!
 
-**In-Memory (Pure Algorithm):**
+**Qdrant In-Memory (Pure Algorithm):**
 
 | Dataset | MIT RLM | INFINITE+M11 | Speedup | Cost Savings |
 |---------|---------|--------------|---------|--------------|
@@ -208,26 +208,26 @@ Time Scaling
 ```
 LATENCY AT 100K TOKENS (CodeQA Dataset)
 ├──────────────────────────────────────────────────────────────────────────────────┤
-│ MIT RLM      │████████████████████████████████████████████████████████│ 15,000ms │
-│ M1.8 (Base)  │▌                                                       │ 13.63ms  │
-│ M1.10 (LOD)  │▌                                                       │ 21.58ms  │
-│ M1.11 (Mem)  │                                                        │ 3.57ms   │
+│ MIT RLM            │██████████████████████████████████████████████████│ 15,000ms │
+│ M1.8 (Base)        │▌                                                 │ 13.63ms  │
+│ M1.10 (LOD)        │▌                                                 │ 21.58ms  │
+│ M1.11 (Qdrant Mem) │                                                  │ 3.57ms   │
 ├──────────────────────────────────────────────────────────────────────────────────┤
      M1.8: 1,100× FASTER | M1.10: 695× FASTER | M1.11: 4,198× FASTER
 
 LATENCY AT 10M TOKENS (BrowseComp+ Dataset)
 ├──────────────────────────────────────────────────────────────────────────────────┤
-│ MIT RLM      │████████████████████████████████████████████████████████│120,000ms │
-│ M1.10 (LOD)  │▌                                                       │ 22.33ms  │
-│ M1.11 (Mem)  │                                                        │ 7.18ms   │
-│ M1.11 (Qdrant)│▏                                                      │ 184.19ms │
+│ MIT RLM            │██████████████████████████████████████████████████│120,000ms │
+│ M1.10 (LOD)        │▌                                                 │ 22.33ms  │
+│ M1.11 (Qdrant Mem) │                                                  │ 7.18ms   │
+│ M1.11 (Qdrant Docker)│▏                                               │ 184.19ms │
 ├──────────────────────────────────────────────────────────────────────────────────┤
-     M1.10: 5,373× | M1.11 In-Memory: 16,722× | M1.11 Qdrant: 652×
+     M1.10: 5,373× | M1.11 Qdrant Mem: 16,722× | M1.11 Qdrant Docker: 652×
 
 COST PER QUERY
 ├──────────────────────────────────────────────────────────────────────────────────┤
-│ MIT RLM      │████████████████████████████████████████████████████████│ $0.99    │
-│ INFINITE     │                                                        │ $0.001   │
+│ MIT RLM            │██████████████████████████████████████████████████│ $0.99    │
+│ INFINITE           │                                                  │ $0.001   │
 ├──────────────────────────────────────────────────────────────────────────────────┤
                                  990× CHEAPER
 
@@ -535,7 +535,7 @@ Query across millions of papers. Position = (topic_embedding, date, citation_clu
 - **99.2% test pass rate** (all non-skipped tests pass)
 - **89.58% overall coverage** (8323 statements)
 - **O(k) complexity empirically verified** (2.85× for 20× tokens, not 400×)
-- **10,317× faster than MIT RLM** (in-memory)
+- **10,317× faster than MIT RLM** (Qdrant in-memory)
 - **533× faster than MIT RLM** (Qdrant production pipeline)
 
 ### What's Working Now
@@ -577,7 +577,7 @@ result = nav.navigate(
 # Full integration with LOD + SpatialAttention
 nav_attention = NavigationAttention(d_model=768, n_heads=12)
 output = nav_attention.query(query, embeddings, positions)
-# 10,317× faster than MIT RLM (in-memory)!
+# 10,317× faster than MIT RLM (Qdrant in-memory)!
 ```
 
 ### Completed: MIT RLM Comparison (M1.8)
@@ -617,7 +617,7 @@ LATENCY AT 10M TOKENS (BrowseComp+)
 │ MIT RLM      │████████████████████████████████████████████████████████│ 120,000ms│
 │ INFINITE+M11 │▏                                                       │ 7.18ms   │
 ├──────────────────────────────────────────────────────────────────────────────────┤
-                              16,722× FASTER (in-memory)
+                              16,722× FASTER (Qdrant in-memory)
 
 COST PER QUERY (BrowseComp+)
 ├──────────────────────────────────────────────────────────────────────────────────┤
@@ -635,7 +635,7 @@ SCALING: 20× TOKENS = 2.85× TIME (not 400×!)
                               O(k) VERIFIED
 ```
 
-#### M1.11 Benchmark Results (In-Memory)
+#### M1.11 Benchmark Results (Qdrant In-Memory)
 
 | Dataset | Tokens | MIT RLM | INFINITE+M11 | Speedup | Savings |
 |---------|--------|---------|--------------|---------|---------|
@@ -700,7 +700,7 @@ RESULT: O(k) VERIFIED - 2.85x scaling << 400x (O(n²))
 ```
 
 **Key Achievements:**
-- ⚡ **10,317× faster** than MIT RLM (in-memory)
+- ⚡ **10,317× faster** than MIT RLM (Qdrant in-memory)
 - ⚡ **533× faster** than MIT RLM (Qdrant production)
 - 💰 **1,330× cheaper** than MIT RLM
 - ✅ **7 validated exploits** (2 invalidated through research)
