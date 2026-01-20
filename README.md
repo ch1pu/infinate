@@ -886,24 +886,17 @@ Infinite has true O(k):
 
 ### vs MIT's Recursive Language Models (arXiv 2512.24601)
 
-We've completed comprehensive benchmarks comparing INFINITE against MIT RLM (M1.8 and M1.10). Key findings:
+Comprehensive benchmarks across M1.8, M1.10, and M1.11 demonstrate massive improvements over MIT RLM:
 
-| Aspect | MIT RLM | INFINITE | INFINITE+LOD |
-|--------|---------|----------|--------------|
-| **Complexity** | O(n²/c) → O(n^1.5) | True O(k) | True O(k) + 9.7× context |
-| **Latency (100K)** | 15,000ms | 13.63ms | 21.58ms |
-| **Speedup** | baseline | **1,100×** | **695×** |
-| **Latency (10M)** | 120,000ms | ~14ms | 22.33ms |
-| **Speedup (10M)** | baseline | **~8,500×** | **5,373×** |
-| **Cost/query** | $0.50-$2.50 | $0.001 | $0.001 |
-| **Variance** | 10-100× between runs | <1% | <1% |
-| **Context expansion** | N/A | N/A | **9.7×** |
+| Milestone | Speedup vs MIT | Key Innovation |
+|-----------|----------------|----------------|
+| M1.8 (Base) | 1,100-4,331× | O(k) spatial attention |
+| M1.10 (LOD) | 2,586× | Hierarchical context compression |
+| M1.11 (Strafe) | **10,317×** | Physics-inspired navigation |
 
-**Why INFINITE wins:** MIT's chunking approach still processes all chunks sequentially. INFINITE queries exactly k neighbors regardless of total context size. With LOD, we also get **smooth context falloff** instead of a hard cutoff.
+**Why INFINITE wins:** MIT's chunking approach has O(n^1.5) complexity. INFINITE has true O(k) - constant time regardless of context size.
 
-At 1M queries/day: **$989,000 daily savings** ($361M/year).
-
-See [MILESTONE_1.8_COMPLETE.md](Project/MILESTONE_1.8_COMPLETE.md) and [MILESTONE_1.10_COMPLETE.md](Project/MILESTONE_1.10_COMPLETE.md) for full benchmark results.
+See [Production Metrics](#production-metrics-vs-mit-rlm) above for detailed benchmark tables.
 
 ---
 
