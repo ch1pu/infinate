@@ -202,7 +202,7 @@ At 1M queries/day: **$989,000 daily savings** vs MIT RLM ($361M/year saved).
 
 ```bash
 # Clone the repository
-git clone https://github.com/alphadeploy/infinite.git
+git clone https://github.com/ch1pu/infinate.git
 cd infinite/backend
 
 # Create virtual environment
