@@ -574,7 +574,8 @@ Query across millions of papers. Position = (topic_embedding, date, citation_clu
 |-----------|-------------|--------|-------|
 | M1.12 | 3D Visualization | 📋 Planned | React + Three.js |
 | M1.13 | FakeOS Embed | 📋 Planned | Requires M1.12 |
-| M1.14 | AIOS Syscalls | 📋 Planned | PyO3 bridge to kernel |
+| M1.14a | NPU Acceleration (Standalone) | 📋 Planned | torch_directml/ROCm for AMD XDNA 2 |
+| M1.14b | AIOS Syscalls (Integration) | 📋 Planned | PyO3 bridge to kernel |
 | M1.15 | GPU SM_120 Support | 📋 Planned | Enable RTX 50-series |
 | M1.16 | Quality Benchmarks | 📋 Planned | Retrieval accuracy metrics |
 | M1.17 | Multi-Pass Navigation | 📋 Planned | Search multiple times |
@@ -994,7 +995,8 @@ This unlocks FakeOS integration sooner than expected. See [AIOS Context](SUMMARY
 | INFINATE Spatial Engine | ✅ Ready | M1.1-M1.11 | Python API complete, 10,317× faster than MIT RLM |
 | INFINATE 3D Visualization | 📋 Planned | **M1.12** | React + Three.js, only Vite config exists |
 | INFINATE → FakeOS (embed) | 📋 Planned | **M1.13** | Requires M1.12 visualization first |
-| INFINATE → AIOS (syscalls) | 📋 Planned | **M1.14** | PyO3 bridge to kernel |
+| INFINATE NPU (standalone) | 📋 Planned | **M1.14a** | torch_directml/ROCm for AMD XDNA 2 |
+| INFINATE → AIOS (syscalls) | 📋 Planned | **M1.14b** | PyO3 bridge to kernel |
 
 ### Combined Capabilities
 

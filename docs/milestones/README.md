@@ -215,7 +215,8 @@ Physics-inspired navigation from Quake game mechanics. After rigorous research v
 |-----------|------|----------|-----------|-------------|
 | **M1.12** | 3D Visualization | 🔴 Next | 4-6 weeks | React + Three.js Minecraft-style UI |
 | **M1.13** | FakeOS Embed | Medium | 1-2 weeks | Embed viz in FakeOS dashboard |
-| **M1.14** | AIOS Syscalls | Medium | 1-2 weeks | PyO3 bridge to kernel |
+| **M1.14a** | NPU Acceleration (Standalone) | High | 1-2 weeks | torch_directml/ROCm for AMD XDNA 2 |
+| **M1.14b** | AIOS Syscalls (Integration) | Medium | 1-2 weeks | PyO3 bridge to kernel |
 | **M1.15** | GPU SM_120 Support | High | 1-4 hours | Enable RTX 50-series |
 | **M1.16** | Quality Benchmarks | High | 3-4 hours | Retrieval accuracy metrics |
 | **M1.17** | Multi-Pass Navigation | High | 4-6 hours | Search multiple times |
