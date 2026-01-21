@@ -299,6 +299,12 @@ backups/
 *.model
 
 # ================================
+# DEVELOPMENT WORKFLOW DOCS
+# ================================
+# Personal methodology docs - not INFINATE specific
+docs/dev/
+
+# ================================
 # PRIVATE/STRATEGIC DOCUMENTS
 # ================================
 # Keep locally, don't push to public repo
