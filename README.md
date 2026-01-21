@@ -573,9 +573,9 @@ Query across millions of papers. Position = (topic_embedding, date, citation_clu
 | Milestone | Description | Status | Notes |
 |-----------|-------------|--------|-------|
 | M1.12 | 3D Visualization | 📋 Planned | React + Three.js |
-| M1.13 | FakeOS Embed | 📋 Planned | Requires M1.12 |
+| M1.13 | Embeddable Component | 📋 Planned | Requires M1.12 |
 | M1.14a | NPU Acceleration (Standalone) | 📋 Planned | torch_directml/ROCm for AMD XDNA 2 |
-| M1.14b | AIOS Syscalls (Integration) | 📋 Planned | PyO3 bridge to kernel |
+| M1.14b | External System Integration | 📋 Planned | PyO3 bridge for kernels/dashboards |
 | M1.15 | GPU SM_120 Support | 📋 Planned | Enable RTX 50-series |
 | M1.16 | Quality Benchmarks | 📋 Planned | Retrieval accuracy metrics |
 | M1.17 | Multi-Pass Navigation | 📋 Planned | Search multiple times |
@@ -800,9 +800,7 @@ RESULT: O(k) VERIFIED - 2.85x scaling << 400x (O(n²))
 **M2.0 (After Pre-M2.0):**
 - LLM integration with spatial attention + LOD
 - End-to-end question answering demo
-- FakeOS integration preparation
-
-📚 **Full Roadmap:** [FUTURE_VISION.md](Project/FUTURE_VISION.md) | [Pre-M2.0 Improvements](Project/PRE_M2.0_IMPROVEMENTS.md)
+- External system integration preparation
 
 ### Key Dates
 
@@ -941,74 +939,53 @@ INFINATE's **spatial engine is complete** (M1.1-M1.11). The 3D visualization is 
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                    FAKEOS UNIFIED DASHBOARD  📋 PLANNED                  │
-│  ┌────────────────────────┐  ┌────────────────────────────────────────┐ │
-│  │   Thought Stream       │  │     INFINATE 3D VISUALIZATION          │ │
-│  │   (Consciousness)      │  │     📋 PLANNED (M1.12)                 │ │
-│  │   💭 Current thought   │  │   🎮 Navigate semantic space           │ │
-│  │   💭 Pattern detected  │  │   🧊 See tokens as voxels              │ │
-│  ├────────────────────────┤  │   ✨ Watch attention flow              │ │
-│  │   Perception Events    │  │   🔍 Query paths visualized            │ │
-│  │   📁 File changed      │  │                                        │ │
-│  │   🔀 Git commit        │  │   (Only Vite config exists today)      │ │
-│  └────────────────────────┘  └────────────────────────────────────────┘ │
+│                    INFINATE STANDALONE  📋 PLANNED (M1.12)               │
+│  ┌────────────────────────────────────────────────────────────────────┐ │
+│  │                   3D VISUALIZATION                                  │ │
+│  │   🎮 Navigate semantic space                                        │ │
+│  │   🧊 See tokens as voxels                                           │ │
+│  │   ✨ Watch attention flow                                           │ │
+│  │   🔍 Query paths visualized                                         │ │
+│  │                                                                      │ │
+│  │   (Only Vite config exists today)                                   │ │
+│  └────────────────────────────────────────────────────────────────────┘ │
+│                                    ▲                                     │
+│  ┌────────────────────────────────────────────────────────────────────┐ │
+│  │                   SPATIAL ENGINE  ✅ COMPLETE                       │ │
+│  │   • O(k) spatial attention       • 10,317× faster than MIT RLM     │ │
+│  │   • Hierarchical LOD             • 369 tests, 89.58% coverage      │ │
+│  │   • 7 Quake physics exploits     • O(k) memory verified            │ │
+│  └────────────────────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────────────────┘
-        ↑ Events from AIOS                    ↑ Spatial data from INFINATE
-┌───────────────────────────────┐    ┌────────────────────────────────────┐
-│           AIOS                │    │            INFINATE                │
-│     (Ring 0 Kernel)           │    │    (O(k) Spatial AI Engine)        │
-│  • NPU 50 TOPS (XDNA 2)       │    │ • Spatial Engine: ✅ COMPLETE      │
-│  • 84ms boot time             │    │ • 3D Visualization: 📋 M1.12      │
-│  • AI syscalls                │    │ • 10,317× faster than MIT RLM      │
-│  • Hardware abstraction       │    │ • 369 tests, 89.58% coverage       │
-│  Location: /home/ch1pu/OS/    │    │ Location: /home/ch1pu/infinate/    │
-│  Status: Phase 2 75%          │    │ Status: M1.11 COMPLETE (60%)       │
-└───────────────────────────────┘    └────────────────────────────────────┘
+
+INFINATE can also be embedded in external systems like AIOS (AI kernel)
+or FakeOS (consciousness layer) via PyO3 bridge.
 ```
-
-### AIOS Breakthrough (December 2025)
-
-AIOS achieved a major breakthrough with Ring 0 AI hardware access:
-
-| Achievement | Status | Impact |
-|-------------|--------|--------|
-| **Ring 0 AI Hardware Access** | ✅ ACHIEVED | First OS with AI at kernel level |
-| **DMA Buffer Allocator** | ✅ Working | Direct memory access for NPU |
-| **NPU Command Queue** | ✅ Functional | 50 TOPS inference pipeline |
-| **NPU Backend** | ✅ Complete | AMD XDNA 2 integration |
-| **84ms Boot Time** | ✅ Verified | Kernel to AI-ready in milliseconds |
-
-This unlocks FakeOS integration sooner than expected. See [AIOS Context](SUMMARY/AIOS_INTEGRATION_CONTEXT.md) for details.
 
 ### Related Projects
 
-| Project | Description | Status | Repository |
-|---------|-------------|--------|------------|
-| **AIOS** | AI-native operating system with custom microkernel | Phase 2: 75%, Phase 3 starting | [github.com/ch1pu/OS](https://github.com/ch1pu/OS) |
-| **FakeOS** | Integration layer (consciousness, perception) | 5% complete (ON HOLD) | [github.com/ch1pu/FakeOS](https://github.com/ch1pu/FakeOS) |
-| **INFINATE** | O(k) spatial attention for unlimited context | **60% complete (M1.11!)** | This repo |
+| Project | Description |
+|---------|-------------|
+| **AIOS** | AI-native operating system (closed source) |
+| **FakeOS** | Consciousness and perception layer (closed source) |
+| **INFINATE** | O(k) spatial attention engine (this repo - open source) |
 
-### Current Integration Status
+### Current Status
 
-| Integration | Status | Milestone | Notes |
-|-------------|--------|-----------|-------|
+| Component | Status | Milestone | Notes |
+|-----------|--------|-----------|-------|
 | INFINATE Spatial Engine | ✅ Ready | M1.1-M1.11 | Python API complete, 10,317× faster than MIT RLM |
 | INFINATE 3D Visualization | 📋 Planned | **M1.12** | React + Three.js, only Vite config exists |
-| INFINATE → FakeOS (embed) | 📋 Planned | **M1.13** | Requires M1.12 visualization first |
-| INFINATE NPU (standalone) | 📋 Planned | **M1.14a** | torch_directml/ROCm for AMD XDNA 2 |
-| INFINATE → AIOS (syscalls) | 📋 Planned | **M1.14b** | PyO3 bridge to kernel |
+| NPU Acceleration | 📋 Planned | **M1.14a** | torch_directml/ROCm for AMD XDNA 2 |
+| External Integrations | 📋 Planned | **M1.13, M1.14b** | Embeddable component, PyO3 bridge |
 
-### Combined Capabilities
+### Capabilities
 
-| Combination | What You Get |
-|-------------|--------------|
+| Configuration | What You Get |
+|---------------|--------------|
 | **INFINATE alone (today)** | Spatial engine via Python/PyO3 API (no viz yet) |
-| **INFINATE alone (M1.12)** | Standalone spatial AI with 3D visualization |
-| **AIOS + INFINATE** | Kernel-level AI with unlimited context, NPU acceleration |
-| **FakeOS + INFINATE** | Consciousness layer with spatial memory (viz requires M1.12) |
-| **Full Stack** | Complete AI habitat: kernel + consciousness + unlimited spatial memory |
-
-📚 **Full ecosystem details:** [FUTURE_VISION.md](Project/FUTURE_VISION.md#ecosystem-integration-aios--fakeos)
+| **INFINATE standalone (M1.12)** | Complete spatial AI with 3D visualization |
+| **INFINATE + external systems** | Embeddable engine for AI kernels, dashboards, etc. |
 
 ---
 
@@ -1218,11 +1195,11 @@ The irony isn't lost on me: driving strangers around for $20/hour while simultan
 
 ### Three Systems, One Developer
 
-| Project | What It Is | Status |
-|---------|-----------|--------|
-| **Infinite** | O(k) spatial attention (this repo) | 60% complete |
-| **AIOS** | AI-native operating system, Ring 0 kernel | 97% complete |
-| **FakeOS** | Integration layer, consciousness stream | 5% complete |
+| Project | What It Is | License |
+|---------|-----------|---------|
+| **INFINATE** | O(k) spatial attention (this repo) | Open Source (Apache 2.0) |
+| **AIOS** | AI-native operating system | Closed Source |
+| **FakeOS** | Consciousness and perception layer | Closed Source |
 
 All of this. One person. Years of work. Given freely to everyone.
 

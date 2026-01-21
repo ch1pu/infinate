@@ -314,6 +314,42 @@ Documents/ADOLFO_LOPEZ_ALPHA_DEPLOY_PROFILE.md
 Documents/MONETIZATION_STRATEGY_DEEP_DIVE.md
 Documents/INFINITE_MARKET_VALUATION.md
 Documents/THREE_PROJECT_ECOSYSTEM_STATUS.md
+Documents/OPEN_SOURCE_STRATEGY.md
+
+# ================================
+# AIOS/FAKEOS INTEGRATION DOCS
+# ================================
+# These contain details about closed-source projects (AIOS, FakeOS)
+# INFINATE is open source, but integration details are private
+Documents/INTEGRATION_ARCHITECTURE.md
+Documents/MASTER_ARCHITECTURE.md
+THREE_PROJECT_INTEGRATION_STRATEGY.md
+INTEGRATION_DIAGRAM.md
+INTEGRATION_SUMMARY_2025_12_01.md
+INFINATE_VISUAL_SHOWCASE.md
+Frontend/LANDING_PAGE_ARCHITECTURE.md
+
+# Project session logs and status (contain integration details)
+Project/FUTURE_VISION.md
+Project/STATUS.md
+Project/PROJECT_HISTORY.md
+Project/PROJECT_STATUS_UPDATE_DEC_2025.md
+Project/SESSION_SUMMARY_2026-01-20.md
+Project/SESSION_2026-01-20_DOCUMENTATION_UPDATE.md
+Project/M1.4_SESSION_LOG.md
+Project/M1.6_SESSION_LOG.md
+Project/M1.7_SESSION_LOG.md
+Project/M1.10_SESSION_LOG.md
+Project/MILESTONE_1.4_COMPLETE.md
+Project/MILESTONE_1.6_COMPLETE.md
+Project/MILESTONE_1.7_COMPLETE.md
+
+# Summary files (contain integration context)
+SUMMARY/
+MIT/SOLO_DEVELOPER_MANIFESTO.md
+
+# Milestone docs with integration details
+docs/milestones/milestone-1.6-vector-store.md
 
 # ================================
 # ALLOW SPECIFIC FILES
