@@ -209,12 +209,87 @@ Physics-inspired navigation from Quake game mechanics. After rigorous research v
 
 ## Upcoming Milestones
 
+### Pre-M2.0 Improvements (M1.12-M1.23)
+
+| Milestone | Name | Priority | Est. Time | Description |
+|-----------|------|----------|-----------|-------------|
+| **M1.12** | 3D Visualization | 🔴 Next | 4-6 weeks | React + Three.js Minecraft-style UI |
+| **M1.13** | FakeOS Embed | Medium | 1-2 weeks | Embed viz in FakeOS dashboard |
+| **M1.14** | AIOS Syscalls | Medium | 1-2 weeks | PyO3 bridge to kernel |
+| **M1.15** | GPU SM_120 Support | High | 1-4 hours | Enable RTX 50-series |
+| **M1.16** | Quality Benchmarks | High | 3-4 hours | Retrieval accuracy metrics |
+| **M1.17** | Multi-Pass Navigation | High | 4-6 hours | Search multiple times |
+| **M1.18** | Confidence Re-Navigation | Medium | 4-5 hours | Self-correcting search |
+| **M1.19** | Adaptive LOD Thresholds | Medium | 2-3 hours | Query-appropriate fidelity |
+| **M1.20** | Hybrid Attention Mode | Low | 6-8 hours | Best of both worlds (optional) |
+| **M1.21** | SISS (Super Sampling) | Medium | 8-14 days | DLSS-inspired LOD upscaling |
+| **M1.22** | RT Core Spatial Index | Low | Research | Hardware-accelerated k-NN (optional) |
+| **M1.23** | Skill Packs System | High | 2-3 weeks | Loadable knowledge packages |
+
+### M2.0+ LLM Integration
+
 | Milestone | Name | Priority | Est. Time | Description |
 |-----------|------|----------|-----------|-------------|
 | **M2.0** | Spatial LLM Integration | 🔴 Next | 10-12 hours | LLM integration with spatial attention |
 | **M2.1** | Spatial Transformer Training | High | 10-12 hours | Training pipeline |
 | **M2.2** | Navigation Network | Medium | 8-10 hours | Learned navigation |
-| **M3.1** | 3D Visualization | Medium | 12-15 hours | Minecraft-style visualization |
+
+---
+
+## M1.21-M1.23: The Paradigm Shift
+
+These milestones enable the paradigm shift where **tiny reasoning models + INFINATE replace giant LLMs**:
+
+### M1.21: SISS (Spatial Intelligence Super Sampling)
+
+DLSS upscales low-resolution images to high-resolution using AI. SISS does the same for compressed LOD tokens:
+
+```
+DLSS FOR GRAPHICS:
+  Render at 1080p → AI Upscale → Output at 4K (same quality, 4× less compute)
+
+SISS FOR SPATIAL AI:
+  Compress 5,000 tokens → LOD (90 tokens) → AI Upscale → Effective 5,000 tokens
+  (Same quality, 55× less compute!)
+```
+
+### M1.22: RT Core Spatial Index (Optional)
+
+Use NVIDIA RT Cores (ray tracing hardware) for O(1) k-NN lookups:
+
+- RT Cores process ray-AABB intersections at hardware speed
+- Map spatial tokens to BVH (Bounding Volume Hierarchy)
+- Achieve true O(1) nearest-neighbor queries
+
+### M1.23: Skill Packs System
+
+Loadable, versioned knowledge packages - like Neo learning Kung Fu in The Matrix:
+
+```python
+# Load a skill pack
+load_skill_pack("python_v312")
+# INFINATE: "I know Python 3.12."
+
+# Skill packs include:
+# - Curated knowledge tokens with spatial coordinates
+# - Version control (python_v312, python_v311, etc.)
+# - Organic learning metadata (success/failure counts)
+# - Defragmentation rules (archive failures, consolidate successes)
+```
+
+**The Vision:**
+```
+GPT-4 (1.8T params) = Reasoning + ALL Human Knowledge
+                      └── 90% is STORAGE, not computation
+
+Tiny Model (7B) + INFINATE = Pure Reasoning + Skill Packs
+                             └── 100% is COMPUTATION
+                             └── Knowledge loaded on demand
+
+"The model thinks. INFINATE remembers."
+```
+
+📚 **See:** [BRAINSTORM_SISS_DLSS_INSPIRED.md](../../Project/BRAINSTORM_SISS_DLSS_INSPIRED.md) for full details
 
 ---
 
