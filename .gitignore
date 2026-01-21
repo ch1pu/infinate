@@ -299,6 +299,12 @@ backups/
 *.model
 
 # ================================
+# CLAUDE CODE SESSION DATA
+# ================================
+# Session logs and local Claude Code config
+.claude/
+
+# ================================
 # DEVELOPMENT WORKFLOW DOCS
 # ================================
 # Personal methodology docs - not INFINATE specific
