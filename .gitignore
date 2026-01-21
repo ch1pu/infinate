@@ -370,3 +370,5 @@ docs/milestones/milestone-1.6-vector-store.md
 # !.vscode/settings.json.example
 # !docker-compose.example.yml
 Documents/SPATIAL_INTERNET_DEEP_DIVE.md
+Documents/SESSION_SUMMARY_*.md
+Project/SESSION_*.md
