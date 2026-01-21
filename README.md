@@ -811,39 +811,40 @@ I documented everything before deciding to go open source. These files show exac
 
 ## Ecosystem: Three-System Architecture
 
-INFINATE is a **complete standalone system** that can run independently OR be embedded into the larger ecosystem.
+INFINATE's **spatial engine is complete** (M1.1-M1.11). The 3D visualization is planned for M1.12.
 
-### Two Deployment Modes
+### Deployment Modes
 
-| Mode | INFINATE Role | Use Case |
-|------|---------------|----------|
-| **Standalone** | Complete system with own 3D UI | Portfolio demo, research, integration into other projects |
-| **Embedded in FakeOS** | Engine + embeddable viz component | Full AI habitat dashboard |
-| **API-only** | Just the spatial engine | Other apps use the API |
+| Mode | INFINATE Role | Status |
+|------|---------------|--------|
+| **Python API** | Spatial engine via Python | ✅ Ready |
+| **PyO3 Bridge** | Spatial engine for Rust/other languages | ✅ Ready |
+| **Standalone 3D UI** | Complete system with own visualization | 📋 Planned (M1.12) |
+| **Embedded in FakeOS** | Engine + embeddable viz component | 📋 Planned (requires M1.12) |
 
-### Architecture Overview
+### Architecture Overview (Vision)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                    FAKEOS UNIFIED DASHBOARD                              │
+│                    FAKEOS UNIFIED DASHBOARD  📋 PLANNED                  │
 │  ┌────────────────────────┐  ┌────────────────────────────────────────┐ │
 │  │   Thought Stream       │  │     INFINATE 3D VISUALIZATION          │ │
-│  │   (Consciousness)      │  │     (Embedded Component)               │ │
+│  │   (Consciousness)      │  │     📋 PLANNED (M1.12)                 │ │
 │  │   💭 Current thought   │  │   🎮 Navigate semantic space           │ │
 │  │   💭 Pattern detected  │  │   🧊 See tokens as voxels              │ │
 │  ├────────────────────────┤  │   ✨ Watch attention flow              │ │
 │  │   Perception Events    │  │   🔍 Query paths visualized            │ │
 │  │   📁 File changed      │  │                                        │ │
-│  │   🔀 Git commit        │  │                                        │ │
+│  │   🔀 Git commit        │  │   (Only Vite config exists today)      │ │
 │  └────────────────────────┘  └────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────────────────┘
         ↑ Events from AIOS                    ↑ Spatial data from INFINATE
 ┌───────────────────────────────┐    ┌────────────────────────────────────┐
 │           AIOS                │    │            INFINATE                │
 │     (Ring 0 Kernel)           │    │    (O(k) Spatial AI Engine)        │
-│  • NPU 50 TOPS (XDNA 2)       │    │ • 10,317× faster than MIT RLM      │
-│  • 84ms boot time             │    │ • O(k) memory verified (1.5 MB)    │
-│  • AI syscalls                │    │ • 7 Quake physics exploits         │
+│  • NPU 50 TOPS (XDNA 2)       │    │ • Spatial Engine: ✅ COMPLETE      │
+│  • 84ms boot time             │    │ • 3D Visualization: 📋 M1.12      │
+│  • AI syscalls                │    │ • 10,317× faster than MIT RLM      │
 │  • Hardware abstraction       │    │ • 369 tests, 89.58% coverage       │
 │  Location: /home/ch1pu/OS/    │    │ Location: /home/ch1pu/infinate/    │
 │  Status: Phase 2 75%          │    │ Status: M1.11 COMPLETE (60%)       │
@@ -876,17 +877,19 @@ This unlocks FakeOS integration sooner than expected. See [AIOS Context](SUMMARY
 
 | Integration | Status | Notes |
 |-------------|--------|-------|
-| INFINATE standalone | ✅ Ready | Works independently, 10,317× faster than MIT RLM |
-| INFINATE → FakeOS (embed) | ✅ Ready | Visualization can be embedded as component |
+| INFINATE Spatial Engine | ✅ Ready | Python API complete, 10,317× faster than MIT RLM |
+| INFINATE 3D Visualization | 📋 Planned | M1.12 - only Vite config exists |
+| INFINATE → FakeOS (embed) | 📋 Planned | Requires M1.12 visualization first |
 | INFINATE → AIOS (syscalls) | 📋 Planned | Awaiting AIOS file watching syscalls |
 
 ### Combined Capabilities
 
 | Combination | What You Get |
 |-------------|--------------|
-| **INFINATE alone** | Standalone spatial AI with 3D visualization (60% complete) |
+| **INFINATE alone (today)** | Spatial engine via Python/PyO3 API (no viz yet) |
+| **INFINATE alone (M1.12)** | Standalone spatial AI with 3D visualization |
 | **AIOS + INFINATE** | Kernel-level AI with unlimited context, NPU acceleration |
-| **FakeOS + INFINATE** | Consciousness layer with spatial memory, embedded 3D viz |
+| **FakeOS + INFINATE** | Consciousness layer with spatial memory (viz requires M1.12) |
 | **Full Stack** | Complete AI habitat: kernel + consciousness + unlimited spatial memory |
 
 📚 **Full ecosystem details:** [FUTURE_VISION.md](Project/FUTURE_VISION.md#ecosystem-integration-aios--fakeos)
