@@ -51,6 +51,6 @@
   <!-- Speedup Callout -->
   <rect x="300" y="440" width="200" height="45" fill="#51cf66" rx="22" filter="url(#shadow)"/>
   <text x="400" y="470" text-anchor="middle" fill="#1a1a2e" font-family="Arial, sans-serif" font-size="20" font-weight="bold">
-    16,722× FASTER
+    10,317× FASTER
   </text>
 </svg>
