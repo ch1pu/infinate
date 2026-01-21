@@ -1231,12 +1231,10 @@ All of this. One person. Years of work. Given freely to everyone.
 
 ---
 
-### One Person. Three Breakthroughs. Given Freely.
+### O(k) Spatial Attention. Given Freely.
 
-This technology could have been worth billions. Instead, it belongs to everyone.
+INFINATE's spatial attention engine is open source. The O(k) breakthrough belongs to everyone.
 
-- **[Why I'm Giving This Away](MIT/SOLO_DEVELOPER_MANIFESTO.md)** - The philosophy
-- **[What This Is Worth](SUMMARY/SUMMARYMONETIZATION_VALUE_ASSESMENT.md)** - The full accounting
 - **[The Technical Proof](Documents/CORE_INNOVATION.md)** - O(k) complexity verified
 
 **Star this repo** if you believe open source AI infrastructure matters.
