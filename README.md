@@ -534,6 +534,22 @@ Query across millions of papers. Position = (topic_embedding, date, citation_clu
 | M1.10 | Hierarchical LOD System | ✅ Complete | 68 tests |
 | M1.11 | Strafe Jumping Navigation | ✅ Complete | 151 tests |
 
+### Planned Milestones
+
+| Milestone | Description | Status | Notes |
+|-----------|-------------|--------|-------|
+| M1.12 | 3D Visualization | 📋 Planned | React + Three.js |
+| M1.13 | FakeOS Embed | 📋 Planned | Requires M1.12 |
+| M1.14 | AIOS Syscalls | 📋 Planned | PyO3 bridge to kernel |
+| M1.15 | GPU SM_120 Support | 📋 Planned | Enable RTX 50-series |
+| M1.16 | Quality Benchmarks | 📋 Planned | Retrieval accuracy metrics |
+| M1.17 | Multi-Pass Navigation | 📋 Planned | Search multiple times |
+| M1.18 | Confidence Re-Navigation | 📋 Planned | Self-correcting search |
+| M1.19 | Adaptive LOD Thresholds | 📋 Planned | Query-appropriate fidelity |
+| M1.20 | Hybrid Attention Mode | 📋 Planned | Best of both worlds (optional) |
+
+📚 **Details:** [PRE_M2.0_IMPROVEMENTS.md](Project/PRE_M2.0_IMPROVEMENTS.md) for M1.15-M1.20
+
 ### Test Results
 - **369 tests** (369 passing, 3 skipped for GPU compatibility)
 - **99.2% test pass rate** (all non-skipped tests pass)
@@ -875,12 +891,12 @@ This unlocks FakeOS integration sooner than expected. See [AIOS Context](SUMMARY
 
 ### Current Integration Status
 
-| Integration | Status | Notes |
-|-------------|--------|-------|
-| INFINATE Spatial Engine | ✅ Ready | Python API complete, 10,317× faster than MIT RLM |
-| INFINATE 3D Visualization | 📋 Planned | M1.12 - only Vite config exists |
-| INFINATE → FakeOS (embed) | 📋 Planned | Requires M1.12 visualization first |
-| INFINATE → AIOS (syscalls) | 📋 Planned | Awaiting AIOS file watching syscalls |
+| Integration | Status | Milestone | Notes |
+|-------------|--------|-----------|-------|
+| INFINATE Spatial Engine | ✅ Ready | M1.1-M1.11 | Python API complete, 10,317× faster than MIT RLM |
+| INFINATE 3D Visualization | 📋 Planned | **M1.12** | React + Three.js, only Vite config exists |
+| INFINATE → FakeOS (embed) | 📋 Planned | **M1.13** | Requires M1.12 visualization first |
+| INFINATE → AIOS (syscalls) | 📋 Planned | **M1.14** | PyO3 bridge to kernel |
 
 ### Combined Capabilities
 
