@@ -369,3 +369,4 @@ docs/milestones/milestone-1.6-vector-store.md
 # Use ! to explicitly allow certain files if needed
 # !.vscode/settings.json.example
 # !docker-compose.example.yml
+Documents/SPATIAL_INTERNET_DEEP_DIVE.md
