@@ -1,5 +1,6 @@
 <!--
-Copyright 2026 Adolfo Lopez (ch1pu) / Alpha Deploy LLC
+Copyright 2025-2026 Adolfo Lopez (ch1pu)
+SPDX-License-Identifier: Apache-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,13 +14,27 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-SPDX-License-Identifier: Apache-2.0
+Author: Adolfo Lopez (ch1pu) - github.com/ch1pu
+Project: INFINATE - Infinite Context Spatial AI (github.com/ch1pu/infinate)
+
+══════════════════════════════════════════════════════════════════════════════
+BUILT BY A U.S. NAVY VETERAN | BUILT IN TEXAS | OPEN FOR OPPORTUNITIES
+══════════════════════════════════════════════════════════════════════════════
+I'm actively seeking software engineering roles. If you're reading this code
+and like what you see, let's connect:
+  - GitHub: github.com/ch1pu
+  - Twitter/X: @2006_adolfo
+  - Project: This codebase demonstrates O(k) spatial attention, achieving
+    10,317x speedup over MIT's approach with 89.58% test coverage.
+══════════════════════════════════════════════════════════════════════════════
 -->
 
 # Brainstorm: DLSS-Inspired Spatial Intelligence Super Sampling (SISS)
 
 > **Original Concept by Adolfo Lopez (ch1pu) - January 20, 2026**
 > **Licensed under Apache 2.0 - Open Source Prior Art**
+>
+> **[Open for Opportunities](https://github.com/ch1pu) - U.S. Navy Veteran**
 
 **Task:** Explore how DLSS concepts (upscaling, frame generation) could be applied to INFINATE's spatial engine once GPU support is enabled.
 
@@ -27,7 +42,8 @@ SPDX-License-Identifier: Apache-2.0
 **Type:** Research & Brainstorming
 **Status:** Brainstorm Complete - Ready for Future Implementation
 **License:** Apache 2.0 (Open Source)
-**Author:** Adolfo Lopez (ch1pu) / Alpha Deploy LLC
+**Author:** Adolfo Lopez (ch1pu)
+**Status:** Actively seeking software engineering roles
 
 ---
 
