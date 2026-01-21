@@ -82,6 +82,97 @@ and like what you see, let's connect:
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
+---
+
+## Plain English: Why Does This Matter?
+
+### The Core Problem We're Solving
+
+When you ask an AI a question, it can only "see" a limited amount of context. INFINATE solves this by compressing distant information (LOD system), but **compression loses details**.
+
+**Example: You ask "What was the database schema we discussed last week?"**
+
+| LOD Level | What the AI "sees" | Quality of Answer |
+|-----------|-------------------|-------------------|
+| NEAR (recent) | Full details | "The users table has id, name, email, created_at..." |
+| MEDIUM | Partial info | "There was a users table with some columns..." |
+| FAR | Vague summary | "We discussed database tables..." |
+| BEYOND | Almost nothing | "Something about databases..." |
+
+**The problem:** Important information might be in FAR or BEYOND zones, and the AI gives vague or incomplete answers.
+
+### How SISS Fixes This
+
+**SISS recovers lost information from compressed tokens.**
+
+```
+WITHOUT SISS:
+  Question about old topic → AI sees compressed summary → Vague answer
+
+WITH SISS:
+  Question about old topic → SISS upscales the summary → Detailed answer
+```
+
+**Real Impact on Query Quality:**
+
+| Scenario | Without SISS | With SISS |
+|----------|--------------|-----------|
+| "What was that function we wrote?" | "Some function for data processing" | "The parseUserData() function that validates JSON" |
+| "Remind me of the bug fix" | "There was a bug in authentication" | "The JWT expiration bug where tokens weren't refreshing" |
+| "What architecture did we decide on?" | "Microservices approach" | "Event-driven microservices with Redis pub/sub" |
+
+### Why Higher Fidelity = Better Answers
+
+**Fidelity = How much original information is preserved**
+
+- **20% fidelity:** AI knows the general topic but not specifics
+- **70% fidelity:** AI knows the topic AND key details
+- **100% fidelity:** AI knows everything (only possible for recent context)
+
+**SISS raises fidelity from 20% → 70% for MEDIUM-distance tokens.**
+
+This means the AI can give you **specific, accurate answers** about things discussed hours or days ago, instead of just saying "we talked about that."
+
+### Why RT Core Speed = Better Answers Too
+
+**Faster navigation means the AI can search more thoroughly.**
+
+```
+WITHOUT RT CORES (slower):
+  Query → Search 1 region → Return 90 tokens → Answer based on limited view
+
+WITH RT CORES (faster):
+  Query → Search 5 regions in same time → Return 450 tokens → Answer based on comprehensive view
+```
+
+**It's like the difference between:**
+- Glancing at one page of a book vs. scanning five pages
+- Checking one folder vs. checking five folders
+
+**Same response time, but 5x more context examined = better answers.**
+
+### The Combined Vision: What Users Actually Get
+
+| Feature | User Benefit |
+|---------|-------------|
+| **SISS Upscaling** | "The AI remembers details, not just topics" |
+| **RT Core Speed** | "The AI finds relevant info faster and more thoroughly" |
+| **Both Together** | "The AI gives accurate, detailed answers about anything we've ever discussed" |
+
+### Bottom Line
+
+**Before SISS + RT Cores:**
+> "What was that thing we discussed last month?"
+> AI: "We discussed some database optimization strategies."
+
+**After SISS + RT Cores:**
+> "What was that thing we discussed last month?"
+> AI: "We discussed adding a composite index on (user_id, created_at) to speed up the dashboard queries. You were concerned about write performance, so we decided to add it during off-peak hours."
+
+**That's the difference. Not just faster—actually useful.**
+
+---
+
 ### The Three SISS Techniques
 
 ```
@@ -684,13 +775,53 @@ Query position → RT Core BVH query → Hardware-accelerated spatial lookup →
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Why This Matters
+### Why This Matters (Technical)
 
 | Approach | Spatial Lookup | Semantic Ranking | Total Latency |
 |----------|---------------|------------------|---------------|
 | Current (Qdrant) | ~5-10ms | Included | ~5-10ms |
 | RT + Tensor Hybrid | ~0.1ms | ~0.5ms | **~0.6ms** |
 | **Speedup** | **50-100x** | N/A | **8-16x** |
+
+### Plain English: What RT Core Speed Actually Gives You
+
+**The key insight: Faster search = more thorough search in same time**
+
+**Think of it like searching a library:**
+
+| Speed | What happens | Quality of results |
+|-------|--------------|-------------------|
+| Slow (10ms) | Check 1 section | Might miss the best book |
+| Fast (0.6ms) | Check 10+ sections | Find the most relevant book |
+
+**Why this improves AI answers:**
+
+```
+SLOWER SEARCH (Current):
+  User: "What about that performance issue?"
+  AI: Searches 1 region → Finds partial match → "There was some performance work..."
+
+FASTER SEARCH (RT Cores):
+  User: "What about that performance issue?"
+  AI: Searches 10 regions → Finds exact match → "The N+1 query issue in the
+      orders endpoint that we fixed by adding eager loading on January 5th"
+```
+
+**Real scenarios where RT speed matters:**
+
+| Scenario | Slow Search Result | Fast Search Result |
+|----------|-------------------|-------------------|
+| "Find that code snippet" | "I see some code about validation" | "Here's the exact validateEmail() function from utils.ts" |
+| "What did we decide about X?" | "We discussed options for X" | "We chose Option B because of reasons A, B, C" |
+| "Remind me of the architecture" | "Microservices design" | "3 services: auth-service (port 3001), api-gateway (3000), worker (3002)" |
+
+**The math:**
+- 8-16x faster search
+- Same response time budget
+- = Can search 8-16x more context
+- = 8-16x more likely to find exactly what you need
+
+**Bottom line:** RT cores don't just make it faster—they make it more thorough, which means more accurate and specific answers.
 
 ### Limitations & Considerations
 
