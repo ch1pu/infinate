@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <defs>
+    <linearGradient id="redBar" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff6b6b"/>
+      <stop offset="100%" style="stop-color:#fa5252"/>
+    </linearGradient>
+    <linearGradient id="greenBar" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#51cf66"/>
+      <stop offset="100%" style="stop-color:#40c057"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ffd43b"/>
+      <stop offset="100%" style="stop-color:#fab005"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="#1a1a2e"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="22" font-weight="bold">
+    Annual Cost Comparison
+  </text>
+  <text x="400" y="58" text-anchor="middle" fill="#888888" font-family="Arial, sans-serif" font-size="13">
+    1 Million Queries Per Day
+  </text>
+
+  <!-- Chart background -->
+  <rect x="100" y="80" width="600" height="260" fill="#252540" rx="10"/>
+
+  <!-- MIT RLM Bar -->
+  <rect x="150" y="120" width="500" height="60" rx="8" fill="url(#redBar)"/>
+  <text x="160" y="158" fill="#ffffff" font-family="Arial, sans-serif" font-size="18" font-weight="bold">
+    MIT RLM: $361,350,000/year
+  </text>
+
+  <!-- INFINATE Bar (much smaller) -->
+  <rect x="150" y="220" width="5" height="60" rx="2" fill="url(#greenBar)"/>
+  <text x="170" y="258" fill="#51cf66" font-family="Arial, sans-serif" font-size="18" font-weight="bold">
+    INFINATE: $365,000/year
+  </text>
+
+  <!-- Savings Box -->
+  <rect x="200" y="340" width="400" height="80" rx="15" fill="url(#goldGrad)"/>
+  <text x="400" y="375" text-anchor="middle" fill="#1a1a2e" font-family="Arial, sans-serif" font-size="16" font-weight="bold">
+    ANNUAL SAVINGS
+  </text>
+  <text x="400" y="405" text-anchor="middle" fill="#1a1a2e" font-family="Arial, sans-serif" font-size="28" font-weight="bold">
+    $360,985,000
+  </text>
+
+  <!-- 990x cheaper badge -->
+  <circle cx="720" cy="160" r="50" fill="#51cf66"/>
+  <text x="720" y="155" text-anchor="middle" fill="#1a1a2e" font-family="Arial, sans-serif" font-size="20" font-weight="bold">990×</text>
+  <text x="720" y="175" text-anchor="middle" fill="#1a1a2e" font-family="Arial, sans-serif" font-size="12" font-weight="bold">CHEAPER</text>
+</svg>
