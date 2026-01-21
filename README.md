@@ -40,6 +40,23 @@ and like what you see, let's connect:
 [![Python](https://img.shields.io/badge/python-3.11+-blue)](./backend/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](./LICENSE)
 [![Hiring](https://img.shields.io/badge/status-open%20to%20work-success)](https://github.com/ch1pu)
+[![GitHub stars](https://img.shields.io/github/stars/ch1pu/infinate?style=social)](https://github.com/ch1pu/infinate/stargazers)
+
+<table>
+<tr>
+<td>
+
+### ⭐ Like what you see? Star this repo!
+
+If INFINATE helps you understand O(k) attention or inspires your work, please **give it a star**. It helps others discover this breakthrough and supports an independent developer.
+
+**Follow the journey:**
+[![Twitter](https://img.shields.io/badge/Twitter-@2006__adolfo-1DA1F2?logo=twitter&logoColor=white)](https://twitter.com/2006_adolfo)
+[![GitHub](https://img.shields.io/badge/GitHub-ch1pu-181717?logo=github&logoColor=white)](https://github.com/ch1pu)
+
+</td>
+</tr>
+</table>
 
 ---
 
@@ -1215,10 +1232,40 @@ All of this. One person. Years of work. Given freely to everyone.
 
 ---
 
+## Support This Project
+
+<table>
+<tr>
+<td width="50%">
+
+### ⭐ Star & Share
+
+If INFINATE helped you, please:
+
+1. **Star this repo** - Helps others discover it
+2. **Share on social media** - Spread the O(k) breakthrough
+3. **Follow [@2006_adolfo](https://twitter.com/2006_adolfo)** - Project updates
+
+</td>
+<td width="50%">
+
+### Share Links
+
+[![Tweet](https://img.shields.io/badge/Tweet-Share-1DA1F2?logo=twitter&logoColor=white)](https://twitter.com/intent/tweet?text=Check%20out%20INFINATE%20-%20O(k)%20spatial%20attention%20that%27s%2010,317x%20faster%20than%20MIT%27s%20approach!%20Built%20by%20a%20Navy%20vet%20driving%20Uber.%20%F0%9F%9A%80&url=https://github.com/ch1pu/infinate&hashtags=AI,MachineLearning,OpenSource)
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Share-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/sharing/share-offsite/?url=https://github.com/ch1pu/infinate)
+
+[![Reddit](https://img.shields.io/badge/Reddit-Share-FF4500?logo=reddit&logoColor=white)](https://reddit.com/submit?url=https://github.com/ch1pu/infinate&title=INFINATE%20-%20O(k)%20Spatial%20Attention%20(10,317x%20faster%20than%20MIT))
+
+</td>
+</tr>
+</table>
+
+---
+
 ## Acknowledgments
 
 - PyTorch team for the deep learning framework
-- Claude (Anthropic) for development assistance
 - The open-source AI research community
 
 ---
@@ -1235,6 +1282,6 @@ All of this. One person. Years of work. Given freely to everyone.
 
 INFINATE's spatial attention engine is open source. The O(k) breakthrough belongs to everyone.
 
-- **[The Technical Proof](Documents/CORE_INNOVATION.md)** - O(k) complexity verified
+⭐ **[Star this repo](https://github.com/ch1pu/infinate/stargazers)** if you believe open source AI infrastructure matters.
 
-**Star this repo** if you believe open source AI infrastructure matters.
+[![Twitter Follow](https://img.shields.io/twitter/follow/2006_adolfo?style=social)](https://twitter.com/2006_adolfo)
