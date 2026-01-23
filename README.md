@@ -178,7 +178,7 @@ Right after that thought came the game-changer:
 - As you move, new chunks load and old ones unload
 - Result: Infinite worlds with constant memory
 
-**When I started coding**, I had one non-negotiable constraint: **everything must be O(k) or better**. I gave this constraint directly to Claude Code as my primary requirement.
+**When I started coding**, I had one non-negotiable constraint: **highest efficiency time complexity possible**. I gave this constraint directly to Claude Code as my primary requirement.
 
 *Prompt engineering gold.*
 
