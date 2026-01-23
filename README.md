@@ -160,16 +160,29 @@ Result: **10,317× faster than MIT RLM** (Qdrant in-memory) or **533× faster** 
 
 ## The Insight: A Driving Epiphany
 
-**October 2025** — While driving one day, I had a realization that changed everything:
+**October 2025** — While driving one day, I had a chain of realizations:
 
-> *"Vector stores used in RAG are like 3D positions on a higher-level grid.
-> What if I could apply the infinite map hack from video games to AI context?"*
+> *"Vector stores used in RAG are like 3D positions on a higher-level grid..."*
+
+I didn't fully understand vector store internals at the time, but from the math I knew, I took a good guess. And if that was true:
+
+> *"...then I could use this for AI memory."*
+
+Right after that thought came the game-changer:
+
+> *"And if the spatial positioning works, I can apply the infinite map hack from video games."*
 
 **The infinite map hack** is how video games render massive, seemingly infinite worlds:
 - Only load chunks near the player
 - Distant areas exist but aren't processed
 - As you move, new chunks load and old ones unload
 - Result: Infinite worlds with constant memory
+
+**When I started coding**, I had one non-negotiable constraint: **everything must be O(k) or better**. I gave this constraint directly to Claude Code as my primary requirement.
+
+*Prompt engineering gold.*
+
+Not long after, I had a working proof of concept.
 
 **The same principle applies to AI memory:**
 
@@ -185,7 +198,7 @@ Spatial AI:
 → Context limited only by storage (billions of tokens!)
 ```
 
-**This is Infinite**: AI attention that works like a video game engine.
+**This is INFINATE**: AI attention that works like a video game engine.
 
 ---
 
