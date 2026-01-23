@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 Author: Adolfo Lopez (ch1pu) - github.com/ch1pu
-Project: INFINATE - Infinite Context Spatial AI (github.com/ch1pu/infinate)
+Project: INFINATE - World's First O(k) Spatial Attention (github.com/ch1pu/infinate)
 
 ══════════════════════════════════════════════════════════════════════════════
 BUILT BY A U.S. NAVY VETERAN | BUILT IN TEXAS | OPEN FOR OPPORTUNITIES
@@ -29,9 +29,9 @@ and like what you see, let's connect:
 ══════════════════════════════════════════════════════════════════════════════
 -->
 
-# Infinite - O(k) Spatial Attention for Unlimited AI Context
+# INFINATE - World's First O(k) Spatial Attention with Unlimited Context
 
-> **Transform how AI models access memory. Process billions of tokens with constant computational cost.**
+> **The breakthrough that transforms how AI models access memory. Process billions of tokens with constant computational cost.**
 >
 > **Built by [Adolfo Lopez](https://github.com/ch1pu) - U.S. Navy Veteran - Open for Opportunities**
 
