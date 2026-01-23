@@ -86,6 +86,18 @@ Right after that thought came the game-changer:
 
 Not long after, I had a working proof of concept.
 
+**Then came the improvements.** Vector store integration (M1.6). Hierarchical Level-of-Detail compression that lets 90 tokens represent 875+ tokens of context (M1.10). Each milestone building on the last, each maintaining O(k) complexity.
+
+**Then I decided to show off.**
+
+This project is also a portfolio piece. And since the whole thing is based on video game engine concepts... why not exploit the physics?
+
+**Milestone 1.11: Strafe Jumping Navigation** — I took 7 movement exploits from Quake (warp lanes, bunny hopping, circle jumping) and applied them to semantic space navigation. The result: **10,317× faster than MIT's approach**.
+
+> **To Employers:** If you like what you see here — the innovation, the execution, the 369 tests at 89.58% coverage — I'm looking for opportunities. I built this while driving Uber. Imagine what I could do with actual resources.
+>
+> **Let's talk:** [GitHub](https://github.com/ch1pu) | [Twitter/X](https://twitter.com/2006_adolfo)
+
 **The same principle applies to AI memory:**
 
 ```
