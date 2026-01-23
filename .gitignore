@@ -275,6 +275,9 @@ playground/
 test-data/
 dev-data/
 
+# Private scripts (investor tooling, etc.)
+scripts/
+
 # Security reports (may contain sensitive findings)
 Security/findings-detailed.txt
 Security/secrets-found.txt
