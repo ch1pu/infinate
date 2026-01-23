@@ -129,7 +129,7 @@ Create an interactive 3D demonstration site that:
 - No other AI company has a 3D interactive demo
 - Visual proof of theoretical claims
 - Investors can verify O(k) complexity themselves
-- Minecraft-style interface makes AI intuitive
+- simple 3D interface makes AI intuitive
 
 **Technical Differentiators:**
 - Real spatial attention running (not simulation)
@@ -572,7 +572,7 @@ interface TokenMeshProps {
 ```
 
 **Visual Design:**
-- Shape: Rounded cube (like Minecraft voxel)
+- Shape: Rounded cube (voxel style)
 - Size: 1 unit base, scales with embedding magnitude
 - Colors: Based on token type (code=blue, text=green, etc.)
 - Glow: When part of current attention

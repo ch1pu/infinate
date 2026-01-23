@@ -1560,7 +1560,7 @@ class EventEmissionService {
 This Visual Feedback Architecture provides a complete system for transforming every computational operation in Infinite into intuitive, engaging visual feedback. By implementing this architecture:
 
 1. **Users SEE AI thinking** - Every NPU embedding, GPU search, and context load is visible
-2. **Operations are intuitive** - Minecraft-style graphics make complex operations understandable
+2. **Operations are intuitive** - simple 3D graphics make complex operations understandable
 3. **Performance is transparent** - Real-time metrics show exactly what hardware is doing
 4. **Debugging is visual** - Watch agents navigate, build, and collaborate in real-time
 5. **Engagement is maximized** - Gameified interface makes AI development fun

@@ -36,7 +36,7 @@ and like what you see, let's connect:
 
 ## EXECUTIVE SUMMARY
 
-The 3D Rendering Engine provides a Minecraft-style voxel world that visualizes the spatial memory system. Built on Three.js with WebGPU support, it achieves 60+ FPS while rendering millions of voxels, thousands of particles, and complex visual effects on integrated graphics (iGPU), leaving the discrete GPU free for AI inference.
+The 3D Rendering Engine provides a simple 3D voxel world that visualizes the spatial memory system. Built on Three.js with WebGPU support, it achieves 60+ FPS while rendering millions of voxels, thousands of particles, and complex visual effects on integrated graphics (iGPU), leaving the discrete GPU free for AI inference.
 
 ---
 

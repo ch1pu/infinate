@@ -248,7 +248,7 @@ Z-axis (North-South): Abstraction Level
 ### 4.1 Core Visualizations
 
 **Memory Palace (Main View):**
-- Minecraft-style voxel world
+- simple 3D voxel world
 - Buildings represent code files
 - Height = file size
 - Color = file type
@@ -437,7 +437,7 @@ Merge results and present to user
 ### 8.1 Core Principles
 
 1. **Intuitive Over Complex**
-   - Minecraft-style interface
+   - simple 3D interface
    - Natural navigation
    - Visual feedback
 

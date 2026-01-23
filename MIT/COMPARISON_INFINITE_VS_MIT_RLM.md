@@ -439,7 +439,7 @@ Reliability: 100% (physics doesn't fail)
 
 ---
 
-## The Video Game Analogy: Fog of War vs Minecraft
+## The Video Game Analogy: Fog of War vs Open World Chunk Loading
 
 ### MIT RLM = Fog of War with Scouts
 
@@ -456,7 +456,7 @@ Problem: Scouts still traverse O(n) terrain
 Cost: Number of scouts × terrain traversed
 ```
 
-### Infinite = Minecraft Chunk Loading
+### Infinite = Open World Chunk Loading
 
 ```
 Infinite world

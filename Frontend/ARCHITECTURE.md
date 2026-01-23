@@ -36,7 +36,7 @@ and like what you see, let's connect:
 
 ## OVERVIEW
 
-The frontend provides an immersive 3D visualization of the spatial memory palace, allowing users to observe AI agents navigating through code and knowledge. Built with React, Three.js, and WebGPU, it delivers a Minecraft-style interface that makes AI context management intuitive and visual.
+The frontend provides an immersive 3D visualization of the spatial memory palace, allowing users to observe AI agents navigating through code and knowledge. Built with React, Three.js, and WebGPU, it delivers a simple 3D interface that makes AI context management intuitive and visual.
 
 ---
 
@@ -980,4 +980,4 @@ This frontend architecture provides:
 - **Performance monitoring** and optimization
 - **Modular component structure** for maintainability
 
-The Minecraft-style interface makes the complex spatial context system approachable and understandable for developers.
+The simple 3D interface makes the complex spatial context system approachable and understandable for developers.

@@ -57,7 +57,7 @@ This master document provides a comprehensive index and summary of all component
 
 ### Real-Time Visualization of All Operations
 
-Every computational operation has a visual representation in the 3D Minecraft-style world.
+Every computational operation has a visual representation in the 3D simple 3D world.
 
 #### 1. NPU Operations (Embedding & Search)
 
