@@ -84,15 +84,15 @@ Right after that thought came the game-changer:
 
 *Prompt engineering gold.*
 
-Not long after, I had a working proof of concept.
+**November 12, 2025** — PROJECT GENESIS. Working proof of concept. **November 13** — O(k) complexity proof pushed to GitHub. One day later.
 
-**Then came the improvements.** Vector store integration (M1.6). Hierarchical Level-of-Detail compression that lets 90 tokens represent 875+ tokens of context (M1.10). Each milestone building on the last, each maintaining O(k) complexity.
+**Then came the improvements.** Vector store integration — **January 13, 2026**. Hierarchical Level-of-Detail compression that lets 90 tokens represent 875+ tokens of context — **January 19, 2026**. Each milestone building on the last, each maintaining O(k) complexity.
 
 **Then I decided to show off.**
 
 This project is also a portfolio piece. And since the whole thing is based on video game engine concepts... why not exploit the physics?
 
-**Milestone 1.11: Strafe Jumping Navigation** — I took 7 movement exploits from Quake (warp lanes, bunny hopping, circle jumping) and applied them to semantic space navigation. The result: **10,317× faster than MIT's approach**.
+**January 20, 2026 — Milestone 1.11: Strafe Jumping Navigation.** I took 7 movement exploits from Quake (warp lanes, bunny hopping, circle jumping) and applied them to semantic space navigation. The result: **10,317× faster than MIT's approach**.
 
 > **To Employers:** If you like what you see here — the innovation, the execution, the 369 tests at 89.58% coverage — I'm looking for opportunities. I built this while driving Uber. Imagine what I could do with actual resources.
 >
