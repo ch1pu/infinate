@@ -60,6 +60,50 @@ If INFINATE helps you understand O(k) attention or inspires your work, please **
 
 ---
 
+## The Insight: A Driving Epiphany
+
+**October 2025** — While driving one day, I had a chain of realizations:
+
+> *"Vector stores used in RAG are like 3D positions on a higher-level grid..."*
+
+I didn't fully understand vector store internals at the time, but from the math I knew, I took a good guess. And if that was true:
+
+> *"...then I could use this for AI memory."*
+
+Right after that thought came the game-changer:
+
+> *"And if the spatial positioning works, I can apply the infinite map hack from video games."*
+
+**The infinite map hack** is how video games render massive, seemingly infinite worlds:
+- Only load chunks near the player
+- Distant areas exist but aren't processed
+- As you move, new chunks load and old ones unload
+- Result: Infinite worlds with constant memory
+
+**When I started coding**, I had one non-negotiable constraint: **highest efficiency time complexity possible**. I gave this constraint directly to Claude Code as my primary requirement.
+
+*Prompt engineering gold.*
+
+Not long after, I had a working proof of concept.
+
+**The same principle applies to AI memory:**
+
+```
+Traditional AI:
+"I must attend to ALL tokens in the sequence"
+→ O(n²) complexity
+→ Context limited to ~200K tokens
+
+Spatial AI:
+"I only attend to NEARBY tokens in semantic space"
+→ O(k) complexity where k is constant
+→ Context limited only by storage (billions of tokens!)
+```
+
+**This is INFINATE**: AI attention that works like a video game engine.
+
+---
+
 ## Latest Achievement: M1.11 Strafe Jumping Navigation (January 20, 2026)
 
 ```
@@ -155,50 +199,6 @@ Result: **10,317× faster than MIT RLM** (Qdrant in-memory) or **533× faster** 
 | No LLM integration | Can't generate text yet | 📋 M2.0 planned |
 
 **Important:** Even CPU-only, INFINATE is **10,317× faster than MIT RLM**. GPU would add ~11× more.
-
----
-
-## The Insight: A Driving Epiphany
-
-**October 2025** — While driving one day, I had a chain of realizations:
-
-> *"Vector stores used in RAG are like 3D positions on a higher-level grid..."*
-
-I didn't fully understand vector store internals at the time, but from the math I knew, I took a good guess. And if that was true:
-
-> *"...then I could use this for AI memory."*
-
-Right after that thought came the game-changer:
-
-> *"And if the spatial positioning works, I can apply the infinite map hack from video games."*
-
-**The infinite map hack** is how video games render massive, seemingly infinite worlds:
-- Only load chunks near the player
-- Distant areas exist but aren't processed
-- As you move, new chunks load and old ones unload
-- Result: Infinite worlds with constant memory
-
-**When I started coding**, I had one non-negotiable constraint: **highest efficiency time complexity possible**. I gave this constraint directly to Claude Code as my primary requirement.
-
-*Prompt engineering gold.*
-
-Not long after, I had a working proof of concept.
-
-**The same principle applies to AI memory:**
-
-```
-Traditional AI:
-"I must attend to ALL tokens in the sequence"
-→ O(n²) complexity
-→ Context limited to ~200K tokens
-
-Spatial AI:
-"I only attend to NEARBY tokens in semantic space"
-→ O(k) complexity where k is constant
-→ Context limited only by storage (billions of tokens!)
-```
-
-**This is INFINATE**: AI attention that works like a video game engine.
 
 ---
 
