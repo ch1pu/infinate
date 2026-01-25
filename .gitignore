@@ -398,6 +398,9 @@ Security/
 # Assets (kept locally)
 assets/
 
+# Backend architecture docs (kept locally)
+Backend/
+
 # Session logs
 *SESSION*.md
 *_SESSION_*.md
