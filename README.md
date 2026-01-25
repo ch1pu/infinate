@@ -273,7 +273,7 @@ I think about Linus Torvalds a lot. In 1991, he created Linux and gave it away. 
 
 **The O(k) breakthrough belongs to humanity, not shareholders.**
 
-I won't pretend there's no self-interest. I'm driving Uber while building this. I have no VC connections, no Stanford network. Open source is the great equalizer - the code speaks when no one will give you a chance.
+I won't pretend there's no self-interest. I'm bootstrapping Alpha Deploy while driving Uber. I have no VC connections, no Stanford network. Open source is the great equalizer - the code speaks for itself.
 
 ---
 
@@ -305,14 +305,15 @@ poetry run pytest -m benchmark -v               # Benchmarks
 **Adolfo Lopez** ([@ch1pu](https://github.com/ch1pu))
 
 - **United States Navy Veteran** - Electronics Technician, Nuclear Field
-- **Current:** Uber driver building AI systems
+- **Background:** Electrical Engineering, Data Center Operations
+- **Current:** Bootstrapping Alpha Deploy LLC while building this portfolio
 - **Location:** Texas
 
-The Navy Nuclear program shaped how I think. When you're responsible for reactor systems on a submarine, you learn to think in systems - how every component connects, how failures cascade, how redundancy saves lives.
+The Navy Nuclear program shaped how I think. When you're responsible for reactor systems on a submarine, you learn to think in systems - how every component connects, how failures cascade, how redundancy saves lives. Years of electrical engineering and data center operations reinforced that discipline.
 
 That mindset built INFINATE. The O(k) attention architecture isn't clever hackery - it's engineered like a system that has to work.
 
-**If you're hiring:** I built this while driving Uber. Imagine what I could do with actual resources.
+**Open to opportunities:** Partnerships, collaborations, or roles in AI/ML engineering.
 
 - GitHub: [@ch1pu](https://github.com/ch1pu)
 - Twitter/X: [@2006_adolfo](https://twitter.com/2006_adolfo)
@@ -357,7 +358,7 @@ If INFINATE helped you:
 
 ### Share Links
 
-[![Tweet](https://img.shields.io/badge/Tweet-Share-1DA1F2?logo=twitter&logoColor=white)](https://twitter.com/intent/tweet?text=Check%20out%20INFINATE%20-%20O(k)%20spatial%20attention%20that%27s%2010,317x%20faster%20than%20standard%20transformers!%20Built%20by%20a%20Navy%20vet%20driving%20Uber.%20%F0%9F%9A%80&url=https://github.com/ch1pu/infinate&hashtags=AI,MachineLearning,OpenSource)
+[![Tweet](https://img.shields.io/badge/Tweet-Share-1DA1F2?logo=twitter&logoColor=white)](https://twitter.com/intent/tweet?text=Check%20out%20INFINATE%20-%20O(k)%20spatial%20attention%20that%27s%2010,317x%20faster%20than%20standard%20transformers!%20Built%20by%20a%20Navy%20vet.%20%F0%9F%9A%80&url=https://github.com/ch1pu/infinate&hashtags=AI,MachineLearning,OpenSource)
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Share-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/sharing/share-offsite/?url=https://github.com/ch1pu/infinate)
 
