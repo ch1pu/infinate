@@ -387,3 +387,6 @@ MIT/
 
 # Session summaries (local only)
 SESSION_SUMMARY*.md
+
+# Unreleased milestones (star-based release strategy)
+unreleased/
