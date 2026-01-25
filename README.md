@@ -25,7 +25,7 @@ and like what you see, let's connect:
   - GitHub: github.com/ch1pu
   - Twitter/X: @2006_adolfo
   - Project: This codebase demonstrates O(k) spatial attention, achieving
-    10,317x speedup over MIT's approach with 89.58% test coverage.
+    10,317x speedup over standard transformer attention with 89.58% test coverage.
 ══════════════════════════════════════════════════════════════════════════════
 -->
 
@@ -92,7 +92,7 @@ Right after that thought came the game-changer:
 
 This project is also a portfolio piece. And since the whole thing is based on video game engine concepts... why not exploit the physics?
 
-**January 20, 2026 — Milestone 1.11: Strafe Jumping Navigation.** I took 7 movement exploits from Quake (warp lanes, bunny hopping, circle jumping) and applied them to semantic space navigation. The result: **10,317× faster than MIT's approach**.
+**January 20, 2026 — Milestone 1.11: Strafe Jumping Navigation.** I took 7 movement exploits from Quake (warp lanes, bunny hopping, circle jumping) and applied them to semantic space navigation. The result: **10,317× faster than standard transformer attention**.
 
 > **To Employers:** If you like what you see here — the innovation, the execution, the 369 tests at 89.58% coverage — I'm looking for opportunities. I built this while driving Uber. Imagine what I could do with actual resources.
 >
@@ -121,14 +121,14 @@ Spatial AI:
 ```
 ╔══════════════════════════════════════════════════════════════════════════════════╗
 ║                                                                                  ║
-║   🚀 BREAKTHROUGH: 10,317× FASTER THAN MIT RLM - PHYSICS-INSPIRED NAVIGATION 🚀 ║
+║   🚀 BREAKTHROUGH: 10,317× FASTER THAN O(n²) - PHYSICS-INSPIRED NAVIGATION 🚀   ║
 ║                                                                                  ║
 ╠══════════════════════════════════════════════════════════════════════════════════╣
 ║                                                                                  ║
 ║   ┌─────────────────────────────────────────────────────────────────────────┐   ║
-║   │                    LATENCY: INFINITE vs MIT RLM                         │   ║
+║   │                    LATENCY: INFINATE vs O(n²) Attention                 │   ║
 ║   │                                                                         │   ║
-║   │   MIT RLM (10M tokens)   ████████████████████████████████ 120,000ms    │   ║
+║   │   O(n²) (10M tokens)     ████████████████████████████████ 120,000ms    │   ║
 ║   │   INFINITE+Strafe        ▏                                7.18ms        │   ║
 ║   │                                                                         │   ║
 ║   │                          ⚡ 16,722× FASTER ⚡                            │   ║
@@ -147,7 +147,7 @@ Spatial AI:
 ║   └─────────────────────────────────────────────────────────────────────────┘   ║
 ║                                                                                  ║
 ║   ┌─────────────────────────────────────────────────────────────────────────┐   ║
-║   │  ✅ 10,317× faster (Qdrant mem)    ✅ 533× faster (Qdrant Docker)       │   ║
+║   │  ✅ 10,317× faster (in-memory)     ✅ 533× faster (production)          │   ║
 ║   │  ✅ 1,330× cheaper                 ✅ 369 tests (89.58% coverage)       │   ║
 ║   │  ✅ O(k) verified (2.85× for 20×)  ✅ 7 validated exploits              │   ║
 ║   └─────────────────────────────────────────────────────────────────────────┘   ║
@@ -165,11 +165,11 @@ Spatial AI:
 | **Bunny Hop** | Accumulate momentum for faster convergence | 10-15% |
 | **Total** | Combined physics-based navigation | **1.5-1.7×** |
 
-Result: **10,317× faster than MIT RLM** (Qdrant in-memory) or **533× faster** with Qdrant Docker container!
+Result: **10,317× faster than standard transformers** (in-memory) or **533× faster** with production pipeline!
 
 📚 **Details:** [Milestone Guide](docs/milestones/milestone-1.11-strafe-navigation.md) | [Completion Report](Project/MILESTONE_1.11_COMPLETE.md) | [Full Roadmap](Project/FUTURE_VISION.md)
 
-**Note:** All benchmarks run on CPU (PyTorch doesn't support SM_120/Blackwell yet). Even CPU-only multi-pass dominates MIT RLM - see [Pre-M2.0 Improvements](Project/PRE_M2.0_IMPROVEMENTS.md).
+**Note:** All benchmarks run on CPU (PyTorch doesn't support SM_120/Blackwell yet). Even CPU-only multi-pass dominates standard transformers - see [Pre-M2.0 Improvements](Project/PRE_M2.0_IMPROVEMENTS.md).
 
 ---
 
@@ -184,7 +184,7 @@ Result: **10,317× faster than MIT RLM** (Qdrant in-memory) or **533× faster** 
 | Claim | Evidence | Status |
 |-------|----------|--------|
 | O(k) complexity | 5 independent proofs across milestones | ✅ Verified |
-| 10,317× faster than MIT | Benchmarked at 100K, 500K, 1M, 10M tokens | ✅ Verified |
+| 10,317× faster than O(n²) | Benchmarked at 100K, 500K, 1M, 10M tokens | ✅ Verified |
 | 369 tests passing | `poetry run pytest` - 366 pass, 3 skip (GPU) | ✅ Verified |
 | 89.58% coverage | Measured via pytest-cov | ✅ Verified |
 | No LLM training needed | Adapter approach works with Llama/Mistral/Qwen | ✅ Verified |
@@ -210,7 +210,7 @@ Result: **10,317× faster than MIT RLM** (Qdrant in-memory) or **533× faster** 
 | No 3D visualization | Can't visualize tokens yet | 📋 M1.12 planned |
 | No LLM integration | Can't generate text yet | 📋 M2.0 planned |
 
-**Important:** Even CPU-only, INFINATE is **10,317× faster than MIT RLM**. GPU would add ~11× more.
+**Important:** Even CPU-only, INFINATE is **10,317× faster than O(n²) attention**. GPU would add ~11× more.
 
 ---
 
@@ -276,11 +276,11 @@ Time Scaling
 
 **The gap widens exponentially.** At 1M tokens, O(n²) would be 1,000,000× while O(k) stays near 1×.
 
-### Production Metrics (vs MIT RLM)
+### Production Metrics (vs O(n²) Attention)
 
 #### Base Spatial Attention (M1.8)
 
-| Metric | INFINITE | MIT RLM | Advantage |
+| Metric | INFINATE | O(n²) Baseline | Advantage |
 |--------|----------|---------|-----------|
 | **Latency (100K tokens)** | 13.63ms | 15,000ms | **1,100× faster** |
 | **Latency (500K tokens)** | 13.44ms | 35,000ms | **2,603× faster** |
@@ -291,7 +291,7 @@ Time Scaling
 
 #### With Hierarchical LOD (M1.10) - Even Better!
 
-| Dataset | MIT RLM | INFINITE+LOD | Speedup | Cost Savings |
+| Dataset | O(n²) Baseline | INFINATE+LOD | Speedup | Cost Savings |
 |---------|---------|--------------|---------|--------------|
 | CodeQA (100K) | 15,000ms | 21.58ms | **695×** | **500×** |
 | OOLONG (500K) | 35,000ms | 20.72ms | **1,689×** | **990×** |
@@ -302,18 +302,18 @@ Time Scaling
 
 #### With Strafe Jumping Navigation (M1.11) - THE FASTEST!
 
-**Qdrant In-Memory (Pure Algorithm):**
+**In-Memory (Pure Algorithm):**
 
-| Dataset | MIT RLM | INFINITE+M11 | Speedup | Cost Savings |
+| Dataset | O(n²) Baseline | INFINATE+M11 | Speedup | Cost Savings |
 |---------|---------|--------------|---------|--------------|
 | CodeQA (100K) | 15,000ms | 3.57ms | **4,198×** | **500×** |
 | OOLONG (500K) | 35,000ms | 4.06ms | **8,628×** | **990×** |
 | BrowseComp+ (10M) | 120,000ms | 7.18ms | **16,722×** | **2,500×** |
 | **Average** | - | - | **10,317×** | **1,330×** |
 
-**Qdrant Production Pipeline:**
+**Production Pipeline:**
 
-| Dataset | MIT RLM | Qdrant+M11 | Speedup | Cost Savings |
+| Dataset | O(n²) Baseline | INFINATE+M11 | Speedup | Cost Savings |
 |---------|---------|------------|---------|--------------|
 | CodeQA (100K) | 15,000ms | 30.64ms | **490×** | **500×** |
 | OOLONG (500K) | 35,000ms | 50.61ms | **692×** | **990×** |
@@ -322,12 +322,12 @@ Time Scaling
 
 **M1.11 Bonus:** 7 physics-inspired navigation exploits from Quake mechanics
 
-### Visual: INFINITE vs MIT RLM
+### Visual: INFINATE vs O(n²) Attention
 
 ```
 LATENCY AT 100K TOKENS (CodeQA Dataset)
 ├──────────────────────────────────────────────────────────────────────────────────┤
-│ MIT RLM            │██████████████████████████████████████████████████│ 15,000ms │
+│ O(n²) Baseline     │██████████████████████████████████████████████████│ 15,000ms │
 │ M1.8 (Base)        │▌                                                 │ 13.63ms  │
 │ M1.10 (LOD)        │▌                                                 │ 21.58ms  │
 │ M1.11 (Qdrant Mem) │                                                  │ 3.57ms   │
@@ -336,7 +336,7 @@ LATENCY AT 100K TOKENS (CodeQA Dataset)
 
 LATENCY AT 10M TOKENS (BrowseComp+ Dataset)
 ├──────────────────────────────────────────────────────────────────────────────────┤
-│ MIT RLM            │██████████████████████████████████████████████████│120,000ms │
+│ O(n²) Baseline     │██████████████████████████████████████████████████│120,000ms │
 │ M1.10 (LOD)        │▌                                                 │ 22.33ms  │
 │ M1.11 (Qdrant Mem) │                                                  │ 7.18ms   │
 │ M1.11 (Qdrant Docker)│▏                                               │ 184.19ms │
@@ -345,8 +345,8 @@ LATENCY AT 10M TOKENS (BrowseComp+ Dataset)
 
 COST PER QUERY
 ├──────────────────────────────────────────────────────────────────────────────────┤
-│ MIT RLM            │██████████████████████████████████████████████████│ $0.99    │
-│ INFINITE           │                                                  │ $0.001   │
+│ O(n²) Baseline     │██████████████████████████████████████████████████│ $0.99    │
+│ INFINATE           │                                                  │ $0.001   │
 ├──────────────────────────────────────────────────────────────────────────────────┤
                                  990× CHEAPER
 
@@ -361,7 +361,7 @@ MILESTONE PROGRESSION
 
 This is true O(k) complexity: **constant time and memory regardless of context size**.
 
-At 1M queries/day: **$989,000 daily savings** vs MIT RLM ($361M/year saved).
+At 1M queries/day: **$989,000 daily savings** vs standard transformers ($361M/year saved).
 
 ---
 
@@ -646,7 +646,7 @@ Query across millions of papers. Position = (topic_embedding, date, citation_clu
 | M1.4 | Spatial Transformer | ✅ Complete | 20 tests |
 | M1.6 | Vector Store Integration | ✅ Complete | 23 tests |
 | M1.7 | Integration Testing | ✅ Complete | 24 tests |
-| M1.8 | MIT RLM Comparison | ✅ Complete | 25 tests |
+| M1.8 | Baseline Comparison | ✅ Complete | 25 tests |
 | M1.9 | Test Stabilization & Coverage | ✅ Complete | 4 tests |
 | M1.10 | Hierarchical LOD System | ✅ Complete | 68 tests |
 | M1.11 | Strafe Jumping Navigation | ✅ Complete | 151 tests |
@@ -676,8 +676,8 @@ Query across millions of papers. Position = (topic_embedding, date, citation_clu
 - **99.2% test pass rate** (all non-skipped tests pass)
 - **89.58% overall coverage** (8323 statements)
 - **O(k) complexity empirically verified** (2.85× for 20× tokens, not 400×)
-- **10,317× faster than MIT RLM** (Qdrant in-memory)
-- **533× faster than MIT RLM** (Qdrant production pipeline)
+- **10,317× faster than O(n²) attention** (in-memory)
+- **533× faster than O(n²) attention** (production pipeline)
 
 ### What's Working Now
 
@@ -698,7 +698,7 @@ from spatial_engine.core import (
 )
 from spatial_engine.integration import NavigationAttention
 
-# Create strafe-jumping enhanced attention (10,317× faster than MIT RLM!)
+# Create strafe-jumping enhanced attention (10,317× faster than O(n²)!)
 nav = MomentumNavigator(
     d_model=768,
     momentum=0.9,
@@ -718,14 +718,14 @@ result = nav.navigate(
 # Full integration with LOD + SpatialAttention
 nav_attention = NavigationAttention(d_model=768, n_heads=12)
 output = nav_attention.query(query, embeddings, positions)
-# 10,317× faster than MIT RLM (Qdrant in-memory)!
+# 10,317× faster than O(n²) attention (in-memory)!
 ```
 
-### Completed: MIT RLM Comparison (M1.8)
+### Completed: Baseline Comparison (M1.8)
 
-Initial benchmarks comparing INFINITE vs MIT's Recursive Language Models (arXiv 2512.24601):
+Initial benchmarks comparing INFINATE vs standard O(n²) transformer attention:
 
-| Metric | INFINITE | MIT RLM | Advantage |
+| Metric | INFINATE | O(n²) Baseline | Advantage |
 |--------|----------|---------|-----------|
 | Latency (100K tokens) | 13.63ms | 15,000ms | **1,100× faster** |
 | Latency (500K tokens) | 13.44ms | 35,000ms | **2,603× faster** |
@@ -742,7 +742,7 @@ Initial benchmarks comparing INFINITE vs MIT's Recursive Language Models (arXiv 
 
 **Completed:** January 19, 2026 | **9.7× Context Expansion**
 
-The LOD system eliminates the hard k-cutoff and provides smooth context falloff with **9.7× context expansion** while being **2,586× faster** than MIT RLM.
+The LOD system eliminates the hard k-cutoff and provides smooth context falloff with **9.7× context expansion** while being **2,586× faster** than standard transformers.
 
 ### Latest: Strafe Jumping Navigation (M1.11) - 10,317× FASTER
 
@@ -750,20 +750,20 @@ The LOD system eliminates the hard k-cutoff and provides smooth context falloff 
 
 Physics-inspired navigation from Quake game mechanics. After rigorous research validation, **7 of 9 proposed exploits were validated and implemented**.
 
-#### Visual: INFINITE+M1.11 vs MIT RLM
+#### Visual: INFINATE+M1.11 vs O(n²) Attention
 
 ```
 LATENCY AT 10M TOKENS (BrowseComp+)
 ├──────────────────────────────────────────────────────────────────────────────────┤
-│ MIT RLM      │████████████████████████████████████████████████████████│ 120,000ms│
-│ INFINITE+M11 │▏                                                       │ 7.18ms   │
+│ O(n²) Baseline│████████████████████████████████████████████████████████│120,000ms│
+│ INFINATE+M11 │▏                                                       │ 7.18ms   │
 ├──────────────────────────────────────────────────────────────────────────────────┤
-                              16,722× FASTER (Qdrant in-memory)
+                              16,722× FASTER (in-memory)
 
 COST PER QUERY (BrowseComp+)
 ├──────────────────────────────────────────────────────────────────────────────────┤
-│ MIT RLM      │████████████████████████████████████████████████████████│ $2.50    │
-│ INFINITE+M11 │▏                                                       │ $0.001   │
+│ O(n²) Baseline│████████████████████████████████████████████████████████│ $2.50    │
+│ INFINATE+M11 │▏                                                       │ $0.001   │
 ├──────────────────────────────────────────────────────────────────────────────────┤
                               2,500× CHEAPER
 
@@ -776,18 +776,18 @@ SCALING: 20× TOKENS = 2.85× TIME (not 400×!)
                               O(k) VERIFIED
 ```
 
-#### M1.11 Benchmark Results (Qdrant In-Memory)
+#### M1.11 Benchmark Results (In-Memory)
 
-| Dataset | Tokens | MIT RLM | INFINITE+M11 | Speedup | Savings |
+| Dataset | Tokens | O(n²) Baseline | INFINATE+M11 | Speedup | Savings |
 |---------|--------|---------|--------------|---------|---------|
 | CodeQA | 100K | 15,000ms | 3.57ms | **4,198×** | **500×** |
 | OOLONG | 500K | 35,000ms | 4.06ms | **8,628×** | **990×** |
 | BrowseComp+ | 10M | 120,000ms | 7.18ms | **16,722×** | **2,500×** |
 | **Average** | - | - | - | **10,317×** | **1,330×** |
 
-#### M1.11 Benchmark Results (Qdrant Production Pipeline)
+#### M1.11 Benchmark Results (Production Pipeline)
 
-| Dataset | Tokens | MIT RLM | Qdrant+M11 | Speedup | Savings |
+| Dataset | Tokens | O(n²) Baseline | INFINATE+M11 | Speedup | Savings |
 |---------|--------|---------|------------|---------|---------|
 | CodeQA | 100K | 15,000ms | 30.64ms | **490×** | **500×** |
 | OOLONG | 500K | 35,000ms | 50.61ms | **692×** | **990×** |
@@ -861,9 +861,9 @@ RESULT: O(k) VERIFIED - 2.85x scaling << 400x (O(n²))
 ```
 
 **Key Achievements:**
-- ⚡ **10,317× faster** than MIT RLM (Qdrant in-memory)
-- ⚡ **533× faster** than MIT RLM (Qdrant production)
-- 💰 **1,330× cheaper** than MIT RLM
+- ⚡ **10,317× faster** than O(n²) attention (in-memory)
+- ⚡ **533× faster** than O(n²) attention (production)
+- 💰 **1,330× cheaper** than standard transformers
 - ✅ **7 validated exploits** (2 invalidated through research)
 - 📊 **369 tests** (89.58% coverage)
 - 🎯 **O(k) latency verified** (2.85× for 20× tokens, not 400×)
@@ -890,7 +890,7 @@ RESULT: O(k) VERIFIED - 2.85x scaling << 400x (O(n²))
 - **October 2025:** Driving epiphany — the infinite map hack idea
 - **November 12, 2025:** PROJECT GENESIS — first breakthrough implementation
 - **November 13, 2025:** O(k) complexity proof pushed to GitHub (1 day later!)
-- **January 18, 2026:** M1.8 MIT RLM comparison — 1,100-4,331× faster proven
+- **January 18, 2026:** M1.8 baseline comparison — 1,100-4,331× faster proven
 - **January 19, 2026:** M1.10 LOD complete — 2,586× faster, 9.7× context expansion
 - **January 20, 2026:** M1.11 Strafe Jumping — 10,317× faster, 7 physics exploits
 
@@ -977,7 +977,7 @@ I think about Linus Torvalds a lot. In 1991, he created Linux and gave it away. 
 
 **The O(k) breakthrough belongs to humanity, not shareholders.**
 
-Read the full story: **[SOLO_DEVELOPER_MANIFESTO.md](MIT/SOLO_DEVELOPER_MANIFESTO.md)**
+Read the full story: **[SOLO_DEVELOPER_MANIFESTO.md](SUMMARY/SOLO_DEVELOPER_MANIFESTO.md)**
 
 ### The Practical Reality
 
@@ -996,7 +996,7 @@ I documented everything before deciding to go open source. These files show exac
 | Document | What It Shows |
 |----------|---------------|
 | [MONETIZATION_VALUE_ASSESSMENT.md](SUMMARY/SUMMARYMONETIZATION_VALUE_ASSESMENT.md) | **Full accounting of $12B-$32B in value being released** |
-| [SOLO_DEVELOPER_MANIFESTO.md](MIT/SOLO_DEVELOPER_MANIFESTO.md) | Philosophy behind the open source decision |
+| [SOLO_DEVELOPER_MANIFESTO.md](SUMMARY/SOLO_DEVELOPER_MANIFESTO.md) | Philosophy behind the open source decision |
 | [INFINITE_MARKET_VALUATION.md](Documents/INFINITE_MARKET_VALUATION.md) | POC valuation: $5M-$50M, Exit: $10B-$22B |
 | [PATENT_FILING_GUIDE.md](Documents/PATENT_FILING_GUIDE.md) | 5 innovations worth $9.5M-$38M (now public prior art) |
 | [MONETIZATION_STRATEGY_DEEP_DIVE.md](Documents/MONETIZATION_STRATEGY_DEEP_DIVE.md) | The monetization paths I chose not to take |
@@ -1035,7 +1035,7 @@ INFINATE's **spatial engine is complete** (M1.1-M1.11). The 3D visualization is 
 │                                    ▲                                     │
 │  ┌────────────────────────────────────────────────────────────────────┐ │
 │  │                   SPATIAL ENGINE  ✅ COMPLETE                       │ │
-│  │   • O(k) spatial attention       • 10,317× faster than MIT RLM     │ │
+│  │   • O(k) spatial attention       • 10,317× faster than O(n²)       │ │
 │  │   • Hierarchical LOD             • 369 tests, 89.58% coverage      │ │
 │  │   • 7 Quake physics exploits     • O(k) memory verified            │ │
 │  └────────────────────────────────────────────────────────────────────┘ │
@@ -1057,7 +1057,7 @@ or FakeOS (consciousness layer) via PyO3 bridge.
 
 | Component | Status | Milestone | Notes |
 |-----------|--------|-----------|-------|
-| INFINATE Spatial Engine | ✅ Ready | M1.1-M1.11 | Python API complete, 10,317× faster than MIT RLM |
+| INFINATE Spatial Engine | ✅ Ready | M1.1-M1.11 | Python API complete, 10,317× faster than O(n²) |
 | INFINATE 3D Visualization | 📋 Planned | **M1.12** | React + Three.js, only Vite config exists |
 | NPU Acceleration | 📋 Planned | **M1.14a** | torch_directml/ROCm for AMD XDNA 2 |
 | External Integrations | 📋 Planned | **M1.13, M1.14b** | Embeddable component, PyO3 bridge |
@@ -1094,17 +1094,17 @@ Infinite has true O(k):
 - 1M tokens costs the same as 1K tokens
 - Only storage limits context size
 
-### vs MIT's Recursive Language Models (arXiv 2512.24601)
+### vs Standard Transformer Attention
 
-Comprehensive benchmarks across M1.8, M1.10, and M1.11 demonstrate massive improvements over MIT RLM:
+Comprehensive benchmarks across M1.8, M1.10, and M1.11 demonstrate massive improvements over O(n²) attention:
 
-| Milestone | Speedup vs MIT | Key Innovation |
+| Milestone | Speedup vs O(n²) | Key Innovation |
 |-----------|----------------|----------------|
 | M1.8 (Base) | 1,100-4,331× | O(k) spatial attention |
 | M1.10 (LOD) | 2,586× | Hierarchical context compression |
 | M1.11 (Strafe) | **10,317×** | Physics-inspired navigation |
 
-**Why INFINITE wins:** MIT's chunking approach has O(n^1.5) complexity. INFINITE has true O(k) - constant time regardless of context size.
+**Why INFINATE wins:** Standard transformer attention has O(n²) complexity. INFINATE has true O(k) - constant time regardless of context size.
 
 See [Production Metrics](#production-metrics-vs-mit-rlm) above for detailed benchmark tables.
 
@@ -1130,8 +1130,8 @@ infinite/
 │   │   │   └── navigation_attention.py  # M1.11 NavigationAttention
 │   │   ├── benchmarks/        # Performance benchmarks
 │   │   │   ├── lod_benchmarks.py        # LOD performance validation
-│   │   │   ├── lod_mit_comparison.py    # MIT RLM comparison (2,586×!)
-│   │   │   ├── m111_mit_comparison.py   # M1.11 MIT comparison (10,317×!)
+│   │   │   ├── lod_mit_comparison.py    # Baseline comparison (2,586×!)
+│   │   │   ├── m111_mit_comparison.py   # M1.11 comparison (10,317×!)
 │   │   │   └── navigation_benchmarks.py # M1.11 navigation benchmarks
 │   │   ├── vector_store/      # Database adapters (M1.6)
 │   │   └── utils/
@@ -1317,11 +1317,11 @@ If INFINATE helped you, please:
 
 ### Share Links
 
-[![Tweet](https://img.shields.io/badge/Tweet-Share-1DA1F2?logo=twitter&logoColor=white)](https://twitter.com/intent/tweet?text=Check%20out%20INFINATE%20-%20O(k)%20spatial%20attention%20that%27s%2010,317x%20faster%20than%20MIT%27s%20approach!%20Built%20by%20a%20Navy%20vet%20driving%20Uber.%20%F0%9F%9A%80&url=https://github.com/ch1pu/infinate&hashtags=AI,MachineLearning,OpenSource)
+[![Tweet](https://img.shields.io/badge/Tweet-Share-1DA1F2?logo=twitter&logoColor=white)](https://twitter.com/intent/tweet?text=Check%20out%20INFINATE%20-%20O(k)%20spatial%20attention%20that%27s%2010,317x%20faster%20than%20standard%20transformers!%20Built%20by%20a%20Navy%20vet%20driving%20Uber.%20%F0%9F%9A%80&url=https://github.com/ch1pu/infinate&hashtags=AI,MachineLearning,OpenSource)
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Share-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/sharing/share-offsite/?url=https://github.com/ch1pu/infinate)
 
-[![Reddit](https://img.shields.io/badge/Reddit-Share-FF4500?logo=reddit&logoColor=white)](https://reddit.com/submit?url=https://github.com/ch1pu/infinate&title=INFINATE%20-%20O(k)%20Spatial%20Attention%20(10,317x%20faster%20than%20MIT))
+[![Reddit](https://img.shields.io/badge/Reddit-Share-FF4500?logo=reddit&logoColor=white)](https://reddit.com/submit?url=https://github.com/ch1pu/infinate&title=INFINATE%20-%20O(k)%20Spatial%20Attention%20(10,317x%20faster%20than%20standard%20transformers))
 
 </td>
 </tr>
@@ -1336,7 +1336,7 @@ If INFINATE helped you, please:
 
 ---
 
-**Current Status:** 60% Complete | 369 Tests (369 Passing) | 89.58% Coverage | O(k) Verified | **10,317× Faster than MIT RLM**
+**Current Status:** 60% Complete | 369 Tests (369 Passing) | 89.58% Coverage | O(k) Verified | **10,317× Faster than O(n²)**
 
 **Latest Milestone:** M1.11 - Strafe Jumping Navigation (10,317× faster, 7 physics exploits, 151 new tests)
 

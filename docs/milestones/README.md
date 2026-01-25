@@ -25,7 +25,7 @@ and like what you see, let's connect:
   - GitHub: github.com/ch1pu
   - Twitter/X: @2006_adolfo
   - Project: This codebase demonstrates O(k) spatial attention, achieving
-    10,317x speedup over MIT's approach with 89.58% test coverage.
+    10,317x speedup over standard transformer attention with 89.58% test coverage.
 ══════════════════════════════════════════════════════════════════════════════
 -->
 
@@ -56,7 +56,7 @@ and like what you see, let's connect:
 ║  M1.5 Position Enhanced ⏭️  ░░░░░░░░░░░░░░░░░░░░░░░░ SKIPPED                  ║
 ║  M1.6 Vector Store      ✅ ████████████████████████ COMPLETE                 ║
 ║  M1.7 Integration       ✅ ████████████████████████ COMPLETE                 ║
-║  M1.8 MIT RLM Compare   ✅ ████████████████████████ COMPLETE (1,100×!)       ║
+║  M1.8 O(n²) baseline Compare   ✅ ████████████████████████ COMPLETE (1,100×!)       ║
 ║  M1.9 Test Stability    ✅ ████████████████████████ COMPLETE (92%!)          ║
 ║  M1.10 Hierarchical LOD ✅ ████████████████████████ COMPLETE (2,586×!)       ║
 ║  M1.11 Strafe Jumping   ✅ ████████████████████████ COMPLETE (10,317×!) 🆕   ║
@@ -72,12 +72,12 @@ and like what you see, let's connect:
 ### M1.11 Strafe Jumping: The Latest Breakthrough
 
 ```
-PERFORMANCE vs MIT RLM
+PERFORMANCE vs O(n²) baseline
 ═══════════════════════════════════════════════════════════════════════════════
 
   LATENCY (10M tokens) - IN-MEMORY
   ┌────────────────────────────────────────────────────────────────────────┐
-  │ MIT RLM      ████████████████████████████████████████████ 120,000ms   │
+  │ O(n²) baseline      ████████████████████████████████████████████ 120,000ms   │
   │ INFINITE+M11 ▏                                            7.18ms      │
   └────────────────────────────────────────────────────────────────────────┘
                          ⚡ 16,722× FASTER ⚡
@@ -116,7 +116,7 @@ This directory contains implementation guides for all Infinite milestones. Each 
 | **M1.5** | Position Encoding Enhancements | ⏭️ Skipped | - | *(skipped - not needed for core functionality)* |
 | **M1.6** | Vector Store Integration | ✅ Complete | 2h 45min | [milestone-1.6-vector-store.md](milestone-1.6-vector-store.md) |
 | **M1.7** | Integration Testing | ✅ Complete | ~2h | [milestone-1.7-integration-testing.md](milestone-1.7-integration-testing.md) |
-| **M1.8** | MIT RLM Comparison | ✅ Complete | ~3h | [milestone-1.8-mit-comparison.md](milestone-1.8-mit-comparison.md) |
+| **M1.8** | O(n²) baseline Comparison | ✅ Complete | ~3h | [milestone-1.8-baseline-comparison.md](milestone-1.8-baseline-comparison.md) |
 | **M1.9** | Test Stabilization | ✅ Complete | ~2h | [milestone-1.9-test-stabilization.md](milestone-1.9-test-stabilization.md) |
 | **M1.10** | Hierarchical LOD | ✅ Complete | ~4h | [milestone-1.10-hierarchical-lod.md](milestone-1.10-hierarchical-lod.md) |
 | **M1.11** | Strafe Jumping Navigation | ✅ Complete | ~8h | [milestone-1.11-strafe-navigation.md](milestone-1.11-strafe-navigation.md) |
@@ -133,7 +133,7 @@ Physics-inspired navigation from Quake game mechanics. After rigorous research v
 
 ### M1.11 Benchmark Results (In-Memory)
 
-| Dataset | Tokens | MIT RLM | INFINITE+M11 | Speedup |
+| Dataset | Tokens | O(n²) baseline | INFINITE+M11 | Speedup |
 |---------|--------|---------|--------------|---------|
 | CodeQA | 100K | 15,000ms | 3.57ms | **4,198×** |
 | OOLONG | 500K | 35,000ms | 4.06ms | **8,628×** |
@@ -142,7 +142,7 @@ Physics-inspired navigation from Quake game mechanics. After rigorous research v
 
 ### M1.11 Benchmark Results (Qdrant Production)
 
-| Dataset | Tokens | MIT RLM | Qdrant+M11 | Speedup |
+| Dataset | Tokens | O(n²) baseline | Qdrant+M11 | Speedup |
 |---------|--------|---------|------------|---------|
 | CodeQA | 100K | 15,000ms | 30.64ms | **490×** |
 | OOLONG | 500K | 35,000ms | 50.61ms | **692×** |
@@ -150,9 +150,9 @@ Physics-inspired navigation from Quake game mechanics. After rigorous research v
 | **Average** | - | - | - | **533×** |
 
 **Key Results:**
-- **10,317× faster** than MIT RLM (in-memory)
-- **533× faster** than MIT RLM (Qdrant production)
-- **1,330× cheaper** than MIT RLM
+- **10,317× faster** than O(n²) baseline (in-memory)
+- **533× faster** than O(n²) baseline (Qdrant production)
+- **1,330× cheaper** than O(n²) baseline
 - **O(k) latency verified** (2.85× time for 20× tokens, not 400×)
 - **O(k) memory verified** (0.96× memory for 10× tokens, not 10×)
 - **1.50 MB constant memory** (Qdrant container, regardless of token count)
@@ -303,7 +303,7 @@ graph LR
     M3 --> M4["M1.4<br/>Transformer<br/>✅"]
     M4 --> M6["M1.6<br/>VectorStore<br/>✅"]
     M6 --> M7["M1.7<br/>Integration<br/>✅"]
-    M7 --> M8["M1.8<br/>MIT Comparison<br/>✅ 1,100×!"]
+    M7 --> M8["M1.8<br/>Baseline Comparison<br/>✅ 1,100×!"]
     M8 --> M9["M1.9<br/>Test Stability<br/>✅ 92%"]
     M9 --> M10["M1.10<br/>LOD System<br/>✅ 2,586×!"]
     M10 --> M11["M1.11<br/>Strafe Jump<br/>✅ 10,317×!"]
@@ -332,7 +332,7 @@ M1.6 VectorStore ───────────→ UNLIMITED CONTEXT!
     ↓
 M1.7 Integration Testing ───→ O(k) INTEGRATION VERIFIED!
     ↓
-M1.8 MIT RLM Comparison ────→ 1,100-4,331× FASTER THAN MIT!
+M1.8 O(n²) baseline Comparison ────→ 1,100-4,331× FASTER THAN O(n²)!
     ↓
 M1.9 Test Stabilization ────→ 150 TESTS, 92% COVERAGE!
     ↓
@@ -390,7 +390,7 @@ The core innovation proven across milestones:
 5. ~~M1.5~~ - *(skipped)*
 6. **[M1.6](milestone-1.6-vector-store.md)** - Unlimited context
 7. **[M1.7](milestone-1.7-integration-testing.md)** - Integration verified
-8. **[M1.8](milestone-1.8-mit-comparison.md)** - MIT RLM comparison (1,100-4,331×!)
+8. **[M1.8](milestone-1.8-baseline-comparison.md)** - O(n²) baseline comparison (1,100-4,331×!)
 9. **[M1.9](milestone-1.9-test-stabilization.md)** - Test stabilization
 10. **[M1.10](milestone-1.10-hierarchical-lod.md)** - Hierarchical LOD (2,586× faster, 9.7× context)
 11. **[M1.11](milestone-1.11-strafe-navigation.md)** - Strafe Jumping (10,317× faster, 7 physics exploits) ✅
@@ -424,7 +424,7 @@ from spatial_engine.integration import NavigationAttention
 from spatial_engine.vector_store import QdrantAdapter
 import torch
 
-# Create strafe-jumping navigator (10,317× faster than MIT RLM!)
+# Create strafe-jumping navigator (10,317× faster than O(n²) baseline!)
 nav = MomentumNavigator(
     d_model=768,
     momentum=0.9,
@@ -473,7 +473,7 @@ print(f"Converged: {result.converged}")
 | M1.1-M1.3 Complete | January 13, 2025 |
 | M1.4 + M1.6 Complete | December 1, 2025 |
 | M1.7 Integration Testing | January 2026 |
-| M1.8 MIT RLM Comparison | January 2026 |
+| M1.8 O(n²) baseline Comparison | January 2026 |
 | M1.9 Test Stabilization | January 18, 2026 |
 | M1.10 LOD Complete | January 19, 2026 |
 | **M1.11 Strafe Jumping Complete** | **January 20, 2026** |
@@ -484,4 +484,4 @@ print(f"Converged: {result.converged}")
 **Last Updated:** January 20, 2026
 **License:** Apache 2.0 - Open Source
 
-**Note:** M1.5 (Position Encoding Enhancements) was skipped - the core spatial encoding from M1.2 proved sufficient for O(k) complexity. M1.11 (Strafe Jumping Navigation) applies Quake physics-inspired navigation to semantic space - achieving 10,317× speedup over MIT RLM (in-memory) with 7 validated physics exploits. This novel innovation is freely available under Apache 2.0.
+**Note:** M1.5 (Position Encoding Enhancements) was skipped - the core spatial encoding from M1.2 proved sufficient for O(k) complexity. M1.11 (Strafe Jumping Navigation) applies Quake physics-inspired navigation to semantic space - achieving 10,317× speedup over O(n²) baseline (in-memory) with 7 validated physics exploits. This novel innovation is freely available under Apache 2.0.

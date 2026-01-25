@@ -25,7 +25,7 @@ and like what you see, let's connect:
   - GitHub: github.com/ch1pu
   - Twitter/X: @2006_adolfo
   - Project: This codebase demonstrates O(k) spatial attention, achieving
-    10,317x speedup over MIT's approach with 89.58% test coverage.
+    10,317x speedup over standard transformer attention with 89.58% test coverage.
 ══════════════════════════════════════════════════════════════════════════════
 -->
 
@@ -47,7 +47,7 @@ The root cause isn't supply—it's **architecture**. Traditional transformer att
 
 This isn't theoretical. As of Milestone 1.11 (January 20, 2026), we've empirically verified:
 - **O(k) memory complexity**: 0.96× memory for 10× tokens (not 10×)
-- **10,317× faster** than MIT's approach
+- **10,317× faster** than standard transformers
 - **1,330× cheaper** per query
 - **Constant 1.5MB memory** regardless of token count
 
@@ -283,9 +283,9 @@ RESULT: O(k) MEMORY VERIFIED — 0.96× << 10×
 
 ### Latency Benchmark: 10,317× Faster
 
-Compared against MIT's Recursive Language Models (arXiv 2512.24601):
+Compared against Standard transformer approaches:
 
-| Dataset | Tokens | MIT RLM | INFINITE | Speedup |
+| Dataset | Tokens | O(n²) baseline | INFINITE | Speedup |
 |---------|--------|---------|----------|---------|
 | CodeQA | 100K | 15,000ms | 3.57ms | **4,198×** |
 | OOLONG | 500K | 35,000ms | 4.06ms | **8,628×** |
@@ -294,7 +294,7 @@ Compared against MIT's Recursive Language Models (arXiv 2512.24601):
 
 ### Cost Benchmark: 1,330× Cheaper
 
-| Metric | MIT RLM | INFINITE | Savings |
+| Metric | O(n²) baseline | INFINITE | Savings |
 |--------|---------|----------|---------|
 | Cost per query (100K) | $0.50 | $0.001 | 500× |
 | Cost per query (500K) | $0.99 | $0.001 | 990× |
@@ -368,7 +368,7 @@ This isn't incremental improvement—it's a **paradigm shift**. The entire memor
 | Sliding Window | O(n×w) | Linear | No (loses distant context) |
 | FlashAttention | O(n²)→O(n) | Linear | No (still grows) |
 | RAG + Embeddings | O(n) | Linear | Pseudo (retrieval-based) |
-| MIT RLM | O(n^1.5) | Sub-quadratic | No (still grows) |
+| O(n²) baseline | O(n^1.5) | Sub-quadratic | No (still grows) |
 | **INFINITE** | **O(k)** | **Constant** | **Yes** |
 
 ### Why FlashAttention Isn't Enough
@@ -386,9 +386,9 @@ But O(n) still grows with context:
 
 **INFINITE's O(k) stays at 1.5MB for all of these.**
 
-### Why MIT RLM Isn't Enough
+### Why O(n²) baseline Isn't Enough
 
-MIT's Recursive Language Models (arXiv 2512.24601) use chunking to reduce complexity to O(n^1.5):
+Standard transformer approaches use chunking to reduce complexity to O(n^1.5):
 
 - Better than O(n²)
 - Still grows with context

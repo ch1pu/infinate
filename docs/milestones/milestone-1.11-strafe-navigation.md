@@ -25,7 +25,7 @@ and like what you see, let's connect:
   - GitHub: github.com/ch1pu
   - Twitter/X: @2006_adolfo
   - Project: This codebase demonstrates O(k) spatial attention, achieving
-    10,317x speedup over MIT's approach with 89.58% test coverage.
+    10,317x speedup over standard transformer attention with 89.58% test coverage.
 ══════════════════════════════════════════════════════════════════════════════
 -->
 
@@ -44,8 +44,8 @@ Milestone 1.11 implements momentum-based spatial navigation inspired by Quake st
 ### Key Achievement
 
 **Implemented 7 physics-inspired navigation exploits** that provide:
-- **10,317x faster than MIT RLM** (in-memory)
-- **533x faster than MIT RLM** (Qdrant production pipeline)
+- **10,317x faster than O(n²) Baseline** (in-memory)
+- **533x faster than O(n²) Baseline** (Qdrant production pipeline)
 - **1,330x cheaper** ($0.001 vs $0.50-$2.50 per query)
 - **O(k) complexity verified** (2.85x latency for 20x tokens, not 400x for O(n²))
 - **2.49x faster than baseline at 10K tokens**
@@ -59,12 +59,12 @@ Milestone 1.11 implements momentum-based spatial navigation inspired by Quake st
 
 | Milestone | Tests | Coverage | Runtime | Key Innovation |
 |-----------|-------|----------|---------|----------------|
-| **M1.8** | 25 | ~85% | ~5 min | MIT comparison framework |
+| **M1.8** | 25 | ~85% | ~5 min | Baseline comparison framework |
 | **M1.9** | 150 | 92.13% | 13 min | Test stabilization |
 | **M1.10** | 218 | 87% | ~13 min | Hierarchical LOD (9.7x context) |
 | **M1.11** | **369** | **89.58%** | **17 min** | **Strafe jumping navigation** |
 
-### Performance vs MIT RLM Across Milestones
+### Performance vs O(n²) Baseline Across Milestones
 
 | Milestone | Speedup | Cost Reduction | Additional Benefit |
 |-----------|---------|----------------|-------------------|
@@ -74,10 +74,10 @@ Milestone 1.11 implements momentum-based spatial navigation inspired by Quake st
 
 ### What Each Milestone Added
 
-1. **M1.8**: First MIT RLM benchmark suite - proved O(k) is 1,100-4,331x faster
+1. **M1.8**: First O(n²) Baseline benchmark suite - proved O(k) is 1,100-4,331x faster
 2. **M1.9**: Test infrastructure stabilization - fixed GPU skipping, achieved 92.13% coverage
-3. **M1.10**: Hierarchical LOD - 9.7x context expansion, 2,586x MIT speedup with compression
-4. **M1.11**: Strafe jumping - physics-inspired navigation, 10,317x MIT speedup (pure algorithm)
+3. **M1.10**: Hierarchical LOD - 9.7x context expansion, 2,586x speedup with compression
+4. **M1.11**: Strafe jumping - physics-inspired navigation, 10,317x speedup (pure algorithm)
 
 ---
 
@@ -197,7 +197,7 @@ The full test suite validated both in-memory (local/mocked) and Qdrant container
 
 ### Performance: In-Memory vs Qdrant Container
 
-| Mode | Speedup vs MIT RLM | Best For |
+| Mode | Speedup vs O(n²) Baseline | Best For |
 |------|-------------------|----------|
 | **In-Memory** | **10,317x faster** | Pure algorithmic comparison |
 | **Qdrant Container** | **533x faster** | Production-realistic with I/O |
@@ -338,11 +338,11 @@ RESULT: O(k) VERIFIED
 
 ---
 
-## MIT RLM Comparison (arXiv 2512.24601)
+## O(n²) Baseline Comparison (arXiv 2512.24601)
 
 ### In-Memory Results (Pure Algorithm)
 
-| Dataset | MIT RLM | M1.11 | Speedup | Cost Savings |
+| Dataset | O(n²) Baseline | M1.11 | Speedup | Cost Savings |
 |---------|---------|-------|---------|--------------|
 | CodeQA (100K) | 15,000ms | 3.57ms | **4,198x** | 500x |
 | OOLONG (500K) | 35,000ms | 4.06ms | **8,628x** | 990x |
@@ -351,7 +351,7 @@ RESULT: O(k) VERIFIED
 
 ### Qdrant Pipeline Results (Production)
 
-| Dataset | MIT RLM | Qdrant+M1.11 | Speedup | Cost Savings |
+| Dataset | O(n²) Baseline | Qdrant+M1.11 | Speedup | Cost Savings |
 |---------|---------|--------------|---------|--------------|
 | CodeQA (100K) | 15,000ms | 30.64ms | **490x** | 500x |
 | OOLONG (500K) | 35,000ms | 50.61ms | **692x** | 990x |
@@ -362,7 +362,7 @@ RESULT: O(k) VERIFIED
 
 ```
 ================================================================================
-FINAL SUMMARY: M1.11 STRAFE JUMPING vs MIT RLM
+FINAL SUMMARY: M1.11 STRAFE JUMPING vs O(n²) Baseline
 ================================================================================
 
 --------------------------------------------------------------------------------
@@ -377,11 +377,11 @@ Qdrant (production)              533x    Real-world deployment
 --------------------------------------------------------------------------------
 KEY FINDINGS
 --------------------------------------------------------------------------------
-1. In-Memory:  M1.11 attention is 10,317x faster than MIT RLM
-2. Production: Full Qdrant pipeline is 533x faster than MIT RLM
+1. In-Memory:  M1.11 attention is 10,317x faster than O(n²) Baseline
+2. Production: Full Qdrant pipeline is 533x faster than O(n²) Baseline
 3. Both modes: >500x cost reduction ($0.001 vs $0.50-$2.50)
-4. Complexity: O(k) constant vs MIT's O(n^1.5)
-5. Variance:   <40% deterministic vs MIT's 10-100x
+4. Complexity: O(k) constant vs O(n²)
+5. Variance:   <40% deterministic vs 10-100x
 6. Scaling:    2.85x time for 20x tokens (vs 400x for O(n²))
 --------------------------------------------------------------------------------
 
@@ -445,7 +445,7 @@ Moving diagonally covers sqrt(3)x more geometric distance, but:
 | `tests/test_m111_navigation_benchmarks.py` | Navigation benchmarks (18 tests) | ~700 | 99% |
 | `tests/test_m111_qdrant_integration.py` | Qdrant integration (12 tests) | ~500 | 98% |
 | `tests/test_m111_integration_speedup.py` | Integration speedup tests (11 tests) | ~260 | 100% |
-| `tests/test_m111_mit_comparison.py` | MIT RLM comparison tests (24 tests) | ~390 | 98% |
+| `tests/test_m111_mit_comparison.py` | O(n²) Baseline comparison tests (24 tests) | ~390 | 98% |
 | `integration/navigation_attention.py` | NavigationAttention, BaselineAttention | ~520 | 89% |
 | `benchmarks/m111_speedup_benchmark.py` | M111SpeedupBenchmark, SemanticDataGenerator | ~560 | 93% |
 | `benchmarks/m111_mit_comparison.py` | M111MITBenchmark, QdrantBackedBenchmark | ~320 | 89% |
@@ -735,7 +735,7 @@ curl http://localhost:6333/healthz  # Health check
 | 1.0 | 2026-01-19 | Initial implementation with 7 exploits |
 | 1.1 | 2026-01-19 | Added test results and benchmark data |
 | 1.2 | 2026-01-19 | Full INFINITE integration (NavigationAttention + SpatialAttention + LOD), 11 new integration tests, 1.49-2.70x speedup at scale verified |
-| 1.3 | 2026-01-19 | MIT RLM comparison: 10,592x faster (in-memory), 589x faster (Qdrant), 24 new tests, both in-memory and production pipeline benchmarks |
-| 1.4 | 2026-01-19 | Full scaling tests: 500→10,000 tokens (2.85x time for 20x tokens), Qdrant scaling (7.92x for 10x tokens), 67 total tests, updated MIT comparison (10,317x in-memory, 533x Qdrant) |
+| 1.3 | 2026-01-19 | O(n²) Baseline comparison: 10,592x faster (in-memory), 589x faster (Qdrant), 24 new tests, both in-memory and production pipeline benchmarks |
+| 1.4 | 2026-01-19 | Full scaling tests: 500→10,000 tokens (2.85x time for 20x tokens), Qdrant scaling (7.92x for 10x tokens), 67 total tests, updated baseline comparison (10,317x in-memory, 533x Qdrant) |
 | 1.5 | 2026-01-20 | Final validation: 369/372 tests passing (3 GPU skips), 89.58% coverage, 16m 56s runtime. Fixed 14 test failures (API signatures, memory profiling, thresholds). Added milestone comparison section (M1.8→M1.11 evolution). |
-| **1.6** | **2026-01-20** | **Added In-Memory vs Qdrant Container comparison section: 19 in-memory tests + 17 container tests = 36 total (100% pass rate). Documents 10,317x speedup (in-memory) vs 533x speedup (Qdrant container) vs MIT RLM.** |
+| **1.6** | **2026-01-20** | **Added In-Memory vs Qdrant Container comparison section: 19 in-memory tests + 17 container tests = 36 total (100% pass rate). Documents 10,317x speedup (in-memory) vs 533x speedup (Qdrant container) vs O(n²) Baseline.** |

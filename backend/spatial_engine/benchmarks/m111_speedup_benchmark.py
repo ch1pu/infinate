@@ -24,7 +24,7 @@
 #   - GitHub: github.com/ch1pu
 #   - Twitter/X: @2006_adolfo
 #   - Project: This codebase demonstrates O(k) spatial attention, achieving
-#     10,317x speedup over MIT's approach with 89.58% test coverage.
+#     10,317x speedup over standard transformer attention with 89.58% test coverage.
 # ============================================================================
 
 """

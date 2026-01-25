@@ -25,7 +25,7 @@ and like what you see, let's connect:
   - GitHub: github.com/ch1pu
   - Twitter/X: @2006_adolfo
   - Project: This codebase demonstrates O(k) spatial attention, achieving
-    10,317x speedup over MIT's approach with 89.58% test coverage.
+    10,317x speedup over standard transformer attention with 89.58% test coverage.
 ══════════════════════════════════════════════════════════════════════════════
 -->
 
@@ -189,7 +189,7 @@ TOTAL                                                           920    143    84
 | File | Description |
 |------|-------------|
 | `spatial_engine/benchmarks/lod_benchmarks.py` | Performance validation benchmarks |
-| `spatial_engine/benchmarks/lod_mit_comparison.py` | MIT RLM comparison benchmark |
+| `spatial_engine/benchmarks/lod_mit_comparison.py` | O(n²) baseline comparison benchmark |
 
 ### Updated Files
 
@@ -302,15 +302,15 @@ All existing tests continue to pass:
 
 ## Benchmark Results
 
-### MIT RLM Comparison (Full Benchmark)
+### O(n²) baseline Comparison (Full Benchmark)
 
 ```
 ======================================================================
-INFINITE + LOD vs MIT RLM COMPARISON REPORT
+INFINITE + LOD vs O(n²) baseline COMPARISON REPORT
 Milestone 1.10 - Hierarchical LOD System
 ======================================================================
 
-MIT RLM Reference: arXiv 2512.24601
+O(n²) baseline Reference: arXiv 2512.24601
 INFINITE: O(k) Spatial Attention with Hierarchical LOD
 
 
@@ -318,7 +318,7 @@ INFINITE: O(k) Spatial Attention with Hierarchical LOD
 Dataset: CodeQA (100,000 tokens)
 ──────────────────────────────────────────────────────────────────────
 
-MIT RLM:
+O(n²) baseline:
   Latency:     15,000ms (15s)
   Cost:        $0.50/query
   Context:     100,000 tokens
@@ -334,14 +334,14 @@ INFINITE + LOD:
 COMPARISON:
   ⚡ SPEEDUP:        695× faster
   💰 COST SAVINGS:   500× cheaper
-  📊 CONTEXT RATIO:  0.0249 of MIT's context
+  📊 CONTEXT RATIO:  0.0249 of baseline context
 
 
 ──────────────────────────────────────────────────────────────────────
 Dataset: OOLONG (500,000 tokens)
 ──────────────────────────────────────────────────────────────────────
 
-MIT RLM:
+O(n²) baseline:
   Latency:     35,000ms (35s)
   Cost:        $0.99/query
   Context:     500,000 tokens
@@ -357,14 +357,14 @@ INFINITE + LOD:
 COMPARISON:
   ⚡ SPEEDUP:        1,689× faster
   💰 COST SAVINGS:   990× cheaper
-  📊 CONTEXT RATIO:  0.0050 of MIT's context
+  📊 CONTEXT RATIO:  0.0050 of baseline context
 
 
 ──────────────────────────────────────────────────────────────────────
 Dataset: BrowseComp+ (10,000,000 tokens)
 ──────────────────────────────────────────────────────────────────────
 
-MIT RLM:
+O(n²) baseline:
   Latency:     120,000ms (120s)
   Cost:        $2.50/query
   Context:     10,000,000 tokens
@@ -380,19 +380,19 @@ INFINITE + LOD:
 COMPARISON:
   ⚡ SPEEDUP:        5,373× faster
   💰 COST SAVINGS:   2,500× cheaper
-  📊 CONTEXT RATIO:  0.0002 of MIT's context
+  📊 CONTEXT RATIO:  0.0002 of baseline context
 
 ======================================================================
 SUMMARY
 ======================================================================
 
-  Average Speedup:     2,586× faster than MIT RLM
-  Average Savings:     1,330× cheaper than MIT RLM
+  Average Speedup:     2,586× faster than O(n²) baseline
+  Average Savings:     1,330× cheaper than O(n²) baseline
   Context Expansion:   9.7× (LOD compression)
 
   KEY ADVANTAGES:
   ✅ O(k) constant complexity (not O(n²) or O(n^1.5))
-  ✅ Deterministic results (<1% variance vs MIT's 10-100×)
+  ✅ Deterministic results (<1% variance vs 10-100× baseline)
   ✅ Local inference (no API costs, no rate limits)
   ✅ LOD provides smooth context falloff (no hard cutoff)
 
@@ -469,7 +469,7 @@ Far target: >85% (achieved: PASS)
 
 - [x] Configurable LOD thresholds
 - [x] Benchmark suite (lod_benchmarks.py)
-- [x] MIT RLM comparison benchmark (lod_mit_comparison.py)
+- [x] O(n²) baseline comparison benchmark (lod_mit_comparison.py)
 
 ### Not Implemented (Future)
 

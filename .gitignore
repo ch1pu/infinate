@@ -1,6 +1,11 @@
 # ================================
 # Infinite Spatial AI - .gitignore
 # ================================
+
+# ================================
+# MIT COMPARISON DOCS (INTERNAL ONLY)
+# ================================
+MIT/
 # Comprehensive ignore patterns to prevent accidental secret exposure
 # Last Updated: 2025-01-12
 

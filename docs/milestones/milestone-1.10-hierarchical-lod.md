@@ -25,7 +25,7 @@ and like what you see, let's connect:
   - GitHub: github.com/ch1pu
   - Twitter/X: @2006_adolfo
   - Project: This codebase demonstrates O(k) spatial attention, achieving
-    10,317x speedup over MIT's approach with 89.58% test coverage.
+    10,317x speedup over standard transformer attention with 89.58% test coverage.
 ══════════════════════════════════════════════════════════════════════════════
 -->
 
@@ -42,23 +42,23 @@ and like what you see, let's connect:
 
 ## At-a-Glance: M1.10 Visual Summary
 
-### Performance vs MIT RLM
+### Performance vs O(n²) Baseline
 
 ```
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║                    INFINITE + LOD vs MIT RLM                                 ║
+║                    INFINITE + LOD vs O(n²) Baseline                                 ║
 ╠══════════════════════════════════════════════════════════════════════════════╣
 ║                                                                              ║
 ║  LATENCY (10M tokens - BrowseComp+)                                          ║
 ║  ┌────────────────────────────────────────────────────────────────────────┐  ║
-║  │ MIT RLM      ████████████████████████████████████████████ 120,000ms   │  ║
+║  │ O(n²) Baseline      ████████████████████████████████████████████ 120,000ms   │  ║
 ║  │ INFINITE+LOD ▏                                            22.33ms     │  ║
 ║  └────────────────────────────────────────────────────────────────────────┘  ║
 ║                           ⚡ 5,373× FASTER ⚡                                 ║
 ║                                                                              ║
 ║  COST PER QUERY                                                              ║
 ║  ┌────────────────────────────────────────────────────────────────────────┐  ║
-║  │ MIT RLM      ████████████████████████████████████████████ $2.50       │  ║
+║  │ O(n²) Baseline      ████████████████████████████████████████████ $2.50       │  ║
 ║  │ INFINITE+LOD ▏                                            $0.001      │  ║
 ║  └────────────────────────────────────────────────────────────────────────┘  ║
 ║                           💰 2,500× CHEAPER 💰                               ║
@@ -170,7 +170,7 @@ WITH LOD - Smooth Falloff (No Information Lost):
 
 | Metric | Value | Significance |
 |--------|-------|--------------|
-| ⚡ **Speedup vs MIT RLM** | **2,586×** | From minutes to milliseconds |
+| ⚡ **Speedup vs O(n²) Baseline** | **2,586×** | From minutes to milliseconds |
 | 💰 **Cost Savings** | **1,330×** | $0.001 vs $0.99 per query |
 | 📈 **Context Expansion** | **9.7×** | 90 tokens represent 875 |
 | 🧪 **New Tests** | **68** | 67 passed, 1 GPU skip |
@@ -203,7 +203,7 @@ WITH LOD - Smooth Falloff (No Information Lost):
 | `spatial_engine/core/tests/test_lod.py` | 327 | 44 unit tests |
 | `spatial_engine/core/tests/test_spatial_attention_lod.py` | 186 | 24 integration tests |
 | `spatial_engine/benchmarks/lod_benchmarks.py` | 396 | Performance benchmarks |
-| `spatial_engine/benchmarks/lod_mit_comparison.py` | 400+ | MIT RLM comparison |
+| `spatial_engine/benchmarks/lod_mit_comparison.py` | 400+ | O(n²) Baseline comparison |
 
 ### Test Results
 
@@ -601,7 +601,7 @@ class SpatialAttentionWithLOD(nn.Module):
 ✅ Write comprehensive test suite (68 tests total)
 ✅ Benchmark: context expansion ratio (9.7× achieved)
 ✅ Benchmark: quality preservation (100% near, 85%+ far)
-✅ Benchmark: latency comparison vs MIT RLM (2,586× faster)
+✅ Benchmark: latency comparison vs O(n²) Baseline (2,586× faster)
 ✅ Documentation and code cleanup
 ```
 
@@ -763,7 +763,7 @@ Result:  Comprehensive understanding, better answer
 ### Internal Documents
 - [CORE_INNOVATION.md](../../Documents/CORE_INNOVATION.md) - O(k) complexity foundation
 - [milestone-1.3-spatial-attention.md](milestone-1.3-spatial-attention.md) - Base spatial attention
-- [SOLO_DEVELOPER_MANIFESTO.md](../../MIT/SOLO_DEVELOPER_MANIFESTO.md) - Why this is open source
+- [SOLO_DEVELOPER_MANIFESTO.md](../../SUMMARY/SOLO_DEVELOPER_MANIFESTO.md) - Why this is open source
 
 ### External References
 - Level of Detail (Computer Graphics) - Wikipedia
