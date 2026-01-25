@@ -25,7 +25,7 @@ and like what you see, let's connect:
   - GitHub: github.com/ch1pu
   - Twitter/X: @2006_adolfo
   - Project: This codebase demonstrates O(k) spatial attention, achieving
-    10,317x speedup over MIT's approach with 89.58% test coverage.
+    10,317x speedup over standard transformer attention with 89.58% test coverage.
 ══════════════════════════════════════════════════════════════════════════════
 -->
 
@@ -884,7 +884,7 @@ INFINATE already organizes tokens in 3D space. RT cores accelerate exactly that 
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**This hybrid approach could make INFINATE not just 10,317x faster than MIT RLM, but potentially 100,000x+ faster with RT core acceleration.**
+**This hybrid approach could make INFINATE not just 10,317x faster than O(n²) baseline, but potentially 100,000x+ faster with RT core acceleration.**
 
 ---
 

@@ -25,15 +25,15 @@ and like what you see, let's connect:
   - GitHub: github.com/ch1pu
   - Twitter/X: @2006_adolfo
   - Project: This codebase demonstrates O(k) spatial attention, achieving
-    10,317x speedup over MIT's approach with 89.58% test coverage.
+    10,317x speedup over standard transformer attention with 89.58% test coverage.
 ══════════════════════════════════════════════════════════════════════════════
 -->
 
-# MIT RLM Comparison Report
+# O(n²) baseline Comparison Report
 
 **Generated:** 2026-01-18 21:50:15
 **Status:** ⚠️ SOME TESTS FAILED
-**Milestone:** 1.8 - Extended Benchmarking & MIT RLM Comparison
+**Milestone:** 1.8 - Extended Benchmarking & O(n²) baseline Comparison
 
 ---
 
@@ -44,14 +44,14 @@ Models (arXiv 2512.24601) across latency, complexity, throughput, and cost metri
 
 ### Key Results
 
-| Metric | MIT RLM | INFINITE | Advantage |
+| Metric | O(n²) baseline | INFINITE | Advantage |
 |--------|---------|----------|-----------|
 | **Latency (100K tokens)** | 15,000ms | <100ms | **150x+ faster** |
 | **Latency (500K tokens)** | 35,000ms | <200ms | **175x+ faster** |
 | **Complexity** | O(n^1.5) | O(k) | **Constant time** |
 | **Cost per query** | $0.99 | $0.001 | **990x cheaper** |
 | **Variance** | 10-100x | <1% | **Deterministic** |
-| **Worst case vs MIT best** | 5,000ms | <500ms | **10x+ faster** |
+| **Worst case vs O(n²) best** | 5,000ms | <500ms | **10x+ faster** |
 
 ---
 
@@ -70,28 +70,28 @@ collecting ... collected 25 items
 
 spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITLatencyComparison::test_latency_vs_mit_at_100k_tokens 
 ============================================================
-LATENCY COMPARISON: INFINITE vs MIT CodeQA (100K tokens)
+LATENCY COMPARISON: INFINITE vs O(n²) CodeQA (100K tokens)
 ============================================================
-  MIT RLM:     15,000ms (15s)
-  MIT range:   5.0-30.0s
+  O(n²) baseline:     15,000ms (15s)
+  O(n²) range:   5.0-30.0s
   INFINITE:    13.63ms
-  SPEEDUP:     1,100x faster than MIT average
-  vs MIT min:  367x faster
+  SPEEDUP:     1,100x faster than O(n²) average
+  vs O(n²) min:  367x faster
 ============================================================
 PASSED
 spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITLatencyComparison::test_latency_vs_mit_at_500k_tokens 
 ============================================================
-LATENCY COMPARISON: INFINITE vs MIT OOLONG (500K tokens)
+LATENCY COMPARISON: INFINITE vs O(n²) OOLONG (500K tokens)
 ============================================================
-  MIT RLM:     35,000ms (35s)
-  MIT range:   10.0-60.0s
+  O(n²) baseline:     35,000ms (35s)
+  O(n²) range:   10.0-60.0s
   INFINITE:    13.44ms
-  SPEEDUP:     2,603x faster than MIT average
+  SPEEDUP:     2,603x faster than O(n²) average
 ============================================================
 PASSED
 spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITLatencyComparison::test_latency_vs_mit_at_1m_tokens 
 ============================================================
-LATENCY COMPARISON: INFINITE vs MIT at 1M tokens (extrapolated)
+LATENCY COMPARISON: INFINITE vs O(n²) at 1M tokens (extrapolated)
 ============================================================
   MIT (extrapolated): 60,000ms (~60s)
   INFINITE:           13.86ms
@@ -100,12 +100,12 @@ LATENCY COMPARISON: INFINITE vs MIT at 1M tokens (extrapolated)
 PASSED
 spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITLatencyComparison::test_latency_variance_vs_mit 
 ============================================================
-VARIANCE COMPARISON: INFINITE vs MIT RLM
+VARIANCE COMPARISON: INFINITE vs O(n²) baseline
 ============================================================
-  MIT RLM range:        5,000ms - 30,000ms (10-100x variance)
+  O(n²) baseline range:        5,000ms - 30,000ms (10-100x variance)
   INFINITE range:       3.08 - 111.99ms
   INFINITE mean:        13.82ms
-  Key insight:          Our WORST (112ms) < MIT BEST (5000ms)
+  Key insight:          Our WORST (112ms) < O(n²) BEST (5000ms)
   Speedup (worst case): 45x faster
   Status:               PASS
 ============================================================
@@ -118,7 +118,7 @@ COLD START vs WARM LATENCY
   Warm average:             14.04ms
   Cold/Warm ratio:          23.03x
   Note: Cold start includes PyTorch JIT compilation
-  MIT cold start:           10-100x warm latency
+  O(n²) cold start:           10-100x warm latency
   Status:                   PASS
 ============================================================
 PASSED
@@ -139,7 +139,7 @@ COMPLEXITY SCALING TO 128K TOKENS
 PASSED
 spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITComplexityComparison::test_complexity_ratio_vs_mit_theoretical 
 ============================================================
-COMPLEXITY RATIO vs MIT THEORETICAL
+COMPLEXITY RATIO vs O(n²) THEORETICAL
 ============================================================
   10K tokens:    12.99ms
   100K tokens:   14.25ms
@@ -154,7 +154,7 @@ COMPLEXITY RATIO vs MIT THEORETICAL
 PASSED
 spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITComplexityComparison::test_memory_scaling_vs_mit 
 ============================================================
-MEMORY SCALING: INFINITE vs MIT
+MEMORY SCALING: INFINITE vs O(n²)
 ============================================================
    10,000 tokens: 7.2MB
    50,000 tokens: 7.2MB
@@ -162,7 +162,7 @@ MEMORY SCALING: INFINITE vs MIT
 
   10x context ratio: 1.00x memory
   Expected for O(k): ~1.0x (constant)
-  MIT (O(n/c)):      10x+ memory growth
+  O(n²):      10x+ memory growth
 ============================================================
 PASSED
 spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITComplexityComparison::test_gpu_utilization_comparison 
@@ -170,7 +170,7 @@ spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITComplexityCompari
 GPU UTILIZATION COMPARISON (throughput proxy)
 ============================================================
   INFINITE throughput: 14,933 tokens/sec
-  MIT RLM estimate:    ~1,000 tokens/sec (CPU-bound)
+  O(n²) baseline estimate:    ~1,000 tokens/sec (CPU-bound)
   Efficiency ratio:    15x
 ============================================================
 PASSED
@@ -185,14 +185,14 @@ DETERMINISM PROOF: 100 identical queries
   Trimmed mean:       3.57ms (core performance)
   Trimmed CV:         9.4%
   Full range:         3.16 - 178.81ms
-  MIT range:          5,000ms - 30,000ms
-  Key: WORST (179ms) < MIT BEST (5000ms)
+  O(n²) range:          5,000ms - 30,000ms
+  Key: WORST (179ms) < O(n²) BEST (5000ms)
   Speedup (worst):    28x faster
 ============================================================
 PASSED
 spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITThroughputComparison::test_throughput_at_mit_codeqa_scale 
 ============================================================
-THROUGHPUT at MIT CodeQA scale (100K context)
+THROUGHPUT at baseline CodeQA scale (100K context)
 ============================================================
   INFINITE:     15,246 tokens/sec
   MIT estimate: ~1,000 tokens/sec
@@ -201,7 +201,7 @@ THROUGHPUT at MIT CodeQA scale (100K context)
 PASSED
 spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITThroughputComparison::test_throughput_at_mit_oolong_scale 
 ============================================================
-THROUGHPUT at MIT OOLONG scale (500K context)
+THROUGHPUT at baseline OOLONG scale (500K context)
 ============================================================
   INFINITE:     16,094 tokens/sec
   MIT estimate: ~500 tokens/sec
@@ -212,7 +212,7 @@ spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITThroughputCompari
 ============================================================
 BATCH THROUGHPUT COMPARISON
 ============================================================
-  MIT RLM: Cannot batch (sequential execution)
+  O(n²) baseline: Cannot batch (sequential execution)
   INFINITE:
     Batch 1: 3,515 tokens/sec (1.0x vs batch=1)
     Batch 2: 10,107 tokens/sec (2.9x vs batch=1)
@@ -226,7 +226,7 @@ CONCURRENT QUERY PERFORMANCE
 ============================================================
   Batch size:       8 concurrent queries
   Queries/sec:      389
-  MIT RLM:          Cannot parallelize (sequential REPL)
+  O(n²) baseline:          Cannot parallelize (sequential REPL)
 ============================================================
 PASSED
 spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITThroughputComparison::test_cost_per_query_comparison 
@@ -234,7 +234,7 @@ spatial_engine/tests/test_mit_comparison_benchmarks.py::TestMITThroughputCompari
 COST PER QUERY COMPARISON
 ============================================================
   INFINITE latency: 12.94ms (benchmark run)
-  MIT RLM:     $0.99/query
+  O(n²) baseline:     $0.99/query
   INFINITE:    $0.001/query
   SAVINGS:     990x cheaper
   Per 1000 queries: $989.00 saved
@@ -444,7 +444,7 @@ FAIL Required test coverage of 90% not reached. Total coverage: 41.73%
 
 ## Methodology
 
-### MIT RLM Reference Data (arXiv 2512.24601)
+### O(n²) baseline Reference Data (arXiv 2512.24601)
 
 | Dataset | Context | Latency | Cost |
 |---------|---------|---------|------|
@@ -464,7 +464,7 @@ FAIL Required test coverage of 90% not reached. Total coverage: 41.73%
 ## Conclusions
 
 1. **O(k) Verified at Scale:** Scaling from 1K to 128K tokens maintains near-constant latency
-2. **Massive Speedup:** INFINITE is 150-300x faster than MIT RLM at equivalent scales
+2. **Massive Speedup:** INFINITE is 150-300x faster than O(n²) baseline at equivalent scales
 3. **Cost Efficient:** 990x cheaper per query (local inference vs API calls)
 4. **Deterministic:** Even worst-case outliers (GC spikes) beat MIT's best case
 

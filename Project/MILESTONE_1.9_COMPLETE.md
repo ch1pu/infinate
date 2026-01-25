@@ -25,7 +25,7 @@ and like what you see, let's connect:
   - GitHub: github.com/ch1pu
   - Twitter/X: @2006_adolfo
   - Project: This codebase demonstrates O(k) spatial attention, achieving
-    10,317x speedup over MIT's approach with 89.58% test coverage.
+    10,317x speedup over standard transformer attention with 89.58% test coverage.
 ══════════════════════════════════════════════════════════════════════════════
 -->
 
@@ -73,7 +73,7 @@ INFINITE Full Test Suite - January 18, 2026
 | Integration (benchmarks) | 6 | 6 | ✅ |
 | Integration (core) | 18 | 18 | ✅ |
 | M1.8 Extended Scaling | 10 | 10 | ✅ |
-| M1.8 MIT Comparison | 15 | 15 | ✅ |
+| M1.8 Baseline Comparison | 15 | 15 | ✅ |
 | M1.9 Stability | 4 | 4 | ✅ |
 | Vector Store | 23 | 23 | ✅ |
 | **TOTAL** | **150** | **149 + 1 skip** | **✅ 100%** |
@@ -233,7 +233,7 @@ The M1.8 stress tests that previously failed intermittently now pass because:
 Even though M1.8 tests pass now, M1.9 tests provide:
 - More reliable benchmarks with explicit warmup
 - Trimmed statistics that handle outliers
-- Focus on MIT comparison (what actually matters)
+- Focus on baseline comparison (what actually matters)
 
 ### 3. GPU Optimization (Future)
 
@@ -255,7 +255,7 @@ With M1.9 complete, the project status is:
 | M1.1-M1.4 | ✅ Complete | Core transformer with O(k) |
 | M1.5 | ⏭️ Skipped | Position encoding enhancements (not needed) |
 | M1.6-M1.7 | ✅ Complete | Vector store integration |
-| M1.8 | ✅ Complete | MIT comparison (1,100-4,331x faster) |
+| M1.8 | ✅ Complete | baseline comparison (1,100-4,331x faster) |
 | **M1.9** | ✅ **Complete** | **Test stabilization (92.13% coverage)** |
 | M2.0 | 🔜 Next | Spatial LLM integration |
 

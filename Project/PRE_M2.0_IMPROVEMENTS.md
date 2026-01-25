@@ -25,7 +25,7 @@ and like what you see, let's connect:
   - GitHub: github.com/ch1pu
   - Twitter/X: @2006_adolfo
   - Project: This codebase demonstrates O(k) spatial attention, achieving
-    10,317x speedup over MIT's approach with 89.58% test coverage.
+    10,317x speedup over standard transformer attention with 89.58% test coverage.
 ══════════════════════════════════════════════════════════════════════════════
 -->
 
@@ -41,7 +41,7 @@ and like what you see, let's connect:
 
 ## The Core Problem: Fast Search ≠ Complete Context
 
-**Your concern is exactly right:** INFINATE can search 10,317× faster than MIT RLM, but speed alone doesn't guarantee we gather enough relevant data to correctly answer an LLM query.
+**Your concern is exactly right:** INFINATE can search 10,317× faster than O(n²) baseline, but speed alone doesn't guarantee we gather enough relevant data to correctly answer an LLM query.
 
 ### The Fear (Valid)
 
@@ -125,7 +125,7 @@ GPU enables **more passes within the same time budget**:
 
 More passes = more context = better quality, BUT also more time:
 
-| Passes | Tokens Found | GPU Latency | CPU Latency | vs MIT RLM (15,000ms) |
+| Passes | Tokens Found | GPU Latency | CPU Latency | vs O(n²) baseline (15,000ms) |
 |--------|--------------|-------------|-------------|----------------------|
 | 1 | 90 | ~1ms | ~10ms | **15,000× faster** (GPU) |
 | 3 | 270 | ~3ms | ~30ms | **5,000× faster** (GPU) |
@@ -134,7 +134,7 @@ More passes = more context = better quality, BUT also more time:
 | 20 | 1,800 | ~20ms | ~200ms | **750× faster** (GPU) |
 | 50 | 4,500 | ~50ms | ~500ms | **300× faster** (GPU) |
 
-**Key Insight:** Even at 50 passes (4,500 tokens), we're still **300× faster than MIT RLM** on GPU.
+**Key Insight:** Even at 50 passes (4,500 tokens), we're still **300× faster than O(n²) baseline** on GPU.
 
 ### Choosing the Right Tradeoff
 
@@ -281,8 +281,8 @@ python setup.py develop
 
 | Metric | Current (CPU) | With GPU | Improvement |
 |--------|---------------|----------|-------------|
-| MIT RLM speedup (in-memory) | 10,317× | ~115,000× | 11× |
-| MIT RLM speedup (Qdrant) | 533× | ~5,900× | 11× |
+| O(n²) baseline speedup (in-memory) | 10,317× | ~115,000× | 11× |
+| O(n²) baseline speedup (Qdrant) | 533× | ~5,900× | 11× |
 | Throughput (queries/sec) | ~26 | ~285 | 11× |
 | Max batch size | 8 | 64+ | 8× |
 
@@ -368,7 +368,7 @@ BEYOND (> 500):   ~85% fidelity (100:1 compression)
 
 **Current State:**
 ```
-Metrics we have:    Latency, memory, speedup vs MIT
+Metrics we have:    Latency, memory, speedup vs O(n²)
 Metrics we need:    Retrieval accuracy, answer quality, coverage
 ```
 

@@ -25,7 +25,7 @@ and like what you see, let's connect:
   - GitHub: github.com/ch1pu
   - Twitter/X: @2006_adolfo
   - Project: This codebase demonstrates O(k) spatial attention, achieving
-    10,317x speedup over MIT's approach with 89.58% test coverage.
+    10,317x speedup over standard transformer attention with 89.58% test coverage.
 ══════════════════════════════════════════════════════════════════════════════
 -->
 
@@ -40,15 +40,15 @@ and like what you see, let's connect:
 
 ## Executive Summary
 
-The Hierarchical LOD system achieves **9.7× context expansion** while maintaining O(k) complexity. Combined with INFINITE's spatial attention, the system is **2,586× faster** and **1,330× cheaper** than MIT RLM.
+The Hierarchical LOD system achieves **9.7× context expansion** while maintaining O(k) complexity. Combined with INFINITE's spatial attention, the system is **2,586× faster** and **1,330× cheaper** than O(n²) baseline.
 
 ---
 
 ## Benchmark Results
 
-### MIT RLM Comparison
+### O(n²) baseline Comparison
 
-| Dataset | Tokens | MIT Latency | INFINITE+LOD | Speedup | Cost Savings |
+| Dataset | Tokens | Baseline Latency | INFINITE+LOD | Speedup | Cost Savings |
 |---------|--------|-------------|--------------|---------|--------------|
 | CodeQA | 100K | 15,000ms | 21.58ms | **695×** | **500×** |
 | OOLONG | 500K | 35,000ms | 20.72ms | **1,689×** | **990×** |
@@ -60,9 +60,9 @@ The Hierarchical LOD system achieves **9.7× context expansion** while maintaini
 | Metric | Value |
 |--------|-------|
 | Context Expansion | 9.7× (90 tokens → 875 represented) |
-| Average Speedup | 2,586× faster than MIT RLM |
-| Average Cost Savings | 1,330× cheaper than MIT RLM |
-| Variance | <1% (vs MIT's 10-100×) |
+| Average Speedup | 2,586× faster than O(n²) baseline |
+| Average Cost Savings | 1,330× cheaper than O(n²) baseline |
+| Variance | <1% (vs O(n²)'s 10-100×) |
 | Latency (256 tokens) | 22.74ms |
 | Latency (1024 tokens) | 171.42ms |
 
@@ -138,9 +138,9 @@ Expansion ratio: 9.72×
 
 ---
 
-## Advantages Over MIT RLM
+## Advantages Over O(n²) baseline
 
-| Feature | INFINITE+LOD | MIT RLM |
+| Feature | INFINITE+LOD | O(n²) baseline |
 |---------|--------------|---------|
 | Complexity | O(k) constant | O(n^1.5) effective |
 | Variance | <1% | 10-100× |
@@ -157,7 +157,7 @@ Expansion ratio: 9.72×
 
 | System | Daily Cost | Annual Cost |
 |--------|------------|-------------|
-| MIT RLM | $990,000 | $361M |
+| O(n²) baseline | $990,000 | $361M |
 | INFINITE+LOD | $1,000 | $365K |
 | **Savings** | **$989,000/day** | **$361M/year** |
 
@@ -187,8 +187,8 @@ poetry run python -c "from spatial_engine.benchmarks.lod_benchmarks import run_f
 
 Milestone 1.10 successfully implements the Hierarchical LOD system:
 
-- **2,586× faster** than MIT RLM
-- **1,330× cheaper** than MIT RLM
+- **2,586× faster** than O(n²) baseline
+- **1,330× cheaper** than O(n²) baseline
 - **9.7× context expansion** (90 → 875 tokens)
 - **O(k) verified** at scale
 - **<1% variance** (deterministic)

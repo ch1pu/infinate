@@ -109,8 +109,8 @@ INFINITE Full Test Suite - January 20, 2026
 | Navigation Benchmarks (test_m111_navigation_benchmarks.py) | 23 | 22/23 (1 skip) |
 | Qdrant Integration (test_m111_qdrant_integration.py) | 18 | 18/18 |
 | Integration Speedup (test_m111_integration_speedup.py) | 11 | 11/11 |
-| MIT Comparison (test_m111_mit_comparison.py) | 36 | 36/36 |
-| MIT Comparison Benchmarks (test_mit_comparison_benchmarks.py) | 15 | 15/15 |
+| Baseline Comparison (test_m111_mit_comparison.py) | 36 | 36/36 |
+| Baseline Comparison Benchmarks (test_mit_comparison_benchmarks.py) | 15 | 15/15 |
 | Extended Scaling (test_extended_scaling.py) | 10 | 10/10 |
 | Vector Store (qdrant, pgvector, spatial_index) | 24 | 24/24 |
 | Integration Core/Benchmarks | 24 | 24/24 |
@@ -138,7 +138,7 @@ The full test suite validated both in-memory (local/mocked) and Qdrant container
 | `test_min_distance_performance` | 1 | ✅ |
 | `test_warp_lane_query_realistic` | 1 | ✅ |
 
-**In-Memory MIT Comparison:**
+**In-Memory Baseline Comparison:**
 
 | Test Class | Tests | Status |
 |------------|-------|--------|
@@ -165,7 +165,7 @@ The full test suite validated both in-memory (local/mocked) and Qdrant container
 | `test_container_pipeline_memory` | 1 | ✅ |
 | `test_container_vs_inmemory_comparison` | 1 | ✅ |
 
-**Qdrant-Backed MIT Comparison:**
+**Qdrant-Backed Baseline Comparison:**
 
 | Test Class | Tests | Status |
 |------------|-------|--------|
@@ -191,7 +191,7 @@ The full test suite validated both in-memory (local/mocked) and Qdrant container
 | **Min Distance Tests** | 6 | 3 | 9 |
 | **Navigation Pipeline** | - | 3 | 3 |
 | **Memory Complexity** | - | 3 | 3 |
-| **MIT Benchmarks** | 13 | 7 | 20 |
+| **Baseline Benchmarks** | 13 | 7 | 20 |
 | **Cross-Comparison** | - | 1 | 1 |
 | **TOTAL** | **19** | **17** | **36** |
 

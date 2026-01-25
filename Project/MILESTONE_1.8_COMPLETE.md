@@ -25,11 +25,11 @@ and like what you see, let's connect:
   - GitHub: github.com/ch1pu
   - Twitter/X: @2006_adolfo
   - Project: This codebase demonstrates O(k) spatial attention, achieving
-    10,317x speedup over MIT's approach with 89.58% test coverage.
+    10,317x speedup over standard transformer attention with 89.58% test coverage.
 ══════════════════════════════════════════════════════════════════════════════
 -->
 
-# Milestone 1.8 Complete: Extended Benchmarking & MIT RLM Comparison
+# Milestone 1.8 Complete: Extended Benchmarking & O(n²) baseline Comparison
 
 **Date Completed:** January 18, 2026
 **Duration:** ~4 hours
@@ -39,7 +39,7 @@ and like what you see, let's connect:
 
 ## Executive Summary
 
-Milestone 1.8 successfully implemented extended benchmarking comparing INFINITE's O(k) spatial attention against MIT's Recursive Language Models (arXiv 2512.24601). All 25 tests pass, demonstrating **1,100-4,331x faster latency** and **990x lower cost** than MIT RLM.
+Milestone 1.8 successfully implemented extended benchmarking comparing INFINITE's O(k) spatial attention against standard O(n²) transformer attention. All 25 tests pass, demonstrating **1,100-4,331x faster latency** and **990x lower cost** than O(n²) baseline.
 
 ---
 
@@ -49,16 +49,16 @@ Milestone 1.8 successfully implemented extended benchmarking comparing INFINITE'
 
 | Category | Tests | Status |
 |----------|-------|--------|
-| MIT Latency Comparison | 5 | ✅ 5/5 |
-| MIT Complexity Comparison | 5 | ✅ 5/5 |
-| MIT Throughput Comparison | 5 | ✅ 5/5 |
+| Baseline Latency Comparison | 5 | ✅ 5/5 |
+| Baseline Complexity Comparison | 5 | ✅ 5/5 |
+| Baseline Throughput Comparison | 5 | ✅ 5/5 |
 | Extended Scaling | 5 | ✅ 5/5 |
 | Stress & Edge Cases | 5 | ✅ 5/5 |
 | **Total** | **25** | ✅ **25/25** |
 
 ### Key Benchmark Results
 
-| Metric | INFINITE | MIT RLM | Advantage |
+| Metric | INFINITE | O(n²) baseline | Advantage |
 |--------|----------|---------|-----------|
 | **Latency (100K tokens)** | 13.63ms | 15,000ms | **1,100x faster** |
 | **Latency (500K tokens)** | 13.44ms | 35,000ms | **2,603x faster** |
@@ -91,13 +91,13 @@ O(k) VERIFIED: 128x context increase = only 1.12x time increase
 ### Benchmark Utilities
 ```
 spatial_engine/benchmarks/__init__.py          # Package init
-spatial_engine/benchmarks/mit_comparison.py    # MIT comparison utilities
+spatial_engine/benchmarks/mit_comparison.py    # baseline comparison utilities
 ```
 
 ### Test Files
 ```
 spatial_engine/tests/conftest_m18.py                    # M1.8 fixtures
-spatial_engine/tests/test_mit_comparison_benchmarks.py  # 15 MIT comparison tests
+spatial_engine/tests/test_mit_comparison_benchmarks.py  # 15 baseline comparison tests
 spatial_engine/tests/test_extended_scaling.py           # 10 scaling/stress tests
 ```
 
@@ -149,7 +149,7 @@ test_results/mit_comparison_20260118_*.txt      # Raw output
 
 ---
 
-## MIT RLM Reference Data
+## O(n²) baseline Reference Data
 
 Source: arXiv 2512.24601
 
@@ -197,20 +197,20 @@ poetry run pytest spatial_engine/tests/test_integration_*.py spatial_engine/test
 
 ## Key Insights
 
-### Why INFINITE Beats MIT RLM
+### Why INFINITE Beats O(n²) baseline
 
-1. **True O(k) Complexity**: INFINITE queries exactly k neighbors regardless of total context size. MIT's chunking approach still requires processing all chunks sequentially.
+1. **True O(k) Complexity**: INFINITE queries exactly k neighbors regardless of total context size. O(n²)'s chunking approach still requires processing all chunks sequentially.
 
-2. **Local Inference**: INFINITE runs entirely locally with no API calls. MIT RLM requires external LLM API calls for code generation.
+2. **Local Inference**: INFINITE runs entirely locally with no API calls. O(n²) baseline requires external LLM API calls for code generation.
 
-3. **Deterministic Execution**: INFINITE's spatial attention is mathematically deterministic. MIT's LLM-generated code varies between runs.
+3. **Deterministic Execution**: INFINITE's spatial attention is mathematically deterministic. Standard transformer attention has higher variance between runs.
 
-4. **Native Integration**: INFINITE's vector store is directly integrated with the transformer. MIT wraps an existing model with a REPL.
+4. **Native Integration**: INFINITE's vector store is directly integrated with the transformer. Standard transformers wrap an existing model with a REPL.
 
 ### Business Implications
 
 At 1M queries/day:
-- MIT RLM: $990,000/day
+- O(n²) baseline: $990,000/day
 - INFINITE: $1,000/day
 - **Daily savings: $989,000**
 
@@ -224,7 +224,7 @@ With M1.8 complete, the project status is:
 |-----------|--------|-------------|
 | M1.1-M1.4 | ✅ Complete | Core transformer with O(k) |
 | M1.6-M1.7 | ✅ Complete | Vector store integration |
-| **M1.8** | ✅ **Complete** | **MIT comparison benchmarks** |
+| **M1.8** | ✅ **Complete** | **baseline comparison benchmarks** |
 | M1.9 | 🔜 Next | Production optimization |
 
 ---

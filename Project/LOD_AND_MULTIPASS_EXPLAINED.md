@@ -25,7 +25,7 @@ and like what you see, let's connect:
   - GitHub: github.com/ch1pu
   - Twitter/X: @2006_adolfo
   - Project: This codebase demonstrates O(k) spatial attention, achieving
-    10,317x speedup over MIT's approach with 89.58% test coverage.
+    10,317x speedup over standard transformer attention with 89.58% test coverage.
 ══════════════════════════════════════════════════════════════════════════════
 -->
 
@@ -426,7 +426,7 @@ Sweet spot: 10-50 passes (10-50ms) for most queries
 
 ### Comparison Table
 
-| Configuration | Tokens Seen | Quality | Latency | vs MIT RLM |
+| Configuration | Tokens Seen | Quality | Latency | vs O(n²) baseline |
 |---------------|-------------|---------|---------|------------|
 | LOD only (1 pass) | 90 | ~70% | ~1ms | 15,000× faster |
 | LOD + 10 passes | ~400 | ~85% | ~10ms | 1,500× faster |

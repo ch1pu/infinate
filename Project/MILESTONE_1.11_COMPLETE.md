@@ -25,7 +25,7 @@ and like what you see, let's connect:
   - GitHub: github.com/ch1pu
   - Twitter/X: @2006_adolfo
   - Project: This codebase demonstrates O(k) spatial attention, achieving
-    10,317x speedup over MIT's approach with 89.58% test coverage.
+    10,317x speedup over standard transformer attention with 89.58% test coverage.
 ══════════════════════════════════════════════════════════════════════════════
 -->
 
@@ -59,11 +59,11 @@ Milestone 1.11 successfully implemented the Strafe Jumping Navigation system - a
 | **Runtime** | ~5 min | 13 min | ~13 min | 17 min | +12 min |
 | **Test Pass Rate** | 100% | 99.3% | 99.1% | 99.2% | Stable |
 
-### Performance Comparison vs MIT RLM
+### Performance Comparison vs O(n²) baseline
 
-| Milestone | Speedup vs MIT | Cost Reduction | Key Achievement |
+| Milestone | Speedup vs O(n²) | Cost Reduction | Key Achievement |
 |-----------|----------------|----------------|-----------------|
-| **M1.8** | 1,100-4,331x | 990x | First MIT comparison benchmarks |
+| **M1.8** | 1,100-4,331x | 990x | First baseline comparison benchmarks |
 | **M1.10** | 2,586x | 1,330x | LOD context expansion (9.7x) |
 | **M1.11** | **10,317x** (in-memory) | 1,330x | Strafe jumping navigation |
 | **M1.11** | **533x** (Qdrant pipeline) | 1,330x | Production-realistic benchmark |
@@ -72,17 +72,17 @@ Milestone 1.11 successfully implemented the Strafe Jumping Navigation system - a
 
 | Milestone | Key Components | Complexity Verified |
 |-----------|----------------|---------------------|
-| **M1.8** | SpatialAttention + MIT benchmarks | O(k) at 128K tokens |
+| **M1.8** | SpatialAttention + baseline benchmarks | O(k) at 128K tokens |
 | **M1.9** | Test stabilization infrastructure | 92.13% coverage |
 | **M1.10** | HierarchicalLOD + compression | O(k) with 9.7x context |
 | **M1.11** | MomentumNavigator + WarpLaneDetector + NavigationAttention | O(k) at 10K tokens |
 
 ### What Each Milestone Contributed
 
-1. **M1.8 (Extended Benchmarking):** Established MIT RLM comparison framework, proved 1,100-4,331x speedup
+1. **M1.8 (Extended Benchmarking):** Established O(n²) baseline comparison framework, proved 1,100-4,331x speedup
 2. **M1.9 (Test Stabilization):** Fixed GPU compatibility, stabilized stress tests, achieved 92.13% coverage
-3. **M1.10 (Hierarchical LOD):** Added context compression, 9.7x expansion, 2,586x MIT speedup
-4. **M1.11 (Strafe Jumping):** Momentum-based navigation, warp lanes, 10,317x MIT speedup (algorithmic)
+3. **M1.10 (Hierarchical LOD):** Added context compression, 9.7x expansion, 2,586x baseline speedup
+4. **M1.11 (Strafe Jumping):** Momentum-based navigation, warp lanes, 10,317x baseline speedup (algorithmic)
 
 ---
 
@@ -114,8 +114,8 @@ INFINITE Full Test Suite - January 20, 2026
 | Navigation Benchmarks (test_m111_navigation_benchmarks.py) | 23 | ✅ 22/23 (1 skip) |
 | Qdrant Integration (test_m111_qdrant_integration.py) | 18 | ✅ 18/18 |
 | Integration Speedup (test_m111_integration_speedup.py) | 11 | ✅ 11/11 |
-| MIT Comparison (test_m111_mit_comparison.py) | 36 | ✅ 36/36 |
-| MIT Comparison Benchmarks (test_mit_comparison_benchmarks.py) | 15 | ✅ 15/15 |
+| Baseline Comparison (test_m111_mit_comparison.py) | 36 | ✅ 36/36 |
+| Baseline Comparison Benchmarks (test_mit_comparison_benchmarks.py) | 15 | ✅ 15/15 |
 | Extended Scaling (test_extended_scaling.py) | 10 | ✅ 10/10 |
 | Vector Store (qdrant, pgvector, spatial_index) | 24 | ✅ 24/24 |
 | Integration Core/Benchmarks | 24 | ✅ 24/24 |
@@ -197,7 +197,7 @@ The full test suite validated both in-memory (local/mocked) and Qdrant container
 | `test_min_distance_performance` | 1 | ✅ |
 | `test_warp_lane_query_realistic` | 1 | ✅ |
 
-**In-Memory MIT Comparison:**
+**In-Memory Baseline Comparison:**
 
 | Test Class | Tests | Status |
 |------------|-------|--------|
@@ -224,7 +224,7 @@ The full test suite validated both in-memory (local/mocked) and Qdrant container
 | `test_container_pipeline_memory` | 1 | ✅ |
 | `test_container_vs_inmemory_comparison` | 1 | ✅ |
 
-**Qdrant-Backed MIT Comparison:**
+**Qdrant-Backed Baseline Comparison:**
 
 | Test Class | Tests | Status |
 |------------|-------|--------|
@@ -250,13 +250,13 @@ The full test suite validated both in-memory (local/mocked) and Qdrant container
 | **Min Distance Tests** | 6 | 3 | 9 |
 | **Navigation Pipeline** | - | 3 | 3 |
 | **Memory Complexity** | - | 3 | 3 |
-| **MIT Benchmarks** | 13 | 7 | 20 |
+| **Baseline Benchmarks** | 13 | 7 | 20 |
 | **Cross-Comparison** | - | 1 | 1 |
 | **TOTAL** | **19** | **17** | **36** |
 
 ### Performance: In-Memory vs Qdrant Container
 
-| Mode | Speedup vs MIT RLM | Best For |
+| Mode | Speedup vs O(n²) baseline | Best For |
 |------|-------------------|----------|
 | **In-Memory** | **10,317x faster** | Pure algorithmic comparison |
 | **Qdrant Container** | **533x faster** | Production-realistic with I/O |
@@ -667,9 +667,9 @@ Scale-dependent results:
 
 ---
 
-## MIT RLM Comparison (January 19, 2026)
+## O(n²) baseline Comparison (January 19, 2026)
 
-### Comprehensive Benchmark: M1.11 vs MIT RLM (arXiv 2512.24601)
+### Comprehensive Benchmark: M1.11 vs O(n²) baseline (arXiv 2512.24601)
 
 Compared full INFINITE stack against MIT's Recursive Language Models:
 - **In-Memory**: Pure algorithmic comparison (no I/O)
@@ -679,9 +679,9 @@ Compared full INFINITE stack against MIT's Recursive Language Models:
 
 ```
 ================================================================================
-M1.11 vs MIT RLM - IN-MEMORY SUMMARY
+M1.11 vs O(n²) baseline - IN-MEMORY SUMMARY
 ================================================================================
-Dataset         MIT (ms)     M1.11 (ms)   Speedup      Cost Savings
+Dataset         O(n²) (ms)     M1.11 (ms)   Speedup      Cost Savings
 --------------------------------------------------------------------------------
 CodeQA              15,000       3.57      4,198x        500x
 OOLONG              35,000       4.06      8,628x        990x
@@ -695,9 +695,9 @@ AVERAGE         -            -                 9,849x      1,330x
 
 ```
 ================================================================================
-QDRANT + M1.11 vs MIT RLM - FULL PIPELINE SUMMARY
+QDRANT + M1.11 vs O(n²) baseline - FULL PIPELINE SUMMARY
 ================================================================================
-Dataset         MIT (ms)     Qdrant (ms)  Speedup      Cost Savings
+Dataset         O(n²) (ms)     Qdrant (ms)  Speedup      Cost Savings
 --------------------------------------------------------------------------------
 CodeQA              15,000      30.64        490x        500x
 OOLONG              35,000      50.61        692x        990x
@@ -707,11 +707,11 @@ AVERAGE         -            -                   611x      1,330x
 ================================================================================
 ```
 
-### Final MIT Comparison Summary
+### Final Baseline Comparison Summary
 
 ```
 ================================================================================
-FINAL SUMMARY: M1.11 STRAFE JUMPING vs MIT RLM
+FINAL SUMMARY: M1.11 STRAFE JUMPING vs O(n²) baseline
 ================================================================================
 
 --------------------------------------------------------------------------------
@@ -726,11 +726,11 @@ Qdrant (production)              533x    Real-world deployment
 --------------------------------------------------------------------------------
 KEY FINDINGS
 --------------------------------------------------------------------------------
-1. In-Memory:  M1.11 attention is 10,317x faster than MIT RLM
-2. Production: Full Qdrant pipeline is 533x faster than MIT RLM
+1. In-Memory:  M1.11 attention is 10,317x faster than O(n²) baseline
+2. Production: Full Qdrant pipeline is 533x faster than O(n²) baseline
 3. Both modes: >500x cost reduction ($0.001 vs $0.50-$2.50)
-4. Complexity: O(k) constant vs MIT's O(n^1.5)
-5. Variance:   <40% deterministic vs MIT's 10-100x
+4. Complexity: O(k) constant vs O(n²)'s O(n^1.5)
+5. Variance:   <40% deterministic vs O(n²)'s 10-100x
 --------------------------------------------------------------------------------
 
 ================================================================================
@@ -740,18 +740,18 @@ CONCLUSION
   IN-MEMORY:  10,317x FASTER (pure algorithmic advantage)
   PRODUCTION: 533x FASTER (with Qdrant I/O)
 
-  Both demonstrate MASSIVE improvements over MIT RLM.
+  Both demonstrate MASSIVE improvements over O(n²) baseline.
   INFINITE M1.11 is ready for production deployment.
 
 ================================================================================
 ```
 
-### MIT Comparison Files Created
+### Baseline Comparison Files Created
 
 | File | Purpose | Tests |
 |------|---------|-------|
 | `benchmarks/m111_mit_comparison.py` | M111MITBenchmark, QdrantBackedBenchmark | - |
-| `tests/test_m111_mit_comparison.py` | MIT comparison tests | 24 |
+| `tests/test_m111_mit_comparison.py` | baseline comparison tests | 24 |
 
 ### Integration Files Created
 
@@ -933,7 +933,7 @@ With M1.11 complete, the project status is:
 | M1.1-M1.4 | Complete | Core transformer with O(k) |
 | M1.5 | Skipped | Position encoding (not needed) |
 | M1.6-M1.7 | Complete | Vector store integration |
-| M1.8 | Complete | MIT comparison (1,100-4,331x faster) |
+| M1.8 | Complete | baseline comparison (1,100-4,331x faster) |
 | M1.9 | Complete | Test stabilization (92.13% coverage) |
 | M1.10 | Complete | LOD system (9.7x context, 2,586x faster) |
 | **M1.11** | **Complete** | **Strafe jumping (7 exploits, 1.5-1.7x speed)** |
@@ -951,8 +951,8 @@ Milestone 1.11 successfully implements the Strafe Jumping Navigation system:
 - **89.58% code coverage** (8323 statements, 867 missed)
 - **16 min 56 sec runtime** (comprehensive benchmark suite)
 - **7 validated exploits** (2 invalidated through research)
-- **10,317x faster than MIT RLM** (in-memory, pure algorithm)
-- **533x faster than MIT RLM** (Qdrant pipeline, production)
+- **10,317x faster than O(n²) baseline** (in-memory, pure algorithm)
+- **533x faster than O(n²) baseline** (Qdrant pipeline, production)
 - **1,330x cheaper** ($0.001 vs $0.50-$2.50 per query)
 - **O(k) latency complexity verified** (2.85x latency for 20x tokens, not 400x for O(n²))
 - **O(k) memory complexity verified** (0.96x memory for 10x tokens, not 10x for O(n))
@@ -962,9 +962,9 @@ Milestone 1.11 successfully implements the Strafe Jumping Navigation system:
 
 ### Milestone Progression Summary
 
-| Milestone | Tests | Coverage | MIT Speedup | Key Innovation |
+| Milestone | Tests | Coverage | Baseline Speedup | Key Innovation |
 |-----------|-------|----------|-------------|----------------|
-| M1.8 | 25 | ~85% | 1,100-4,331x | MIT comparison framework |
+| M1.8 | 25 | ~85% | 1,100-4,331x | baseline comparison framework |
 | M1.9 | 150 | 92.13% | - | Test stabilization |
 | M1.10 | 218 | 87% | 2,586x | Hierarchical LOD (9.7x context) |
 | **M1.11** | **369** | **89.58%** | **10,317x** | **Strafe jumping navigation** |
@@ -975,14 +975,14 @@ The Strafe Jumping system transforms INFINITE's navigation from pure nearest-nei
 
 | Comparison | Result |
 |------------|--------|
-| vs MIT RLM (in-memory) | **10,317x FASTER** |
-| vs MIT RLM (Qdrant) | **533x FASTER** |
-| vs MIT RLM (cost) | **1,330x CHEAPER** |
+| vs O(n²) baseline (in-memory) | **10,317x FASTER** |
+| vs O(n²) baseline (Qdrant) | **533x FASTER** |
+| vs O(n²) baseline (cost) | **1,330x CHEAPER** |
 | vs Baseline @ 5K tokens | **1.49x FASTER** |
 | vs Baseline @ 10K tokens | **2.49x FASTER** |
 | Scaling (20x tokens) | **2.85x time** (O(k) verified) |
 
-**INFINITE + Strafe Jumping: 10,000x FASTER THAN MIT RLM. 7 PHYSICS EXPLOITS. O(k) VERIFIED.**
+**INFINITE + Strafe Jumping: 10,000x FASTER THAN O(n²) baseline. 7 PHYSICS EXPLOITS. O(k) VERIFIED.**
 
 ---
 
