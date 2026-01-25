@@ -384,3 +384,6 @@ Project/SESSION_*.md
 
 # MIT comparison docs (kept locally)
 MIT/
+
+# Session summaries (local only)
+SESSION_SUMMARY*.md
