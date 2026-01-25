@@ -273,7 +273,7 @@ I think about Linus Torvalds a lot. In 1991, he created Linux and gave it away. 
 
 **The O(k) breakthrough belongs to humanity, not shareholders.**
 
-I won't pretend there's no self-interest. I'm bootstrapping Alpha Deploy while driving Uber. I have no VC connections, no Stanford network. Open source is the great equalizer - the code speaks for itself.
+I won't pretend there's no self-interest. I drive Uber because it keeps my brain free - I'm not spending mental energy on another company's engineering problems. That mental bandwidth goes into this. No VC connections, no Stanford network. Open source is the great equalizer - the code speaks for itself.
 
 ---
 
