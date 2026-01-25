@@ -252,8 +252,6 @@ I think about Linus Torvalds a lot. In 1991, he created Linux and gave it away. 
 
 I won't pretend there's no self-interest. I'm driving Uber while building this. I have no VC connections, no Stanford network. Open source is the great equalizer - the code speaks when no one will give you a chance.
 
-📚 **Read the full story:** [SOLO_DEVELOPER_MANIFESTO.md](SUMMARY/SOLO_DEVELOPER_MANIFESTO.md)
-
 ---
 
 ## Contributing
