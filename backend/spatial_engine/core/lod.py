@@ -35,7 +35,7 @@ in spatial attention and expand visible context by 100×. By representing
 distant tokens with progressively compressed summaries, we achieve smooth
 context falloff instead of information cliffs.
 
-Key Innovation (Patentable - Innovation #3):
+Key Innovation (Hierarchical LOD):
     - Near tokens: Full detail (1:1)
     - Medium distance: 5:1 compression
     - Far distance: 20:1 compression

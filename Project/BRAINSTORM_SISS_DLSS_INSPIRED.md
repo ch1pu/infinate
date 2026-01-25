@@ -284,8 +284,8 @@ WITH RT CORES (faster):
 │                                                                             │
 │   ═══════════════════════════════════════════════════════════════════       │
 │                                                                             │
-│   This is potentially a NEW PATENTABLE INNOVATION                           │
-│   on top of the existing INFINATE IP.                                       │
+│   This is potentially a NEW BREAKTHROUGH INNOVATION                         │
+│   building on INFINATE's O(k) foundation.                                   │
 │                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -652,7 +652,7 @@ THE SISS PROMISE:
   "Unlimited context quality on O(k) compute"
 ```
 
-**This is potentially a new patentable innovation on top of the existing INFINATE IP.**
+**This is potentially a new breakthrough innovation building on INFINATE's open source foundation.**
 
 ---
 
@@ -662,7 +662,7 @@ THE SISS PROMISE:
 2. **Prototype:** Build simple LOD decompressor
 3. **Validate:** Test if semantic recovery is feasible
 4. **Iterate:** Refine based on quality metrics
-5. **Patent:** File provisional if results are promising
+5. **Publish:** Document and release as open source
 
 ---
 

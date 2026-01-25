@@ -98,7 +98,7 @@ An idea can be promoted to a milestone when:
 2. **Value** - Measurable improvement identified
 3. **Integration** - Fits existing architecture
 4. **Resources** - Time estimate reasonable (< 1 week)
-5. **Novelty** - Patent/publication potential assessed
+5. **Novelty** - Publication potential assessed
 
 ---
 

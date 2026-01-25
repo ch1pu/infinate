@@ -126,8 +126,8 @@ class ProposedComponent:
 
 ## Novelty Assessment
 
-### Patentable?
-- [ ] Yes - Novel application
+### Novel?
+- [ ] Yes - Novel application (establishes prior art)
 - [ ] Maybe - Needs prior art search
 - [ ] No - Existing technique
 

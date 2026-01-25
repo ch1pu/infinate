@@ -38,7 +38,7 @@ and like what you see, let's connect:
 **Last Updated:** 2026-01-19
 **Validated:** 2026-01-19 (code analysis confirmed 7 of 9 exploits)
 **Author:** Adolfo Lopez (ch1pu)
-**Potential Impact:** High (1.5-1.7× faster context traversal, 7 valid exploits, patent potential)
+**Potential Impact:** High (1.5-1.7× faster context traversal, 7 valid exploits)
 **Document Size:** ~1,500 lines (comprehensive research document)
 
 ---
@@ -1414,12 +1414,12 @@ Query → MomentumNavigator → Position Update
 
 ## Novelty Assessment
 
-### Patentable?
+### Novel?
 - [x] **Yes - Novel application**
 - [ ] Maybe - Needs prior art search
 - [ ] No - Existing technique
 
-**Reasoning:** Applying game physics (strafe jumping, momentum, bunny hopping) to neural attention navigation is genuinely novel. No prior art found for "momentum-based semantic navigation" or "attention warp lanes."
+**Reasoning:** Applying game physics (strafe jumping, momentum, bunny hopping) to neural attention navigation is genuinely novel. No prior art found for "momentum-based semantic navigation" or "attention warp lanes." (INFINATE is open source - this establishes public prior art.)
 
 ### Publishable?
 - [x] **Yes - Conference paper potential**
@@ -1445,7 +1445,6 @@ Query → MomentumNavigator → Position Update
 2. **Benchmark on existing tests** - Measure traversal speed improvement
 3. **Visualize in 3D** - Show strafe jumps and warp lanes
 4. **Integration with M2.2** - Plan milestone integration
-5. **Patent application** - If results are promising
 
 ---
 
