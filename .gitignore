@@ -396,3 +396,7 @@ Security/
 
 # Assets (kept locally)
 assets/
+
+# Session logs
+*SESSION*.md
+*_SESSION_*.md
