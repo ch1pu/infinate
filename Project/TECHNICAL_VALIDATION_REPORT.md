@@ -14,7 +14,7 @@ After comprehensive review of all 11 milestone completion reports, benchmarks, a
 
 1. **✅ INFINATE is a WORKING PROJECT** - 60% complete, 369 tests passing, 89.58% coverage
 2. **✅ O(k) complexity is PROVEN** - Multiple independent verifications across milestones
-3. **✅ 10,317× faster than MIT RLM** - Measured and documented
+3. **✅ 10,317× faster than O(n²) baseline** - Measured and documented
 4. **✅ NO LLM TRAINING REQUIRED** - Adapter approach works with existing LLMs
 5. **✅ Production-ready core** - Vector store integration, navigation, LOD all working
 
@@ -104,8 +104,8 @@ Memory at 500/1000/2000 tokens: CONSTANT 10.2MB
 
 ---
 
-### M1.8: MIT RLM Comparison ✅ COMPLETE
-| Metric | INFINATE | MIT RLM | Advantage |
+### M1.8: Baseline Comparison ✅ COMPLETE
+| Metric | INFINATE | O(n²) Baseline | Advantage |
 |--------|----------|---------|-----------|
 | 100K tokens | 13.63ms | 15,000ms | **1,100× faster** |
 | 500K tokens | 13.44ms | 35,000ms | **2,603× faster** |
@@ -138,7 +138,7 @@ O(k) VERIFIED: 128× context increase = only 1.12× time increase
 | Tests | 68 (67 pass, 1 skip) | Pass | ✅ |
 | Coverage | 95.5% | 90% | ✅ |
 | Context expansion | 9.7× | >5× | ✅ |
-| vs MIT RLM | 2,586× faster | >1,000× | ✅ |
+| vs O(n²) baseline | 2,586× faster | >1,000× | ✅ |
 
 **Critical Evidence - O(k) with LOD:**
 ```
@@ -158,8 +158,8 @@ RESULT: O(k) VERIFIED (23.78× << 256×)
 |--------|-------|--------|--------|
 | Tests | 369 (366 pass, 3 skip) | Pass | ✅ |
 | Coverage | 89.58% | 90% | ⚠️ 0.42% shy |
-| vs MIT RLM (in-memory) | 10,317× faster | >1,000× | ✅ |
-| vs MIT RLM (Qdrant) | 533× faster | >100× | ✅ |
+| vs O(n²) (in-memory) | 10,317× faster | >1,000× | ✅ |
+| vs O(n²) (Qdrant) | 533× faster | >100× | ✅ |
 
 **Critical Evidence - O(k) Memory:**
 ```
@@ -189,7 +189,7 @@ RESULT: O(k) CONTAINER MEMORY VERIFIED - 0.96× << 10.0×
 | Failed | 0 |
 | Coverage | 89.58% |
 
-### Performance vs MIT RLM
+### Performance vs O(n²) Baseline
 | Mode | Speedup | Cost Reduction |
 |------|---------|----------------|
 | In-Memory (algorithmic) | **10,317×** | 990× |
@@ -245,7 +245,7 @@ From FUTURE_VISION.md, three integration options exist:
 | No LLM integration | Can't generate text yet | 📋 M2.0 planned |
 | Single-pass limitation | May miss context | 📋 Multi-pass in PRE-M2.0 |
 
-**Important:** Even with CPU-only execution, INFINATE is **10,317× faster than MIT RLM**. GPU would add ~11× on top of this, but is not required.
+**Important:** Even with CPU-only execution, INFINATE is **10,317× faster than O(n²) attention**. GPU would add ~11× on top of this, but is not required.
 
 ---
 
@@ -257,7 +257,7 @@ From FUTURE_VISION.md, three integration options exist:
 - Vector Store Integration (Qdrant + pgvector)
 - Hierarchical LOD (9.7× context expansion)
 - Strafe Jumping Navigation (7 physics exploits)
-- MIT RLM Comparison Benchmarks
+- Baseline Comparison Benchmarks
 
 ### 📋 PLANNED
 - M1.12: 3D Visualization (React + Three.js)
@@ -274,10 +274,10 @@ From FUTURE_VISION.md, three integration options exist:
 
 1. **Working Code:** 60% complete, 369 tests, production-quality
 2. **Novel Innovation:** O(k) complexity proven multiple times
-3. **Massive Advantage:** 10,317× faster than MIT's approach
+3. **Massive Advantage:** 10,317× faster than O(n²) attention
 4. **Clear Path:** LLM integration doesn't require training
 5. **Prior Art Established:** Open source (Apache 2.0) proves ownership
-6. **Competitive Moat:** MIT published similar research but INFINATE is 10,317× faster
+6. **Competitive Moat:** 10,317× faster than standard O(n²) transformer attention
 
 
 ---
@@ -307,7 +307,7 @@ From FUTURE_VISION.md, three integration options exist:
 ### Benchmark Data Sources
 All performance claims verified from test output in milestone documents:
 - O(k) scaling ratios from `test_complexity_scaling`
-- MIT comparison from `test_mit_comparison_benchmarks.py`
+- Baseline comparison from `test_baseline_comparison_benchmarks.py`
 - Memory profiling from `test_container_memory_scaling`
 
 ---

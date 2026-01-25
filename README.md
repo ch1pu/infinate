@@ -131,6 +131,16 @@ output = attention(x, positions)
 
 📚 **Full benchmarks:** [TECHNICAL_VALIDATION_REPORT.md](Project/TECHNICAL_VALIDATION_REPORT.md) | [Milestone 1.11](Project/MILESTONE_1.11_COMPLETE.md)
 
+### Independent Verification Welcome
+
+Over 1,300 clones and counting. If you reproduce our O(k) benchmarks:
+
+1. Run `poetry run pytest -m benchmark -v`
+2. Compare your results to our [published benchmarks](Project/TECHNICAL_VALIDATION_REPORT.md)
+3. Share what you find: [GitHub Issues](https://github.com/ch1pu/infinate/issues) | [@2006_adolfo](https://twitter.com/2006_adolfo)
+
+External validation strengthens the research. Your hardware, your results.
+
 ---
 
 ## How It Works
