@@ -228,27 +228,35 @@ CONSTANT regardless of total memory size!
 
 ## Implementation Status
 
-**Current Progress: 60% Complete**
+**Current Progress: 60% Complete | 369 Tests | 89.58% Coverage**
 
-### Completed Milestones
+### Completed
 
-| Milestone | Description | Tests |
-|-----------|-------------|-------|
-| M1.1-M1.4 | Core spatial attention | 74 |
-| M1.6-M1.7 | Vector store + integration | 47 |
-| M1.8-M1.9 | Benchmarks + stabilization | 29 |
-| M1.10 | Hierarchical LOD (9.7× context) | 68 |
-| M1.11 | Strafe jumping (10,317× faster) | 151 |
+| Milestone | Description | Status |
+|-----------|-------------|--------|
+| M1.1 | SpatialToken class | ✅ Complete |
+| M1.2 | Spatial position encoding | ✅ Complete |
+| M1.3 | Spatial attention mechanism (O(k) proven) | ✅ Complete |
+| M1.4 | Spatial transformer block | ✅ Complete |
+| M1.6 | Vector store integration (Qdrant + pgvector) | ✅ Complete |
+| M1.7 | Integration testing | ✅ Complete |
+| M1.8 | Baseline comparison (1,100-4,331× faster) | ✅ Complete |
+| M1.9 | Test stabilization | ✅ Complete |
+| M1.10 | Hierarchical LOD (9.7× context expansion) | ✅ Complete |
+| M1.11 | Strafe jumping navigation (10,317× faster) | ✅ Complete |
 
-### What's Next
+### Planned
 
-| Phase | Focus |
-|-------|-------|
-| **Pre-M2.0** | GPU SM_120 support, multi-pass navigation, quality benchmarks |
-| **M2.0** | LLM integration, end-to-end QA demo |
-| **M1.12+** | 3D visualization, NPU acceleration |
-
-📚 **Full roadmap:** [FUTURE_VISION.md](Project/FUTURE_VISION.md)
+| Milestone | Description | Status |
+|-----------|-------------|--------|
+| M1.12 | 3D visualization (React + Three.js) | 📋 Planned |
+| M1.13 | Embeddable component | 📋 Planned |
+| M1.14 | NPU acceleration (AMD XDNA 2) | 📋 Planned |
+| M1.15 | GPU SM_120 support (RTX 50-series) | 📋 Planned |
+| M1.16 | Quality benchmarks | 📋 Planned |
+| M1.17 | Multi-pass navigation | 📋 Planned |
+| M1.18 | Confidence re-navigation | 📋 Planned |
+| M2.0 | LLM integration | 📋 Planned |
 
 ---
 
