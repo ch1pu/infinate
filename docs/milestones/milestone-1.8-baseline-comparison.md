@@ -284,7 +284,7 @@ INFINATE uses 7.2MB regardless of context size (1K to 100K tokens). Standard att
 | 100K queries/day | $99,000/day | $100/day | $98,900/day |
 | 1M queries/day | $990,000/day | $1,000/day | $989,000/day |
 
-**Annual savings at 1M queries/day: $361 million**
+At scale, cost savings are significant due to O(k) vs O(n²) complexity.
 
 ---
 

@@ -701,7 +701,7 @@ This milestone implements **Innovation #3** from the original architecture - now
 - **Prior Art:** LOD exists in graphics, but this is the first application to AI context
 
 **Why This Is Significant:**
-This innovation was originally valued at $1M-$5M as a patentable technology. By releasing it as open source, we're contributing a novel technique to the AI community that enables:
+This innovation was originally planned as proprietary technology. By releasing it as open source, we're contributing a novel technique to the AI community that enables:
 
 1. Distance-based LOD level assignment for AI context
 2. Token compression methods (merge, cluster, learned)

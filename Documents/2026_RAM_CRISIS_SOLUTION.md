@@ -301,7 +301,7 @@ Compared against Standard transformer approaches:
 | Cost per query (10M) | $2.50 | $0.001 | **2,500×** |
 | **Average** | - | - | **1,330×** |
 
-At 1M queries/day: **$989,000 daily savings** ($361M/year).
+At scale, the cost advantage compounds significantly due to O(k) vs O(n²) complexity.
 
 ### Scaling Verification: O(k) Confirmed
 
