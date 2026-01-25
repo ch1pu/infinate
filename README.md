@@ -253,9 +253,14 @@ CONSTANT regardless of total memory size!
 | M1.13 | Embeddable component | 📋 Planned |
 | M1.14 | NPU acceleration (AMD XDNA 2) | 📋 Planned |
 | M1.15 | GPU SM_120 support (RTX 50-series) | 📋 Planned |
-| M1.16 | Quality benchmarks | 📋 Planned |
+| M1.16 | Quality benchmarks (retrieval accuracy) | 📋 Planned |
 | M1.17 | Multi-pass navigation | 📋 Planned |
 | M1.18 | Confidence re-navigation | 📋 Planned |
+| M1.19 | Adaptive LOD thresholds | 📋 Planned |
+| M1.20 | Hybrid attention mode | 📋 Planned |
+| M1.21 | SISS (Spatial Intelligence Super Sampling) | 📋 Planned |
+| M1.22 | RT Core spatial index | 📋 Planned |
+| M1.23 | Skill Packs system ("I know Kung Fu") | 📋 Planned |
 | M2.0 | LLM integration | 📋 Planned |
 
 ---
