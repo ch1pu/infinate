@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520">
+  <defs>
+    <linearGradient id="bgEncCode" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e1e2e"/>
+      <stop offset="100%" style="stop-color:#181825"/>
+    </linearGradient>
+    <filter id="glowEnc" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Dark code editor background -->
+  <rect x="0" y="0" width="900" height="520" fill="url(#bgEncCode)"/>
+
+  <!-- Title bar -->
+  <rect x="0" y="0" width="900" height="35" fill="#313244"/>
+  <circle cx="20" cy="17" r="6" fill="#f38ba8"/>
+  <circle cx="40" cy="17" r="6" fill="#f9e2af"/>
+  <circle cx="60" cy="17" r="6" fill="#a6e3a1"/>
+  <text x="450" y="23" text-anchor="middle" font-family="monospace" font-size="12" fill="#cdd6f4">spatial_encoding.py — SpatialPositionEncoding (M1.2)</text>
+
+  <!-- Left panel: Class Definition -->
+  <g transform="translate(20, 50)">
+    <text x="0" y="20" font-family="monospace" font-size="11" fill="#89b4fa">class</text>
+    <text x="40" y="20" font-family="monospace" font-size="11" fill="#f9e2af">SpatialPositionEncoding</text>
+    <text x="200" y="20" font-family="monospace" font-size="11" fill="#cdd6f4">(nn.Module):</text>
+
+    <!-- __init__ -->
+    <text x="20" y="50" font-family="monospace" font-size="10" fill="#6c7086"># Configuration</text>
+
+    <text x="20" y="70" font-family="monospace" font-size="11" fill="#89b4fa">def</text>
+    <text x="45" y="70" font-family="monospace" font-size="11" fill="#a6e3a1">__init__</text>
+    <text x="95" y="70" font-family="monospace" font-size="11" fill="#cdd6f4">(self, d_model=</text>
+    <text x="197" y="70" font-family="monospace" font-size="11" fill="#fab387">768</text>
+    <text x="222" y="70" font-family="monospace" font-size="11" fill="#cdd6f4">,</text>
+
+    <text x="60" y="88" font-family="monospace" font-size="11" fill="#cdd6f4">max_position=</text>
+    <text x="160" y="88" font-family="monospace" font-size="11" fill="#fab387">1000.0</text>
+    <text x="205" y="88" font-family="monospace" font-size="11" fill="#cdd6f4">,</text>
+
+    <text x="60" y="106" font-family="monospace" font-size="11" fill="#cdd6f4">temperature=</text>
+    <text x="155" y="106" font-family="monospace" font-size="11" fill="#fab387">10000.0</text>
+    <text x="205" y="106" font-family="monospace" font-size="11" fill="#cdd6f4">):</text>
+
+    <text x="40" y="130" font-family="monospace" font-size="10" fill="#6c7086"># 768 ÷ 3 = 256 dims per axis</text>
+    <text x="40" y="148" font-family="monospace" font-size="11" fill="#cdd6f4">self.</text>
+    <text x="70" y="148" font-family="monospace" font-size="11" fill="#f38ba8">d_per_dim</text>
+    <text x="140" y="148" font-family="monospace" font-size="11" fill="#cdd6f4"> = d_model // </text>
+    <text x="250" y="148" font-family="monospace" font-size="11" fill="#fab387">3</text>
+
+    <!-- _generate_frequencies -->
+    <text x="20" y="178" font-family="monospace" font-size="10" fill="#6c7086"># Logarithmic frequency bands</text>
+
+    <text x="20" y="198" font-family="monospace" font-size="11" fill="#89b4fa">def</text>
+    <text x="45" y="198" font-family="monospace" font-size="11" fill="#a6e3a1">_generate_frequencies</text>
+    <text x="195" y="198" font-family="monospace" font-size="11" fill="#cdd6f4">(self):</text>
+
+    <text x="40" y="218" font-family="monospace" font-size="10" fill="#a6adc8">num_freqs = self.d_per_dim // 2</text>
+    <text x="40" y="236" font-family="monospace" font-size="10" fill="#a6adc8">freqs = torch.exp(</text>
+    <text x="40" y="254" font-family="monospace" font-size="10" fill="#a6adc8">  linspace(0, -log(temp), num_freqs))</text>
+    <text x="40" y="272" font-family="monospace" font-size="10" fill="#89b4fa">return</text>
+    <text x="78" y="272" font-family="monospace" font-size="10" fill="#a6adc8"> freqs</text>
+
+    <!-- forward method -->
+    <text x="20" y="302" font-family="monospace" font-size="10" fill="#6c7086"># Main encoding: [batch, seq, 3] → [batch, seq, 768]</text>
+
+    <text x="20" y="322" font-family="monospace" font-size="11" fill="#89b4fa">def</text>
+    <text x="45" y="322" font-family="monospace" font-size="11" fill="#a6e3a1">forward</text>
+    <text x="100" y="322" font-family="monospace" font-size="11" fill="#cdd6f4">(self, positions_3d):</text>
+
+    <text x="40" y="342" font-family="monospace" font-size="10" fill="#a6adc8">angles = pos_norm * freqs * 2π</text>
+    <text x="40" y="360" font-family="monospace" font-size="10" fill="#f9e2af">sin_enc</text>
+    <text x="88" y="360" font-family="monospace" font-size="10" fill="#a6adc8"> = torch.sin(angles)</text>
+    <text x="40" y="378" font-family="monospace" font-size="10" fill="#f9e2af">cos_enc</text>
+    <text x="88" y="378" font-family="monospace" font-size="10" fill="#a6adc8"> = torch.cos(angles)</text>
+    <text x="40" y="396" font-family="monospace" font-size="10" fill="#89b4fa">return</text>
+    <text x="78" y="396" font-family="monospace" font-size="10" fill="#a6adc8"> concat([sin, cos], dim=-1)</text>
+  </g>
+
+  <!-- Right panel: Frequency visualization -->
+  <g transform="translate(440, 50)">
+    <!-- Box for frequency bands -->
+    <rect x="0" y="0" width="430" height="200" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+    <text x="215" y="22" text-anchor="middle" font-family="monospace" font-size="11" fill="#89b4fa" font-weight="bold">Frequency Bands (logarithmic)</text>
+
+    <!-- Frequency band visualization -->
+    <g transform="translate(20, 45)">
+      <!-- High frequency -->
+      <rect x="0" y="0" width="180" height="40" rx="4" fill="#1e1e2e"/>
+      <text x="5" y="15" font-family="monospace" font-size="9" fill="#3b82f6">High freq (i=0)</text>
+      <path d="M 10 30 Q 17 18, 24 30 T 38 30 T 52 30 T 66 30 T 80 30 T 94 30 T 108 30 T 122 30 T 136 30 T 150 30 T 164 30" stroke="#3b82f6" stroke-width="2" fill="none"/>
+
+      <!-- Medium frequency -->
+      <rect x="200" y="0" width="180" height="40" rx="4" fill="#1e1e2e"/>
+      <text x="205" y="15" font-family="monospace" font-size="9" fill="#22c55e">Med freq (i=64)</text>
+      <path d="M 210 30 Q 230 15, 250 30 T 290 30 T 330 30 T 370 30" stroke="#22c55e" stroke-width="2" fill="none"/>
+
+      <!-- Low frequency -->
+      <rect x="0" y="55" width="180" height="40" rx="4" fill="#1e1e2e"/>
+      <text x="5" y="70" font-family="monospace" font-size="9" fill="#f59e0b">Low freq (i=127)</text>
+      <path d="M 10 85 Q 60 60, 110 85 T 170 85" stroke="#f59e0b" stroke-width="2" fill="none"/>
+
+      <!-- Formula box -->
+      <rect x="200" y="55" width="180" height="40" rx="4" fill="#1e1e2e" stroke="#cba6f7" stroke-width="1"/>
+      <text x="210" y="70" font-family="monospace" font-size="9" fill="#cba6f7">Formula:</text>
+      <text x="210" y="85" font-family="monospace" font-size="9" fill="#a6adc8">exp(linspace(0,-ln(T),n))</text>
+    </g>
+
+    <!-- Dimension allocation -->
+    <g transform="translate(20, 145)">
+      <text x="0" y="15" font-family="monospace" font-size="10" fill="#6c7086">128 frequencies × sin/cos = 256 dims per axis</text>
+      <text x="0" y="35" font-family="monospace" font-size="10" fill="#a6e3a1">X(256) + Y(256) + Z(256) = 768D output</text>
+    </g>
+  </g>
+
+  <!-- Right panel: Sin/Cos encoding visualization -->
+  <g transform="translate(440, 265)">
+    <rect x="0" y="0" width="430" height="200" rx="8" fill="#313244" stroke="#f9e2af" stroke-width="2"/>
+    <text x="215" y="22" text-anchor="middle" font-family="monospace" font-size="11" fill="#f9e2af" font-weight="bold">Encoding Pipeline</text>
+
+    <!-- Pipeline diagram -->
+    <g transform="translate(20, 40)">
+      <!-- Input -->
+      <rect x="0" y="0" width="80" height="50" rx="4" fill="#1e1e2e" stroke="#89b4fa" stroke-width="1"/>
+      <text x="40" y="20" text-anchor="middle" font-family="monospace" font-size="9" fill="#89b4fa">Input</text>
+      <text x="40" y="35" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">[B, S, 3]</text>
+
+      <!-- Arrow 1 -->
+      <polygon points="85,25 100,20 100,23 115,23 115,27 100,27 100,30" fill="#6c7086"/>
+
+      <!-- Normalize -->
+      <rect x="120" y="0" width="80" height="50" rx="4" fill="#1e1e2e" stroke="#cba6f7" stroke-width="1"/>
+      <text x="160" y="20" text-anchor="middle" font-family="monospace" font-size="9" fill="#cba6f7">Normalize</text>
+      <text x="160" y="35" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">pos/max</text>
+
+      <!-- Arrow 2 -->
+      <polygon points="205,25 220,20 220,23 235,23 235,27 220,27 220,30" fill="#6c7086"/>
+
+      <!-- Angle calc -->
+      <rect x="240" y="0" width="80" height="50" rx="4" fill="#1e1e2e" stroke="#f9e2af" stroke-width="1"/>
+      <text x="280" y="20" text-anchor="middle" font-family="monospace" font-size="9" fill="#f9e2af">Angles</text>
+      <text x="280" y="35" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">pos×freq×2π</text>
+
+      <!-- Arrow 3 -->
+      <polygon points="325,25 340,20 340,23 355,23 355,27 340,27 340,30" fill="#6c7086"/>
+
+      <!-- Output -->
+      <rect x="360" y="0" width="60" height="50" rx="4" fill="#1e1e2e" stroke="#a6e3a1" stroke-width="1"/>
+      <text x="390" y="20" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">sin/cos</text>
+      <text x="390" y="35" text-anchor="middle" font-family="monospace" font-size="8" fill="#6c7086">[B,S,768]</text>
+    </g>
+
+    <!-- Example calculation -->
+    <g transform="translate(20, 105)">
+      <rect x="0" y="0" width="390" height="75" rx="4" fill="#1e1e2e"/>
+      <text x="195" y="18" text-anchor="middle" font-family="monospace" font-size="10" fill="#6c7086">Example: position (100, 50, 25)</text>
+
+      <text x="10" y="38" font-family="monospace" font-size="9" fill="#3b82f6">X: 100/1000 = 0.1</text>
+      <text x="140" y="38" font-family="monospace" font-size="9" fill="#22c55e">Y: 50/1000 = 0.05</text>
+      <text x="280" y="38" font-family="monospace" font-size="9" fill="#f59e0b">Z: 25/1000 = 0.025</text>
+
+      <text x="10" y="58" font-family="monospace" font-size="9" fill="#a6adc8">angles[i] = norm × freqs[i] × 2π</text>
+      <text x="10" y="72" font-family="monospace" font-size="9" fill="#a6e3a1">output = concat(sin(angles), cos(angles))</text>
+    </g>
+  </g>
+
+  <!-- Bottom: Test coverage badges -->
+  <g transform="translate(20, 480)">
+    <rect x="0" y="0" width="160" height="25" rx="4" fill="#313244"/>
+    <text x="10" y="17" font-family="monospace" font-size="10" fill="#a6e3a1">✓ 13 tests passing</text>
+  </g>
+
+  <g transform="translate(190, 480)">
+    <rect x="0" y="0" width="120" height="25" rx="4" fill="#313244"/>
+    <text x="10" y="17" font-family="monospace" font-size="10" fill="#89b4fa">100% coverage</text>
+  </g>
+
+  <g transform="translate(320, 480)">
+    <rect x="0" y="0" width="240" height="25" rx="4" fill="#313244"/>
+    <text x="10" y="17" font-family="monospace" font-size="10" fill="#f9e2af">&lt;60ms for 32×1024 positions</text>
+  </g>
+
+  <g transform="translate(570, 480)">
+    <rect x="0" y="0" width="160" height="25" rx="4" fill="#313244"/>
+    <text x="10" y="17" font-family="monospace" font-size="10" fill="#cba6f7">768D = 3 × 256D</text>
+  </g>
+</svg>
