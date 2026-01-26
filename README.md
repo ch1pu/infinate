@@ -79,39 +79,6 @@ and like what you see, let's connect:
 
 ---
 
-## Key Results
-
-| Metric | INFINATE | O(n²) Baseline | Advantage |
-|--------|----------|----------------|-----------|
-| **Latency (10M tokens)** | 7.18ms | 120,000ms | **10,317× faster** |
-| **Cost per query** | $0.001 | $0.99-$2.50 | **1,330× cheaper** |
-| **Memory** | 1.5 MB constant | O(n²) growth | **O(k) verified** |
-| **Tests** | 369 passing | - | 89.58% coverage |
-
-### O(k) Complexity Verified
-
-| Scale | INFINATE | O(n²) Would Be | Result |
-|-------|----------|----------------|--------|
-| 128× more tokens | 1.12× time | 16,384× | ✅ O(k) |
-| 20× more tokens | 2.85× time | 400× | ✅ O(k) |
-| 10× more tokens | 0.96× memory | 10× | ✅ O(k) |
-
-**The pattern is undeniable:** Scaling stays near-constant while O(n²) would explode.
-
-📚 **Full benchmarks:** [TECHNICAL_VALIDATION_REPORT.md](Project/TECHNICAL_VALIDATION_REPORT.md) | [Milestone 1.11](Project/MILESTONE_1.11_COMPLETE.md)
-
-### Independent Verification Welcome
-
-Over 1,300 clones and counting. If you reproduce our O(k) benchmarks:
-
-1. Run `poetry run pytest -m benchmark -v`
-2. Compare your results to our [published benchmarks](Project/TECHNICAL_VALIDATION_REPORT.md)
-3. Share what you find: [GitHub Issues](https://github.com/ch1pu/infinate/issues) | [@2006_adolfo](https://twitter.com/2006_adolfo)
-
-External validation strengthens the research. Your hardware, your results.
-
----
-
 ## Visual Guide: Understanding INFINATE
 
 Before diving into code, here's how INFINATE works visually.
@@ -163,6 +130,39 @@ Inspired by Quake physics exploits, INFINATE uses momentum-based navigation thro
 <p align="center">
   <img src="assets/images/strafe-jumping.svg" alt="Strafe Jumping: 7 Physics Exploits" width="800"/>
 </p>
+
+---
+
+## Key Results
+
+| Metric | INFINATE | O(n²) Baseline | Advantage |
+|--------|----------|----------------|-----------|
+| **Latency (10M tokens)** | 7.18ms | 120,000ms | **10,317× faster** |
+| **Cost per query** | $0.001 | $0.99-$2.50 | **1,330× cheaper** |
+| **Memory** | 1.5 MB constant | O(n²) growth | **O(k) verified** |
+| **Tests** | 369 passing | - | 89.58% coverage |
+
+### O(k) Complexity Verified
+
+| Scale | INFINATE | O(n²) Would Be | Result |
+|-------|----------|----------------|--------|
+| 128× more tokens | 1.12× time | 16,384× | ✅ O(k) |
+| 20× more tokens | 2.85× time | 400× | ✅ O(k) |
+| 10× more tokens | 0.96× memory | 10× | ✅ O(k) |
+
+**The pattern is undeniable:** Scaling stays near-constant while O(n²) would explode.
+
+📚 **Full benchmarks:** [TECHNICAL_VALIDATION_REPORT.md](Project/TECHNICAL_VALIDATION_REPORT.md) | [Milestone 1.11](Project/MILESTONE_1.11_COMPLETE.md)
+
+### Independent Verification Welcome
+
+Over 1,300 clones and counting. If you reproduce our O(k) benchmarks:
+
+1. Run `poetry run pytest -m benchmark -v`
+2. Compare your results to our [published benchmarks](Project/TECHNICAL_VALIDATION_REPORT.md)
+3. Share what you find: [GitHub Issues](https://github.com/ch1pu/infinate/issues) | [@2006_adolfo](https://twitter.com/2006_adolfo)
+
+External validation strengthens the research. Your hardware, your results.
 
 ---
 
