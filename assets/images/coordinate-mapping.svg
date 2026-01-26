@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 280">
+  <defs>
+    <linearGradient id="bgMap" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0fdf4"/>
+      <stop offset="100%" style="stop-color:#dcfce7"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="900" height="280" fill="url(#bgMap)"/>
+
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" font-family="Arial" font-size="16" fill="#166534" font-weight="bold">Coordinate Mapping: Natural 3D Positions for Any Domain</text>
+
+  <!-- Genomics -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="260" height="190" rx="12" fill="white" filter="url(#shadow)"/>
+
+    <!-- Header -->
+    <rect x="0" y="0" width="260" height="40" rx="12" fill="#3b82f6"/>
+    <rect x="0" y="25" width="260" height="15" fill="#3b82f6"/>
+    <text x="130" y="26" text-anchor="middle" font-family="Arial" font-size="14" fill="white" font-weight="bold">🧬 Genomics</text>
+
+    <!-- Content -->
+    <text x="130" y="65" text-anchor="middle" font-family="Arial" font-size="11" fill="#1e40af" font-weight="bold">3 Billion Base Pairs</text>
+
+    <text x="20" y="95" font-family="Arial" font-size="11" fill="#334155" font-weight="bold">Position Mapping:</text>
+    <text x="30" y="115" font-family="monospace" font-size="10" fill="#3b82f6">x = chromosome (1-23)</text>
+    <text x="30" y="132" font-family="monospace" font-size="10" fill="#3b82f6">y = base_position</text>
+    <text x="30" y="149" font-family="monospace" font-size="10" fill="#3b82f6">z = strand (+/-)</text>
+
+    <text x="20" y="175" font-family="Arial" font-size="10" fill="#64748b">Query nearby genes instantly!</text>
+  </g>
+
+  <!-- Code/Repos -->
+  <g transform="translate(320, 55)">
+    <rect x="0" y="0" width="260" height="190" rx="12" fill="white" filter="url(#shadow)"/>
+
+    <!-- Header -->
+    <rect x="0" y="0" width="260" height="40" rx="12" fill="#8b5cf6"/>
+    <rect x="0" y="25" width="260" height="15" fill="#8b5cf6"/>
+    <text x="130" y="26" text-anchor="middle" font-family="Arial" font-size="14" fill="white" font-weight="bold">💻 Codebase</text>
+
+    <!-- Content -->
+    <text x="130" y="65" text-anchor="middle" font-family="Arial" font-size="11" fill="#6b21a8" font-weight="bold">Billion-Line Repositories</text>
+
+    <text x="20" y="95" font-family="Arial" font-size="11" fill="#334155" font-weight="bold">Position Mapping:</text>
+    <text x="30" y="115" font-family="monospace" font-size="10" fill="#8b5cf6">x = file_path_hash</text>
+    <text x="30" y="132" font-family="monospace" font-size="10" fill="#8b5cf6">y = module/class</text>
+    <text x="30" y="149" font-family="monospace" font-size="10" fill="#8b5cf6">z = function/line</text>
+
+    <text x="20" y="175" font-family="Arial" font-size="10" fill="#64748b">Find related code instantly!</text>
+  </g>
+
+  <!-- Logs/Time Series -->
+  <g transform="translate(610, 55)">
+    <rect x="0" y="0" width="260" height="190" rx="12" fill="white" filter="url(#shadow)"/>
+
+    <!-- Header -->
+    <rect x="0" y="0" width="260" height="40" rx="12" fill="#f59e0b"/>
+    <rect x="0" y="25" width="260" height="15" fill="#f59e0b"/>
+    <text x="130" y="26" text-anchor="middle" font-family="Arial" font-size="14" fill="white" font-weight="bold">📊 Server Logs</text>
+
+    <!-- Content -->
+    <text x="130" y="65" text-anchor="middle" font-family="Arial" font-size="11" fill="#b45309" font-weight="bold">Years of Log History</text>
+
+    <text x="20" y="95" font-family="Arial" font-size="11" fill="#334155" font-weight="bold">Position Mapping:</text>
+    <text x="30" y="115" font-family="monospace" font-size="10" fill="#f59e0b">x = timestamp</text>
+    <text x="30" y="132" font-family="monospace" font-size="10" fill="#f59e0b">y = server_id</text>
+    <text x="30" y="149" font-family="monospace" font-size="10" fill="#f59e0b">z = severity_level</text>
+
+    <text x="20" y="175" font-family="Arial" font-size="10" fill="#64748b">Query error patterns instantly!</text>
+  </g>
+
+  <!-- Bottom note -->
+  <text x="450" y="265" text-anchor="middle" font-family="Arial" font-size="12" fill="#64748b">
+    Any domain with natural coordinates can use INFINATE's O(k) spatial attention
+  </text>
+</svg>

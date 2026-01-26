@@ -146,6 +146,44 @@ External validation strengthens the research. Your hardware, your results.
 
 ---
 
+## Visual Guide: Understanding INFINATE
+
+Before diving into code, here's how INFINATE works visually.
+
+### Step 1: The Embedding Journey
+
+Every piece of text goes through a transformation: raw text becomes a vector, and that vector gets a position in 3D space.
+
+<p align="center">
+  <img src="assets/images/embedding-journey.svg" alt="Embedding Journey: Text to 3D Position" width="800"/>
+</p>
+
+### Step 2: Semantic Clustering
+
+Similar concepts naturally cluster together. Code about Python groups with ML topics. JavaScript clusters with web development. This isn't manual organization — it emerges from the embeddings.
+
+<p align="center">
+  <img src="assets/images/semantic-clustering.svg" alt="Semantic Clustering in 3D Space" width="800"/>
+</p>
+
+### Step 3: Query Radius (The O(k) Secret)
+
+When you search for "machine learning", INFINATE only checks tokens within a radius — not the entire memory. This is why it's O(k) instead of O(n²).
+
+<p align="center">
+  <img src="assets/images/query-radius.svg" alt="Query Radius: O(k) Spatial Search" width="800"/>
+</p>
+
+### Step 4: Coordinate Mapping for Any Domain
+
+The 3D coordinate system adapts to any domain. Genomics uses chromosome positions. Codebases use file paths. Logs use timestamps. The spatial structure matches the natural organization of your data.
+
+<p align="center">
+  <img src="assets/images/coordinate-mapping.svg" alt="Coordinate Mapping for Different Domains" width="800"/>
+</p>
+
+---
+
 ## How It Works
 
 ### 1. Tokens Have 3D Positions
