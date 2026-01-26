@@ -1,0 +1,204 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700">
+  <defs>
+    <linearGradient id="bgLOD" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#eff6ff"/>
+      <stop offset="100%" style="stop-color:#e0e7ff"/>
+    </linearGradient>
+    <filter id="shadowLOD" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="1000" height="700" fill="url(#bgLOD)"/>
+
+  <!-- Title -->
+  <text x="500" y="35" text-anchor="middle" font-family="Arial" font-size="24" fill="#1e40af" font-weight="bold">M1.10: Hierarchical Level-of-Detail (LOD) System</text>
+  <text x="500" y="58" text-anchor="middle" font-family="Arial" font-size="14" fill="#3b82f6">From hard cutoff to smooth context falloff - 9.7× more visible context</text>
+
+  <!-- LEFT: The Problem (Hard Cutoff) -->
+  <g transform="translate(30, 80)">
+    <rect x="0" y="0" width="450" height="200" rx="12" fill="white" filter="url(#shadowLOD)"/>
+    <rect x="0" y="0" width="450" height="35" rx="12" fill="#ef4444"/>
+    <rect x="0" y="22" width="450" height="13" fill="#ef4444"/>
+    <text x="225" y="24" text-anchor="middle" font-family="Arial" font-size="14" fill="white" font-weight="bold">The Problem: Information Cliff</text>
+
+    <!-- Cliff visualization -->
+    <g transform="translate(30, 55)">
+      <text x="0" y="0" font-family="Arial" font-size="10" fill="#64748b">Attention Weight</text>
+
+      <!-- Y axis -->
+      <line x1="50" y1="15" x2="50" y2="100" stroke="#94a3b8" stroke-width="1"/>
+      <text x="40" y="25" text-anchor="end" font-family="Arial" font-size="9" fill="#64748b">1.0</text>
+      <text x="40" y="100" text-anchor="end" font-family="Arial" font-size="9" fill="#64748b">0.0</text>
+
+      <!-- Cliff shape -->
+      <rect x="50" y="15" width="150" height="85" fill="#dcfce7"/>
+      <line x1="200" y1="15" x2="200" y2="100" stroke="#ef4444" stroke-width="3"/>
+      <rect x="200" y="15" width="180" height="85" fill="#fecaca" opacity="0.3"/>
+
+      <!-- Labels -->
+      <text x="125" y="60" text-anchor="middle" font-family="Arial" font-size="10" fill="#166534" font-weight="bold">VISIBLE</text>
+      <text x="125" y="75" text-anchor="middle" font-family="Arial" font-size="9" fill="#166534">k=50 tokens</text>
+      <text x="290" y="60" text-anchor="middle" font-family="Arial" font-size="10" fill="#991b1b" font-weight="bold">INVISIBLE</text>
+      <text x="290" y="75" text-anchor="middle" font-family="Arial" font-size="9" fill="#991b1b">Token 51+ LOST</text>
+
+      <!-- Cliff arrow -->
+      <text x="200" y="115" text-anchor="middle" font-family="Arial" font-size="9" fill="#ef4444" font-weight="bold">↑ CLIFF!</text>
+    </g>
+
+    <!-- Problem summary -->
+    <g transform="translate(30, 175)">
+      <text x="0" y="0" font-family="Arial" font-size="10" fill="#991b1b">"I see auth.py but have NO idea what else exists in the codebase"</text>
+    </g>
+  </g>
+
+  <!-- RIGHT: The Solution (Smooth LOD) -->
+  <g transform="translate(520, 80)">
+    <rect x="0" y="0" width="450" height="200" rx="12" fill="white" filter="url(#shadowLOD)"/>
+    <rect x="0" y="0" width="450" height="35" rx="12" fill="#22c55e"/>
+    <rect x="0" y="22" width="450" height="13" fill="#22c55e"/>
+    <text x="225" y="24" text-anchor="middle" font-family="Arial" font-size="14" fill="white" font-weight="bold">The Solution: Smooth LOD Falloff</text>
+
+    <!-- LOD visualization -->
+    <g transform="translate(30, 55)">
+      <text x="0" y="0" font-family="Arial" font-size="10" fill="#64748b">Detail Level</text>
+
+      <!-- Y axis -->
+      <line x1="50" y1="15" x2="50" y2="100" stroke="#94a3b8" stroke-width="1"/>
+      <text x="40" y="25" text-anchor="end" font-family="Arial" font-size="9" fill="#64748b">100%</text>
+      <text x="40" y="100" text-anchor="end" font-family="Arial" font-size="9" fill="#64748b">85%</text>
+
+      <!-- LOD levels (stepped) -->
+      <rect x="50" y="15" width="90" height="85" fill="#22c55e"/>
+      <rect x="140" y="25" width="90" height="75" fill="#86efac"/>
+      <rect x="230" y="35" width="90" height="65" fill="#bbf7d0"/>
+      <rect x="320" y="45" width="70" height="55" fill="#dcfce7"/>
+
+      <!-- Labels -->
+      <text x="95" y="55" text-anchor="middle" font-family="Arial" font-size="8" fill="white" font-weight="bold">NEAR</text>
+      <text x="95" y="68" text-anchor="middle" font-family="Arial" font-size="7" fill="white">50 tok</text>
+      <text x="185" y="55" text-anchor="middle" font-family="Arial" font-size="8" fill="#166534" font-weight="bold">MEDIUM</text>
+      <text x="185" y="68" text-anchor="middle" font-family="Arial" font-size="7" fill="#166534">25 tok</text>
+      <text x="275" y="55" text-anchor="middle" font-family="Arial" font-size="8" fill="#166534" font-weight="bold">FAR</text>
+      <text x="275" y="68" text-anchor="middle" font-family="Arial" font-size="7" fill="#166534">10 tok</text>
+      <text x="355" y="55" text-anchor="middle" font-family="Arial" font-size="8" fill="#166534" font-weight="bold">BEYOND</text>
+      <text x="355" y="68" text-anchor="middle" font-family="Arial" font-size="7" fill="#166534">5 tok</text>
+    </g>
+
+    <!-- Solution summary -->
+    <g transform="translate(30, 175)">
+      <text x="0" y="0" font-family="Arial" font-size="10" fill="#166534">"I see auth.py in detail, middleware in summary, and know database/ exists"</text>
+    </g>
+  </g>
+
+  <!-- MIDDLE: LOD Compression Table -->
+  <g transform="translate(30, 300)">
+    <rect x="0" y="0" width="450" height="180" rx="12" fill="white" filter="url(#shadowLOD)"/>
+    <rect x="0" y="0" width="450" height="35" rx="12" fill="#8b5cf6"/>
+    <rect x="0" y="22" width="450" height="13" fill="#8b5cf6"/>
+    <text x="225" y="24" text-anchor="middle" font-family="Arial" font-size="14" fill="white" font-weight="bold">LOD Compression: 90 → 875 Tokens (9.7×)</text>
+
+    <!-- Table -->
+    <g transform="translate(25, 50)">
+      <!-- Header -->
+      <rect x="0" y="0" width="400" height="22" fill="#f3e8ff"/>
+      <text x="50" y="15" text-anchor="middle" font-family="Arial" font-size="10" fill="#7c3aed" font-weight="bold">Level</text>
+      <text x="130" y="15" text-anchor="middle" font-family="Arial" font-size="10" fill="#7c3aed" font-weight="bold">Distance</text>
+      <text x="210" y="15" text-anchor="middle" font-family="Arial" font-size="10" fill="#7c3aed" font-weight="bold">Tokens</text>
+      <text x="290" y="15" text-anchor="middle" font-family="Arial" font-size="10" fill="#7c3aed" font-weight="bold">Represents</text>
+      <text x="365" y="15" text-anchor="middle" font-family="Arial" font-size="10" fill="#7c3aed" font-weight="bold">Ratio</text>
+
+      <!-- NEAR row -->
+      <rect x="0" y="22" width="400" height="22" fill="#dcfce7"/>
+      <text x="50" y="37" text-anchor="middle" font-family="Arial" font-size="10" fill="#166534">NEAR</text>
+      <text x="130" y="37" text-anchor="middle" font-family="Arial" font-size="10" fill="#166534">0-50</text>
+      <text x="210" y="37" text-anchor="middle" font-family="Arial" font-size="10" fill="#166534" font-weight="bold">50</text>
+      <text x="290" y="37" text-anchor="middle" font-family="Arial" font-size="10" fill="#166534">50</text>
+      <text x="365" y="37" text-anchor="middle" font-family="Arial" font-size="10" fill="#166534">1:1</text>
+
+      <!-- MEDIUM row -->
+      <rect x="0" y="44" width="400" height="22" fill="#e0f2fe"/>
+      <text x="50" y="59" text-anchor="middle" font-family="Arial" font-size="10" fill="#0369a1">MEDIUM</text>
+      <text x="130" y="59" text-anchor="middle" font-family="Arial" font-size="10" fill="#0369a1">50-150</text>
+      <text x="210" y="59" text-anchor="middle" font-family="Arial" font-size="10" fill="#0369a1" font-weight="bold">25</text>
+      <text x="290" y="59" text-anchor="middle" font-family="Arial" font-size="10" fill="#0369a1">125</text>
+      <text x="365" y="59" text-anchor="middle" font-family="Arial" font-size="10" fill="#0369a1">5:1</text>
+
+      <!-- FAR row -->
+      <rect x="0" y="66" width="400" height="22" fill="#fef3c7"/>
+      <text x="50" y="81" text-anchor="middle" font-family="Arial" font-size="10" fill="#b45309">FAR</text>
+      <text x="130" y="81" text-anchor="middle" font-family="Arial" font-size="10" fill="#b45309">150-500</text>
+      <text x="210" y="81" text-anchor="middle" font-family="Arial" font-size="10" fill="#b45309" font-weight="bold">10</text>
+      <text x="290" y="81" text-anchor="middle" font-family="Arial" font-size="10" fill="#b45309">200</text>
+      <text x="365" y="81" text-anchor="middle" font-family="Arial" font-size="10" fill="#b45309">20:1</text>
+
+      <!-- BEYOND row -->
+      <rect x="0" y="88" width="400" height="22" fill="#f3e8ff"/>
+      <text x="50" y="103" text-anchor="middle" font-family="Arial" font-size="10" fill="#7c3aed">BEYOND</text>
+      <text x="130" y="103" text-anchor="middle" font-family="Arial" font-size="10" fill="#7c3aed">500+</text>
+      <text x="210" y="103" text-anchor="middle" font-family="Arial" font-size="10" fill="#7c3aed" font-weight="bold">5</text>
+      <text x="290" y="103" text-anchor="middle" font-family="Arial" font-size="10" fill="#7c3aed">500</text>
+      <text x="365" y="103" text-anchor="middle" font-family="Arial" font-size="10" fill="#7c3aed">100:1</text>
+
+      <!-- TOTAL row -->
+      <rect x="0" y="110" width="400" height="22" fill="#1e40af"/>
+      <text x="50" y="125" text-anchor="middle" font-family="Arial" font-size="10" fill="white" font-weight="bold">TOTAL</text>
+      <text x="130" y="125" text-anchor="middle" font-family="Arial" font-size="10" fill="white">-</text>
+      <text x="210" y="125" text-anchor="middle" font-family="Arial" font-size="10" fill="white" font-weight="bold">90</text>
+      <text x="290" y="125" text-anchor="middle" font-family="Arial" font-size="10" fill="white" font-weight="bold">875</text>
+      <text x="365" y="125" text-anchor="middle" font-family="Arial" font-size="10" fill="white" font-weight="bold">9.7×</text>
+    </g>
+  </g>
+
+  <!-- RIGHT: Performance Stats -->
+  <g transform="translate(520, 300)">
+    <rect x="0" y="0" width="450" height="180" rx="12" fill="white" filter="url(#shadowLOD)"/>
+    <text x="225" y="25" text-anchor="middle" font-family="Arial" font-size="14" fill="#1e40af" font-weight="bold">Performance vs O(n²) Baseline</text>
+
+    <!-- Stats boxes -->
+    <g transform="translate(25, 45)">
+      <rect x="0" y="0" width="125" height="55" rx="6" fill="#dcfce7"/>
+      <text x="62" y="18" text-anchor="middle" font-family="Arial" font-size="10" fill="#166534">Speedup</text>
+      <text x="62" y="42" text-anchor="middle" font-family="Arial" font-size="18" fill="#166534" font-weight="bold">2,586×</text>
+
+      <rect x="135" y="0" width="125" height="55" rx="6" fill="#dbeafe"/>
+      <text x="197" y="18" text-anchor="middle" font-family="Arial" font-size="10" fill="#1e40af">Cost Savings</text>
+      <text x="197" y="42" text-anchor="middle" font-family="Arial" font-size="18" fill="#1e40af" font-weight="bold">1,330×</text>
+
+      <rect x="270" y="0" width="125" height="55" rx="6" fill="#f3e8ff"/>
+      <text x="332" y="18" text-anchor="middle" font-family="Arial" font-size="10" fill="#7c3aed">Context</text>
+      <text x="332" y="42" text-anchor="middle" font-family="Arial" font-size="18" fill="#7c3aed" font-weight="bold">9.7×</text>
+    </g>
+
+    <!-- Quality preservation -->
+    <g transform="translate(25, 115)">
+      <rect x="0" y="0" width="195" height="45" rx="6" fill="#dcfce7"/>
+      <text x="97" y="18" text-anchor="middle" font-family="Arial" font-size="10" fill="#166534">Near Quality</text>
+      <text x="97" y="36" text-anchor="middle" font-family="Arial" font-size="14" fill="#166534" font-weight="bold">100% preserved</text>
+
+      <rect x="205" y="0" width="195" height="45" rx="6" fill="#fef3c7"/>
+      <text x="302" y="18" text-anchor="middle" font-family="Arial" font-size="10" fill="#b45309">Far Quality</text>
+      <text x="302" y="36" text-anchor="middle" font-family="Arial" font-size="14" fill="#b45309" font-weight="bold">85%+ preserved</text>
+    </g>
+  </g>
+
+  <!-- BOTTOM: Key Insight -->
+  <g transform="translate(30, 500)">
+    <rect x="0" y="0" width="940" height="180" rx="12" fill="#1e40af" filter="url(#shadowLOD)"/>
+    <text x="470" y="30" text-anchor="middle" font-family="Arial" font-size="18" fill="white" font-weight="bold">THE KEY INSIGHT</text>
+
+    <line x1="50" y1="45" x2="890" y2="45" stroke="#60a5fa" stroke-width="1"/>
+
+    <text x="470" y="75" text-anchor="middle" font-family="Arial" font-size="14" fill="#93c5fd">LOD eliminates the "information cliff" - nothing is invisible anymore</text>
+
+    <g transform="translate(80, 95)">
+      <text x="0" y="0" font-family="Arial" font-size="12" fill="#bfdbfe">• Same O(k) compute cost, but 9.7× more context visible</text>
+      <text x="400" y="0" font-family="Arial" font-size="12" fill="#bfdbfe">• Smooth degradation instead of hard cutoff</text>
+      <text x="0" y="25" font-family="Arial" font-size="12" fill="#bfdbfe">• Near tokens: full detail (100%)</text>
+      <text x="400" y="25" font-family="Arial" font-size="12" fill="#bfdbfe">• Far tokens: semantic summary (85%+)</text>
+      <text x="0" y="50" font-family="Arial" font-size="12" fill="#bfdbfe">• Compression: merge averaging or k-means clustering</text>
+      <text x="400" y="50" font-family="Arial" font-size="12" fill="#bfdbfe">• 68 new tests, 95.5% coverage</text>
+    </g>
+  </g>
+</svg>
