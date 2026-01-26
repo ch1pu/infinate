@@ -671,7 +671,7 @@ Scale-dependent results:
 
 ### Comprehensive Benchmark: M1.11 vs O(n²) baseline (arXiv 2512.24601)
 
-Compared full INFINITE stack against MIT's Recursive Language Models:
+Compared full INFINITE stack against the O(n²) baseline:
 - **In-Memory**: Pure algorithmic comparison (no I/O)
 - **Qdrant Pipeline**: Production-realistic with vector store I/O
 

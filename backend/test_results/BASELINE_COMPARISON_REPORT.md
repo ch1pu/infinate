@@ -39,8 +39,8 @@ and like what you see, let's connect:
 
 ## Executive Summary
 
-INFINITE's O(k) spatial attention is compared against MIT's Recursive Language
-Models (arXiv 2512.24601) across latency, complexity, throughput, and cost metrics.
+INFINITE's O(k) spatial attention is compared against the O(n²) baseline
+(arXiv 2512.24601) across latency, complexity, throughput, and cost metrics.
 
 ### Key Results
 
