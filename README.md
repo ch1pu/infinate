@@ -317,7 +317,7 @@ CONSTANT regardless of total memory size!
 | M1.20 | Hybrid attention mode | 📋 Planned |
 | M1.21 | SISS (Spatial Intelligence Super Sampling) | 📋 Planned |
 | M1.22 | RT Core spatial index | 📋 Planned |
-| M1.23 | Skill Packs system ("I know Kung Fu") | 📋 Planned |
+| M1.23 | Skill Packs & Defragmentation ("I know Kung Fu") | 📋 Planned |
 | M2.0 | LLM integration | 📋 Planned |
 
 ---
