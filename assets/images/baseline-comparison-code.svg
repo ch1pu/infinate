@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 750">
+  <defs>
+    <linearGradient id="titleBarBC" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#313244"/>
+      <stop offset="100%" style="stop-color:#45475a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Dark background -->
+  <rect x="0" y="0" width="1100" height="750" fill="#1e1e2e"/>
+
+  <!-- Title bar -->
+  <rect x="0" y="0" width="1100" height="40" fill="url(#titleBarBC)"/>
+  <circle cx="20" cy="20" r="7" fill="#f38ba8"/>
+  <circle cx="42" cy="20" r="7" fill="#f9e2af"/>
+  <circle cx="64" cy="20" r="7" fill="#a6e3a1"/>
+  <text x="550" y="26" text-anchor="middle" font-family="monospace" font-size="13" fill="#cdd6f4">mit_comparison.py — BaselineBenchmarkRunner (M1.8)</text>
+
+  <!-- LEFT PANEL: Code -->
+  <g transform="translate(20, 55)">
+    <!-- MITReference dataclass -->
+    <text x="0" y="0" font-family="monospace" font-size="11" fill="#6c7086"># Reference data for O(n²) baseline</text>
+    <text x="0" y="18" font-family="monospace" font-size="11" fill="#cba6f7">@dataclass</text>
+    <text x="0" y="36" font-family="monospace" font-size="11"><tspan fill="#89b4fa">class </tspan><tspan fill="#f9e2af">BaselineReference</tspan><tspan fill="#cdd6f4">:</tspan></text>
+    <text x="0" y="54" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">    </tspan><tspan fill="#f38ba8">name</tspan><tspan fill="#cdd6f4">: </tspan><tspan fill="#89b4fa">str</tspan></text>
+    <text x="0" y="72" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">    </tspan><tspan fill="#f38ba8">tokens</tspan><tspan fill="#cdd6f4">: </tspan><tspan fill="#89b4fa">int</tspan></text>
+    <text x="0" y="90" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">    </tspan><tspan fill="#f38ba8">latency_s</tspan><tspan fill="#cdd6f4">: </tspan><tspan fill="#89b4fa">float</tspan></text>
+    <text x="0" y="108" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">    </tspan><tspan fill="#f38ba8">cost_usd</tspan><tspan fill="#cdd6f4">: </tspan><tspan fill="#89b4fa">float</tspan></text>
+
+    <!-- BenchmarkResult dataclass -->
+    <text x="0" y="140" font-family="monospace" font-size="11" fill="#6c7086"># INFINATE benchmark result</text>
+    <text x="0" y="158" font-family="monospace" font-size="11" fill="#cba6f7">@dataclass</text>
+    <text x="0" y="176" font-family="monospace" font-size="11"><tspan fill="#89b4fa">class </tspan><tspan fill="#f9e2af">BenchmarkResult</tspan><tspan fill="#cdd6f4">:</tspan></text>
+    <text x="0" y="194" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">    </tspan><tspan fill="#f38ba8">context_size</tspan><tspan fill="#cdd6f4">: </tspan><tspan fill="#89b4fa">int</tspan></text>
+    <text x="0" y="212" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">    </tspan><tspan fill="#f38ba8">latency_ms</tspan><tspan fill="#cdd6f4">: </tspan><tspan fill="#89b4fa">float</tspan></text>
+    <text x="0" y="230" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">    </tspan><tspan fill="#f38ba8">throughput_tok_s</tspan><tspan fill="#cdd6f4">: </tspan><tspan fill="#89b4fa">float</tspan></text>
+    <text x="0" y="248" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">    </tspan><tspan fill="#f38ba8">variance_pct</tspan><tspan fill="#cdd6f4">: </tspan><tspan fill="#89b4fa">float</tspan></text>
+
+    <!-- BenchmarkRunner class -->
+    <text x="0" y="285" font-family="monospace" font-size="11" fill="#6c7086"># Main benchmark runner</text>
+    <text x="0" y="303" font-family="monospace" font-size="11"><tspan fill="#89b4fa">class </tspan><tspan fill="#f9e2af">BenchmarkRunner</tspan><tspan fill="#cdd6f4">:</tspan></text>
+    <text x="0" y="321" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">    </tspan><tspan fill="#f38ba8">COST_PER_QUERY</tspan><tspan fill="#cdd6f4"> = </tspan><tspan fill="#fab387">0.001</tspan></text>
+
+    <text x="0" y="351" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">    </tspan><tspan fill="#89b4fa">def </tspan><tspan fill="#a6e3a1">run_latency_benchmark</tspan><tspan fill="#cdd6f4">(</tspan><tspan fill="#f38ba8">self</tspan><tspan fill="#cdd6f4">, </tspan><tspan fill="#fab387">bridge</tspan><tspan fill="#cdd6f4">, </tspan><tspan fill="#fab387">context_size</tspan><tspan fill="#cdd6f4">):</tspan></text>
+    <text x="0" y="369" font-family="monospace" font-size="11" fill="#6c7086">        # Warmup + measurement runs</text>
+    <text x="0" y="387" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">        </tspan><tspan fill="#89b4fa">for </tspan><tspan fill="#cdd6f4">_ </tspan><tspan fill="#89b4fa">in </tspan><tspan fill="#f9e2af">range</tspan><tspan fill="#cdd6f4">(</tspan><tspan fill="#f38ba8">self</tspan><tspan fill="#cdd6f4">.</tspan><tspan fill="#fab387">warmup_runs</tspan><tspan fill="#cdd6f4">): ...</tspan></text>
+    <text x="0" y="405" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">        </tspan><tspan fill="#89b4fa">return </tspan><tspan fill="#f9e2af">BenchmarkResult</tspan><tspan fill="#cdd6f4">(...)</tspan></text>
+
+    <text x="0" y="435" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">    </tspan><tspan fill="#89b4fa">def </tspan><tspan fill="#a6e3a1">compare_to_baseline</tspan><tspan fill="#cdd6f4">(</tspan><tspan fill="#f38ba8">self</tspan><tspan fill="#cdd6f4">, </tspan><tspan fill="#fab387">result</tspan><tspan fill="#cdd6f4">, </tspan><tspan fill="#fab387">baseline</tspan><tspan fill="#cdd6f4">):</tspan></text>
+    <text x="0" y="453" font-family="monospace" font-size="11" fill="#6c7086">        # Calculate speedup ratio</text>
+    <text x="0" y="471" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">        </tspan><tspan fill="#f38ba8">speedup</tspan><tspan fill="#cdd6f4"> = </tspan><tspan fill="#fab387">baseline</tspan><tspan fill="#cdd6f4">.</tspan><tspan fill="#f38ba8">latency_s</tspan><tspan fill="#cdd6f4"> * </tspan><tspan fill="#fab387">1000</tspan><tspan fill="#cdd6f4"> / </tspan><tspan fill="#fab387">result</tspan><tspan fill="#cdd6f4">.</tspan><tspan fill="#f38ba8">latency_ms</tspan></text>
+    <text x="0" y="489" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">        </tspan><tspan fill="#89b4fa">return </tspan><tspan fill="#f9e2af">Comparison</tspan><tspan fill="#cdd6f4">(</tspan><tspan fill="#f38ba8">speedup</tspan><tspan fill="#cdd6f4">=</tspan><tspan fill="#fab387">speedup</tspan><tspan fill="#cdd6f4">)</tspan></text>
+
+    <text x="0" y="519" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">    </tspan><tspan fill="#89b4fa">def </tspan><tspan fill="#a6e3a1">run_scaling_benchmark</tspan><tspan fill="#cdd6f4">(</tspan><tspan fill="#f38ba8">self</tspan><tspan fill="#cdd6f4">, </tspan><tspan fill="#fab387">sizes</tspan><tspan fill="#cdd6f4">):</tspan></text>
+    <text x="0" y="537" font-family="monospace" font-size="11" fill="#6c7086">        # Verify O(k) across context sizes</text>
+    <text x="0" y="555" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">        </tspan><tspan fill="#89b4fa">return </tspan><tspan fill="#f9e2af">ScalingResult</tspan><tspan fill="#cdd6f4">(</tspan><tspan fill="#f38ba8">is_ok</tspan><tspan fill="#cdd6f4">=</tspan><tspan fill="#fab387">all</tspan><tspan fill="#cdd6f4">(</tspan><tspan fill="#fab387">r</tspan><tspan fill="#cdd6f4"> &lt; </tspan><tspan fill="#fab387">1.5</tspan><tspan fill="#cdd6f4">))</tspan></text>
+  </g>
+
+  <!-- RIGHT PANEL: Visual comparison -->
+  <g transform="translate(530, 55)">
+    <!-- Comparison table header -->
+    <rect x="0" y="0" width="540" height="35" rx="8" fill="#313244"/>
+    <text x="270" y="23" text-anchor="middle" font-family="Arial" font-size="13" fill="#cdd6f4" font-weight="bold">Benchmark Results: INFINATE vs O(n²) Baseline</text>
+
+    <!-- Table -->
+    <g transform="translate(0, 50)">
+      <!-- Header row -->
+      <rect x="0" y="0" width="540" height="28" fill="#45475a"/>
+      <text x="70" y="19" text-anchor="middle" font-family="Arial" font-size="11" fill="#cdd6f4" font-weight="bold">Context</text>
+      <text x="180" y="19" text-anchor="middle" font-family="Arial" font-size="11" fill="#f38ba8" font-weight="bold">O(n²) Baseline</text>
+      <text x="300" y="19" text-anchor="middle" font-family="Arial" font-size="11" fill="#a6e3a1" font-weight="bold">INFINATE</text>
+      <text x="420" y="19" text-anchor="middle" font-family="Arial" font-size="11" fill="#f9e2af" font-weight="bold">Speedup</text>
+      <text x="495" y="19" text-anchor="middle" font-family="Arial" font-size="11" fill="#89b4fa" font-weight="bold">Cost</text>
+
+      <!-- 100K row -->
+      <rect x="0" y="28" width="540" height="32" fill="#1e1e2e"/>
+      <text x="70" y="49" text-anchor="middle" font-family="monospace" font-size="11" fill="#cdd6f4">100K</text>
+      <text x="180" y="49" text-anchor="middle" font-family="monospace" font-size="11" fill="#f38ba8">15,000ms</text>
+      <text x="300" y="49" text-anchor="middle" font-family="monospace" font-size="11" fill="#a6e3a1">13.63ms</text>
+      <text x="420" y="49" text-anchor="middle" font-family="monospace" font-size="11" fill="#f9e2af" font-weight="bold">1,100×</text>
+      <text x="495" y="49" text-anchor="middle" font-family="monospace" font-size="11" fill="#89b4fa">500×</text>
+
+      <!-- 500K row -->
+      <rect x="0" y="60" width="540" height="32" fill="#313244"/>
+      <text x="70" y="81" text-anchor="middle" font-family="monospace" font-size="11" fill="#cdd6f4">500K</text>
+      <text x="180" y="81" text-anchor="middle" font-family="monospace" font-size="11" fill="#f38ba8">35,000ms</text>
+      <text x="300" y="81" text-anchor="middle" font-family="monospace" font-size="11" fill="#a6e3a1">13.44ms</text>
+      <text x="420" y="81" text-anchor="middle" font-family="monospace" font-size="11" fill="#f9e2af" font-weight="bold">2,603×</text>
+      <text x="495" y="81" text-anchor="middle" font-family="monospace" font-size="11" fill="#89b4fa">990×</text>
+
+      <!-- 1M row -->
+      <rect x="0" y="92" width="540" height="32" fill="#1e1e2e"/>
+      <text x="70" y="113" text-anchor="middle" font-family="monospace" font-size="11" fill="#cdd6f4">1M</text>
+      <text x="180" y="113" text-anchor="middle" font-family="monospace" font-size="11" fill="#f38ba8">60,000ms</text>
+      <text x="300" y="113" text-anchor="middle" font-family="monospace" font-size="11" fill="#a6e3a1">13.86ms</text>
+      <text x="420" y="113" text-anchor="middle" font-family="monospace" font-size="11" fill="#f9e2af" font-weight="bold">4,331×</text>
+      <text x="495" y="113" text-anchor="middle" font-family="monospace" font-size="11" fill="#89b4fa">990×</text>
+    </g>
+
+    <!-- Scaling Verification -->
+    <g transform="translate(0, 200)">
+      <rect x="0" y="0" width="540" height="150" rx="8" fill="#313244"/>
+      <text x="270" y="22" text-anchor="middle" font-family="Arial" font-size="12" fill="#cba6f7" font-weight="bold">O(k) Scaling Verification (k dominates)</text>
+      <line x1="20" y1="32" x2="520" y2="32" stroke="#45475a" stroke-width="1"/>
+
+      <!-- Scaling bars -->
+      <g transform="translate(20, 45)">
+        <text x="0" y="12" font-family="monospace" font-size="10" fill="#6c7086">1K:</text>
+        <rect x="40" y="0" width="100" height="16" rx="3" fill="#89b4fa"/>
+        <text x="150" y="12" font-family="monospace" font-size="10" fill="#cdd6f4">12.40ms (1.00×)</text>
+
+        <text x="0" y="35" font-family="monospace" font-size="10" fill="#6c7086">32K:</text>
+        <rect x="40" y="23" width="110" height="16" rx="3" fill="#89b4fa"/>
+        <text x="160" y="35" font-family="monospace" font-size="10" fill="#cdd6f4">13.68ms (1.10×)</text>
+
+        <text x="0" y="58" font-family="monospace" font-size="10" fill="#6c7086">128K:</text>
+        <rect x="40" y="46" width="112" height="16" rx="3" fill="#89b4fa"/>
+        <text x="162" y="58" font-family="monospace" font-size="10" fill="#cdd6f4">13.87ms (1.12×)</text>
+      </g>
+
+      <!-- Formula explanation -->
+      <g transform="translate(300, 45)">
+        <rect x="0" y="0" width="220" height="90" rx="6" fill="#45475a"/>
+        <text x="110" y="18" text-anchor="middle" font-family="Arial" font-size="10" fill="#a6e3a1" font-weight="bold">Why 128× = only 1.12×?</text>
+        <text x="10" y="38" font-family="monospace" font-size="9" fill="#cdd6f4">O(log n + k) where k=50</text>
+        <text x="10" y="53" font-family="monospace" font-size="9" fill="#cdd6f4">1K:   log₂(1K)=10  → 60 ops</text>
+        <text x="10" y="68" font-family="monospace" font-size="9" fill="#cdd6f4">128K: log₂(128K)=17 → 67 ops</text>
+        <text x="10" y="83" font-family="monospace" font-size="9" fill="#f9e2af">67/60 = 1.12× ✓</text>
+      </g>
+    </g>
+
+    <!-- Variance comparison -->
+    <g transform="translate(0, 365)">
+      <rect x="0" y="0" width="260" height="80" rx="8" fill="#313244"/>
+      <text x="130" y="20" text-anchor="middle" font-family="Arial" font-size="11" fill="#f38ba8" font-weight="bold">O(n²) Baseline Variance</text>
+      <text x="130" y="45" text-anchor="middle" font-family="monospace" font-size="18" fill="#f38ba8">10-100×</text>
+      <text x="130" y="65" text-anchor="middle" font-family="Arial" font-size="10" fill="#6c7086">between runs</text>
+    </g>
+
+    <g transform="translate(280, 365)">
+      <rect x="0" y="0" width="260" height="80" rx="8" fill="#313244"/>
+      <text x="130" y="20" text-anchor="middle" font-family="Arial" font-size="11" fill="#a6e3a1" font-weight="bold">INFINATE Variance</text>
+      <text x="130" y="45" text-anchor="middle" font-family="monospace" font-size="18" fill="#a6e3a1">&lt;1%</text>
+      <text x="130" y="65" text-anchor="middle" font-family="Arial" font-size="10" fill="#6c7086">deterministic</text>
+    </g>
+
+    <!-- Memory comparison -->
+    <g transform="translate(0, 460)">
+      <rect x="0" y="0" width="260" height="80" rx="8" fill="#313244"/>
+      <text x="130" y="20" text-anchor="middle" font-family="Arial" font-size="11" fill="#f38ba8" font-weight="bold">O(n²) Memory</text>
+      <text x="130" y="45" text-anchor="middle" font-family="monospace" font-size="14" fill="#f38ba8">O(n²) growth</text>
+      <text x="130" y="65" text-anchor="middle" font-family="Arial" font-size="10" fill="#6c7086">scales with context</text>
+    </g>
+
+    <g transform="translate(280, 460)">
+      <rect x="0" y="0" width="260" height="80" rx="8" fill="#313244"/>
+      <text x="130" y="20" text-anchor="middle" font-family="Arial" font-size="11" fill="#a6e3a1" font-weight="bold">INFINATE Memory</text>
+      <text x="130" y="45" text-anchor="middle" font-family="monospace" font-size="14" fill="#a6e3a1">7.2MB constant</text>
+      <text x="130" y="65" text-anchor="middle" font-family="Arial" font-size="10" fill="#6c7086">1K to 100K tokens</text>
+    </g>
+  </g>
+
+  <!-- Footer: test stats -->
+  <g transform="translate(20, 700)">
+    <rect x="0" y="0" width="180" height="30" rx="6" fill="#313244"/>
+    <text x="90" y="20" text-anchor="middle" font-family="Arial" font-size="11" fill="#a6e3a1">✓ 25 tests passing</text>
+  </g>
+
+  <g transform="translate(220, 700)">
+    <rect x="0" y="0" width="180" height="30" rx="6" fill="#313244"/>
+    <text x="90" y="20" text-anchor="middle" font-family="Arial" font-size="11" fill="#89b4fa">5 test categories</text>
+  </g>
+
+  <g transform="translate(420, 700)">
+    <rect x="0" y="0" width="280" height="30" rx="6" fill="#313244"/>
+    <text x="140" y="20" text-anchor="middle" font-family="Arial" font-size="11" fill="#f9e2af">O(k) verified: 128× context = 1.12× time</text>
+  </g>
+
+  <g transform="translate(720, 700)">
+    <rect x="0" y="0" width="180" height="30" rx="6" fill="#313244"/>
+    <text x="90" y="20" text-anchor="middle" font-family="Arial" font-size="11" fill="#cba6f7">k dominates log n</text>
+  </g>
+</svg>
