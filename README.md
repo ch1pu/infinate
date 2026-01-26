@@ -317,7 +317,12 @@ CONSTANT regardless of total memory size!
 | M1.20 | Hybrid attention mode | 📋 Planned |
 | M1.21 | SISS (Spatial Intelligence Super Sampling) | 📋 Planned |
 | M1.22 | RT Core spatial index | 📋 Planned |
-| M1.23 | Skill Packs & Defragmentation ("I know Kung Fu") | 📋 Planned |
+| M1.23a | Skill pack manifest schema | 📋 Planned |
+| M1.23b | Skill pack loader (region assignment) | 📋 Planned |
+| M1.23c | Metadata extensions (status, version, source) | 📋 Planned |
+| M1.23d | Success/failure tracking system | 📋 Planned |
+| M1.23e | Defragmentation engine | 📋 Planned |
+| M1.23f | Defrag triggers (manual, scheduled, auto) | 📋 Planned |
 | M2.0 | LLM integration | 📋 Planned |
 
 ---
