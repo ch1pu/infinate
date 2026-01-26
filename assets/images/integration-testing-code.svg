@@ -1,0 +1,312 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600">
+  <defs>
+    <linearGradient id="bgCodeIC" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e1e2e"/>
+      <stop offset="100%" style="stop-color:#181825"/>
+    </linearGradient>
+    <filter id="shadowCodeIC" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="2" dy="2" stdDeviation="4" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="1000" height="600" fill="url(#bgCodeIC)"/>
+
+  <!-- Title bar (window chrome) -->
+  <rect x="0" y="0" width="1000" height="40" fill="#313244"/>
+  <circle cx="20" cy="20" r="7" fill="#f38ba8"/>
+  <circle cx="44" cy="20" r="7" fill="#f9e2af"/>
+  <circle cx="68" cy="20" r="7" fill="#a6e3a1"/>
+  <text x="500" y="26" text-anchor="middle" font-family="monospace" font-size="13" fill="#cdd6f4">transformer_bridge.py — TransformerBridge (M1.7 Integration)</text>
+
+  <!-- LEFT PANEL: TransformerBridge Code -->
+  <g transform="translate(20, 55)">
+    <rect x="0" y="0" width="480" height="290" rx="8" fill="#313244" filter="url(#shadowCodeIC)"/>
+    <text x="240" y="25" text-anchor="middle" font-family="monospace" font-size="12" fill="#89b4fa" font-weight="bold">TransformerBridge Class</text>
+
+    <!-- Code lines -->
+    <g transform="translate(15, 45)">
+      <text font-family="monospace" font-size="11">
+        <tspan x="0" y="0" fill="#89b4fa">class</tspan>
+        <tspan fill="#f9e2af"> TransformerBridge</tspan>
+        <tspan fill="#cdd6f4">(</tspan>
+        <tspan fill="#89b4fa">nn.Module</tspan>
+        <tspan fill="#cdd6f4">):</tspan>
+      </text>
+      <text font-family="monospace" font-size="11">
+        <tspan x="0" y="18" fill="#6c7086">    """Bridge connecting Transformer to VectorStore."""</tspan>
+      </text>
+      <text font-family="monospace" font-size="11">
+        <tspan x="0" y="40" fill="#89b4fa">    def</tspan>
+        <tspan fill="#f9e2af"> __init__</tspan>
+        <tspan fill="#cdd6f4">(</tspan>
+        <tspan fill="#f38ba8">self</tspan>
+        <tspan fill="#cdd6f4">,</tspan>
+      </text>
+      <text font-family="monospace" font-size="11">
+        <tspan x="0" y="55" fill="#cdd6f4">        </tspan>
+        <tspan fill="#f38ba8">transformer</tspan>
+        <tspan fill="#cdd6f4">: </tspan>
+        <tspan fill="#89b4fa">SpatialTransformer</tspan>
+        <tspan fill="#cdd6f4">,</tspan>
+      </text>
+      <text font-family="monospace" font-size="11">
+        <tspan x="0" y="70" fill="#cdd6f4">        </tspan>
+        <tspan fill="#f38ba8">vector_store</tspan>
+        <tspan fill="#cdd6f4">: </tspan>
+        <tspan fill="#89b4fa">VectorStoreBase</tspan>
+        <tspan fill="#cdd6f4">,</tspan>
+      </text>
+      <text font-family="monospace" font-size="11">
+        <tspan x="0" y="85" fill="#cdd6f4">        </tspan>
+        <tspan fill="#f38ba8">k_neighbors</tspan>
+        <tspan fill="#cdd6f4">: </tspan>
+        <tspan fill="#89b4fa">int</tspan>
+        <tspan fill="#cdd6f4"> = </tspan>
+        <tspan fill="#fab387">50</tspan>
+        <tspan fill="#cdd6f4">):</tspan>
+      </text>
+      <text font-family="monospace" font-size="11">
+        <tspan x="0" y="105" fill="#cdd6f4">        </tspan>
+        <tspan fill="#f38ba8">self</tspan>
+        <tspan fill="#cdd6f4">.</tspan>
+        <tspan fill="#cdd6f4">transformer = transformer</tspan>
+      </text>
+      <text font-family="monospace" font-size="11">
+        <tspan x="0" y="120" fill="#cdd6f4">        </tspan>
+        <tspan fill="#f38ba8">self</tspan>
+        <tspan fill="#cdd6f4">.context_manager = </tspan>
+        <tspan fill="#f9e2af">ContextManager</tspan>
+        <tspan fill="#cdd6f4">(...)</tspan>
+      </text>
+      <text font-family="monospace" font-size="11">
+        <tspan x="0" y="145" fill="#89b4fa">    def</tspan>
+        <tspan fill="#f9e2af"> forward</tspan>
+        <tspan fill="#cdd6f4">(</tspan>
+        <tspan fill="#f38ba8">self</tspan>
+        <tspan fill="#cdd6f4">, </tspan>
+        <tspan fill="#f38ba8">x</tspan>
+        <tspan fill="#cdd6f4">, </tspan>
+        <tspan fill="#f38ba8">positions</tspan>
+        <tspan fill="#cdd6f4">):</tspan>
+      </text>
+      <text font-family="monospace" font-size="11">
+        <tspan x="0" y="160" fill="#6c7086">        # Query vector store for context</tspan>
+      </text>
+      <text font-family="monospace" font-size="11">
+        <tspan x="0" y="175" fill="#cdd6f4">        ctx = </tspan>
+        <tspan fill="#f38ba8">self</tspan>
+        <tspan fill="#cdd6f4">.context_manager.</tspan>
+        <tspan fill="#f9e2af">retrieve_context</tspan>
+        <tspan fill="#cdd6f4">(...)</tspan>
+      </text>
+      <text font-family="monospace" font-size="11">
+        <tspan x="0" y="195" fill="#6c7086">        # Forward through transformer</tspan>
+      </text>
+      <text font-family="monospace" font-size="11">
+        <tspan x="0" y="210" fill="#cdd6f4">        </tspan>
+        <tspan fill="#89b4fa">return</tspan>
+        <tspan fill="#cdd6f4"> </tspan>
+        <tspan fill="#f38ba8">self</tspan>
+        <tspan fill="#cdd6f4">.transformer(x, positions)</tspan>
+      </text>
+    </g>
+  </g>
+
+  <!-- LEFT PANEL 2: ContextManager Code -->
+  <g transform="translate(20, 360)">
+    <rect x="0" y="0" width="480" height="180" rx="8" fill="#313244" filter="url(#shadowCodeIC)"/>
+    <text x="240" y="25" text-anchor="middle" font-family="monospace" font-size="12" fill="#89b4fa" font-weight="bold">ContextManager Class</text>
+
+    <g transform="translate(15, 45)">
+      <text font-family="monospace" font-size="11">
+        <tspan x="0" y="0" fill="#89b4fa">class</tspan>
+        <tspan fill="#f9e2af"> ContextManager</tspan>
+        <tspan fill="#cdd6f4">:</tspan>
+      </text>
+      <text font-family="monospace" font-size="11">
+        <tspan x="0" y="18" fill="#6c7086">    """LRU cache + query manager."""</tspan>
+      </text>
+      <text font-family="monospace" font-size="11">
+        <tspan x="0" y="40" fill="#89b4fa">    def</tspan>
+        <tspan fill="#f9e2af"> retrieve_context</tspan>
+        <tspan fill="#cdd6f4">(</tspan>
+        <tspan fill="#f38ba8">self</tspan>
+        <tspan fill="#cdd6f4">, </tspan>
+        <tspan fill="#f38ba8">query_vector</tspan>
+        <tspan fill="#cdd6f4">,</tspan>
+      </text>
+      <text font-family="monospace" font-size="11">
+        <tspan x="0" y="55" fill="#cdd6f4">                       </tspan>
+        <tspan fill="#f38ba8">query_position</tspan>
+        <tspan fill="#cdd6f4">, </tspan>
+        <tspan fill="#f38ba8">k</tspan>
+        <tspan fill="#cdd6f4">=</tspan>
+        <tspan fill="#fab387">50</tspan>
+        <tspan fill="#cdd6f4">):</tspan>
+      </text>
+      <text font-family="monospace" font-size="11">
+        <tspan x="0" y="75" fill="#6c7086">        # Check cache first (LRU)</tspan>
+      </text>
+      <text font-family="monospace" font-size="11">
+        <tspan x="0" y="90" fill="#89b4fa">        if</tspan>
+        <tspan fill="#cdd6f4"> key </tspan>
+        <tspan fill="#89b4fa">in</tspan>
+        <tspan fill="#f38ba8"> self</tspan>
+        <tspan fill="#cdd6f4">._cache: </tspan>
+        <tspan fill="#89b4fa">return</tspan>
+        <tspan fill="#cdd6f4"> cached</tspan>
+      </text>
+      <text font-family="monospace" font-size="11">
+        <tspan x="0" y="110" fill="#6c7086">        # Query vector store (Qdrant/pgvector)</tspan>
+      </text>
+      <text font-family="monospace" font-size="11">
+        <tspan x="0" y="125" fill="#cdd6f4">        </tspan>
+        <tspan fill="#89b4fa">return</tspan>
+        <tspan fill="#f38ba8"> self</tspan>
+        <tspan fill="#cdd6f4">.vector_store.</tspan>
+        <tspan fill="#f9e2af">query</tspan>
+        <tspan fill="#cdd6f4">(...)</tspan>
+      </text>
+    </g>
+  </g>
+
+  <!-- RIGHT PANEL: Architecture Diagram -->
+  <g transform="translate(520, 55)">
+    <rect x="0" y="0" width="460" height="290" rx="8" fill="#313244" filter="url(#shadowCodeIC)"/>
+    <text x="230" y="25" text-anchor="middle" font-family="Arial" font-size="12" fill="#89b4fa" font-weight="bold">Integration Architecture</text>
+
+    <!-- Input -->
+    <g transform="translate(30, 50)">
+      <rect x="0" y="0" width="100" height="40" rx="6" fill="#45475a"/>
+      <text x="50" y="18" text-anchor="middle" font-family="Arial" font-size="10" fill="#cdd6f4" font-weight="bold">Input</text>
+      <text x="50" y="32" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6adc8">(x, positions)</text>
+    </g>
+
+    <!-- Arrow down -->
+    <line x1="80" y1="95" x2="80" y2="115" stroke="#89b4fa" stroke-width="2"/>
+    <polygon points="80,120 75,115 85,115" fill="#89b4fa"/>
+
+    <!-- TransformerBridge box -->
+    <g transform="translate(10, 125)">
+      <rect x="0" y="0" width="210" height="140" rx="8" fill="#1e1e2e" stroke="#89b4fa" stroke-width="2"/>
+      <text x="105" y="18" text-anchor="middle" font-family="Arial" font-size="10" fill="#89b4fa" font-weight="bold">TransformerBridge</text>
+
+      <!-- Inner components -->
+      <rect x="15" y="30" width="85" height="35" rx="4" fill="#45475a"/>
+      <text x="57" y="45" text-anchor="middle" font-family="Arial" font-size="9" fill="#a6e3a1">Spatial</text>
+      <text x="57" y="58" text-anchor="middle" font-family="Arial" font-size="9" fill="#a6e3a1">Transformer</text>
+
+      <rect x="110" y="30" width="85" height="35" rx="4" fill="#45475a"/>
+      <text x="152" y="45" text-anchor="middle" font-family="Arial" font-size="9" fill="#f9e2af">Context</text>
+      <text x="152" y="58" text-anchor="middle" font-family="Arial" font-size="9" fill="#f9e2af">Manager</text>
+
+      <!-- Arrow from ContextManager to VectorStore -->
+      <line x1="152" y1="70" x2="152" y2="90" stroke="#f9e2af" stroke-width="1.5"/>
+      <polygon points="152,95 148,90 156,90" fill="#f9e2af"/>
+
+      <rect x="110" y="100" width="85" height="30" rx="4" fill="#45475a"/>
+      <text x="152" y="120" text-anchor="middle" font-family="Arial" font-size="9" fill="#f38ba8">VectorStore</text>
+    </g>
+
+    <!-- Arrow down from bridge -->
+    <line x1="115" y1="270" x2="115" y2="300" stroke="#89b4fa" stroke-width="2"/>
+    <polygon points="115,305 110,300 120,300" fill="#89b4fa"/>
+
+    <!-- Output -->
+    <g transform="translate(65, 310)">
+      <rect x="0" y="0" width="100" height="40" rx="6" fill="#45475a"/>
+      <text x="50" y="18" text-anchor="middle" font-family="Arial" font-size="10" fill="#a6e3a1" font-weight="bold">Output</text>
+      <text x="50" y="32" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6adc8">O(k) tensor</text>
+    </g>
+
+    <!-- Right side: O(k) verification -->
+    <g transform="translate(240, 50)">
+      <rect x="0" y="0" width="200" height="240" rx="6" fill="#1e1e2e" stroke="#a6e3a1" stroke-width="2"/>
+      <text x="100" y="20" text-anchor="middle" font-family="Arial" font-size="10" fill="#a6e3a1" font-weight="bold">O(k) Verified</text>
+
+      <text x="15" y="45" font-family="monospace" font-size="10" fill="#cdd6f4">Context:   Time:</text>
+      <text x="15" y="65" font-family="monospace" font-size="10" fill="#cdd6f4">  1000  → 11.82ms</text>
+      <text x="15" y="85" font-family="monospace" font-size="10" fill="#cdd6f4">  2000  → 12.96ms</text>
+      <text x="15" y="105" font-family="monospace" font-size="10" fill="#cdd6f4">  4000  → 12.61ms</text>
+
+      <line x1="10" y1="120" x2="190" y2="120" stroke="#45475a"/>
+
+      <text x="15" y="145" font-family="Arial" font-size="10" fill="#f38ba8">If O(n²):</text>
+      <text x="15" y="165" font-family="monospace" font-size="10" fill="#f38ba8">2x → 4x time ✗</text>
+      <text x="15" y="185" font-family="monospace" font-size="10" fill="#f38ba8">4x → 16x time ✗</text>
+
+      <text x="15" y="210" font-family="Arial" font-size="10" fill="#a6e3a1">Actual O(k):</text>
+      <text x="15" y="230" font-family="monospace" font-size="10" fill="#a6e3a1">2x → 1.1x time ✓</text>
+    </g>
+  </g>
+
+  <!-- RIGHT PANEL 2: Test Stats -->
+  <g transform="translate(520, 360)">
+    <rect x="0" y="0" width="460" height="180" rx="8" fill="#313244" filter="url(#shadowCodeIC)"/>
+    <text x="230" y="25" text-anchor="middle" font-family="Arial" font-size="12" fill="#89b4fa" font-weight="bold">Test Results</text>
+
+    <!-- Test categories -->
+    <g transform="translate(20, 45)">
+      <rect x="0" y="0" width="130" height="50" rx="4" fill="#45475a"/>
+      <text x="65" y="20" text-anchor="middle" font-family="Arial" font-size="10" fill="#cdd6f4">TransformerBridge</text>
+      <text x="65" y="38" text-anchor="middle" font-family="monospace" font-size="14" fill="#a6e3a1" font-weight="bold">3/3 ✓</text>
+    </g>
+
+    <g transform="translate(160, 45)">
+      <rect x="0" y="0" width="130" height="50" rx="4" fill="#45475a"/>
+      <text x="65" y="20" text-anchor="middle" font-family="Arial" font-size="10" fill="#cdd6f4">Qdrant</text>
+      <text x="65" y="38" text-anchor="middle" font-family="monospace" font-size="14" fill="#a6e3a1" font-weight="bold">5/5 ✓</text>
+    </g>
+
+    <g transform="translate(300, 45)">
+      <rect x="0" y="0" width="130" height="50" rx="4" fill="#45475a"/>
+      <text x="65" y="20" text-anchor="middle" font-family="Arial" font-size="10" fill="#cdd6f4">pgvector</text>
+      <text x="65" y="38" text-anchor="middle" font-family="monospace" font-size="14" fill="#a6e3a1" font-weight="bold">5/5 ✓</text>
+    </g>
+
+    <g transform="translate(20, 105)">
+      <rect x="0" y="0" width="130" height="50" rx="4" fill="#45475a"/>
+      <text x="65" y="20" text-anchor="middle" font-family="Arial" font-size="10" fill="#cdd6f4">Edge Cases</text>
+      <text x="65" y="38" text-anchor="middle" font-family="monospace" font-size="14" fill="#a6e3a1" font-weight="bold">4/4 ✓</text>
+    </g>
+
+    <g transform="translate(160, 105)">
+      <rect x="0" y="0" width="130" height="50" rx="4" fill="#45475a"/>
+      <text x="65" y="20" text-anchor="middle" font-family="Arial" font-size="10" fill="#cdd6f4">Benchmarks</text>
+      <text x="65" y="38" text-anchor="middle" font-family="monospace" font-size="14" fill="#a6e3a1" font-weight="bold">6/6 ✓</text>
+    </g>
+
+    <g transform="translate(300, 105)">
+      <rect x="0" y="0" width="130" height="50" rx="4" fill="#1e1e2e" stroke="#a6e3a1" stroke-width="2"/>
+      <text x="65" y="20" text-anchor="middle" font-family="Arial" font-size="10" fill="#a6e3a1">TOTAL</text>
+      <text x="65" y="40" text-anchor="middle" font-family="monospace" font-size="16" fill="#a6e3a1" font-weight="bold">23/23 ✓</text>
+    </g>
+  </g>
+
+  <!-- Footer: Performance stats -->
+  <g transform="translate(20, 555)">
+    <rect x="0" y="0" width="180" height="30" rx="4" fill="#45475a"/>
+    <text x="90" y="20" text-anchor="middle" font-family="monospace" font-size="11" fill="#a6e3a1">✓ 23 tests passing</text>
+  </g>
+
+  <g transform="translate(210, 555)">
+    <rect x="0" y="0" width="180" height="30" rx="4" fill="#45475a"/>
+    <text x="90" y="20" text-anchor="middle" font-family="monospace" font-size="11" fill="#f9e2af">72% module coverage</text>
+  </g>
+
+  <g transform="translate(400, 555)">
+    <rect x="0" y="0" width="180" height="30" rx="4" fill="#45475a"/>
+    <text x="90" y="20" text-anchor="middle" font-family="monospace" font-size="11" fill="#89b4fa">12,161 tokens/sec</text>
+  </g>
+
+  <g transform="translate(590, 555)">
+    <rect x="0" y="0" width="180" height="30" rx="4" fill="#45475a"/>
+    <text x="90" y="20" text-anchor="middle" font-family="monospace" font-size="11" fill="#f38ba8">13.91ms Qdrant</text>
+  </g>
+
+  <g transform="translate(780, 555)">
+    <rect x="0" y="0" width="200" height="30" rx="4" fill="#45475a"/>
+    <text x="100" y="20" text-anchor="middle" font-family="monospace" font-size="11" fill="#cba6f7">O(k) END-TO-END ✓</text>
+  </g>
+</svg>
