@@ -43,6 +43,22 @@ Milestone 1.10 successfully implemented the Hierarchical Level-of-Detail (LOD) s
 
 ---
 
+## Visual Overview
+
+### The Concept: From Information Cliff to Smooth Falloff
+
+<p align="center">
+  <img src="../assets/images/hierarchical-lod-concept.svg" alt="Hierarchical LOD Concept" width="900"/>
+</p>
+
+### The Implementation: HierarchicalLOD System
+
+<p align="center">
+  <img src="../assets/images/hierarchical-lod-code.svg" alt="Hierarchical LOD Code Architecture" width="900"/>
+</p>
+
+---
+
 ## Achievement Summary
 
 ### Tests Created and Passing
