@@ -182,6 +182,22 @@ The 3D coordinate system adapts to any domain. Genomics uses chromosome position
   <img src="assets/images/coordinate-mapping.svg" alt="Coordinate Mapping for Different Domains" width="800"/>
 </p>
 
+### Step 5: Hierarchical Level-of-Detail (LOD)
+
+Like video games render distant objects with less detail, INFINATE compresses far tokens. Near tokens stay at full fidelity; distant tokens are summarized. Result: 90 tokens represent 875+ — a **9.7x context expansion**.
+
+<p align="center">
+  <img src="assets/images/hierarchical-lod.svg" alt="Hierarchical LOD: 9.7x Context Expansion" width="800"/>
+</p>
+
+### Step 6: Strafe Jumping Navigation
+
+Inspired by Quake physics exploits, INFINATE uses momentum-based navigation through semantic space. Seven techniques — warp lanes, shell memory, LOD hopping, bunny hop, circle jump, temperature surfing, and attention ratchet — combine for **10,317x speedup**.
+
+<p align="center">
+  <img src="assets/images/strafe-jumping.svg" alt="Strafe Jumping: 7 Physics Exploits" width="800"/>
+</p>
+
 ---
 
 ## How It Works

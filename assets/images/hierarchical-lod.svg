@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400">
+  <defs>
+    <linearGradient id="bgLod" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#faf5ff"/>
+      <stop offset="100%" style="stop-color:#f3e8ff"/>
+    </linearGradient>
+    <filter id="shadowLod" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="900" height="400" fill="url(#bgLod)"/>
+
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" font-family="Arial" font-size="20" fill="#581c87" font-weight="bold">Hierarchical Level-of-Detail (LOD): 9.7x Context Expansion</text>
+  <text x="450" y="58" text-anchor="middle" font-family="Arial" font-size="13" fill="#7c3aed">Like video games: near objects are high-res, far objects are compressed</text>
+
+  <!-- LOD Visualization - Concentric Rings -->
+  <g transform="translate(220, 230)">
+    <!-- BEYOND ring (outermost) -->
+    <circle cx="0" cy="0" r="150" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" opacity="0.7"/>
+    <text x="0" y="-130" text-anchor="middle" font-family="Arial" font-size="10" fill="#b45309">BEYOND (500+)</text>
+
+    <!-- FAR ring -->
+    <circle cx="0" cy="0" r="110" fill="#fee2e2" stroke="#ef4444" stroke-width="2" opacity="0.8"/>
+    <text x="78" y="-78" text-anchor="middle" font-family="Arial" font-size="10" fill="#dc2626">FAR</text>
+
+    <!-- MEDIUM ring -->
+    <circle cx="0" cy="0" r="70" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" opacity="0.85"/>
+    <text x="50" y="-50" text-anchor="middle" font-family="Arial" font-size="10" fill="#2563eb">MEDIUM</text>
+
+    <!-- NEAR ring (innermost) -->
+    <circle cx="0" cy="0" r="35" fill="#dcfce7" stroke="#22c55e" stroke-width="3"/>
+    <text x="0" y="5" text-anchor="middle" font-family="Arial" font-size="11" fill="#16a34a" font-weight="bold">NEAR</text>
+
+    <!-- Query point at center -->
+    <circle cx="0" cy="0" r="8" fill="#7c3aed" stroke="white" stroke-width="2"/>
+    <text x="0" y="25" text-anchor="middle" font-family="Arial" font-size="9" fill="#581c87">Query</text>
+
+    <!-- Sample tokens in each zone -->
+    <!-- NEAR tokens (full detail) -->
+    <circle cx="15" cy="-15" r="4" fill="#22c55e"/>
+    <circle cx="-20" cy="10" r="4" fill="#22c55e"/>
+    <circle cx="10" cy="20" r="4" fill="#22c55e"/>
+
+    <!-- MEDIUM tokens (some compression) -->
+    <circle cx="45" cy="-30" r="3" fill="#3b82f6"/>
+    <circle cx="-50" cy="25" r="3" fill="#3b82f6"/>
+    <circle cx="30" cy="50" r="3" fill="#3b82f6"/>
+    <circle cx="-40" cy="-45" r="3" fill="#3b82f6"/>
+
+    <!-- FAR tokens (more compression) -->
+    <circle cx="75" cy="-55" r="2.5" fill="#ef4444"/>
+    <circle cx="-80" cy="40" r="2.5" fill="#ef4444"/>
+    <circle cx="60" cy="75" r="2.5" fill="#ef4444"/>
+
+    <!-- BEYOND tokens (most compression) -->
+    <circle cx="110" cy="-80" r="2" fill="#f59e0b"/>
+    <circle cx="-120" cy="60" r="2" fill="#f59e0b"/>
+    <circle cx="90" cy="105" r="2" fill="#f59e0b"/>
+  </g>
+
+  <!-- Compression Table -->
+  <g transform="translate(480, 85)">
+    <rect x="0" y="0" width="380" height="200" rx="12" fill="white" filter="url(#shadowLod)"/>
+
+    <!-- Header -->
+    <rect x="0" y="0" width="380" height="35" rx="12" fill="#7c3aed"/>
+    <rect x="0" y="20" width="380" height="15" fill="#7c3aed"/>
+    <text x="190" y="24" text-anchor="middle" font-family="Arial" font-size="13" fill="white" font-weight="bold">LOD Compression Levels</text>
+
+    <!-- Table headers -->
+    <text x="20" y="55" font-family="Arial" font-size="10" fill="#64748b" font-weight="bold">Level</text>
+    <text x="90" y="55" font-family="Arial" font-size="10" fill="#64748b" font-weight="bold">Distance</text>
+    <text x="165" y="55" font-family="Arial" font-size="10" fill="#64748b" font-weight="bold">Compress</text>
+    <text x="245" y="55" font-family="Arial" font-size="10" fill="#64748b" font-weight="bold">Tokens</text>
+    <text x="315" y="55" font-family="Arial" font-size="10" fill="#64748b" font-weight="bold">Represents</text>
+
+    <!-- Line -->
+    <line x1="15" y1="62" x2="365" y2="62" stroke="#e2e8f0" stroke-width="1"/>
+
+    <!-- NEAR row -->
+    <circle cx="30" cy="80" r="6" fill="#22c55e"/>
+    <text x="50" y="84" font-family="Arial" font-size="11" fill="#334155">NEAR</text>
+    <text x="90" y="84" font-family="monospace" font-size="10" fill="#64748b">0-50</text>
+    <text x="165" y="84" font-family="monospace" font-size="10" fill="#22c55e" font-weight="bold">1:1</text>
+    <text x="245" y="84" font-family="monospace" font-size="10" fill="#334155">50</text>
+    <text x="315" y="84" font-family="monospace" font-size="10" fill="#334155">50</text>
+
+    <!-- MEDIUM row -->
+    <circle cx="30" cy="105" r="6" fill="#3b82f6"/>
+    <text x="50" y="109" font-family="Arial" font-size="11" fill="#334155">MEDIUM</text>
+    <text x="90" y="109" font-family="monospace" font-size="10" fill="#64748b">50-150</text>
+    <text x="165" y="109" font-family="monospace" font-size="10" fill="#3b82f6" font-weight="bold">5:1</text>
+    <text x="245" y="109" font-family="monospace" font-size="10" fill="#334155">25</text>
+    <text x="315" y="109" font-family="monospace" font-size="10" fill="#334155">125</text>
+
+    <!-- FAR row -->
+    <circle cx="30" cy="130" r="6" fill="#ef4444"/>
+    <text x="50" y="134" font-family="Arial" font-size="11" fill="#334155">FAR</text>
+    <text x="90" y="134" font-family="monospace" font-size="10" fill="#64748b">150-500</text>
+    <text x="165" y="134" font-family="monospace" font-size="10" fill="#ef4444" font-weight="bold">20:1</text>
+    <text x="245" y="134" font-family="monospace" font-size="10" fill="#334155">10</text>
+    <text x="315" y="134" font-family="monospace" font-size="10" fill="#334155">200</text>
+
+    <!-- BEYOND row -->
+    <circle cx="30" cy="155" r="6" fill="#f59e0b"/>
+    <text x="50" y="159" font-family="Arial" font-size="11" fill="#334155">BEYOND</text>
+    <text x="90" y="159" font-family="monospace" font-size="10" fill="#64748b">500+</text>
+    <text x="165" y="159" font-family="monospace" font-size="10" fill="#f59e0b" font-weight="bold">100:1</text>
+    <text x="245" y="159" font-family="monospace" font-size="10" fill="#334155">5</text>
+    <text x="315" y="159" font-family="monospace" font-size="10" fill="#334155">500</text>
+
+    <!-- Line -->
+    <line x1="15" y1="172" x2="365" y2="172" stroke="#e2e8f0" stroke-width="1"/>
+
+    <!-- TOTAL row -->
+    <text x="50" y="190" font-family="Arial" font-size="11" fill="#581c87" font-weight="bold">TOTAL</text>
+    <text x="245" y="190" font-family="monospace" font-size="11" fill="#581c87" font-weight="bold">90</text>
+    <text x="315" y="190" font-family="monospace" font-size="11" fill="#581c87" font-weight="bold">875</text>
+  </g>
+
+  <!-- Result callout -->
+  <g transform="translate(480, 300)">
+    <rect x="0" y="0" width="380" height="70" rx="12" fill="#581c87" filter="url(#shadowLod)"/>
+    <text x="190" y="28" text-anchor="middle" font-family="Arial" font-size="14" fill="white" font-weight="bold">Result: 9.7x Context Expansion</text>
+    <text x="190" y="50" text-anchor="middle" font-family="Arial" font-size="12" fill="#c4b5fd">90 compressed tokens represent 875+ theoretical tokens</text>
+    <text x="190" y="65" text-anchor="middle" font-family="Arial" font-size="11" fill="#a78bfa">No hard cutoff - smooth degradation with distance</text>
+  </g>
+
+  <!-- Video game analogy -->
+  <text x="220" y="385" text-anchor="middle" font-family="Arial" font-size="11" fill="#64748b">
+    Like Minecraft: nearby chunks = full detail, distant chunks = simplified
+  </text>
+</svg>
