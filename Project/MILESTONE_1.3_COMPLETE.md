@@ -63,6 +63,22 @@ By organizing memory spatially and attending only to k nearest neighbors, we ach
 
 ---
 
+## Visual Overview
+
+### The Concept: O(k) Breakthrough Through Spatial Locality
+
+<p align="center">
+  <img src="../assets/images/spatial-attention-concept.svg" alt="Spatial Attention Concept: O(n²) vs O(k) comparison with radius cutoff and decay curves" width="850"/>
+</p>
+
+### The Implementation: Code Structure
+
+<p align="center">
+  <img src="../assets/images/spatial-attention-code.svg" alt="SpatialAttention Code: Distance matrix, spatial mask, and semantic×spatial combination" width="850"/>
+</p>
+
+---
+
 ## Implementation Summary
 
 ### Files Created
