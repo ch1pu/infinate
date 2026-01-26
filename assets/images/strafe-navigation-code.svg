@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2025-2026 Adolfo Lopez (ch1pu)
+SPDX-License-Identifier: Apache-2.0
+
+Author: Adolfo Lopez (ch1pu) - github.com/ch1pu
+Project: INFINATE - Infinite Context Spatial AI
+Milestone: 1.11 - Strafe Jumping Navigation Code Architecture
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1600" width="1600" height="1600">
+  <defs>
+    <!-- Catppuccin Mocha Colors -->
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#cba6f7"/>
+      <stop offset="50%" style="stop-color:#f38ba8"/>
+      <stop offset="100%" style="stop-color:#fab387"/>
+    </linearGradient>
+
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="4" flood-color="#11111b" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background - Catppuccin Mocha Base -->
+  <rect width="1600" height="1600" fill="#1e1e2e"/>
+
+  <!-- Header -->
+  <rect x="0" y="0" width="1600" height="70" fill="#313244"/>
+  <text x="800" y="30" text-anchor="middle" fill="#cdd6f4" font-family="JetBrains Mono, monospace" font-size="24" font-weight="bold">
+    M1.11: Strafe Jumping Navigation - Code Architecture
+  </text>
+  <text x="800" y="55" text-anchor="middle" fill="#a6adc8" font-family="JetBrains Mono, monospace" font-size="14">
+    7 Quake Physics Exploits | MomentumNavigator + WarpLaneDetector + LODBoundaryOptimizer + ShellMemoryOrganizer
+  </text>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- MomentumNavigator Class -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(30, 90)">
+    <rect width="760" height="700" rx="8" fill="#313244" filter="url(#shadow)"/>
+
+    <!-- Class header -->
+    <rect width="760" height="40" rx="8" fill="#cba6f7"/>
+    <text x="20" y="27" fill="#1e1e2e" font-family="JetBrains Mono, monospace" font-size="16" font-weight="bold">
+      class MomentumNavigator(nn.Module)
+    </text>
+    <text x="740" y="27" text-anchor="end" fill="#1e1e2e" font-family="JetBrains Mono, monospace" font-size="12">
+      momentum_navigator.py
+    </text>
+
+    <!-- Class docstring -->
+    <rect x="15" y="50" width="730" height="55" rx="4" fill="#45475a"/>
+    <text x="25" y="70" fill="#a6e3a1" font-family="JetBrains Mono, monospace" font-size="11">
+      <tspan x="25" dy="0">"""Momentum-based semantic navigation with strafe jump physics.</tspan>
+      <tspan x="25" dy="14">Implements 7 validated exploits for faster context traversal."""</tspan>
+      <tspan x="25" dy="14" fill="#6c7086"># Author: Adolfo Lopez (ch1pu)</tspan>
+    </text>
+
+    <!-- Constants -->
+    <text x="20" y="125" fill="#f38ba8" font-family="JetBrains Mono, monospace" font-size="12" font-weight="bold">
+      # Class Constants
+    </text>
+    <rect x="15" y="135" width="730" height="45" rx="4" fill="#45475a"/>
+    <text x="25" y="155" fill="#cdd6f4" font-family="JetBrains Mono, monospace" font-size="11">
+      <tspan x="25" dy="0"><tspan fill="#cba6f7">LOD_BOUNDARIES</tspan> = [<tspan fill="#fab387">50.0</tspan>, <tspan fill="#fab387">150.0</tspan>, <tspan fill="#fab387">500.0</tspan>]  <tspan fill="#6c7086"># From lod.py</tspan></tspan>
+      <tspan x="25" dy="14"><tspan fill="#cba6f7">SHELL_RADII</tspan> = [<tspan fill="#fab387">0.9</tspan>, <tspan fill="#fab387">1.9</tspan>, <tspan fill="#fab387">2.9</tspan>]  <tspan fill="#6c7086"># Just inside 3r cutoff</tspan></tspan>
+    </text>
+
+    <!-- __init__ -->
+    <text x="20" y="205" fill="#f38ba8" font-family="JetBrains Mono, monospace" font-size="12" font-weight="bold">
+      # Exploit 4: Bunny Hop Momentum (lines 291-299)
+    </text>
+    <rect x="15" y="215" width="730" height="90" rx="4" fill="#45475a"/>
+    <text x="25" y="235" fill="#cdd6f4" font-family="JetBrains Mono, monospace" font-size="11">
+      <tspan x="25" dy="0"><tspan fill="#89b4fa">def</tspan> <tspan fill="#f9e2af">step</tspan>(<tspan fill="#cba6f7">self</tspan>, query, context_summary, max_steps):</tspan>
+      <tspan x="25" dy="14">    <tspan fill="#6c7086"># EXPLOIT 6: Bunny Hop Momentum</tspan></tspan>
+      <tspan x="25" dy="14">    <tspan fill="#cba6f7">if</tspan> self._exploit_enabled[<tspan fill="#a6e3a1">"bunny_hop"</tspan>]:</tspan>
+      <tspan x="25" dy="14">        new_velocity = (</tspan>
+      <tspan x="25" dy="14">            <tspan fill="#fab387">0.9</tspan> * self._state.velocity +  <tspan fill="#6c7086"># momentum coefficient</tspan></tspan>
+      <tspan x="25" dy="14">            <tspan fill="#fab387">0.1</tspan> * direction * speed)     <tspan fill="#6c7086"># new contribution</tspan></tspan>
+    </text>
+
+    <!-- Temperature Surfing -->
+    <text x="20" y="325" fill="#f38ba8" font-family="JetBrains Mono, monospace" font-size="12" font-weight="bold">
+      # Exploit 6: Temperature Surfing (lines 428-445)
+    </text>
+    <rect x="15" y="335" width="730" height="75" rx="4" fill="#45475a"/>
+    <text x="25" y="355" fill="#cdd6f4" font-family="JetBrains Mono, monospace" font-size="11">
+      <tspan x="25" dy="0"><tspan fill="#89b4fa">def</tspan> <tspan fill="#f9e2af">_schedule_temperature</tspan>(<tspan fill="#cba6f7">self</tspan>, step, max_steps) -> <tspan fill="#89b4fa">float</tspan>:</tspan>
+      <tspan x="25" dy="14">    <tspan fill="#a6e3a1">"""Anneal temperature: exploration → exploitation"""</tspan></tspan>
+      <tspan x="25" dy="14">    progress = min(step / max_steps, <tspan fill="#fab387">1.0</tspan>)</tspan>
+      <tspan x="25" dy="14">    <tspan fill="#cba6f7">return</tspan> <tspan fill="#fab387">2.0</tspan> * (<tspan fill="#fab387">1</tspan> - progress) + <tspan fill="#fab387">0.5</tspan> * progress  <tspan fill="#6c7086"># hot→cold</tspan></tspan>
+    </text>
+
+    <!-- Circle Jump -->
+    <text x="20" y="430" fill="#f38ba8" font-family="JetBrains Mono, monospace" font-size="12" font-weight="bold">
+      # Exploit 5: Circle Jump (lines 475-521)
+    </text>
+    <rect x="15" y="440" width="730" height="75" rx="4" fill="#45475a"/>
+    <text x="25" y="460" fill="#cdd6f4" font-family="JetBrains Mono, monospace" font-size="11">
+      <tspan x="25" dy="0"><tspan fill="#89b4fa">def</tspan> <tspan fill="#f9e2af">_broaden_query</tspan>(<tspan fill="#cba6f7">self</tspan>, query) -> torch.Tensor:</tspan>
+      <tspan x="25" dy="14">    <tspan fill="#a6e3a1">"""Create broad query for warmup phase"""</tspan></tspan>
+      <tspan x="25" dy="14">    broad = self.query_broadener(query)  <tspan fill="#6c7086"># nn.Linear</tspan></tspan>
+      <tspan x="25" dy="14">    <tspan fill="#cba6f7">return</tspan> <tspan fill="#fab387">0.7</tspan> * broad + <tspan fill="#fab387">0.3</tspan> * query  <tspan fill="#6c7086"># mix to maintain relevance</tspan></tspan>
+    </text>
+
+    <!-- Warp Lane Finding -->
+    <text x="20" y="535" fill="#f38ba8" font-family="JetBrains Mono, monospace" font-size="12" font-weight="bold">
+      # Exploit 1: Warp Lanes (lines 523-573)
+    </text>
+    <rect x="15" y="545" width="730" height="90" rx="4" fill="#45475a"/>
+    <text x="25" y="565" fill="#cdd6f4" font-family="JetBrains Mono, monospace" font-size="11">
+      <tspan x="25" dy="0"><tspan fill="#89b4fa">def</tspan> <tspan fill="#f9e2af">_find_warp_lane</tspan>(<tspan fill="#cba6f7">self</tspan>, query, embeddings, positions):</tspan>
+      <tspan x="25" dy="14">    <tspan fill="#6c7086"># Find distant tokens with high semantic similarity</tspan></tspan>
+      <tspan x="25" dy="14">    min_warp = <tspan fill="#fab387">2</tspan> * self.attention_radius  <tspan fill="#6c7086"># beyond normal range</tspan></tspan>
+      <tspan x="25" dy="14">    max_warp = <tspan fill="#fab387">10</tspan> * self.attention_radius</tspan>
+      <tspan x="25" dy="14">    distant_mask = (distances > min_warp) &amp; (distances &lt; max_warp)</tspan>
+      <tspan x="25" dy="14">    warp_mask = similarities > self.warp_threshold  <tspan fill="#6c7086"># default 0.95</tspan></tspan>
+    </text>
+
+    <!-- Attention Ratchet -->
+    <text x="20" y="655" fill="#f38ba8" font-family="JetBrains Mono, monospace" font-size="12" font-weight="bold">
+      # Exploit 7: Attention Ratchet (lines 575-612)
+    </text>
+    <rect x="15" y="665" width="730" height="30" rx="4" fill="#45475a"/>
+    <text x="25" y="685" fill="#cdd6f4" font-family="JetBrains Mono, monospace" font-size="11">
+      <tspan x="25" dy="0"><tspan fill="#89b4fa">def</tspan> <tspan fill="#f9e2af">_is_reversible_warp</tspan>(<tspan fill="#cba6f7">self</tspan>, target): <tspan fill="#cba6f7">return</tspan> dist &lt; <tspan fill="#fab387">3</tspan> * radius</tspan>
+    </text>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- WarpLaneDetector Class -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(810, 90)">
+    <rect width="760" height="340" rx="8" fill="#313244" filter="url(#shadow)"/>
+
+    <!-- Class header -->
+    <rect width="760" height="40" rx="8" fill="#f38ba8"/>
+    <text x="20" y="27" fill="#1e1e2e" font-family="JetBrains Mono, monospace" font-size="16" font-weight="bold">
+      class WarpLaneDetector(nn.Module)
+    </text>
+    <text x="740" y="27" text-anchor="end" fill="#1e1e2e" font-family="JetBrains Mono, monospace" font-size="12">
+      warp_lane_detector.py:98
+    </text>
+
+    <!-- Docstring -->
+    <rect x="15" y="50" width="730" height="55" rx="4" fill="#45475a"/>
+    <text x="25" y="70" fill="#a6e3a1" font-family="JetBrains Mono, monospace" font-size="11">
+      <tspan x="25" dy="0">"""Detect semantic warp lanes for faster traversal.</tspan>
+      <tspan x="25" dy="14">Mathematical basis: s_dist × 0.01 > s_near × 1.0</tspan>
+      <tspan x="25" dy="14">Requires ~15× similarity to overcome spatial decay"""</tspan>
+    </text>
+
+    <!-- find_warp_targets -->
+    <text x="20" y="125" fill="#f38ba8" font-family="JetBrains Mono, monospace" font-size="12" font-weight="bold">
+      # Core method (lines 171-203)
+    </text>
+    <rect x="15" y="135" width="730" height="105" rx="4" fill="#45475a"/>
+    <text x="25" y="155" fill="#cdd6f4" font-family="JetBrains Mono, monospace" font-size="11">
+      <tspan x="25" dy="0"><tspan fill="#89b4fa">def</tspan> <tspan fill="#f9e2af">find_warp_targets</tspan>(<tspan fill="#cba6f7">self</tspan>, query, all_keys, all_positions, current_pos):</tspan>
+      <tspan x="25" dy="14">    <tspan fill="#6c7086"># Compute distances from current position</tspan></tspan>
+      <tspan x="25" dy="14">    distances = torch.norm(all_positions - current_pos, dim=-<tspan fill="#fab387">1</tspan>)</tspan>
+      <tspan x="25" dy="14">    <tspan fill="#6c7086"># Compute semantic similarities</tspan></tspan>
+      <tspan x="25" dy="14">    similarities = F.cosine_similarity(query.unsqueeze(<tspan fill="#fab387">0</tspan>), all_keys)</tspan>
+      <tspan x="25" dy="14">    <tspan fill="#6c7086"># Warp: beyond range but high similarity</tspan></tspan>
+      <tspan x="25" dy="14">    <tspan fill="#cba6f7">return</tspan> (beyond_range) &amp; (similarities > <tspan fill="#fab387">0.95</tspan>)</tspan>
+    </text>
+
+    <!-- WarpLane dataclass -->
+    <text x="20" y="260" fill="#f38ba8" font-family="JetBrains Mono, monospace" font-size="12" font-weight="bold">
+      # WarpLane dataclass (lines 56-79)
+    </text>
+    <rect x="15" y="270" width="730" height="60" rx="4" fill="#45475a"/>
+    <text x="25" y="290" fill="#cdd6f4" font-family="JetBrains Mono, monospace" font-size="11">
+      <tspan x="25" dy="0"><tspan fill="#89b4fa">@dataclass</tspan></tspan>
+      <tspan x="25" dy="14"><tspan fill="#89b4fa">class</tspan> <tspan fill="#f9e2af">WarpLane</tspan>: source_pos, target_pos, target_emb, similarity, distance,</tspan>
+      <tspan x="25" dy="14">              is_reversible, score  <tspan fill="#6c7086"># Full warp metadata</tspan></tspan>
+    </text>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- LODBoundaryOptimizer Class -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(810, 450)">
+    <rect width="760" height="340" rx="8" fill="#313244" filter="url(#shadow)"/>
+
+    <!-- Class header -->
+    <rect width="760" height="40" rx="8" fill="#fab387"/>
+    <text x="20" y="27" fill="#1e1e2e" font-family="JetBrains Mono, monospace" font-size="16" font-weight="bold">
+      class LODBoundaryOptimizer(nn.Module)
+    </text>
+    <text x="740" y="27" text-anchor="end" fill="#1e1e2e" font-family="JetBrains Mono, monospace" font-size="12">
+      warp_lane_detector.py:446
+    </text>
+
+    <!-- Docstring -->
+    <rect x="15" y="50" width="730" height="55" rx="4" fill="#45475a"/>
+    <text x="25" y="70" fill="#a6e3a1" font-family="JetBrains Mono, monospace" font-size="11">
+      <tspan x="25" dy="0">"""Exploit 3: LOD Hopping - keep critical tokens inside boundaries.</tspan>
+      <tspan x="25" dy="14">LOD Boundaries: NEAR 0-50 (100%), MEDIUM 50-150 (20%), FAR 150-500 (5%)</tspan>
+      <tspan x="25" dy="14">80% FIDELITY CLIFF at boundary 50! Position at 49.9 vs 51 = 5× detail"""</tspan>
+    </text>
+
+    <!-- Constants -->
+    <rect x="15" y="115" width="730" height="30" rx="4" fill="#45475a"/>
+    <text x="25" y="135" fill="#cdd6f4" font-family="JetBrains Mono, monospace" font-size="11">
+      <tspan x="25" dy="0"><tspan fill="#cba6f7">DEFAULT_BOUNDARIES</tspan> = [<tspan fill="#fab387">50.0</tspan>, <tspan fill="#fab387">150.0</tspan>, <tspan fill="#fab387">500.0</tspan>]  <tspan fill="#6c7086"># From lod.py</tspan></tspan>
+    </text>
+
+    <!-- optimize method -->
+    <text x="20" y="165" fill="#fab387" font-family="JetBrains Mono, monospace" font-size="12" font-weight="bold">
+      # Core optimization (lines 486-520)
+    </text>
+    <rect x="15" y="175" width="730" height="105" rx="4" fill="#45475a"/>
+    <text x="25" y="195" fill="#cdd6f4" font-family="JetBrains Mono, monospace" font-size="11">
+      <tspan x="25" dy="0"><tspan fill="#89b4fa">def</tspan> <tspan fill="#f9e2af">optimize</tspan>(<tspan fill="#cba6f7">self</tspan>, positions, focus_position, tolerance=<tspan fill="#fab387">5.0</tspan>):</tspan>
+      <tspan x="25" dy="14">    <tspan fill="#a6e3a1">"""Pull tokens just past boundary back inside"""</tspan></tspan>
+      <tspan x="25" dy="14">    <tspan fill="#cba6f7">for</tspan> boundary <tspan fill="#cba6f7">in</tspan> self.boundaries:</tspan>
+      <tspan x="25" dy="14">        <tspan fill="#cba6f7">if</tspan> boundary &lt; dist &lt; boundary + tolerance:</tspan>
+      <tspan x="25" dy="14">            <tspan fill="#6c7086"># Pull back to just inside boundary</tspan></tspan>
+      <tspan x="25" dy="14">            optimized[i] = focus + direction * (boundary - <tspan fill="#fab387">0.1</tspan>)</tspan>
+    </text>
+
+    <!-- get_fidelity -->
+    <rect x="15" y="290" width="730" height="40" rx="4" fill="#45475a"/>
+    <text x="25" y="310" fill="#cdd6f4" font-family="JetBrains Mono, monospace" font-size="11">
+      <tspan x="25" dy="0"><tspan fill="#89b4fa">def</tspan> <tspan fill="#f9e2af">get_fidelity</tspan>(distance): {<tspan fill="#a6e3a1">"near"</tspan>: <tspan fill="#fab387">1.0</tspan>, <tspan fill="#a6e3a1">"medium"</tspan>: <tspan fill="#fab387">0.2</tspan>, <tspan fill="#a6e3a1">"far"</tspan>: <tspan fill="#fab387">0.05</tspan>, <tspan fill="#a6e3a1">"beyond"</tspan>: <tspan fill="#fab387">0.01</tspan>}</tspan>
+    </text>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- ShellMemoryOrganizer Class -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(30, 810)">
+    <rect width="760" height="340" rx="8" fill="#313244" filter="url(#shadow)"/>
+
+    <!-- Class header -->
+    <rect width="760" height="40" rx="8" fill="#a6e3a1"/>
+    <text x="20" y="27" fill="#1e1e2e" font-family="JetBrains Mono, monospace" font-size="16" font-weight="bold">
+      class ShellMemoryOrganizer(nn.Module)
+    </text>
+    <text x="740" y="27" text-anchor="end" fill="#1e1e2e" font-family="JetBrains Mono, monospace" font-size="12">
+      warp_lane_detector.py:583
+    </text>
+
+    <!-- Docstring -->
+    <rect x="15" y="50" width="730" height="55" rx="4" fill="#45475a"/>
+    <text x="25" y="70" fill="#a6e3a1" font-family="JetBrains Mono, monospace" font-size="11">
+      <tspan x="25" dy="0">"""Exploit 2: Shell Memory - organize tokens at optimal distances.</tspan>
+      <tspan x="25" dy="14">Shell radii at 0.9r, 1.9r, 2.9r stay just inside 3r hard cutoff.</tspan>
+      <tspan x="25" dy="14">All tokens on shells are visible from any focus point!"""</tspan>
+    </text>
+
+    <!-- Constants -->
+    <rect x="15" y="115" width="730" height="30" rx="4" fill="#45475a"/>
+    <text x="25" y="135" fill="#cdd6f4" font-family="JetBrains Mono, monospace" font-size="11">
+      <tspan x="25" dy="0"><tspan fill="#cba6f7">DEFAULT_SHELL_RADII</tspan> = [<tspan fill="#fab387">0.9</tspan>, <tspan fill="#fab387">1.9</tspan>, <tspan fill="#fab387">2.9</tspan>]  <tspan fill="#6c7086"># × attention_radius (50) = [45, 95, 145]</tspan></tspan>
+    </text>
+
+    <!-- place_token_on_shell -->
+    <text x="20" y="165" fill="#a6e3a1" font-family="JetBrains Mono, monospace" font-size="12" font-weight="bold">
+      # Token placement (lines 623-649)
+    </text>
+    <rect x="15" y="175" width="730" height="75" rx="4" fill="#45475a"/>
+    <text x="25" y="195" fill="#cdd6f4" font-family="JetBrains Mono, monospace" font-size="11">
+      <tspan x="25" dy="0"><tspan fill="#89b4fa">def</tspan> <tspan fill="#f9e2af">place_token_on_shell</tspan>(<tspan fill="#cba6f7">self</tspan>, shell_index, focus_position, direction=<tspan fill="#cba6f7">None</tspan>):</tspan>
+      <tspan x="25" dy="14">    radius = self.shell_radii[shell_index] * self.attention_radius</tspan>
+      <tspan x="25" dy="14">    <tspan fill="#cba6f7">if</tspan> direction <tspan fill="#cba6f7">is None</tspan>: direction = torch.randn(<tspan fill="#fab387">3</tspan>).normalized()</tspan>
+      <tspan x="25" dy="14">    <tspan fill="#cba6f7">return</tspan> focus_position + direction * radius</tspan>
+    </text>
+
+    <!-- snap_to_nearest_shell -->
+    <text x="20" y="270" fill="#a6e3a1" font-family="JetBrains Mono, monospace" font-size="12" font-weight="bold">
+      # Shell snapping (lines 684-720)
+    </text>
+    <rect x="15" y="280" width="730" height="50" rx="4" fill="#45475a"/>
+    <text x="25" y="300" fill="#cdd6f4" font-family="JetBrains Mono, monospace" font-size="11">
+      <tspan x="25" dy="0"><tspan fill="#89b4fa">def</tspan> <tspan fill="#f9e2af">snap_to_nearest_shell</tspan>(<tspan fill="#cba6f7">self</tspan>, position, focus_position):</tspan>
+      <tspan x="25" dy="14">    <tspan fill="#6c7086"># Find nearest shell and scale position to that radius</tspan></tspan>
+    </text>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- NavigationState and NavigationResult -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(810, 810)">
+    <rect width="760" height="340" rx="8" fill="#313244" filter="url(#shadow)"/>
+
+    <!-- Header -->
+    <rect width="760" height="40" rx="8" fill="#89b4fa"/>
+    <text x="20" y="27" fill="#1e1e2e" font-family="JetBrains Mono, monospace" font-size="16" font-weight="bold">
+      Data Classes &amp; Core O(k) Integration
+    </text>
+    <text x="740" y="27" text-anchor="end" fill="#1e1e2e" font-family="JetBrains Mono, monospace" font-size="12">
+      momentum_navigator.py + spatial_attention.py
+    </text>
+
+    <!-- NavigationState -->
+    <text x="20" y="70" fill="#89b4fa" font-family="JetBrains Mono, monospace" font-size="12" font-weight="bold">
+      # NavigationState (lines 60-95)
+    </text>
+    <rect x="15" y="80" width="730" height="75" rx="4" fill="#45475a"/>
+    <text x="25" y="100" fill="#cdd6f4" font-family="JetBrains Mono, monospace" font-size="11">
+      <tspan x="25" dy="0"><tspan fill="#89b4fa">@dataclass</tspan></tspan>
+      <tspan x="25" dy="14"><tspan fill="#89b4fa">class</tspan> <tspan fill="#f9e2af">NavigationState</tspan>:</tspan>
+      <tspan x="25" dy="14">    position: Tensor, velocity: Tensor, temperature: <tspan fill="#fab387">2.0</tspan>,</tspan>
+      <tspan x="25" dy="14">    hop_count: <tspan fill="#fab387">0</tspan>, warp_count: <tspan fill="#fab387">0</tspan>, trajectory: List, step: <tspan fill="#fab387">0</tspan></tspan>
+    </text>
+
+    <!-- NavigationResult -->
+    <text x="20" y="175" fill="#89b4fa" font-family="JetBrains Mono, monospace" font-size="12" font-weight="bold">
+      # NavigationResult (lines 98-120)
+    </text>
+    <rect x="15" y="185" width="730" height="60" rx="4" fill="#45475a"/>
+    <text x="25" y="205" fill="#cdd6f4" font-family="JetBrains Mono, monospace" font-size="11">
+      <tspan x="25" dy="0"><tspan fill="#89b4fa">@dataclass</tspan></tspan>
+      <tspan x="25" dy="14"><tspan fill="#89b4fa">class</tspan> <tspan fill="#f9e2af">NavigationResult</tspan>: position, steps_taken, hop_count, warp_count,</tspan>
+      <tspan x="25" dy="14">                       final_speed, trajectory_length, converged, temp_schedule</tspan>
+    </text>
+
+    <!-- Core O(k) -->
+    <text x="20" y="265" fill="#f38ba8" font-family="JetBrains Mono, monospace" font-size="12" font-weight="bold">
+      # THE O(k) CORE: spatial_attention.py:257-261
+    </text>
+    <rect x="15" y="275" width="730" height="55" rx="4" fill="#45475a" stroke="#f38ba8" stroke-width="2"/>
+    <text x="25" y="295" fill="#cdd6f4" font-family="JetBrains Mono, monospace" font-size="11">
+      <tspan x="25" dy="0"><tspan fill="#6c7086"># CRITICAL: Hard cutoff at 3×radius (THE O(k) OPTIMIZATION!)</tspan></tspan>
+      <tspan x="25" dy="14"><tspan fill="#6c7086"># Beyond 3r, ALL weights become exactly 0.0</tspan></tspan>
+      <tspan x="25" dy="14">mask = mask.masked_fill(distances > <tspan fill="#fab387">3</tspan> * self.spatial_radius, <tspan fill="#fab387">0.0</tspan>)</tspan>
+    </text>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- Test Coverage and Performance Stats -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(30, 1170)">
+    <rect width="1540" height="200" rx="8" fill="#313244" filter="url(#shadow)"/>
+
+    <!-- Header -->
+    <rect width="1540" height="40" rx="8" fill="#94e2d5"/>
+    <text x="770" y="27" text-anchor="middle" fill="#1e1e2e" font-family="JetBrains Mono, monospace" font-size="18" font-weight="bold">
+      M1.11 Test Coverage &amp; Performance Metrics
+    </text>
+
+    <!-- Test stats -->
+    <g transform="translate(30, 55)">
+      <text x="0" y="20" fill="#cdd6f4" font-family="JetBrains Mono, monospace" font-size="14" font-weight="bold">Test Suite:</text>
+
+      <rect x="0" y="30" width="350" height="105" rx="4" fill="#45475a"/>
+      <text x="15" y="50" fill="#a6adc8" font-family="JetBrains Mono, monospace" font-size="11">
+        <tspan x="15" dy="0">Total Tests:     <tspan fill="#a6e3a1">372</tspan> collected</tspan>
+        <tspan x="15" dy="16">Passed:          <tspan fill="#a6e3a1">369</tspan></tspan>
+        <tspan x="15" dy="16">Skipped:         <tspan fill="#f9e2af">3</tspan> (GPU SM_120)</tspan>
+        <tspan x="15" dy="16">Failed:          <tspan fill="#a6e3a1">0</tspan></tspan>
+        <tspan x="15" dy="16">Coverage:        <tspan fill="#a6e3a1">89.58%</tspan></tspan>
+        <tspan x="15" dy="16">Duration:        16m 56s</tspan>
+      </text>
+    </g>
+
+    <!-- Module coverage -->
+    <g transform="translate(410, 55)">
+      <text x="0" y="20" fill="#cdd6f4" font-family="JetBrains Mono, monospace" font-size="14" font-weight="bold">Module Coverage:</text>
+
+      <rect x="0" y="30" width="350" height="105" rx="4" fill="#45475a"/>
+      <text x="15" y="50" fill="#a6adc8" font-family="JetBrains Mono, monospace" font-size="11">
+        <tspan x="15" dy="0">momentum_navigator.py    <tspan fill="#f9e2af">75%</tspan></tspan>
+        <tspan x="15" dy="16">warp_lane_detector.py    <tspan fill="#f9e2af">43%</tspan></tspan>
+        <tspan x="15" dy="16">conftest_m111.py         <tspan fill="#a6e3a1">94%</tspan></tspan>
+        <tspan x="15" dy="16">test_m111_nav_bench.py   <tspan fill="#a6e3a1">99%</tspan></tspan>
+        <tspan x="15" dy="16">test_m111_qdrant.py      <tspan fill="#a6e3a1">98%</tspan></tspan>
+        <tspan x="15" dy="16">qdrant_adapter.py        <tspan fill="#a6e3a1">89%</tspan></tspan>
+      </text>
+    </g>
+
+    <!-- Performance -->
+    <g transform="translate(790, 55)">
+      <text x="0" y="20" fill="#cdd6f4" font-family="JetBrains Mono, monospace" font-size="14" font-weight="bold">Performance Results:</text>
+
+      <rect x="0" y="30" width="350" height="105" rx="4" fill="#45475a"/>
+      <text x="15" y="50" fill="#a6adc8" font-family="JetBrains Mono, monospace" font-size="11">
+        <tspan x="15" dy="0">vs O(n²) (in-mem):  <tspan fill="#a6e3a1">10,317×</tspan> faster</tspan>
+        <tspan x="15" dy="16">vs O(n²) (Qdrant):  <tspan fill="#a6e3a1">533×</tspan> faster</tspan>
+        <tspan x="15" dy="16">vs O(n²) (cost):    <tspan fill="#a6e3a1">1,330×</tspan> cheaper</tspan>
+        <tspan x="15" dy="16">Scaling (20× tok):  <tspan fill="#a6e3a1">2.85×</tspan> time (O(k)!)</tspan>
+        <tspan x="15" dy="16">Memory (10× tok):   <tspan fill="#a6e3a1">0.96×</tspan> (constant!)</tspan>
+        <tspan x="15" dy="16">Container memory:   <tspan fill="#a6e3a1">1.50 MB</tspan> constant</tspan>
+      </text>
+    </g>
+
+    <!-- Exploit summary -->
+    <g transform="translate(1170, 55)">
+      <text x="0" y="20" fill="#cdd6f4" font-family="JetBrains Mono, monospace" font-size="14" font-weight="bold">7 Validated Exploits:</text>
+
+      <rect x="0" y="30" width="340" height="105" rx="4" fill="#45475a"/>
+      <text x="15" y="50" fill="#a6adc8" font-family="JetBrains Mono, monospace" font-size="11">
+        <tspan x="15" dy="0"><tspan fill="#cba6f7">1</tspan> Warp Lanes      <tspan fill="#f38ba8">2</tspan> Shell Memory</tspan>
+        <tspan x="15" dy="16"><tspan fill="#fab387">3</tspan> LOD Hopping     <tspan fill="#a6e3a1">4</tspan> Bunny Hop</tspan>
+        <tspan x="15" dy="16"><tspan fill="#89b4fa">5</tspan> Circle Jump    <tspan fill="#f9e2af">6</tspan> Temp Surfing</tspan>
+        <tspan x="15" dy="16"><tspan fill="#94e2d5">7</tspan> Attention Ratchet</tspan>
+        <tspan x="15" dy="22" fill="#6c7086">❌ Diagonal Speed (invalid)</tspan>
+        <tspan x="15" dy="14" fill="#6c7086">❌ Harmonic Resonance (weak)</tspan>
+      </text>
+    </g>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- Complexity Analysis -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(30, 1390)">
+    <rect width="1540" height="190" rx="8" fill="#313244" filter="url(#shadow)"/>
+
+    <!-- Header -->
+    <rect width="1540" height="40" rx="8" fill="#f38ba8"/>
+    <text x="770" y="27" text-anchor="middle" fill="#1e1e2e" font-family="JetBrains Mono, monospace" font-size="18" font-weight="bold">
+      Complexity Analysis (per TODO_COMPLEXITY_ACCURACY.md)
+    </text>
+
+    <!-- Per-query complexity -->
+    <g transform="translate(30, 55)">
+      <rect x="0" y="0" width="480" height="120" rx="4" fill="#45475a"/>
+      <text x="15" y="20" fill="#f38ba8" font-family="JetBrains Mono, monospace" font-size="12" font-weight="bold">Per-Query Pipeline:</text>
+      <text x="15" y="40" fill="#a6adc8" font-family="JetBrains Mono, monospace" font-size="11">
+        <tspan x="15" dy="0">├─ Vector Retrieval (M1.6):  O(log n)</tspan>
+        <tspan x="15" dy="14">├─ Spatial Attention (M1.3): <tspan fill="#a6e3a1">O(k)</tspan> ← THE CORE!</tspan>
+        <tspan x="15" dy="14">├─ Navigation (M1.11):       O(m × (log n + k))</tspan>
+        <tspan x="15" dy="14">└─ LOD (M1.10):              O(n) [setup only]</tspan>
+        <tspan x="15" dy="20" fill="#a6e3a1" font-weight="bold">TOTAL: O(log n + k) where k=50 dominates</tspan>
+      </text>
+    </g>
+
+    <!-- Why k dominates -->
+    <g transform="translate(540, 55)">
+      <rect x="0" y="0" width="480" height="120" rx="4" fill="#45475a"/>
+      <text x="15" y="20" fill="#fab387" font-family="JetBrains Mono, monospace" font-size="12" font-weight="bold">Why k Dominates:</text>
+      <text x="15" y="40" fill="#a6adc8" font-family="JetBrains Mono, monospace" font-size="11">
+        <tspan x="15" dy="0">Context     log₂(n)   k=50   Winner</tspan>
+        <tspan x="15" dy="14">─────────────────────────────────────</tspan>
+        <tspan x="15" dy="14">1K tokens      10      50    <tspan fill="#a6e3a1">k wins</tspan></tspan>
+        <tspan x="15" dy="14">1M tokens      20      50    <tspan fill="#a6e3a1">k wins</tspan></tspan>
+        <tspan x="15" dy="14">1B tokens      30      50    <tspan fill="#a6e3a1">k wins</tspan></tspan>
+        <tspan x="15" dy="14">2^50 tokens    50      50    tie</tspan>
+      </text>
+    </g>
+
+    <!-- Empirical proof -->
+    <g transform="translate(1050, 55)">
+      <rect x="0" y="0" width="460" height="120" rx="4" fill="#45475a" stroke="#a6e3a1" stroke-width="2"/>
+      <text x="15" y="20" fill="#a6e3a1" font-family="JetBrains Mono, monospace" font-size="12" font-weight="bold">Empirical Proof (M1.11):</text>
+      <text x="15" y="40" fill="#a6adc8" font-family="JetBrains Mono, monospace" font-size="11">
+        <tspan x="15" dy="0">Token increase: 20× (500 → 10,000)</tspan>
+        <tspan x="15" dy="14">Time increase:  2.85×</tspan>
+        <tspan x="15" dy="14">Expected O(n²): 400×</tspan>
+        <tspan x="15" dy="14">Expected O(n):  20×</tspan>
+        <tspan x="15" dy="14">Expected O(k):  ~2×</tspan>
+        <tspan x="15" dy="20" fill="#a6e3a1" font-weight="bold">RESULT: 2.85× ≈ O(k) ✓ VERIFIED</tspan>
+      </text>
+    </g>
+  </g>
+
+  <!-- Footer -->
+  <text x="800" y="1590" text-anchor="middle" fill="#6c7086" font-family="JetBrains Mono, monospace" font-size="12">
+    INFINATE M1.11 - Strafe Jumping Navigation | Author: Adolfo Lopez (ch1pu) | Apache 2.0 | github.com/ch1pu/infinate
+  </text>
+</svg>

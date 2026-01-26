@@ -48,6 +48,22 @@ Milestone 1.11 successfully implemented the Strafe Jumping Navigation system - a
 
 ---
 
+## Visual Overview
+
+### The Concept: 7 Quake Physics Exploits
+
+<p align="center">
+  <img src="../assets/images/strafe-navigation-concept.svg" alt="Strafe Navigation Concept" width="1600"/>
+</p>
+
+### The Implementation: MomentumNavigator + WarpLaneDetector
+
+<p align="center">
+  <img src="../assets/images/strafe-navigation-code.svg" alt="Strafe Navigation Code Architecture" width="1600"/>
+</p>
+
+---
+
 ## High-Level Results: Milestone Comparison
 
 ### Test Suite Evolution: M1.8 → M1.9 → M1.10 → M1.11
