@@ -614,7 +614,7 @@ Operation                Traditional    Spatial
 ─────────────────────────────────────────────────
 Attention computation    O(n²)          O(k)
 Memory usage             O(n²)          O(k)
-Context loading          O(n)           O(k)
+Context retrieval        O(n)           O(log n)
 Navigation               N/A            O(log n)
 
 Where:
@@ -789,6 +789,6 @@ By organizing memory spatially and using local attention, we achieve **O(k) cons
 
 ---
 
-**Document Version:** 1.0
-**Last Updated:** 2025-01-12
-**Authors:** Infinite Project Team
+**Document Version:** 1.1
+**Last Updated:** 2026-01-26
+**Author:** Adolfo Lopez (ch1pu)
