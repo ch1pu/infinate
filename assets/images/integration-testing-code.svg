@@ -24,92 +24,30 @@
     <rect x="0" y="0" width="520" height="320" rx="8" fill="#313244" filter="url(#shadowCodeIC)"/>
     <text x="260" y="28" text-anchor="middle" font-family="monospace" font-size="13" fill="#89b4fa" font-weight="bold">TransformerBridge Class</text>
 
-    <!-- Code lines -->
-    <g transform="translate(18, 50)">
-      <text font-family="monospace" font-size="12">
-        <tspan x="0" y="0" fill="#89b4fa">class</tspan>
-        <tspan fill="#f9e2af"> TransformerBridge</tspan>
-        <tspan fill="#cdd6f4">(</tspan>
-        <tspan fill="#89b4fa">nn.Module</tspan>
-        <tspan fill="#cdd6f4">):</tspan>
-      </text>
-      <text font-family="monospace" font-size="11">
-        <tspan x="0" y="22" fill="#6c7086">    """Bridge connecting Transformer to VectorStore."""</tspan>
-      </text>
-      <text font-family="monospace" font-size="12">
-        <tspan x="0" y="48" fill="#89b4fa">    def</tspan>
-        <tspan fill="#f9e2af"> __init__</tspan>
-        <tspan fill="#cdd6f4">(</tspan>
-        <tspan fill="#f38ba8">self</tspan>
-        <tspan fill="#cdd6f4">,</tspan>
-      </text>
-      <text font-family="monospace" font-size="12">
-        <tspan x="0" y="68" fill="#cdd6f4">        </tspan>
-        <tspan fill="#f38ba8">transformer</tspan>
-        <tspan fill="#cdd6f4">: </tspan>
-        <tspan fill="#89b4fa">SpatialTransformer</tspan>
-        <tspan fill="#cdd6f4">,</tspan>
-      </text>
-      <text font-family="monospace" font-size="12">
-        <tspan x="0" y="88" fill="#cdd6f4">        </tspan>
-        <tspan fill="#f38ba8">vector_store</tspan>
-        <tspan fill="#cdd6f4">: </tspan>
-        <tspan fill="#89b4fa">VectorStoreBase</tspan>
-        <tspan fill="#cdd6f4">,</tspan>
-      </text>
-      <text font-family="monospace" font-size="12">
-        <tspan x="0" y="108" fill="#cdd6f4">        </tspan>
-        <tspan fill="#f38ba8">k_neighbors</tspan>
-        <tspan fill="#cdd6f4">: </tspan>
-        <tspan fill="#89b4fa">int</tspan>
-        <tspan fill="#cdd6f4"> = </tspan>
-        <tspan fill="#fab387">50</tspan>
-        <tspan fill="#cdd6f4">):</tspan>
-      </text>
-      <text font-family="monospace" font-size="12">
-        <tspan x="0" y="133" fill="#cdd6f4">        </tspan>
-        <tspan fill="#f38ba8">self</tspan>
-        <tspan fill="#cdd6f4">.transformer = transformer</tspan>
-      </text>
-      <text font-family="monospace" font-size="12">
-        <tspan x="0" y="153" fill="#cdd6f4">        </tspan>
-        <tspan fill="#f38ba8">self</tspan>
-        <tspan fill="#cdd6f4">.context_manager = </tspan>
-        <tspan fill="#f9e2af">ContextManager</tspan>
-        <tspan fill="#cdd6f4">(...)</tspan>
-      </text>
-      <text font-family="monospace" font-size="12">
-        <tspan x="0" y="183" fill="#89b4fa">    def</tspan>
-        <tspan fill="#f9e2af"> forward</tspan>
-        <tspan fill="#cdd6f4">(</tspan>
-        <tspan fill="#f38ba8">self</tspan>
-        <tspan fill="#cdd6f4">, </tspan>
-        <tspan fill="#f38ba8">x</tspan>
-        <tspan fill="#cdd6f4">, </tspan>
-        <tspan fill="#f38ba8">positions</tspan>
-        <tspan fill="#cdd6f4">):</tspan>
-      </text>
-      <text font-family="monospace" font-size="11">
-        <tspan x="0" y="203" fill="#6c7086">        # Query vector store for context</tspan>
-      </text>
-      <text font-family="monospace" font-size="12">
-        <tspan x="0" y="223" fill="#cdd6f4">        ctx = </tspan>
-        <tspan fill="#f38ba8">self</tspan>
-        <tspan fill="#cdd6f4">.context_manager.</tspan>
-        <tspan fill="#f9e2af">retrieve</tspan>
-        <tspan fill="#cdd6f4">(...)</tspan>
-      </text>
-      <text font-family="monospace" font-size="11">
-        <tspan x="0" y="243" fill="#6c7086">        # Forward through transformer</tspan>
-      </text>
-      <text font-family="monospace" font-size="12">
-        <tspan x="0" y="263" fill="#cdd6f4">        </tspan>
-        <tspan fill="#89b4fa">return</tspan>
-        <tspan fill="#cdd6f4"> </tspan>
-        <tspan fill="#f38ba8">self</tspan>
-        <tspan fill="#cdd6f4">.transformer(x, positions)</tspan>
-      </text>
-    </g>
+    <!-- Code lines - each line is separate text element -->
+    <text x="18" y="70" font-family="monospace" font-size="12" fill="#89b4fa">class <tspan fill="#f9e2af">TransformerBridge</tspan><tspan fill="#cdd6f4">(nn.Module):</tspan></text>
+
+    <text x="18" y="92" font-family="monospace" font-size="11" fill="#6c7086">    """Bridge connecting Transformer to VectorStore."""</text>
+
+    <text x="18" y="118" font-family="monospace" font-size="12" fill="#89b4fa">    def <tspan fill="#f9e2af">__init__</tspan><tspan fill="#cdd6f4">(</tspan><tspan fill="#f38ba8">self</tspan><tspan fill="#cdd6f4">,</tspan></text>
+
+    <text x="18" y="138" font-family="monospace" font-size="12" fill="#cdd6f4">        <tspan fill="#f38ba8">transformer</tspan>: <tspan fill="#89b4fa">SpatialTransformer</tspan>,</text>
+
+    <text x="18" y="158" font-family="monospace" font-size="12" fill="#cdd6f4">        <tspan fill="#f38ba8">vector_store</tspan>: <tspan fill="#89b4fa">VectorStoreBase</tspan>,</text>
+
+    <text x="18" y="178" font-family="monospace" font-size="12" fill="#cdd6f4">        <tspan fill="#f38ba8">k_neighbors</tspan>: <tspan fill="#89b4fa">int</tspan> = <tspan fill="#fab387">50</tspan>):</text>
+
+    <text x="18" y="203" font-family="monospace" font-size="12" fill="#cdd6f4">        <tspan fill="#f38ba8">self</tspan>.transformer = transformer</text>
+
+    <text x="18" y="223" font-family="monospace" font-size="12" fill="#cdd6f4">        <tspan fill="#f38ba8">self</tspan>.context_manager = <tspan fill="#f9e2af">ContextManager</tspan>(...)</text>
+
+    <text x="18" y="253" font-family="monospace" font-size="12" fill="#89b4fa">    def <tspan fill="#f9e2af">forward</tspan><tspan fill="#cdd6f4">(</tspan><tspan fill="#f38ba8">self</tspan><tspan fill="#cdd6f4">, </tspan><tspan fill="#f38ba8">x</tspan><tspan fill="#cdd6f4">, </tspan><tspan fill="#f38ba8">positions</tspan><tspan fill="#cdd6f4">):</tspan></text>
+
+    <text x="18" y="273" font-family="monospace" font-size="11" fill="#6c7086">        # Query vector store for context</text>
+
+    <text x="18" y="293" font-family="monospace" font-size="12" fill="#cdd6f4">        ctx = <tspan fill="#f38ba8">self</tspan>.context_manager.<tspan fill="#f9e2af">retrieve</tspan>(...)</text>
+
+    <text x="18" y="313" font-family="monospace" font-size="12" fill="#89b4fa">        return <tspan fill="#f38ba8">self</tspan><tspan fill="#cdd6f4">.transformer(x, positions)</tspan></text>
   </g>
 
   <!-- LEFT PANEL 2: ContextManager Code -->
@@ -117,57 +55,22 @@
     <rect x="0" y="0" width="520" height="220" rx="8" fill="#313244" filter="url(#shadowCodeIC)"/>
     <text x="260" y="28" text-anchor="middle" font-family="monospace" font-size="13" fill="#89b4fa" font-weight="bold">ContextManager Class</text>
 
-    <g transform="translate(18, 50)">
-      <text font-family="monospace" font-size="12">
-        <tspan x="0" y="0" fill="#89b4fa">class</tspan>
-        <tspan fill="#f9e2af"> ContextManager</tspan>
-        <tspan fill="#cdd6f4">:</tspan>
-      </text>
-      <text font-family="monospace" font-size="11">
-        <tspan x="0" y="22" fill="#6c7086">    """LRU cache + query manager."""</tspan>
-      </text>
-      <text font-family="monospace" font-size="12">
-        <tspan x="0" y="48" fill="#89b4fa">    def</tspan>
-        <tspan fill="#f9e2af"> retrieve_context</tspan>
-        <tspan fill="#cdd6f4">(</tspan>
-        <tspan fill="#f38ba8">self</tspan>
-        <tspan fill="#cdd6f4">,</tspan>
-      </text>
-      <text font-family="monospace" font-size="12">
-        <tspan x="0" y="68" fill="#cdd6f4">            </tspan>
-        <tspan fill="#f38ba8">query_vector</tspan>
-        <tspan fill="#cdd6f4">,</tspan>
-        <tspan fill="#f38ba8"> query_position</tspan>
-        <tspan fill="#cdd6f4">,</tspan>
-        <tspan fill="#f38ba8"> k</tspan>
-        <tspan fill="#cdd6f4">=</tspan>
-        <tspan fill="#fab387">50</tspan>
-        <tspan fill="#cdd6f4">):</tspan>
-      </text>
-      <text font-family="monospace" font-size="11">
-        <tspan x="0" y="93" fill="#6c7086">        # Check cache first (LRU)</tspan>
-      </text>
-      <text font-family="monospace" font-size="12">
-        <tspan x="0" y="113" fill="#89b4fa">        if</tspan>
-        <tspan fill="#cdd6f4"> key </tspan>
-        <tspan fill="#89b4fa">in</tspan>
-        <tspan fill="#f38ba8"> self</tspan>
-        <tspan fill="#cdd6f4">._cache: </tspan>
-        <tspan fill="#89b4fa">return</tspan>
-        <tspan fill="#cdd6f4"> cached</tspan>
-      </text>
-      <text font-family="monospace" font-size="11">
-        <tspan x="0" y="138" fill="#6c7086">        # Query vector store (Qdrant/pgvector)</tspan>
-      </text>
-      <text font-family="monospace" font-size="12">
-        <tspan x="0" y="158" fill="#cdd6f4">        </tspan>
-        <tspan fill="#89b4fa">return</tspan>
-        <tspan fill="#f38ba8"> self</tspan>
-        <tspan fill="#cdd6f4">.vector_store.</tspan>
-        <tspan fill="#f9e2af">query</tspan>
-        <tspan fill="#cdd6f4">(...)</tspan>
-      </text>
-    </g>
+    <!-- Code lines - each line is separate text element -->
+    <text x="18" y="60" font-family="monospace" font-size="12" fill="#89b4fa">class <tspan fill="#f9e2af">ContextManager</tspan><tspan fill="#cdd6f4">:</tspan></text>
+
+    <text x="18" y="82" font-family="monospace" font-size="11" fill="#6c7086">    """LRU cache + query manager."""</text>
+
+    <text x="18" y="108" font-family="monospace" font-size="12" fill="#89b4fa">    def <tspan fill="#f9e2af">retrieve_context</tspan><tspan fill="#cdd6f4">(</tspan><tspan fill="#f38ba8">self</tspan><tspan fill="#cdd6f4">,</tspan></text>
+
+    <text x="18" y="128" font-family="monospace" font-size="12" fill="#cdd6f4">            <tspan fill="#f38ba8">query_vector</tspan>, <tspan fill="#f38ba8">query_position</tspan>, <tspan fill="#f38ba8">k</tspan>=<tspan fill="#fab387">50</tspan>):</text>
+
+    <text x="18" y="153" font-family="monospace" font-size="11" fill="#6c7086">        # Check cache first (LRU)</text>
+
+    <text x="18" y="173" font-family="monospace" font-size="12" fill="#89b4fa">        if <tspan fill="#cdd6f4">key</tspan> in <tspan fill="#f38ba8">self</tspan><tspan fill="#cdd6f4">._cache: </tspan>return <tspan fill="#cdd6f4">cached</tspan></text>
+
+    <text x="18" y="198" font-family="monospace" font-size="11" fill="#6c7086">        # Query vector store (Qdrant/pgvector)</text>
+
+    <text x="18" y="218" font-family="monospace" font-size="12" fill="#89b4fa">        return <tspan fill="#f38ba8">self</tspan><tspan fill="#cdd6f4">.vector_store.</tspan><tspan fill="#f9e2af">query</tspan><tspan fill="#cdd6f4">(...)</tspan></text>
   </g>
 
   <!-- RIGHT PANEL: Architecture Diagram -->
