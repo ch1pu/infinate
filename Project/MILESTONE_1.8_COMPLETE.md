@@ -43,6 +43,22 @@ Milestone 1.8 successfully implemented extended benchmarking comparing INFINITE'
 
 ---
 
+## Visual Overview
+
+### The Concept: O(k) vs O(n²) Performance Comparison
+
+<p align="center">
+  <img src="../assets/images/baseline-comparison-concept.svg" alt="Baseline Comparison Concept" width="900"/>
+</p>
+
+### The Implementation: BenchmarkRunner & Results
+
+<p align="center">
+  <img src="../assets/images/baseline-comparison-code.svg" alt="Baseline Comparison Code Architecture" width="900"/>
+</p>
+
+---
+
 ## Achievement Summary
 
 ### Tests Created and Passing
