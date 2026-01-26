@@ -423,6 +423,9 @@ Database/
 # Hardware research (kept locally)
 research/
 
+# API server (no working API yet)
+api/
+
 # Session logs
 *SESSION*.md
 *_SESSION_*.md
