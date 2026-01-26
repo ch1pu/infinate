@@ -45,6 +45,22 @@ The implementation establishes the fundamental data structure for spatial-semant
 
 ---
 
+## Visual Overview
+
+### The Concept: Word + Position = Context
+
+<p align="center">
+  <img src="../assets/images/spatial-token-concept.svg" alt="SpatialToken Concept: Every Token Has Meaning AND Location" width="850"/>
+</p>
+
+### The Implementation: Code Structure
+
+<p align="center">
+  <img src="../assets/images/spatial-token-code.svg" alt="SpatialToken Code: Dataclass with distance_to() and full_embedding" width="850"/>
+</p>
+
+---
+
 ## Implementation Summary
 
 ### Files Created
