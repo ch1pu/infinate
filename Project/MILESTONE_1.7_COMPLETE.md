@@ -59,6 +59,22 @@ O(k) Complexity Verification with Vector Store
 
 ---
 
+## Visual Overview
+
+### The Concept: End-to-End Integration
+
+<p align="center">
+  <img src="../assets/images/integration-testing-concept.svg" alt="Integration Testing Concept" width="900"/>
+</p>
+
+### The Implementation: TransformerBridge + ContextManager
+
+<p align="center">
+  <img src="../assets/images/integration-testing-code.svg" alt="Integration Testing Code Architecture" width="900"/>
+</p>
+
+---
+
 ## Test Results Summary
 
 | Category | Tests | Passed | Status |
