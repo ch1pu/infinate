@@ -39,11 +39,11 @@ and like what you see, let's connect:
 
 ## Overview
 
-This milestone validates that the SpatialTransformer and VectorStore systems work together end-to-end, maintaining O(k) complexity with database-backed context retrieval.
+This milestone validates that the SpatialTransformer and VectorStore systems work together end-to-end, maintaining O(log n + k) ≈ constant complexity with database-backed context retrieval.
 
 ## Key Results
 
-### O(k) Complexity Verified
+### O(log n + k) ≈ Constant Complexity Verified
 
 | Context Size | Time | Ratio | Expected (O(n²)) |
 |--------------|------|-------|------------------|
@@ -199,7 +199,7 @@ poetry run pytest spatial_engine/tests/ -v -k "not pgvector"
 
 This file contains:
 - All 23 test results with PASSED status
-- O(k) complexity benchmark output
+- Complexity benchmark output (O(log n + k) verified)
 - Latency and throughput measurements
 - Coverage report
 
