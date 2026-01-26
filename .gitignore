@@ -420,8 +420,9 @@ unreleased/
 # Security audit docs (kept locally)
 Security/
 
-# Assets (kept locally)
-assets/
+# Assets (kept locally, except public images)
+assets/*
+!assets/images/
 
 # Backend architecture docs (kept locally)
 Backend/

@@ -62,32 +62,9 @@ and like what you see, let's connect:
 
 **The same principle applies to AI memory.** Traditional transformers store tokens in a 2D linear sequence — to find relevant context, they must scan everything. INFINATE places tokens in 3D semantic space — queries only check nearby tokens.
 
-```mermaid
-graph LR
-    subgraph Linear["Traditional: 2D Linear Sequence"]
-        direction LR
-        L1["T₁"] --- L2["T₂"] --- L3["T₃"] --- L4["..."] --- LN["Tₙ"]
-        LQ(("Query"))
-        LQ -.->|"scan ALL"| L1
-        LQ -.-> L2
-        LQ -.-> L3
-        LQ -.-> LN
-    end
-
-    subgraph Spatial["INFINATE: 3D Semantic Space"]
-        S1(("T"))
-        S2(("T"))
-        SQ(("Query"))
-        S3(("T"))
-        S4(("T"))
-        SQ ---|"nearby"| S1
-        SQ --- S2
-        SQ --- S3
-        SQ --- S4
-    end
-
-    Linear -->|"Semantic Positioning"| Spatial
-```
+<p align="center">
+  <img src="assets/images/2d-to-3d-comparison.svg" alt="2D to 3D Memory Transformation" width="800"/>
+</p>
 
 | | Traditional (2D) | INFINATE (3D) |
 |---|---|---|
