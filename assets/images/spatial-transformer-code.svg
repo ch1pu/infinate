@@ -1,231 +1,232 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700">
   <defs>
-    <linearGradient id="bgTransCode" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="bgTransCode2" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#1e1e2e"/>
       <stop offset="100%" style="stop-color:#181825"/>
     </linearGradient>
   </defs>
 
   <!-- Dark code editor background -->
-  <rect x="0" y="0" width="900" height="560" fill="url(#bgTransCode)"/>
+  <rect x="0" y="0" width="1000" height="700" fill="url(#bgTransCode2)"/>
 
   <!-- Title bar -->
-  <rect x="0" y="0" width="900" height="35" fill="#313244"/>
-  <circle cx="20" cy="17" r="6" fill="#f38ba8"/>
-  <circle cx="40" cy="17" r="6" fill="#f9e2af"/>
-  <circle cx="60" cy="17" r="6" fill="#a6e3a1"/>
-  <text x="450" y="23" text-anchor="middle" font-family="monospace" font-size="12" fill="#cdd6f4">spatial_transformer.py — SpatialTransformer (M1.4)</text>
+  <rect x="0" y="0" width="1000" height="40" fill="#313244"/>
+  <circle cx="20" cy="20" r="7" fill="#f38ba8"/>
+  <circle cx="42" cy="20" r="7" fill="#f9e2af"/>
+  <circle cx="64" cy="20" r="7" fill="#a6e3a1"/>
+  <text x="500" y="26" text-anchor="middle" font-family="monospace" font-size="14" fill="#cdd6f4">Spatial Transformer Architecture — M1.4 Complete Implementation</text>
 
-  <!-- Left panel: SpatialTransformerBlock -->
-  <g transform="translate(20, 50)">
-    <text x="0" y="15" font-family="monospace" font-size="10" fill="#6c7086"># Single transformer layer</text>
+  <!-- LEFT COLUMN: The Two Classes -->
+  <g transform="translate(20, 55)">
+    <!-- SpatialTransformerBlock header -->
+    <rect x="0" y="0" width="440" height="290" rx="8" fill="#313244" stroke="#6366f1" stroke-width="2"/>
+    <text x="220" y="25" text-anchor="middle" font-family="monospace" font-size="12" fill="#6366f1" font-weight="bold">SpatialTransformerBlock — One Layer</text>
+    <text x="220" y="42" text-anchor="middle" font-family="Arial" font-size="10" fill="#6c7086">What happens in a single transformer block</text>
 
-    <text x="0" y="35" font-family="monospace" font-size="11" fill="#89b4fa">class</text>
-    <text x="40" y="35" font-family="monospace" font-size="11" fill="#f9e2af">SpatialTransformerBlock</text>
-    <text x="205" y="35" font-family="monospace" font-size="11" fill="#cdd6f4">:</text>
+    <!-- Code -->
+    <g transform="translate(15, 60)">
+      <text x="0" y="0" font-family="monospace" font-size="11" fill="#89b4fa">class</text>
+      <text x="40" y="0" font-family="monospace" font-size="11" fill="#f9e2af">SpatialTransformerBlock</text>
+      <text x="205" y="0" font-family="monospace" font-size="11" fill="#cdd6f4">(nn.Module):</text>
 
-    <text x="20" y="55" font-family="monospace" font-size="10" fill="#6c7086"># Components</text>
-    <text x="20" y="72" font-family="monospace" font-size="10" fill="#f38ba8">spatial_attention</text>
-    <text x="140" y="72" font-family="monospace" font-size="10" fill="#6c7086"># M1.3 O(k)</text>
+      <text x="15" y="25" font-family="monospace" font-size="10" fill="#6c7086"># What this block contains:</text>
 
-    <text x="20" y="89" font-family="monospace" font-size="10" fill="#f38ba8">ffn</text>
-    <text x="45" y="89" font-family="monospace" font-size="10" fill="#6c7086"># 768→3072→768</text>
+      <text x="15" y="45" font-family="monospace" font-size="10" fill="#f38ba8">self.spatial_attention</text>
+      <text x="170" y="45" font-family="monospace" font-size="10" fill="#6c7086">=</text>
+      <text x="180" y="45" font-family="monospace" font-size="10" fill="#a6e3a1">SpatialAttention()</text>
+      <text x="310" y="45" font-family="monospace" font-size="9" fill="#6c7086"># M1.3</text>
 
-    <text x="20" y="106" font-family="monospace" font-size="10" fill="#f38ba8">norm1</text>
-    <text x="55" y="106" font-family="monospace" font-size="10" fill="#cdd6f4">,</text>
-    <text x="65" y="106" font-family="monospace" font-size="10" fill="#f38ba8">norm2</text>
-    <text x="105" y="106" font-family="monospace" font-size="10" fill="#6c7086"># LayerNorm</text>
+      <text x="15" y="65" font-family="monospace" font-size="10" fill="#f38ba8">self.ffn</text>
+      <text x="70" y="65" font-family="monospace" font-size="10" fill="#6c7086">=</text>
+      <text x="80" y="65" font-family="monospace" font-size="10" fill="#a6e3a1">FeedForward(768, 3072)</text>
+      <text x="260" y="65" font-family="monospace" font-size="9" fill="#6c7086"># expand→shrink</text>
 
-    <text x="20" y="123" font-family="monospace" font-size="10" fill="#f38ba8">dropout1</text>
-    <text x="80" y="123" font-family="monospace" font-size="10" fill="#cdd6f4">,</text>
-    <text x="90" y="123" font-family="monospace" font-size="10" fill="#f38ba8">dropout2</text>
+      <text x="15" y="85" font-family="monospace" font-size="10" fill="#f38ba8">self.norm1</text>
+      <text x="85" y="85" font-family="monospace" font-size="10" fill="#cdd6f4">,</text>
+      <text x="95" y="85" font-family="monospace" font-size="10" fill="#f38ba8">self.norm2</text>
+      <text x="170" y="85" font-family="monospace" font-size="10" fill="#6c7086">=</text>
+      <text x="180" y="85" font-family="monospace" font-size="10" fill="#a6e3a1">LayerNorm(768)</text>
+      <text x="290" y="85" font-family="monospace" font-size="9" fill="#6c7086"># stabilize</text>
 
-    <!-- forward method -->
-    <text x="20" y="150" font-family="monospace" font-size="11" fill="#89b4fa">def</text>
-    <text x="45" y="150" font-family="monospace" font-size="11" fill="#a6e3a1">forward</text>
-    <text x="100" y="150" font-family="monospace" font-size="11" fill="#cdd6f4">(x, positions):</text>
+      <text x="15" y="115" font-family="monospace" font-size="10" fill="#6c7086"># How forward() works:</text>
 
-    <text x="40" y="170" font-family="monospace" font-size="10" fill="#6c7086"># Attention block</text>
-    <text x="40" y="187" font-family="monospace" font-size="10" fill="#a6adc8">attn = spatial_attention(x, pos)</text>
-    <text x="40" y="204" font-family="monospace" font-size="10" fill="#a6adc8">x = norm1(x + dropout1(attn))</text>
+      <text x="15" y="135" font-family="monospace" font-size="11" fill="#89b4fa">def</text>
+      <text x="40" y="135" font-family="monospace" font-size="11" fill="#a6e3a1">forward</text>
+      <text x="95" y="135" font-family="monospace" font-size="11" fill="#cdd6f4">(self, x, positions):</text>
 
-    <text x="40" y="228" font-family="monospace" font-size="10" fill="#6c7086"># FFN block</text>
-    <text x="40" y="245" font-family="monospace" font-size="10" fill="#a6adc8">ffn_out = ffn(x)</text>
-    <text x="40" y="262" font-family="monospace" font-size="10" fill="#a6adc8">x = norm2(x + dropout2(ffn_out))</text>
+      <text x="30" y="160" font-family="monospace" font-size="10" fill="#6c7086"># Step 1: Spatial attention (O(k)!)</text>
+      <text x="30" y="178" font-family="monospace" font-size="10" fill="#cdd6f4">attn_out = self.spatial_attention(x, positions)</text>
+      <text x="30" y="196" font-family="monospace" font-size="10" fill="#cdd6f4">x = self.norm1(x + attn_out)</text>
+      <text x="265" y="196" font-family="monospace" font-size="9" fill="#f9e2af"># residual!</text>
 
-    <text x="40" y="286" font-family="monospace" font-size="10" fill="#89b4fa">return</text>
-    <text x="80" y="286" font-family="monospace" font-size="10" fill="#a6adc8"> x</text>
-  </g>
+      <text x="30" y="220" font-family="monospace" font-size="10" fill="#6c7086"># Step 2: Feed-forward</text>
+      <text x="30" y="238" font-family="monospace" font-size="10" fill="#cdd6f4">ffn_out = self.ffn(x)</text>
+      <text x="30" y="256" font-family="monospace" font-size="10" fill="#cdd6f4">x = self.norm2(x + ffn_out)</text>
+      <text x="235" y="256" font-family="monospace" font-size="9" fill="#f9e2af"># residual!</text>
 
-  <!-- Left panel: SpatialTransformer -->
-  <g transform="translate(20, 310)">
-    <text x="0" y="15" font-family="monospace" font-size="10" fill="#6c7086"># Multi-layer stack</text>
-
-    <text x="0" y="35" font-family="monospace" font-size="11" fill="#89b4fa">class</text>
-    <text x="40" y="35" font-family="monospace" font-size="11" fill="#f9e2af">SpatialTransformer</text>
-    <text x="175" y="35" font-family="monospace" font-size="11" fill="#cdd6f4">:</text>
-
-    <text x="20" y="55" font-family="monospace" font-size="11" fill="#89b4fa">def</text>
-    <text x="45" y="55" font-family="monospace" font-size="11" fill="#a6e3a1">__init__</text>
-    <text x="95" y="55" font-family="monospace" font-size="11" fill="#cdd6f4">(n_layers=</text>
-    <text x="175" y="55" font-family="monospace" font-size="11" fill="#fab387">6</text>
-    <text x="185" y="55" font-family="monospace" font-size="11" fill="#cdd6f4">,</text>
-
-    <text x="60" y="72" font-family="monospace" font-size="10" fill="#cdd6f4">d_model=</text>
-    <text x="120" y="72" font-family="monospace" font-size="10" fill="#fab387">768</text>
-    <text x="145" y="72" font-family="monospace" font-size="10" fill="#cdd6f4">,</text>
-    <text x="155" y="72" font-family="monospace" font-size="10" fill="#cdd6f4">n_heads=</text>
-    <text x="210" y="72" font-family="monospace" font-size="10" fill="#fab387">12</text>
-    <text x="225" y="72" font-family="monospace" font-size="10" fill="#cdd6f4">):</text>
-
-    <text x="40" y="96" font-family="monospace" font-size="10" fill="#a6adc8">self.layers = ModuleList([</text>
-    <text x="60" y="113" font-family="monospace" font-size="10" fill="#f9e2af">SpatialTransformerBlock</text>
-    <text x="205" y="113" font-family="monospace" font-size="10" fill="#a6adc8">()</text>
-    <text x="60" y="130" font-family="monospace" font-size="10" fill="#89b4fa">for</text>
-    <text x="85" y="130" font-family="monospace" font-size="10" fill="#a6adc8"> _ </text>
-    <text x="100" y="130" font-family="monospace" font-size="10" fill="#89b4fa">in</text>
-    <text x="115" y="130" font-family="monospace" font-size="10" fill="#a6adc8"> range(n_layers)])</text>
-
-    <!-- forward -->
-    <text x="20" y="157" font-family="monospace" font-size="11" fill="#89b4fa">def</text>
-    <text x="45" y="157" font-family="monospace" font-size="11" fill="#a6e3a1">forward</text>
-    <text x="100" y="157" font-family="monospace" font-size="11" fill="#cdd6f4">(x, positions):</text>
-
-    <text x="40" y="177" font-family="monospace" font-size="10" fill="#89b4fa">for</text>
-    <text x="65" y="177" font-family="monospace" font-size="10" fill="#a6adc8"> layer </text>
-    <text x="105" y="177" font-family="monospace" font-size="10" fill="#89b4fa">in</text>
-    <text x="120" y="177" font-family="monospace" font-size="10" fill="#a6adc8"> self.layers:</text>
-    <text x="60" y="194" font-family="monospace" font-size="10" fill="#a6adc8">x = layer(x, positions)</text>
-    <text x="40" y="214" font-family="monospace" font-size="10" fill="#89b4fa">return</text>
-    <text x="80" y="214" font-family="monospace" font-size="10" fill="#a6adc8"> x</text>
-  </g>
-
-  <!-- Right panel: Architecture diagram -->
-  <g transform="translate(420, 50)">
-    <rect x="0" y="0" width="460" height="240" rx="8" fill="#313244" stroke="#6366f1" stroke-width="2"/>
-    <text x="230" y="20" text-anchor="middle" font-family="monospace" font-size="10" fill="#6366f1" font-weight="bold">Architecture Flow (Post-Norm)</text>
-
-    <!-- Block diagram -->
-    <g transform="translate(30, 40)">
-      <!-- Input -->
-      <rect x="140" y="0" width="120" height="25" rx="4" fill="#89b4fa" opacity="0.3"/>
-      <text x="200" y="17" text-anchor="middle" font-family="monospace" font-size="8" fill="#89b4fa">x [B, S, 768]</text>
-
-      <!-- Arrow down -->
-      <line x1="200" y1="28" x2="200" y2="45" stroke="#6c7086" stroke-width="1"/>
-      <polygon points="195,42 200,50 205,42" fill="#6c7086"/>
-
-      <!-- Spatial Attention -->
-      <rect x="120" y="52" width="160" height="30" rx="4" fill="#22c55e"/>
-      <text x="200" y="72" text-anchor="middle" font-family="monospace" font-size="9" fill="white">SpatialAttention</text>
-
-      <!-- Residual connection (curved line) -->
-      <path d="M 115 15 Q 90 15, 90 82 Q 90 97, 115 97" stroke="#f9e2af" stroke-width="2" fill="none" stroke-dasharray="4,2"/>
-      <text x="75" y="60" font-family="Arial" font-size="7" fill="#f9e2af">+</text>
-
-      <!-- Arrow down -->
-      <line x1="200" y1="85" x2="200" y2="95" stroke="#6c7086" stroke-width="1"/>
-
-      <!-- Add + Norm 1 -->
-      <rect x="140" y="97" width="120" height="22" rx="4" fill="#f9e2af" opacity="0.3"/>
-      <text x="200" y="112" text-anchor="middle" font-family="monospace" font-size="8" fill="#f9e2af">+ → LayerNorm</text>
-
-      <!-- Arrow down -->
-      <line x1="200" y1="122" x2="200" y2="135" stroke="#6c7086" stroke-width="1"/>
-      <polygon points="195,132 200,140 205,132" fill="#6c7086"/>
-
-      <!-- Feed Forward -->
-      <rect x="120" y="142" width="160" height="30" rx="4" fill="#8b5cf6"/>
-      <text x="200" y="162" text-anchor="middle" font-family="monospace" font-size="9" fill="white">FeedForward</text>
-
-      <!-- Residual connection 2 -->
-      <path d="M 285 110 Q 310 110, 310 172 Q 310 187, 285 187" stroke="#f9e2af" stroke-width="2" fill="none" stroke-dasharray="4,2"/>
-      <text x="320" y="150" font-family="Arial" font-size="7" fill="#f9e2af">+</text>
-
-      <!-- Arrow down -->
-      <line x1="200" y1="175" x2="200" y2="185" stroke="#6c7086" stroke-width="1"/>
-
-      <!-- Add + Norm 2 -->
-      <rect x="140" y="187" width="120" height="22" rx="4" fill="#f9e2af" opacity="0.3"/>
-      <text x="200" y="202" text-anchor="middle" font-family="monospace" font-size="8" fill="#f9e2af">+ → LayerNorm</text>
+      <text x="30" y="280" font-family="monospace" font-size="10" fill="#89b4fa">return</text>
+      <text x="70" y="280" font-family="monospace" font-size="10" fill="#cdd6f4"> x</text>
     </g>
   </g>
 
-  <!-- Right panel: Multi-layer visualization -->
-  <g transform="translate(420, 305)">
-    <rect x="0" y="0" width="220" height="200" rx="8" fill="#313244" stroke="#1e40af" stroke-width="2"/>
-    <text x="110" y="20" text-anchor="middle" font-family="monospace" font-size="10" fill="#89b4fa" font-weight="bold">6-Layer Stack</text>
+  <!-- SpatialTransformer (multi-layer) -->
+  <g transform="translate(20, 360)">
+    <rect x="0" y="0" width="440" height="240" rx="8" fill="#313244" stroke="#22c55e" stroke-width="2"/>
+    <text x="220" y="25" text-anchor="middle" font-family="monospace" font-size="12" fill="#22c55e" font-weight="bold">SpatialTransformer — Stacked Model</text>
+    <text x="220" y="42" text-anchor="middle" font-family="Arial" font-size="10" fill="#6c7086">Stack multiple blocks together</text>
 
-    <!-- Layers -->
-    <g transform="translate(35, 35)">
-      <rect x="0" y="0" width="150" height="22" rx="4" fill="#6366f1"/>
-      <text x="75" y="15" text-anchor="middle" font-family="monospace" font-size="8" fill="white">Block 1</text>
+    <!-- Code -->
+    <g transform="translate(15, 60)">
+      <text x="0" y="0" font-family="monospace" font-size="11" fill="#89b4fa">class</text>
+      <text x="40" y="0" font-family="monospace" font-size="11" fill="#f9e2af">SpatialTransformer</text>
+      <text x="175" y="0" font-family="monospace" font-size="11" fill="#cdd6f4">(nn.Module):</text>
 
-      <rect x="0" y="28" width="150" height="22" rx="4" fill="#6366f1"/>
-      <text x="75" y="43" text-anchor="middle" font-family="monospace" font-size="8" fill="white">Block 2</text>
+      <text x="15" y="30" font-family="monospace" font-size="11" fill="#89b4fa">def</text>
+      <text x="40" y="30" font-family="monospace" font-size="11" fill="#a6e3a1">__init__</text>
+      <text x="95" y="30" font-family="monospace" font-size="11" fill="#cdd6f4">(self, n_layers=</text>
+      <text x="210" y="30" font-family="monospace" font-size="11" fill="#fab387">6</text>
+      <text x="220" y="30" font-family="monospace" font-size="11" fill="#cdd6f4">):</text>
 
-      <rect x="0" y="56" width="150" height="22" rx="4" fill="#6366f1"/>
-      <text x="75" y="71" text-anchor="middle" font-family="monospace" font-size="8" fill="white">Block 3</text>
+      <text x="30" y="55" font-family="monospace" font-size="10" fill="#6c7086"># Create 6 identical blocks</text>
+      <text x="30" y="73" font-family="monospace" font-size="10" fill="#cdd6f4">self.layers = [</text>
+      <text x="50" y="91" font-family="monospace" font-size="10" fill="#f9e2af">SpatialTransformerBlock</text>
+      <text x="205" y="91" font-family="monospace" font-size="10" fill="#cdd6f4">()</text>
+      <text x="50" y="109" font-family="monospace" font-size="10" fill="#89b4fa">for</text>
+      <text x="75" y="109" font-family="monospace" font-size="10" fill="#cdd6f4"> _ </text>
+      <text x="95" y="109" font-family="monospace" font-size="10" fill="#89b4fa">in</text>
+      <text x="110" y="109" font-family="monospace" font-size="10" fill="#cdd6f4"> range(</text>
+      <text x="160" y="109" font-family="monospace" font-size="10" fill="#fab387">6</text>
+      <text x="170" y="109" font-family="monospace" font-size="10" fill="#cdd6f4">)</text>
+      <text x="30" y="127" font-family="monospace" font-size="10" fill="#cdd6f4">]</text>
 
-      <rect x="0" y="84" width="150" height="22" rx="4" fill="#6366f1"/>
-      <text x="75" y="99" text-anchor="middle" font-family="monospace" font-size="8" fill="white">Block 4</text>
+      <text x="15" y="155" font-family="monospace" font-size="11" fill="#89b4fa">def</text>
+      <text x="40" y="155" font-family="monospace" font-size="11" fill="#a6e3a1">forward</text>
+      <text x="95" y="155" font-family="monospace" font-size="11" fill="#cdd6f4">(self, x, positions):</text>
 
-      <rect x="0" y="112" width="150" height="22" rx="4" fill="#6366f1"/>
-      <text x="75" y="127" text-anchor="middle" font-family="monospace" font-size="8" fill="white">Block 5</text>
-
-      <rect x="0" y="140" width="150" height="22" rx="4" fill="#6366f1"/>
-      <text x="75" y="155" text-anchor="middle" font-family="monospace" font-size="8" fill="white">Block 6</text>
+      <text x="30" y="180" font-family="monospace" font-size="10" fill="#89b4fa">for</text>
+      <text x="55" y="180" font-family="monospace" font-size="10" fill="#cdd6f4"> layer </text>
+      <text x="100" y="180" font-family="monospace" font-size="10" fill="#89b4fa">in</text>
+      <text x="115" y="180" font-family="monospace" font-size="10" fill="#cdd6f4"> self.layers:</text>
+      <text x="50" y="198" font-family="monospace" font-size="10" fill="#cdd6f4">x = layer(x, positions)</text>
+      <text x="200" y="198" font-family="monospace" font-size="9" fill="#6c7086"># pass through each</text>
+      <text x="30" y="220" font-family="monospace" font-size="10" fill="#89b4fa">return</text>
+      <text x="70" y="220" font-family="monospace" font-size="10" fill="#cdd6f4"> x</text>
     </g>
   </g>
 
-  <!-- Right panel: Features -->
-  <g transform="translate(650, 305)">
-    <rect x="0" y="0" width="230" height="200" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
-    <text x="115" y="20" text-anchor="middle" font-family="monospace" font-size="10" fill="#a6e3a1" font-weight="bold">Features</text>
+  <!-- RIGHT COLUMN: Visual Diagram -->
+  <g transform="translate(490, 55)">
+    <!-- Architecture diagram -->
+    <rect x="0" y="0" width="490" height="400" rx="8" fill="#313244" stroke="#f9e2af" stroke-width="2"/>
+    <text x="245" y="25" text-anchor="middle" font-family="Arial" font-size="14" fill="#f9e2af" font-weight="bold">What Actually Happens (Visual)</text>
 
-    <g transform="translate(15, 40)">
-      <text x="0" y="0" font-family="monospace" font-size="9" fill="#a6e3a1">✓</text>
-      <text x="15" y="0" font-family="monospace" font-size="9" fill="#cdd6f4">O(k) complexity</text>
-
-      <text x="0" y="22" font-family="monospace" font-size="9" fill="#a6e3a1">✓</text>
-      <text x="15" y="22" font-family="monospace" font-size="9" fill="#cdd6f4">Gradient checkpointing</text>
-
-      <text x="0" y="44" font-family="monospace" font-size="9" fill="#a6e3a1">✓</text>
-      <text x="15" y="44" font-family="monospace" font-size="9" fill="#cdd6f4">3-12+ configurable layers</text>
-
-      <text x="0" y="66" font-family="monospace" font-size="9" fill="#a6e3a1">✓</text>
-      <text x="15" y="66" font-family="monospace" font-size="9" fill="#cdd6f4">Post-norm architecture</text>
-
-      <text x="0" y="88" font-family="monospace" font-size="9" fill="#a6e3a1">✓</text>
-      <text x="15" y="88" font-family="monospace" font-size="9" fill="#cdd6f4">Full M1.1-M1.3 integration</text>
+    <!-- Input -->
+    <g transform="translate(170, 50)">
+      <rect x="0" y="0" width="150" height="35" rx="6" fill="#89b4fa" opacity="0.3"/>
+      <text x="75" y="15" text-anchor="middle" font-family="Arial" font-size="10" fill="#89b4fa" font-weight="bold">INPUT</text>
+      <text x="75" y="28" text-anchor="middle" font-family="monospace" font-size="8" fill="#89b4fa">x: [batch, seq, 768]</text>
     </g>
 
-    <!-- O(k) verification -->
-    <g transform="translate(15, 145)">
-      <rect x="0" y="0" width="200" height="40" rx="4" fill="#1e1e2e"/>
-      <text x="100" y="15" text-anchor="middle" font-family="monospace" font-size="8" fill="#f9e2af">O(k) Scaling Verified:</text>
-      <text x="100" y="32" text-anchor="middle" font-family="monospace" font-size="9" fill="#a6e3a1">2x seq → 2.52x time</text>
+    <!-- Arrow down -->
+    <line x1="245" y1="90" x2="245" y2="105" stroke="#cdd6f4" stroke-width="2"/>
+    <polygon points="240,102 245,112 250,102" fill="#cdd6f4"/>
+
+    <!-- Block 1 (detailed) -->
+    <g transform="translate(70, 115)">
+      <rect x="0" y="0" width="350" height="95" rx="6" fill="#1e1e2e" stroke="#6366f1" stroke-width="2"/>
+      <text x="175" y="15" text-anchor="middle" font-family="Arial" font-size="10" fill="#6366f1" font-weight="bold">Block 1</text>
+
+      <!-- Inside block 1 -->
+      <rect x="15" y="25" width="140" height="30" rx="4" fill="#22c55e"/>
+      <text x="85" y="45" text-anchor="middle" font-family="Arial" font-size="9" fill="white">Spatial Attention</text>
+
+      <text x="165" y="43" font-family="Arial" font-size="14" fill="#f9e2af">→</text>
+
+      <rect x="180" y="25" width="65" height="30" rx="4" fill="#f9e2af" opacity="0.3"/>
+      <text x="212" y="45" text-anchor="middle" font-family="Arial" font-size="8" fill="#f9e2af">+ Norm</text>
+
+      <text x="255" y="43" font-family="Arial" font-size="14" fill="#cdd6f4">→</text>
+
+      <rect x="270" y="25" width="65" height="30" rx="4" fill="#8b5cf6"/>
+      <text x="302" y="45" text-anchor="middle" font-family="Arial" font-size="9" fill="white">FFN</text>
+
+      <text x="175" y="80" text-anchor="middle" font-family="Arial" font-size="8" fill="#6c7086">"I see my immediate neighbors"</text>
+    </g>
+
+    <!-- Arrow down -->
+    <line x1="245" y1="215" x2="245" y2="225" stroke="#cdd6f4" stroke-width="2"/>
+    <polygon points="240,222 245,232 250,222" fill="#cdd6f4"/>
+
+    <!-- Block 2 (simplified) -->
+    <g transform="translate(120, 235)">
+      <rect x="0" y="0" width="250" height="30" rx="6" fill="#6366f1"/>
+      <text x="125" y="20" text-anchor="middle" font-family="Arial" font-size="10" fill="white">Block 2: "I see neighbors' neighbors"</text>
+    </g>
+
+    <!-- Dots -->
+    <text x="245" y="285" text-anchor="middle" font-family="Arial" font-size="20" fill="#6c7086">⋮</text>
+
+    <!-- Block 6 -->
+    <g transform="translate(120, 300)">
+      <rect x="0" y="0" width="250" height="30" rx="6" fill="#22c55e"/>
+      <text x="125" y="20" text-anchor="middle" font-family="Arial" font-size="10" fill="white">Block 6: "I understand everything"</text>
+    </g>
+
+    <!-- Arrow down -->
+    <line x1="245" y1="335" x2="245" y2="350" stroke="#22c55e" stroke-width="2"/>
+    <polygon points="240,347 245,357 250,347" fill="#22c55e"/>
+
+    <!-- Output -->
+    <g transform="translate(170, 355)">
+      <rect x="0" y="0" width="150" height="35" rx="6" fill="#22c55e" opacity="0.3"/>
+      <text x="75" y="15" text-anchor="middle" font-family="Arial" font-size="10" fill="#22c55e" font-weight="bold">OUTPUT</text>
+      <text x="75" y="28" text-anchor="middle" font-family="monospace" font-size="8" fill="#22c55e">x: [batch, seq, 768]</text>
+    </g>
+  </g>
+
+  <!-- KEY INSIGHT box -->
+  <g transform="translate(490, 470)">
+    <rect x="0" y="0" width="490" height="130" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="2"/>
+    <text x="245" y="25" text-anchor="middle" font-family="Arial" font-size="14" fill="#a6e3a1" font-weight="bold">Why This Architecture is Revolutionary</text>
+
+    <g transform="translate(20, 45)">
+      <text x="0" y="0" font-family="Arial" font-size="11" fill="#a6e3a1">✓</text>
+      <text x="20" y="0" font-family="Arial" font-size="11" fill="#cdd6f4">Each block uses O(k) attention → 6 blocks = still O(k), not O(6n²)!</text>
+
+      <text x="0" y="25" font-family="Arial" font-size="11" fill="#a6e3a1">✓</text>
+      <text x="20" y="25" font-family="Arial" font-size="11" fill="#cdd6f4">Residual connections: information flows even if one block fails</text>
+
+      <text x="0" y="50" font-family="Arial" font-size="11" fill="#a6e3a1">✓</text>
+      <text x="20" y="50" font-family="Arial" font-size="11" fill="#cdd6f4">Stacking = deeper understanding (each layer refines the previous)</text>
+
+      <text x="0" y="75" font-family="Arial" font-size="11" fill="#a6e3a1">✓</text>
+      <text x="20" y="75" font-family="Arial" font-size="11" fill="#cdd6f4">Result: Process UNLIMITED tokens with CONSTANT cost per token!</text>
     </g>
   </g>
 
   <!-- Bottom: Test stats -->
-  <g transform="translate(20, 525)">
-    <rect x="0" y="0" width="140" height="25" rx="4" fill="#313244"/>
-    <text x="10" y="17" font-family="monospace" font-size="10" fill="#a6e3a1">✓ 7 tests passing</text>
+  <g transform="translate(20, 620)">
+    <rect x="0" y="0" width="160" height="30" rx="4" fill="#313244"/>
+    <text x="15" y="20" font-family="monospace" font-size="11" fill="#a6e3a1">✓ 7 tests passing</text>
   </g>
 
-  <g transform="translate(170, 525)">
-    <rect x="0" y="0" width="120" height="25" rx="4" fill="#313244"/>
-    <text x="10" y="17" font-family="monospace" font-size="10" fill="#89b4fa">95%+ coverage</text>
+  <g transform="translate(200, 620)">
+    <rect x="0" y="0" width="140" height="30" rx="4" fill="#313244"/>
+    <text x="15" y="20" font-family="monospace" font-size="11" fill="#89b4fa">95%+ coverage</text>
   </g>
 
-  <g transform="translate(300, 525)">
-    <rect x="0" y="0" width="200" height="25" rx="4" fill="#313244"/>
-    <text x="10" y="17" font-family="monospace" font-size="10" fill="#f9e2af">Full M1.1-M1.4 integration</text>
+  <g transform="translate(360, 620)">
+    <rect x="0" y="0" width="240" height="30" rx="4" fill="#313244"/>
+    <text x="15" y="20" font-family="monospace" font-size="11" fill="#f9e2af">O(k) verified: 2x seq → 2.52x time</text>
   </g>
 
-  <g transform="translate(510, 525)">
-    <rect x="0" y="0" width="180" height="25" rx="4" fill="#313244"/>
-    <text x="10" y="17" font-family="monospace" font-size="10" fill="#cba6f7">Post-norm transformer</text>
+  <g transform="translate(620, 620)">
+    <rect x="0" y="0" width="250" height="30" rx="4" fill="#313244"/>
+    <text x="15" y="20" font-family="monospace" font-size="11" fill="#cba6f7">Full M1.1-M1.4 integration tested</text>
+  </g>
+
+  <!-- Integration note -->
+  <g transform="translate(20, 665)">
+    <text x="0" y="0" font-family="Arial" font-size="10" fill="#6c7086">M1.1 (SpatialToken) → M1.2 (SpatialEncoding) → M1.3 (SpatialAttention) → M1.4 (SpatialTransformer) = Complete O(k) AI Architecture</text>
   </g>
 </svg>

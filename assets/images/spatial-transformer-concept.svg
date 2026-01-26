@@ -1,157 +1,218 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700">
   <defs>
-    <linearGradient id="bgTrans" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="bgTransNew" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#eff6ff"/>
       <stop offset="100%" style="stop-color:#e0e7ff"/>
     </linearGradient>
-    <filter id="shadowTrans" x="-20%" y="-20%" width="140%" height="140%">
+    <filter id="shadowTransNew" x="-20%" y="-20%" width="140%" height="140%">
       <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.15"/>
     </filter>
-    <marker id="arrowDown" markerWidth="10" markerHeight="10" refX="5" refY="10" orient="auto">
-      <polygon points="0,0 10,0 5,10" fill="#6366f1"/>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="#3b82f6"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="#22c55e"/>
     </marker>
   </defs>
 
   <!-- Background -->
-  <rect x="0" y="0" width="900" height="520" fill="url(#bgTrans)"/>
+  <rect x="0" y="0" width="1000" height="700" fill="url(#bgTransNew)"/>
 
   <!-- Title -->
-  <text x="450" y="30" text-anchor="middle" font-family="Arial" font-size="20" fill="#1e40af" font-weight="bold">Spatial Transformer: Complete O(k) Architecture</text>
-  <text x="450" y="50" text-anchor="middle" font-family="Arial" font-size="12" fill="#3b82f6">Stacking transformer blocks while maintaining constant complexity</text>
+  <text x="500" y="35" text-anchor="middle" font-family="Arial" font-size="24" fill="#1e40af" font-weight="bold">Spatial Transformer: The Complete Picture</text>
+  <text x="500" y="58" text-anchor="middle" font-family="Arial" font-size="14" fill="#3b82f6">How M1.1 → M1.2 → M1.3 → M1.4 work together to process your code</text>
 
-  <!-- Left side: Single Block Architecture -->
-  <g transform="translate(30, 75)">
-    <rect x="0" y="0" width="340" height="420" rx="12" fill="white" filter="url(#shadowTrans)"/>
-    <rect x="0" y="0" width="340" height="35" rx="12" fill="#6366f1"/>
-    <rect x="0" y="22" width="340" height="13" fill="#6366f1"/>
-    <text x="170" y="24" text-anchor="middle" font-family="Arial" font-size="12" fill="white" font-weight="bold">SpatialTransformerBlock (Single Layer)</text>
+  <!-- TOP SECTION: The Journey from Code to Understanding -->
+  <g transform="translate(30, 85)">
+    <rect x="0" y="0" width="940" height="180" rx="12" fill="white" filter="url(#shadowTransNew)"/>
+    <rect x="0" y="0" width="940" height="35" rx="12" fill="#1e40af"/>
+    <rect x="0" y="22" width="940" height="13" fill="#1e40af"/>
+    <text x="470" y="24" text-anchor="middle" font-family="Arial" font-size="14" fill="white" font-weight="bold">Step 1: Your Code Becomes Spatial Tokens (M1.1 + M1.2)</text>
 
-    <!-- Input -->
-    <g transform="translate(70, 55)">
-      <rect x="0" y="0" width="200" height="35" rx="6" fill="#dbeafe"/>
-      <text x="100" y="15" text-anchor="middle" font-family="Arial" font-size="10" fill="#1e40af" font-weight="bold">Input: x + positions</text>
-      <text x="100" y="28" text-anchor="middle" font-family="monospace" font-size="8" fill="#3b82f6">[batch, seq, 768] + [batch, seq, 3]</text>
+    <!-- Source code -->
+    <g transform="translate(30, 50)">
+      <rect x="0" y="0" width="180" height="110" rx="8" fill="#1e1e2e"/>
+      <text x="90" y="20" text-anchor="middle" font-family="monospace" font-size="10" fill="#89b4fa">auth/login.py</text>
+      <text x="10" y="40" font-family="monospace" font-size="9" fill="#a6e3a1">def login(user):</text>
+      <text x="10" y="55" font-family="monospace" font-size="9" fill="#cdd6f4">  validate(user)</text>
+      <text x="10" y="70" font-family="monospace" font-size="9" fill="#cdd6f4">  token = create()</text>
+      <text x="10" y="85" font-family="monospace" font-size="9" fill="#89b4fa">  return</text>
+      <text x="50" y="85" font-family="monospace" font-size="9" fill="#cdd6f4"> token</text>
+      <text x="90" y="105" text-anchor="middle" font-family="Arial" font-size="8" fill="#64748b">Your source code</text>
     </g>
 
     <!-- Arrow -->
-    <line x1="170" y1="95" x2="170" y2="115" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowDown)"/>
+    <line x1="220" y1="105" x2="270" y2="105" stroke="#3b82f6" stroke-width="3" marker-end="url(#arrowBlue)"/>
 
-    <!-- Spatial Attention -->
-    <g transform="translate(45, 125)">
-      <rect x="0" y="0" width="250" height="55" rx="8" fill="#22c55e" filter="url(#shadowTrans)"/>
-      <text x="125" y="20" text-anchor="middle" font-family="Arial" font-size="11" fill="white" font-weight="bold">Spatial Attention (M1.3)</text>
-      <text x="125" y="35" text-anchor="middle" font-family="Arial" font-size="9" fill="#dcfce7">O(k) complexity - only k neighbors</text>
-      <text x="125" y="48" text-anchor="middle" font-family="monospace" font-size="8" fill="#bbf7d0">Q·K^T × spatial_mask → softmax</text>
-    </g>
-
-    <!-- Residual + Norm 1 -->
-    <g transform="translate(45, 190)">
-      <rect x="0" y="0" width="250" height="35" rx="6" fill="#fef3c7"/>
-      <text x="125" y="15" text-anchor="middle" font-family="Arial" font-size="10" fill="#b45309" font-weight="bold">+ Residual → LayerNorm</text>
-      <text x="125" y="28" text-anchor="middle" font-family="monospace" font-size="8" fill="#d97706">x = norm1(x + dropout(attn))</text>
-    </g>
-
-    <!-- Arrow -->
-    <line x1="170" y1="230" x2="170" y2="250" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowDown)"/>
-
-    <!-- Feed Forward -->
-    <g transform="translate(45, 260)">
-      <rect x="0" y="0" width="250" height="55" rx="8" fill="#8b5cf6" filter="url(#shadowTrans)"/>
-      <text x="125" y="20" text-anchor="middle" font-family="Arial" font-size="11" fill="white" font-weight="bold">Feed-Forward Network</text>
-      <text x="125" y="35" text-anchor="middle" font-family="Arial" font-size="9" fill="#e9d5ff">2-layer MLP with GELU</text>
-      <text x="125" y="48" text-anchor="middle" font-family="monospace" font-size="8" fill="#d8b4fe">768 → 3072 → 768</text>
-    </g>
-
-    <!-- Residual + Norm 2 -->
-    <g transform="translate(45, 325)">
-      <rect x="0" y="0" width="250" height="35" rx="6" fill="#fef3c7"/>
-      <text x="125" y="15" text-anchor="middle" font-family="Arial" font-size="10" fill="#b45309" font-weight="bold">+ Residual → LayerNorm</text>
-      <text x="125" y="28" text-anchor="middle" font-family="monospace" font-size="8" fill="#d97706">x = norm2(x + dropout(ffn))</text>
+    <!-- Chunking -->
+    <g transform="translate(280, 50)">
+      <rect x="0" y="0" width="140" height="110" rx="8" fill="#dbeafe"/>
+      <text x="70" y="20" text-anchor="middle" font-family="Arial" font-size="10" fill="#1e40af" font-weight="bold">Split into chunks</text>
+      <rect x="15" y="30" width="110" height="18" rx="3" fill="#3b82f6" opacity="0.3"/>
+      <text x="70" y="43" text-anchor="middle" font-family="monospace" font-size="8" fill="#1e40af">"def login"</text>
+      <rect x="15" y="52" width="110" height="18" rx="3" fill="#3b82f6" opacity="0.3"/>
+      <text x="70" y="65" text-anchor="middle" font-family="monospace" font-size="8" fill="#1e40af">"validate"</text>
+      <rect x="15" y="74" width="110" height="18" rx="3" fill="#3b82f6" opacity="0.3"/>
+      <text x="70" y="87" text-anchor="middle" font-family="monospace" font-size="8" fill="#1e40af">"create token"</text>
+      <text x="70" y="105" text-anchor="middle" font-family="Arial" font-size="8" fill="#64748b">Each chunk = 1 token</text>
     </g>
 
     <!-- Arrow -->
-    <line x1="170" y1="365" x2="170" y2="385" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowDown)"/>
+    <line x1="430" y1="105" x2="480" y2="105" stroke="#3b82f6" stroke-width="3" marker-end="url(#arrowBlue)"/>
 
-    <!-- Output -->
-    <g transform="translate(70, 390)">
-      <rect x="0" y="0" width="200" height="25" rx="6" fill="#dbeafe"/>
-      <text x="100" y="17" text-anchor="middle" font-family="Arial" font-size="10" fill="#1e40af" font-weight="bold">Output: [batch, seq, 768]</text>
+    <!-- Add positions -->
+    <g transform="translate(490, 50)">
+      <rect x="0" y="0" width="180" height="110" rx="8" fill="#dcfce7"/>
+      <text x="90" y="20" text-anchor="middle" font-family="Arial" font-size="10" fill="#166534" font-weight="bold">Add 3D Positions (M1.1)</text>
+      <text x="15" y="42" font-family="monospace" font-size="8" fill="#166534">"def login"</text>
+      <text x="100" y="42" font-family="monospace" font-size="8" fill="#22c55e">@ (100, 50, 10)</text>
+      <text x="15" y="60" font-family="monospace" font-size="8" fill="#166534">"validate"</text>
+      <text x="100" y="60" font-family="monospace" font-size="8" fill="#22c55e">@ (100, 52, 12)</text>
+      <text x="15" y="78" font-family="monospace" font-size="8" fill="#166534">"create token"</text>
+      <text x="100" y="78" font-family="monospace" font-size="8" fill="#22c55e">@ (100, 54, 14)</text>
+      <text x="90" y="100" text-anchor="middle" font-family="Arial" font-size="8" fill="#64748b">Position = where in codebase</text>
+    </g>
+
+    <!-- Arrow -->
+    <line x1="680" y1="105" x2="730" y2="105" stroke="#3b82f6" stroke-width="3" marker-end="url(#arrowBlue)"/>
+
+    <!-- Spatial encoding -->
+    <g transform="translate(740, 50)">
+      <rect x="0" y="0" width="170" height="110" rx="8" fill="#fef3c7"/>
+      <text x="85" y="20" text-anchor="middle" font-family="Arial" font-size="10" fill="#b45309" font-weight="bold">Encode Position (M1.2)</text>
+      <text x="85" y="45" text-anchor="middle" font-family="Arial" font-size="9" fill="#92400e">(100, 50, 10)</text>
+      <text x="85" y="60" text-anchor="middle" font-family="Arial" font-size="12" fill="#b45309">↓</text>
+      <text x="85" y="78" text-anchor="middle" font-family="Arial" font-size="9" fill="#92400e">768 numbers</text>
+      <text x="85" y="93" text-anchor="middle" font-family="Arial" font-size="8" fill="#92400e">(sin/cos encoding)</text>
+      <text x="85" y="108" text-anchor="middle" font-family="Arial" font-size="8" fill="#64748b">AI-readable position</text>
     </g>
   </g>
 
-  <!-- Right side: Stacked Architecture -->
-  <g transform="translate(400, 75)">
-    <rect x="0" y="0" width="470" height="420" rx="12" fill="white" filter="url(#shadowTrans)"/>
-    <rect x="0" y="0" width="470" height="35" rx="12" fill="#1e40af"/>
-    <rect x="0" y="22" width="470" height="13" fill="#1e40af"/>
-    <text x="235" y="24" text-anchor="middle" font-family="Arial" font-size="12" fill="white" font-weight="bold">SpatialTransformer (Multi-Layer Stack)</text>
+  <!-- MIDDLE SECTION: What happens inside one transformer block -->
+  <g transform="translate(30, 280)">
+    <rect x="0" y="0" width="940" height="200" rx="12" fill="white" filter="url(#shadowTransNew)"/>
+    <rect x="0" y="0" width="940" height="35" rx="12" fill="#22c55e"/>
+    <rect x="0" y="22" width="940" height="13" fill="#22c55e"/>
+    <text x="470" y="24" text-anchor="middle" font-family="Arial" font-size="14" fill="white" font-weight="bold">Step 2: One Transformer Block Processes the Tokens (M1.3 + M1.4)</text>
 
-    <!-- Input -->
-    <g transform="translate(160, 50)">
-      <rect x="0" y="0" width="150" height="30" rx="6" fill="#dbeafe"/>
-      <text x="75" y="19" text-anchor="middle" font-family="Arial" font-size="10" fill="#1e40af" font-weight="bold">Input Embeddings</text>
+    <!-- Input tokens -->
+    <g transform="translate(30, 50)">
+      <text x="60" y="0" text-anchor="middle" font-family="Arial" font-size="10" fill="#64748b" font-weight="bold">Input: 3 tokens</text>
+      <rect x="0" y="10" width="120" height="25" rx="4" fill="#3b82f6"/>
+      <text x="60" y="27" text-anchor="middle" font-family="Arial" font-size="9" fill="white">"def login"</text>
+      <rect x="0" y="40" width="120" height="25" rx="4" fill="#8b5cf6"/>
+      <text x="60" y="57" text-anchor="middle" font-family="Arial" font-size="9" fill="white">"validate"</text>
+      <rect x="0" y="70" width="120" height="25" rx="4" fill="#22c55e"/>
+      <text x="60" y="87" text-anchor="middle" font-family="Arial" font-size="9" fill="white">"create token"</text>
+      <text x="60" y="115" text-anchor="middle" font-family="Arial" font-size="8" fill="#64748b">Each has meaning + position</text>
     </g>
 
     <!-- Arrow -->
-    <line x1="235" y1="85" x2="235" y2="100" stroke="#1e40af" stroke-width="2" marker-end="url(#arrowDown)"/>
+    <line x1="160" y1="95" x2="200" y2="95" stroke="#22c55e" stroke-width="3" marker-end="url(#arrowGreen)"/>
 
-    <!-- Layer 1 -->
-    <g transform="translate(135, 110)">
-      <rect x="0" y="0" width="200" height="40" rx="6" fill="#6366f1"/>
-      <text x="100" y="17" text-anchor="middle" font-family="Arial" font-size="10" fill="white" font-weight="bold">Layer 1</text>
-      <text x="100" y="32" text-anchor="middle" font-family="Arial" font-size="8" fill="#c7d2fe">SpatialTransformerBlock</text>
+    <!-- Spatial Attention box -->
+    <g transform="translate(210, 45)">
+      <rect x="0" y="0" width="280" height="130" rx="8" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+      <text x="140" y="20" text-anchor="middle" font-family="Arial" font-size="11" fill="#166534" font-weight="bold">Spatial Attention (M1.3) - THE O(k) MAGIC</text>
+
+      <text x="20" y="45" font-family="Arial" font-size="9" fill="#166534">Each token asks: "Who is NEAR me?"</text>
+
+      <text x="20" y="68" font-family="Arial" font-size="9" fill="#166534">• "def login" sees: validate, create token</text>
+      <text x="20" y="83" font-family="Arial" font-size="9" fill="#64748b">  (they're close in the same file)</text>
+
+      <text x="20" y="103" font-family="Arial" font-size="9" fill="#dc2626">• "def login" ignores: database code</text>
+      <text x="20" y="118" font-family="Arial" font-size="9" fill="#64748b">  (too far away → weight = 0)</text>
     </g>
 
     <!-- Arrow -->
-    <line x1="235" y1="155" x2="235" y2="170" stroke="#1e40af" stroke-width="2" marker-end="url(#arrowDown)"/>
+    <line x1="500" y1="95" x2="540" y2="95" stroke="#22c55e" stroke-width="3" marker-end="url(#arrowGreen)"/>
 
-    <!-- Layer 2 -->
-    <g transform="translate(135, 175)">
-      <rect x="0" y="0" width="200" height="40" rx="6" fill="#6366f1"/>
-      <text x="100" y="17" text-anchor="middle" font-family="Arial" font-size="10" fill="white" font-weight="bold">Layer 2</text>
-      <text x="100" y="32" text-anchor="middle" font-family="Arial" font-size="8" fill="#c7d2fe">SpatialTransformerBlock</text>
-    </g>
+    <!-- Feed Forward box -->
+    <g transform="translate(550, 45)">
+      <rect x="0" y="0" width="180" height="130" rx="8" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
+      <text x="90" y="20" text-anchor="middle" font-family="Arial" font-size="11" fill="#6d28d9" font-weight="bold">Feed-Forward Network</text>
 
-    <!-- Dots -->
-    <text x="235" y="235" text-anchor="middle" font-family="Arial" font-size="16" fill="#6366f1">⋮</text>
+      <text x="90" y="50" text-anchor="middle" font-family="Arial" font-size="9" fill="#7c3aed">Process what attention found</text>
 
-    <!-- Layer N -->
-    <g transform="translate(135, 250)">
-      <rect x="0" y="0" width="200" height="40" rx="6" fill="#6366f1"/>
-      <text x="100" y="17" text-anchor="middle" font-family="Arial" font-size="10" fill="white" font-weight="bold">Layer N (default: 6)</text>
-      <text x="100" y="32" text-anchor="middle" font-family="Arial" font-size="8" fill="#c7d2fe">SpatialTransformerBlock</text>
+      <text x="90" y="75" text-anchor="middle" font-family="monospace" font-size="9" fill="#6d28d9">768 → 3072 → 768</text>
+
+      <text x="90" y="100" text-anchor="middle" font-family="Arial" font-size="9" fill="#64748b">"Think deeper" about</text>
+      <text x="90" y="115" text-anchor="middle" font-family="Arial" font-size="9" fill="#64748b">the relationships found</text>
     </g>
 
     <!-- Arrow -->
-    <line x1="235" y1="295" x2="235" y2="310" stroke="#1e40af" stroke-width="2" marker-end="url(#arrowDown)"/>
+    <line x1="740" y1="95" x2="780" y2="95" stroke="#22c55e" stroke-width="3" marker-end="url(#arrowGreen)"/>
 
-    <!-- Output -->
-    <g transform="translate(160, 315)">
-      <rect x="0" y="0" width="150" height="30" rx="6" fill="#dcfce7"/>
-      <text x="75" y="19" text-anchor="middle" font-family="Arial" font-size="10" fill="#166534" font-weight="bold">Output Embeddings</text>
-    </g>
-
-    <!-- Features box -->
-    <g transform="translate(20, 360)">
-      <rect x="0" y="0" width="200" height="50" rx="6" fill="#f3e8ff"/>
-      <text x="100" y="15" text-anchor="middle" font-family="Arial" font-size="9" fill="#7c3aed" font-weight="bold">Features:</text>
-      <text x="10" y="30" font-family="Arial" font-size="8" fill="#6b21a8">• Gradient checkpointing</text>
-      <text x="10" y="42" font-family="Arial" font-size="8" fill="#6b21a8">• Configurable depth (3-12+)</text>
-    </g>
-
-    <!-- O(k) box -->
-    <g transform="translate(250, 360)">
-      <rect x="0" y="0" width="200" height="50" rx="6" fill="#dcfce7"/>
-      <text x="100" y="15" text-anchor="middle" font-family="Arial" font-size="9" fill="#166534" font-weight="bold">O(k) Maintained:</text>
-      <text x="10" y="30" font-family="Arial" font-size="8" fill="#15803d">• 2x seq → 2.52x time</text>
-      <text x="10" y="42" font-family="Arial" font-size="8" fill="#15803d">• (Not 4x like O(n²)!)</text>
+    <!-- Output tokens -->
+    <g transform="translate(790, 50)">
+      <text x="60" y="0" text-anchor="middle" font-family="Arial" font-size="10" fill="#64748b" font-weight="bold">Output: 3 tokens</text>
+      <rect x="0" y="10" width="120" height="25" rx="4" fill="#3b82f6"/>
+      <text x="60" y="27" text-anchor="middle" font-family="Arial" font-size="9" fill="white">"def login"</text>
+      <rect x="0" y="40" width="120" height="25" rx="4" fill="#8b5cf6"/>
+      <text x="60" y="57" text-anchor="middle" font-family="Arial" font-size="9" fill="white">"validate"</text>
+      <rect x="0" y="70" width="120" height="25" rx="4" fill="#22c55e"/>
+      <text x="60" y="87" text-anchor="middle" font-family="Arial" font-size="9" fill="white">"create token"</text>
+      <text x="60" y="115" text-anchor="middle" font-family="Arial" font-size="8" fill="#166534" font-weight="bold">Now understand context!</text>
     </g>
   </g>
 
-  <!-- Bottom: Integration summary -->
-  <g transform="translate(30, 505)">
-    <rect x="0" y="0" width="840" height="40" rx="8" fill="#1e40af" opacity="0.1"/>
-    <text x="420" y="15" text-anchor="middle" font-family="Arial" font-size="11" fill="#1e40af" font-weight="bold">Full Integration: M1.1 (SpatialToken) + M1.2 (Encoding) + M1.3 (Attention) + M1.4 (Transformer)</text>
-    <text x="420" y="32" text-anchor="middle" font-family="Arial" font-size="10" fill="#3b82f6">Complete O(k) transformer architecture ready for infinite context AI</text>
+  <!-- BOTTOM SECTION: Stacking 6 blocks -->
+  <g transform="translate(30, 495)">
+    <rect x="0" y="0" width="940" height="185" rx="12" fill="white" filter="url(#shadowTransNew)"/>
+    <rect x="0" y="0" width="940" height="35" rx="12" fill="#6366f1"/>
+    <rect x="0" y="22" width="940" height="13" fill="#6366f1"/>
+    <text x="470" y="24" text-anchor="middle" font-family="Arial" font-size="14" fill="white" font-weight="bold">Step 3: Stack 6 Blocks for Deeper Understanding (M1.4)</text>
+
+    <!-- Why stack explanation -->
+    <g transform="translate(30, 50)">
+      <rect x="0" y="0" width="250" height="120" rx="8" fill="#eff6ff"/>
+      <text x="125" y="20" text-anchor="middle" font-family="Arial" font-size="11" fill="#1e40af" font-weight="bold">Why Stack Multiple Blocks?</text>
+      <text x="15" y="45" font-family="Arial" font-size="9" fill="#1e40af">1 block = "I see my neighbors"</text>
+      <text x="15" y="62" font-family="Arial" font-size="9" fill="#1e40af">2 blocks = "I see neighbors' neighbors"</text>
+      <text x="15" y="79" font-family="Arial" font-size="9" fill="#1e40af">6 blocks = "I understand the whole area"</text>
+      <text x="15" y="100" font-family="Arial" font-size="9" fill="#64748b">More layers = deeper understanding</text>
+      <text x="15" y="115" font-family="Arial" font-size="9" fill="#64748b">(like reading something 6 times)</text>
+    </g>
+
+    <!-- Visual stack -->
+    <g transform="translate(320, 50)">
+      <text x="150" y="0" text-anchor="middle" font-family="Arial" font-size="10" fill="#64748b">Input</text>
+      <line x1="150" y1="5" x2="150" y2="18" stroke="#6366f1" stroke-width="2"/>
+
+      <rect x="50" y="20" width="200" height="16" rx="3" fill="#6366f1"/>
+      <text x="150" y="32" text-anchor="middle" font-family="Arial" font-size="8" fill="white">Block 1: Basic patterns</text>
+
+      <rect x="50" y="38" width="200" height="16" rx="3" fill="#6366f1"/>
+      <text x="150" y="50" text-anchor="middle" font-family="Arial" font-size="8" fill="white">Block 2: Combine patterns</text>
+
+      <rect x="50" y="56" width="200" height="16" rx="3" fill="#6366f1"/>
+      <text x="150" y="68" text-anchor="middle" font-family="Arial" font-size="8" fill="white">Block 3: Higher concepts</text>
+
+      <rect x="50" y="74" width="200" height="16" rx="3" fill="#6366f1"/>
+      <text x="150" y="86" text-anchor="middle" font-family="Arial" font-size="8" fill="white">Block 4: Relationships</text>
+
+      <rect x="50" y="92" width="200" height="16" rx="3" fill="#6366f1"/>
+      <text x="150" y="104" text-anchor="middle" font-family="Arial" font-size="8" fill="white">Block 5: Full context</text>
+
+      <rect x="50" y="110" width="200" height="16" rx="3" fill="#22c55e"/>
+      <text x="150" y="122" text-anchor="middle" font-family="Arial" font-size="8" fill="white">Block 6: Deep understanding</text>
+
+      <line x1="150" y1="128" x2="150" y2="138" stroke="#22c55e" stroke-width="2"/>
+      <text x="150" y="150" text-anchor="middle" font-family="Arial" font-size="10" fill="#166534" font-weight="bold">Output: Fully understood!</text>
+    </g>
+
+    <!-- Key insight box -->
+    <g transform="translate(620, 50)">
+      <rect x="0" y="0" width="290" height="120" rx="8" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+      <text x="145" y="22" text-anchor="middle" font-family="Arial" font-size="12" fill="#166534" font-weight="bold">THE KEY INSIGHT</text>
+
+      <text x="145" y="50" text-anchor="middle" font-family="Arial" font-size="10" fill="#166534">Every block uses O(k) attention</text>
+      <text x="145" y="68" text-anchor="middle" font-family="Arial" font-size="10" fill="#166534">6 blocks × O(k) = still O(k)!</text>
+
+      <line x1="30" y1="80" x2="260" y2="80" stroke="#22c55e" stroke-width="1"/>
+
+      <text x="145" y="98" text-anchor="middle" font-family="Arial" font-size="10" fill="#166534" font-weight="bold">Result: Unlimited context</text>
+      <text x="145" y="115" text-anchor="middle" font-family="Arial" font-size="10" fill="#166534" font-weight="bold">with constant cost!</text>
+    </g>
   </g>
 </svg>
