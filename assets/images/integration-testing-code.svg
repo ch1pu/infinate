@@ -125,7 +125,7 @@
     <!-- Right side: O(k) verification -->
     <g transform="translate(280, 55)">
       <rect x="0" y="0" width="220" height="260" rx="6" fill="#1e1e2e" stroke="#a6e3a1" stroke-width="2"/>
-      <text x="110" y="24" text-anchor="middle" font-family="Arial" font-size="12" fill="#a6e3a1" font-weight="bold">O(k) Verified</text>
+      <text x="110" y="24" text-anchor="middle" font-family="Arial" font-size="12" fill="#a6e3a1" font-weight="bold">O(log n + k) Verified</text>
 
       <text x="20" y="55" font-family="monospace" font-size="11" fill="#cdd6f4">Context:    Time:</text>
       <text x="20" y="80" font-family="monospace" font-size="11" fill="#cdd6f4">  1000   →  11.82ms</text>
@@ -138,7 +138,7 @@
       <text x="20" y="198" font-family="monospace" font-size="11" fill="#f38ba8">  2x → 4x time  ✗</text>
       <text x="20" y="218" font-family="monospace" font-size="11" fill="#f38ba8">  4x → 16x time ✗</text>
 
-      <text x="20" y="245" font-family="Arial" font-size="11" fill="#a6e3a1">Actual O(k):</text>
+      <text x="20" y="245" font-family="Arial" font-size="11" fill="#a6e3a1">Actual O(log n + k):</text>
       <text x="20" y="268" font-family="monospace" font-size="11" fill="#a6e3a1">  2x → 1.1x time ✓</text>
     </g>
   </g>
@@ -210,6 +210,6 @@
 
   <g transform="translate(880, 645)">
     <rect x="0" y="0" width="200" height="35" rx="4" fill="#45475a"/>
-    <text x="100" y="23" text-anchor="middle" font-family="monospace" font-size="12" fill="#cba6f7">O(k) END-TO-END ✓</text>
+    <text x="100" y="23" text-anchor="middle" font-family="monospace" font-size="11" fill="#cba6f7">O(log n + k) ≈ const ✓</text>
   </g>
 </svg>
