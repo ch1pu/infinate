@@ -1,0 +1,262 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700">
+  <defs>
+    <linearGradient id="bgVSCode" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e1e2e"/>
+      <stop offset="100%" style="stop-color:#181825"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Dark code editor background -->
+  <rect x="0" y="0" width="1000" height="700" fill="url(#bgVSCode)"/>
+
+  <!-- Title bar -->
+  <rect x="0" y="0" width="1000" height="40" fill="#313244"/>
+  <circle cx="20" cy="20" r="7" fill="#f38ba8"/>
+  <circle cx="42" cy="20" r="7" fill="#f9e2af"/>
+  <circle cx="64" cy="20" r="7" fill="#a6e3a1"/>
+  <text x="500" y="26" text-anchor="middle" font-family="monospace" font-size="14" fill="#cdd6f4">Vector Store Architecture — M1.6 Complete Implementation</text>
+
+  <!-- LEFT COLUMN: VectorStoreBase -->
+  <g transform="translate(20, 55)">
+    <rect x="0" y="0" width="470" height="180" rx="8" fill="#313244" stroke="#6366f1" stroke-width="2"/>
+    <text x="235" y="22" text-anchor="middle" font-family="monospace" font-size="12" fill="#6366f1" font-weight="bold">VectorStoreBase — Abstract Interface</text>
+    <text x="235" y="38" text-anchor="middle" font-family="Arial" font-size="10" fill="#6c7086">Consistent API for all vector store adapters</text>
+
+    <!-- Code -->
+    <g transform="translate(15, 55)">
+      <text x="0" y="0" font-family="monospace" font-size="11" fill="#89b4fa">class</text>
+      <text x="40" y="0" font-family="monospace" font-size="11" fill="#f9e2af">VectorStoreBase</text>
+      <text x="165" y="0" font-family="monospace" font-size="11" fill="#cdd6f4">(ABC):</text>
+
+      <text x="15" y="25" font-family="monospace" font-size="10" fill="#cba6f7">@abstractmethod</text>
+
+      <text x="15" y="45" font-family="monospace" font-size="10" fill="#89b4fa">def</text>
+      <text x="40" y="45" font-family="monospace" font-size="10" fill="#a6e3a1">store</text>
+      <text x="70" y="45" font-family="monospace" font-size="10" fill="#cdd6f4">(embeddings, positions, ids, metadata)</text>
+      <text x="340" y="45" font-family="monospace" font-size="9" fill="#6c7086">→ list[str]</text>
+
+      <text x="15" y="65" font-family="monospace" font-size="10" fill="#89b4fa">def</text>
+      <text x="40" y="65" font-family="monospace" font-size="10" fill="#a6e3a1">query</text>
+      <text x="70" y="65" font-family="monospace" font-size="10" fill="#cdd6f4">(query_vector, query_position, k, radius)</text>
+
+      <text x="15" y="85" font-family="monospace" font-size="10" fill="#89b4fa">def</text>
+      <text x="40" y="85" font-family="monospace" font-size="10" fill="#a6e3a1">delete</text>
+      <text x="80" y="85" font-family="monospace" font-size="10" fill="#cdd6f4">(ids: list[str])</text>
+      <text x="200" y="85" font-family="monospace" font-size="9" fill="#6c7086">→ int</text>
+
+      <text x="15" y="105" font-family="monospace" font-size="10" fill="#89b4fa">def</text>
+      <text x="40" y="105" font-family="monospace" font-size="10" fill="#a6e3a1">close</text>
+      <text x="70" y="105" font-family="monospace" font-size="10" fill="#cdd6f4">()</text>
+      <text x="100" y="105" font-family="monospace" font-size="9" fill="#6c7086">→ None</text>
+    </g>
+  </g>
+
+  <!-- LEFT COLUMN: QdrantAdapter -->
+  <g transform="translate(20, 250)">
+    <rect x="0" y="0" width="470" height="220" rx="8" fill="#313244" stroke="#22c55e" stroke-width="2"/>
+    <text x="235" y="22" text-anchor="middle" font-family="monospace" font-size="12" fill="#22c55e" font-weight="bold">QdrantAdapter — Qdrant Implementation</text>
+    <text x="235" y="38" text-anchor="middle" font-family="Arial" font-size="10" fill="#6c7086">HNSW indexing + cosine similarity + spatial filter</text>
+
+    <!-- Code -->
+    <g transform="translate(15, 55)">
+      <text x="0" y="0" font-family="monospace" font-size="11" fill="#89b4fa">class</text>
+      <text x="40" y="0" font-family="monospace" font-size="11" fill="#f9e2af">QdrantAdapter</text>
+      <text x="145" y="0" font-family="monospace" font-size="11" fill="#cdd6f4">(VectorStoreBase):</text>
+
+      <text x="15" y="25" font-family="monospace" font-size="10" fill="#89b4fa">def</text>
+      <text x="40" y="25" font-family="monospace" font-size="10" fill="#a6e3a1">__init__</text>
+      <text x="90" y="25" font-family="monospace" font-size="10" fill="#cdd6f4">(collection_name, d_model,</text>
+      <text x="30" y="42" font-family="monospace" font-size="10" fill="#cdd6f4">use_memory=</text>
+      <text x="115" y="42" font-family="monospace" font-size="10" fill="#fab387">False</text>
+      <text x="150" y="42" font-family="monospace" font-size="10" fill="#cdd6f4">, url=</text>
+      <text x="185" y="42" font-family="monospace" font-size="10" fill="#fab387">None</text>
+      <text x="210" y="42" font-family="monospace" font-size="10" fill="#cdd6f4">):</text>
+
+      <text x="30" y="65" font-family="monospace" font-size="10" fill="#6c7086"># Create Qdrant client (in-memory or server)</text>
+      <text x="30" y="82" font-family="monospace" font-size="10" fill="#f38ba8">self.client</text>
+      <text x="100" y="82" font-family="monospace" font-size="10" fill="#cdd6f4"> = QdrantClient(</text>
+      <text x="225" y="82" font-family="monospace" font-size="10" fill="#a6e3a1">":memory:"</text>
+      <text x="295" y="82" font-family="monospace" font-size="10" fill="#cdd6f4">)</text>
+
+      <text x="15" y="110" font-family="monospace" font-size="10" fill="#89b4fa">def</text>
+      <text x="40" y="110" font-family="monospace" font-size="10" fill="#a6e3a1">query</text>
+      <text x="70" y="110" font-family="monospace" font-size="10" fill="#cdd6f4">(self, query_vector, query_position, k, radius):</text>
+
+      <text x="30" y="130" font-family="monospace" font-size="10" fill="#6c7086"># Qdrant search with spatial filter</text>
+      <text x="30" y="147" font-family="monospace" font-size="10" fill="#cdd6f4">results = self.client.search(</text>
+      <text x="50" y="164" font-family="monospace" font-size="10" fill="#cdd6f4">filter=Filter(must=[</text>
+      <text x="70" y="181" font-family="monospace" font-size="10" fill="#cdd6f4">FieldCondition(</text>
+      <text x="165" y="181" font-family="monospace" font-size="10" fill="#a6e3a1">"x"</text>
+      <text x="180" y="181" font-family="monospace" font-size="10" fill="#cdd6f4">, range=Range(...))</text>
+      <text x="50" y="198" font-family="monospace" font-size="10" fill="#cdd6f4">]))</text>
+    </g>
+  </g>
+
+  <!-- LEFT COLUMN: Spatial Index -->
+  <g transform="translate(20, 485)">
+    <rect x="0" y="0" width="470" height="170" rx="8" fill="#313244" stroke="#f9e2af" stroke-width="2"/>
+    <text x="235" y="22" text-anchor="middle" font-family="monospace" font-size="12" fill="#f9e2af" font-weight="bold">Spatial Index Utilities</text>
+    <text x="235" y="38" text-anchor="middle" font-family="Arial" font-size="10" fill="#6c7086">Vectorized distance, radius filter, k-NN, Octree</text>
+
+    <!-- Code -->
+    <g transform="translate(15, 55)">
+      <text x="0" y="0" font-family="monospace" font-size="10" fill="#89b4fa">def</text>
+      <text x="25" y="0" font-family="monospace" font-size="10" fill="#a6e3a1">calculate_distances</text>
+      <text x="150" y="0" font-family="monospace" font-size="10" fill="#cdd6f4">(query_pos, positions):</text>
+      <text x="15" y="17" font-family="monospace" font-size="10" fill="#89b4fa">return</text>
+      <text x="55" y="17" font-family="monospace" font-size="10" fill="#cdd6f4">torch.sqrt((positions - query_pos)</text>
+      <text x="295" y="17" font-family="monospace" font-size="10" fill="#fab387">**2</text>
+      <text x="315" y="17" font-family="monospace" font-size="10" fill="#cdd6f4">).sum(</text>
+      <text x="355" y="17" font-family="monospace" font-size="10" fill="#fab387">1</text>
+      <text x="365" y="17" font-family="monospace" font-size="10" fill="#cdd6f4">))</text>
+
+      <text x="0" y="42" font-family="monospace" font-size="10" fill="#89b4fa">def</text>
+      <text x="25" y="42" font-family="monospace" font-size="10" fill="#a6e3a1">filter_by_radius</text>
+      <text x="130" y="42" font-family="monospace" font-size="10" fill="#cdd6f4">(query_pos, positions, radius):</text>
+      <text x="340" y="42" font-family="monospace" font-size="9" fill="#6c7086"># O(n)</text>
+
+      <text x="0" y="62" font-family="monospace" font-size="10" fill="#89b4fa">def</text>
+      <text x="25" y="62" font-family="monospace" font-size="10" fill="#a6e3a1">find_k_nearest</text>
+      <text x="120" y="62" font-family="monospace" font-size="10" fill="#cdd6f4">(query_pos, positions, k):</text>
+      <text x="310" y="62" font-family="monospace" font-size="9" fill="#6c7086"># torch.topk</text>
+
+      <text x="0" y="87" font-family="monospace" font-size="10" fill="#89b4fa">class</text>
+      <text x="40" y="87" font-family="monospace" font-size="10" fill="#f9e2af">OctreeIndex</text>
+      <text x="120" y="87" font-family="monospace" font-size="10" fill="#cdd6f4">:</text>
+      <text x="140" y="87" font-family="monospace" font-size="9" fill="#6c7086"># O(log n) range queries</text>
+      <text x="15" y="105" font-family="monospace" font-size="10" fill="#89b4fa">def</text>
+      <text x="40" y="105" font-family="monospace" font-size="10" fill="#a6e3a1">query_radius</text>
+      <text x="120" y="105" font-family="monospace" font-size="10" fill="#cdd6f4">(query_pos, radius) → list[int]</text>
+    </g>
+  </g>
+
+  <!-- RIGHT COLUMN: Visual Architecture -->
+  <g transform="translate(510, 55)">
+    <rect x="0" y="0" width="470" height="350" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="2"/>
+    <text x="235" y="25" text-anchor="middle" font-family="Arial" font-size="14" fill="#89b4fa" font-weight="bold">Query Flow Architecture</text>
+
+    <!-- Query input -->
+    <g transform="translate(35, 50)">
+      <rect x="0" y="0" width="180" height="55" rx="6" fill="#89b4fa" opacity="0.2"/>
+      <text x="90" y="18" text-anchor="middle" font-family="Arial" font-size="11" fill="#89b4fa" font-weight="bold">Query Input</text>
+      <text x="90" y="35" text-anchor="middle" font-family="monospace" font-size="9" fill="#89b4fa">query_vector: Tensor(768)</text>
+      <text x="90" y="48" text-anchor="middle" font-family="monospace" font-size="9" fill="#89b4fa">query_position: (x, y, z)</text>
+    </g>
+
+    <!-- Arrow down -->
+    <line x1="125" y1="110" x2="125" y2="130" stroke="#89b4fa" stroke-width="2"/>
+    <polygon points="120,127 125,137 130,127" fill="#89b4fa"/>
+
+    <!-- HNSW Search -->
+    <g transform="translate(35, 140)">
+      <rect x="0" y="0" width="180" height="45" rx="6" fill="#f9e2af" opacity="0.3"/>
+      <text x="90" y="18" text-anchor="middle" font-family="Arial" font-size="10" fill="#f9e2af" font-weight="bold">HNSW Vector Search</text>
+      <text x="90" y="35" text-anchor="middle" font-family="Arial" font-size="9" fill="#f9e2af">cosine similarity → O(log n)</text>
+    </g>
+
+    <!-- Arrow down -->
+    <line x1="125" y1="190" x2="125" y2="210" stroke="#f9e2af" stroke-width="2"/>
+    <polygon points="120,207 125,217 130,207" fill="#f9e2af"/>
+
+    <!-- Spatial Filter -->
+    <g transform="translate(35, 220)">
+      <rect x="0" y="0" width="180" height="45" rx="6" fill="#a6e3a1" opacity="0.3"/>
+      <text x="90" y="18" text-anchor="middle" font-family="Arial" font-size="10" fill="#a6e3a1" font-weight="bold">Spatial Filter (Octree)</text>
+      <text x="90" y="35" text-anchor="middle" font-family="Arial" font-size="9" fill="#a6e3a1">distance ≤ radius → O(log n)</text>
+    </g>
+
+    <!-- Arrow down -->
+    <line x1="125" y1="270" x2="125" y2="290" stroke="#a6e3a1" stroke-width="2"/>
+    <polygon points="120,287 125,297 130,287" fill="#a6e3a1"/>
+
+    <!-- Result -->
+    <g transform="translate(35, 300)">
+      <rect x="0" y="0" width="180" height="35" rx="6" fill="#22c55e"/>
+      <text x="90" y="22" text-anchor="middle" font-family="Arial" font-size="11" fill="white" font-weight="bold">Return k tokens</text>
+    </g>
+
+    <!-- RIGHT SIDE: Visual of spatial query -->
+    <g transform="translate(250, 55)">
+      <text x="95" y="0" text-anchor="middle" font-family="Arial" font-size="11" fill="#cdd6f4" font-weight="bold">Spatial Query Visualization</text>
+
+      <!-- 3D Space representation -->
+      <rect x="0" y="15" width="190" height="150" rx="8" fill="#1e1e2e" stroke="#6c7086"/>
+
+      <!-- Query point (center) -->
+      <circle cx="95" cy="90" r="8" fill="#f9e2af"/>
+      <text x="95" y="93" text-anchor="middle" font-family="Arial" font-size="8" fill="#1e1e2e" font-weight="bold">Q</text>
+
+      <!-- Radius circle -->
+      <circle cx="95" cy="90" r="50" fill="none" stroke="#22c55e" stroke-width="2" stroke-dasharray="5,3"/>
+      <text x="150" y="55" font-family="Arial" font-size="8" fill="#22c55e">radius</text>
+
+      <!-- Tokens inside radius (green) -->
+      <circle cx="70" cy="70" r="5" fill="#22c55e"/>
+      <circle cx="120" cy="85" r="5" fill="#22c55e"/>
+      <circle cx="85" cy="110" r="5" fill="#22c55e"/>
+      <circle cx="110" cy="65" r="5" fill="#22c55e"/>
+      <circle cx="60" cy="100" r="5" fill="#22c55e"/>
+
+      <!-- Tokens outside radius (gray) -->
+      <circle cx="30" cy="40" r="4" fill="#6c7086"/>
+      <circle cx="160" cy="130" r="4" fill="#6c7086"/>
+      <circle cx="170" cy="50" r="4" fill="#6c7086"/>
+      <circle cx="25" cy="140" r="4" fill="#6c7086"/>
+
+      <!-- Legend -->
+      <g transform="translate(0, 175)">
+        <circle cx="10" cy="8" r="5" fill="#22c55e"/>
+        <text x="22" y="12" font-family="Arial" font-size="9" fill="#a6e3a1">Inside radius (returned)</text>
+        <circle cx="10" cy="28" r="4" fill="#6c7086"/>
+        <text x="22" y="32" font-family="Arial" font-size="9" fill="#6c7086">Outside radius (filtered)</text>
+        <circle cx="10" cy="48" r="6" fill="#f9e2af"/>
+        <text x="22" y="52" font-family="Arial" font-size="9" fill="#f9e2af">Query position</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- RIGHT COLUMN: Adapter Comparison -->
+  <g transform="translate(510, 420)">
+    <rect x="0" y="0" width="470" height="135" rx="8" fill="#313244" stroke="#cba6f7" stroke-width="2"/>
+    <text x="235" y="22" text-anchor="middle" font-family="Arial" font-size="12" fill="#cba6f7" font-weight="bold">Supported Vector Stores</text>
+
+    <!-- Qdrant -->
+    <g transform="translate(25, 45)">
+      <rect x="0" y="0" width="200" height="75" rx="6" fill="#1e1e2e" stroke="#22c55e"/>
+      <text x="100" y="18" text-anchor="middle" font-family="Arial" font-size="11" fill="#22c55e" font-weight="bold">Qdrant</text>
+      <text x="100" y="35" text-anchor="middle" font-family="Arial" font-size="9" fill="#a6e3a1">HNSW indexing</text>
+      <text x="100" y="50" text-anchor="middle" font-family="Arial" font-size="9" fill="#a6e3a1">In-memory or server</text>
+      <text x="100" y="65" text-anchor="middle" font-family="Arial" font-size="9" fill="#6c7086">8 tests passing</text>
+    </g>
+
+    <!-- pgvector -->
+    <g transform="translate(245, 45)">
+      <rect x="0" y="0" width="200" height="75" rx="6" fill="#1e1e2e" stroke="#89b4fa"/>
+      <text x="100" y="18" text-anchor="middle" font-family="Arial" font-size="11" fill="#89b4fa" font-weight="bold">pgvector</text>
+      <text x="100" y="35" text-anchor="middle" font-family="Arial" font-size="9" fill="#89b4fa">IVFFlat indexing</text>
+      <text x="100" y="50" text-anchor="middle" font-family="Arial" font-size="9" fill="#89b4fa">PostgreSQL + SQL spatial</text>
+      <text x="100" y="65" text-anchor="middle" font-family="Arial" font-size="9" fill="#6c7086">7 tests (needs PG)</text>
+    </g>
+  </g>
+
+  <!-- Footer: Test stats -->
+  <g transform="translate(510, 570)">
+    <rect x="0" y="0" width="140" height="30" rx="4" fill="#313244"/>
+    <text x="15" y="20" font-family="monospace" font-size="11" fill="#a6e3a1">✓ 17 tests passing</text>
+  </g>
+
+  <g transform="translate(665, 570)">
+    <rect x="0" y="0" width="140" height="30" rx="4" fill="#313244"/>
+    <text x="15" y="20" font-family="monospace" font-size="11" fill="#89b4fa">96% coverage</text>
+  </g>
+
+  <g transform="translate(820, 570)">
+    <rect x="0" y="0" width="160" height="30" rx="4" fill="#313244"/>
+    <text x="15" y="20" font-family="monospace" font-size="11" fill="#f9e2af">&lt;3ms k-NN (10k tokens)</text>
+  </g>
+
+  <!-- Integration note -->
+  <g transform="translate(20, 670)">
+    <text x="0" y="0" font-family="Arial" font-size="10" fill="#6c7086">M1.1 (SpatialToken) → M1.2 (Encoding) → M1.3 (Attention) → M1.4 (Transformer) → M1.6 (Vector Store) = Unlimited Context Memory</text>
+  </g>
+</svg>
