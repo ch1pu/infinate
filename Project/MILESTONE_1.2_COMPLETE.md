@@ -46,6 +46,22 @@ The implementation extends standard transformer positional encoding from 1D sequ
 
 ---
 
+## Visual Overview
+
+### The Concept: Turning 3D Positions into Rich Representations
+
+<p align="center">
+  <img src="../assets/images/spatial-encoding-concept.svg" alt="Spatial Encoding Concept: 3D coordinates become 768D vectors through sinusoidal encoding" width="850"/>
+</p>
+
+### The Implementation: Code Structure
+
+<p align="center">
+  <img src="../assets/images/spatial-encoding-code.svg" alt="SpatialPositionEncoding Code: nn.Module with frequency bands and vectorized encoding" width="850"/>
+</p>
+
+---
+
 ## Implementation Summary
 
 ### Files Created/Modified
