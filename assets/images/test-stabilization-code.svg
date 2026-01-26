@@ -1,0 +1,185 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 700">
+  <defs>
+    <linearGradient id="titleBarTS" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#313244"/>
+      <stop offset="100%" style="stop-color:#45475a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Dark background -->
+  <rect x="0" y="0" width="1100" height="700" fill="#1e1e2e"/>
+
+  <!-- Title bar -->
+  <rect x="0" y="0" width="1100" height="40" fill="url(#titleBarTS)"/>
+  <circle cx="20" cy="20" r="7" fill="#f38ba8"/>
+  <circle cx="42" cy="20" r="7" fill="#f9e2af"/>
+  <circle cx="64" cy="20" r="7" fill="#a6e3a1"/>
+  <text x="550" y="26" text-anchor="middle" font-family="monospace" font-size="13" fill="#cdd6f4">conftest_m19.py — Test Stabilization Utilities (M1.9)</text>
+
+  <!-- LEFT PANEL: Code -->
+  <g transform="translate(20, 55)">
+    <!-- trimmed_statistics function -->
+    <text x="0" y="0" font-family="monospace" font-size="11" fill="#6c7086"># Handle GC/system variance in benchmarks</text>
+    <text x="0" y="18" font-family="monospace" font-size="11"><tspan fill="#89b4fa">def </tspan><tspan fill="#a6e3a1">trimmed_statistics</tspan><tspan fill="#cdd6f4">(</tspan><tspan fill="#fab387">data</tspan><tspan fill="#cdd6f4">, </tspan><tspan fill="#fab387">trim_pct</tspan><tspan fill="#cdd6f4">=</tspan><tspan fill="#fab387">0.1</tspan><tspan fill="#cdd6f4">):</tspan></text>
+    <text x="0" y="36" font-family="monospace" font-size="11" fill="#a6e3a1">    """Remove outliers from measurements."""</text>
+    <text x="0" y="54" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">    </tspan><tspan fill="#f38ba8">trim_count</tspan><tspan fill="#cdd6f4"> = </tspan><tspan fill="#f9e2af">int</tspan><tspan fill="#cdd6f4">(</tspan><tspan fill="#f9e2af">len</tspan><tspan fill="#cdd6f4">(</tspan><tspan fill="#fab387">data</tspan><tspan fill="#cdd6f4">) * </tspan><tspan fill="#fab387">trim_pct</tspan><tspan fill="#cdd6f4">)</tspan></text>
+    <text x="0" y="72" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">    </tspan><tspan fill="#f38ba8">sorted_data</tspan><tspan fill="#cdd6f4"> = </tspan><tspan fill="#f9e2af">sorted</tspan><tspan fill="#cdd6f4">(</tspan><tspan fill="#fab387">data</tspan><tspan fill="#cdd6f4">)</tspan></text>
+    <text x="0" y="90" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">    </tspan><tspan fill="#f38ba8">trimmed</tspan><tspan fill="#cdd6f4"> = </tspan><tspan fill="#fab387">sorted_data</tspan><tspan fill="#cdd6f4">[</tspan><tspan fill="#fab387">trim_count</tspan><tspan fill="#cdd6f4">:-</tspan><tspan fill="#fab387">trim_count</tspan><tspan fill="#cdd6f4">]</tspan></text>
+    <text x="0" y="108" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">    </tspan><tspan fill="#89b4fa">return </tspan><tspan fill="#cdd6f4">{</tspan><tspan fill="#a6e3a1">"mean"</tspan><tspan fill="#cdd6f4">: </tspan><tspan fill="#f9e2af">mean</tspan><tspan fill="#cdd6f4">(</tspan><tspan fill="#fab387">trimmed</tspan><tspan fill="#cdd6f4">), ...}</tspan></text>
+
+    <!-- m19_bridge_factory -->
+    <text x="0" y="145" font-family="monospace" font-size="11" fill="#6c7086"># Auto-warmup factory for stable benchmarks</text>
+    <text x="0" y="163" font-family="monospace" font-size="11" fill="#cba6f7">@pytest.fixture</text>
+    <text x="0" y="181" font-family="monospace" font-size="11"><tspan fill="#89b4fa">def </tspan><tspan fill="#a6e3a1">m19_bridge_factory</tspan><tspan fill="#cdd6f4">(</tspan><tspan fill="#fab387">m19_transformer</tspan><tspan fill="#cdd6f4">):</tspan></text>
+    <text x="0" y="199" font-family="monospace" font-size="11" fill="#a6e3a1">    """Factory with automatic warmup."""</text>
+
+    <text x="0" y="225" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">    </tspan><tspan fill="#89b4fa">def </tspan><tspan fill="#a6e3a1">create_bridge</tspan><tspan fill="#cdd6f4">(</tspan><tspan fill="#fab387">context_size</tspan><tspan fill="#cdd6f4">, </tspan><tspan fill="#fab387">warmup</tspan><tspan fill="#cdd6f4">=</tspan><tspan fill="#fab387">5</tspan><tspan fill="#cdd6f4">):</tspan></text>
+    <text x="0" y="243" font-family="monospace" font-size="11" fill="#6c7086">        # Create adapter with tokens</text>
+    <text x="0" y="261" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">        </tspan><tspan fill="#f38ba8">adapter</tspan><tspan fill="#cdd6f4"> = </tspan><tspan fill="#f9e2af">QdrantAdapter</tspan><tspan fill="#cdd6f4">(...)</tspan></text>
+    <text x="0" y="279" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">        </tspan><tspan fill="#fab387">adapter</tspan><tspan fill="#cdd6f4">.</tspan><tspan fill="#a6e3a1">store</tspan><tspan fill="#cdd6f4">(</tspan><tspan fill="#fab387">embeddings</tspan><tspan fill="#cdd6f4">, </tspan><tspan fill="#fab387">positions</tspan><tspan fill="#cdd6f4">)</tspan></text>
+
+    <text x="0" y="305" font-family="monospace" font-size="11" fill="#6c7086">        # Auto-warmup queries</text>
+    <text x="0" y="323" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">        </tspan><tspan fill="#89b4fa">for </tspan><tspan fill="#cdd6f4">_ </tspan><tspan fill="#89b4fa">in </tspan><tspan fill="#f9e2af">range</tspan><tspan fill="#cdd6f4">(</tspan><tspan fill="#fab387">warmup</tspan><tspan fill="#cdd6f4">):</tspan></text>
+    <text x="0" y="341" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">            _ = </tspan><tspan fill="#fab387">bridge</tspan><tspan fill="#cdd6f4">(</tspan><tspan fill="#fab387">x</tspan><tspan fill="#cdd6f4">, </tspan><tspan fill="#fab387">pos</tspan><tspan fill="#cdd6f4">)</tspan></text>
+    <text x="0" y="359" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">        </tspan><tspan fill="#89b4fa">return </tspan><tspan fill="#fab387">bridge</tspan></text>
+
+    <!-- GPU skip -->
+    <text x="0" y="396" font-family="monospace" font-size="11" fill="#6c7086"># GPU compatibility check (conftest.py)</text>
+    <text x="0" y="414" font-family="monospace" font-size="11"><tspan fill="#89b4fa">def </tspan><tspan fill="#a6e3a1">check_cuda_compatible</tspan><tspan fill="#cdd6f4">():</tspan></text>
+    <text x="0" y="432" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">    </tspan><tspan fill="#89b4fa">if </tspan><tspan fill="#fab387">torch</tspan><tspan fill="#cdd6f4">.</tspan><tspan fill="#fab387">cuda</tspan><tspan fill="#cdd6f4">.</tspan><tspan fill="#a6e3a1">is_available</tspan><tspan fill="#cdd6f4">():</tspan></text>
+    <text x="0" y="450" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">        </tspan><tspan fill="#f38ba8">cap</tspan><tspan fill="#cdd6f4"> = </tspan><tspan fill="#fab387">torch</tspan><tspan fill="#cdd6f4">.</tspan><tspan fill="#fab387">cuda</tspan><tspan fill="#cdd6f4">.</tspan><tspan fill="#a6e3a1">get_device_capability</tspan><tspan fill="#cdd6f4">()</tspan></text>
+    <text x="0" y="468" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">        </tspan><tspan fill="#89b4fa">if </tspan><tspan fill="#fab387">cap</tspan><tspan fill="#cdd6f4"> == (</tspan><tspan fill="#fab387">12</tspan><tspan fill="#cdd6f4">, </tspan><tspan fill="#fab387">0</tspan><tspan fill="#cdd6f4">):  </tspan><tspan fill="#6c7086"># SM_120</tspan></text>
+    <text x="0" y="486" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">            </tspan><tspan fill="#89b4fa">return </tspan><tspan fill="#fab387">False</tspan><tspan fill="#cdd6f4">, </tspan><tspan fill="#a6e3a1">"SM_120 not supported"</tspan></text>
+    <text x="0" y="504" font-family="monospace" font-size="11"><tspan fill="#cdd6f4">    </tspan><tspan fill="#89b4fa">return </tspan><tspan fill="#fab387">True</tspan><tspan fill="#cdd6f4">, </tspan><tspan fill="#a6e3a1">"OK"</tspan></text>
+  </g>
+
+  <!-- RIGHT PANEL: Visualizations -->
+  <g transform="translate(530, 55)">
+    <!-- Trimmed Statistics visualization -->
+    <rect x="0" y="0" width="540" height="140" rx="8" fill="#313244"/>
+    <text x="270" y="22" text-anchor="middle" font-family="Arial" font-size="12" fill="#cdd6f4" font-weight="bold">Trimmed Statistics: Handling GC Outliers</text>
+    <line x1="20" y1="32" x2="520" y2="32" stroke="#45475a" stroke-width="1"/>
+
+    <!-- Data visualization -->
+    <g transform="translate(30, 50)">
+      <text x="0" y="0" font-family="monospace" font-size="10" fill="#6c7086">Raw data:</text>
+      <text x="70" y="0" font-family="monospace" font-size="10" fill="#cdd6f4">[10, 11, 12, </text>
+      <text x="155" y="0" font-family="monospace" font-size="10" fill="#f38ba8" font-weight="bold">100</text>
+      <text x="175" y="0" font-family="monospace" font-size="10" fill="#cdd6f4">, 11, 10, 9, 12]</text>
+      <text x="300" y="0" font-family="Arial" font-size="10" fill="#f38ba8">← GC spike</text>
+
+      <text x="0" y="25" font-family="monospace" font-size="10" fill="#6c7086">Trimmed:</text>
+      <text x="70" y="25" font-family="monospace" font-size="10" fill="#a6e3a1">[10, 11, 11, 12, 12]</text>
+      <text x="300" y="25" font-family="Arial" font-size="10" fill="#a6e3a1">← Outlier removed</text>
+
+      <text x="0" y="55" font-family="Arial" font-size="10" fill="#89b4fa">Raw mean: 21.9ms</text>
+      <text x="150" y="55" font-family="Arial" font-size="10" fill="#a6e3a1">Trimmed mean: 11.2ms</text>
+      <text x="330" y="55" font-family="Arial" font-size="10" fill="#f9e2af">CV: 8% (stable)</text>
+    </g>
+  </g>
+
+  <!-- Test Results Table -->
+  <g transform="translate(530, 210)">
+    <rect x="0" y="0" width="540" height="200" rx="8" fill="#313244"/>
+    <text x="270" y="22" text-anchor="middle" font-family="Arial" font-size="12" fill="#cdd6f4" font-weight="bold">Test Suite Results: Before vs After M1.9</text>
+    <line x1="20" y1="32" x2="520" y2="32" stroke="#45475a" stroke-width="1"/>
+
+    <!-- Table header -->
+    <g transform="translate(20, 45)">
+      <rect x="0" y="0" width="500" height="25" fill="#45475a"/>
+      <text x="130" y="17" text-anchor="middle" font-family="Arial" font-size="10" fill="#cdd6f4" font-weight="bold">Test</text>
+      <text x="320" y="17" text-anchor="middle" font-family="Arial" font-size="10" fill="#f38ba8" font-weight="bold">Before</text>
+      <text x="430" y="17" text-anchor="middle" font-family="Arial" font-size="10" fill="#a6e3a1" font-weight="bold">After</text>
+    </g>
+
+    <!-- Rows -->
+    <g transform="translate(20, 70)">
+      <!-- Row 1 -->
+      <rect x="0" y="0" width="500" height="28" fill="#1e1e2e"/>
+      <text x="10" y="18" font-family="monospace" font-size="9" fill="#cdd6f4">test_device_placement</text>
+      <text x="320" y="18" text-anchor="middle" font-family="Arial" font-size="10" fill="#f38ba8">FAIL ❌</text>
+      <text x="430" y="18" text-anchor="middle" font-family="Arial" font-size="10" fill="#f9e2af">SKIP ⏭️</text>
+
+      <!-- Row 2 -->
+      <rect x="0" y="28" width="500" height="28" fill="#313244"/>
+      <text x="10" y="46" font-family="monospace" font-size="9" fill="#cdd6f4">test_rapid_sequential_queries</text>
+      <text x="320" y="46" text-anchor="middle" font-family="Arial" font-size="10" fill="#f38ba8">FAIL ❌</text>
+      <text x="430" y="46" text-anchor="middle" font-family="Arial" font-size="10" fill="#a6e3a1">PASS ✓</text>
+
+      <!-- Row 3 -->
+      <rect x="0" y="56" width="500" height="28" fill="#1e1e2e"/>
+      <text x="10" y="74" font-family="monospace" font-size="9" fill="#cdd6f4">test_mixed_context_sizes</text>
+      <text x="320" y="74" text-anchor="middle" font-family="Arial" font-size="10" fill="#f38ba8">FAIL ❌</text>
+      <text x="430" y="74" text-anchor="middle" font-family="Arial" font-size="10" fill="#a6e3a1">PASS ✓</text>
+
+      <!-- Summary row -->
+      <rect x="0" y="90" width="500" height="28" fill="#45475a"/>
+      <text x="130" y="108" text-anchor="middle" font-family="Arial" font-size="10" fill="#cdd6f4" font-weight="bold">Total: 150 tests</text>
+      <text x="320" y="108" text-anchor="middle" font-family="Arial" font-size="10" fill="#f38ba8">3 failing</text>
+      <text x="430" y="108" text-anchor="middle" font-family="Arial" font-size="10" fill="#a6e3a1">0 failing</text>
+    </g>
+  </g>
+
+  <!-- Coverage by Module -->
+  <g transform="translate(530, 425)">
+    <rect x="0" y="0" width="540" height="180" rx="8" fill="#313244"/>
+    <text x="270" y="22" text-anchor="middle" font-family="Arial" font-size="12" fill="#cdd6f4" font-weight="bold">Code Coverage by Module</text>
+    <line x1="20" y1="32" x2="520" y2="32" stroke="#45475a" stroke-width="1"/>
+
+    <!-- Coverage bars -->
+    <g transform="translate(20, 45)">
+      <!-- spatial_attention -->
+      <text x="0" y="12" font-family="monospace" font-size="9" fill="#cdd6f4">spatial_attention</text>
+      <rect x="130" y="0" width="300" height="16" rx="3" fill="#45475a"/>
+      <rect x="130" y="0" width="300" height="16" rx="3" fill="#a6e3a1"/>
+      <text x="440" y="12" font-family="Arial" font-size="10" fill="#a6e3a1" font-weight="bold">100%</text>
+
+      <!-- spatial_token -->
+      <text x="0" y="35" font-family="monospace" font-size="9" fill="#cdd6f4">spatial_token</text>
+      <rect x="130" y="23" width="300" height="16" rx="3" fill="#45475a"/>
+      <rect x="130" y="23" width="300" height="16" rx="3" fill="#a6e3a1"/>
+      <text x="440" y="35" font-family="Arial" font-size="10" fill="#a6e3a1" font-weight="bold">100%</text>
+
+      <!-- spatial_encoding -->
+      <text x="0" y="58" font-family="monospace" font-size="9" fill="#cdd6f4">spatial_encoding</text>
+      <rect x="130" y="46" width="300" height="16" rx="3" fill="#45475a"/>
+      <rect x="130" y="46" width="285" height="16" rx="3" fill="#89b4fa"/>
+      <text x="440" y="58" font-family="Arial" font-size="10" fill="#89b4fa" font-weight="bold">95%</text>
+
+      <!-- qdrant_adapter -->
+      <text x="0" y="81" font-family="monospace" font-size="9" fill="#cdd6f4">qdrant_adapter</text>
+      <rect x="130" y="69" width="300" height="16" rx="3" fill="#45475a"/>
+      <rect x="130" y="69" width="273" height="16" rx="3" fill="#89b4fa"/>
+      <text x="440" y="81" font-family="Arial" font-size="10" fill="#89b4fa" font-weight="bold">91%</text>
+
+      <!-- Total -->
+      <text x="0" y="110" font-family="Arial" font-size="11" fill="#cdd6f4" font-weight="bold">TOTAL</text>
+      <rect x="130" y="98" width="300" height="20" rx="3" fill="#45475a"/>
+      <rect x="130" y="98" width="276" height="20" rx="3" fill="#a6e3a1"/>
+      <text x="268" y="113" text-anchor="middle" font-family="Arial" font-size="11" fill="white" font-weight="bold">92.13%</text>
+      <line x1="400" y1="93" x2="400" y2="123" stroke="#f38ba8" stroke-width="2" stroke-dasharray="4,2"/>
+      <text x="405" y="125" font-family="Arial" font-size="8" fill="#f38ba8">90% target</text>
+    </g>
+  </g>
+
+  <!-- Footer: test stats -->
+  <g transform="translate(20, 650)">
+    <rect x="0" y="0" width="200" height="30" rx="6" fill="#313244"/>
+    <text x="100" y="20" text-anchor="middle" font-family="Arial" font-size="11" fill="#a6e3a1">✓ 150 tests (149+1 skip)</text>
+  </g>
+
+  <g transform="translate(240, 650)">
+    <rect x="0" y="0" width="160" height="30" rx="6" fill="#313244"/>
+    <text x="80" y="20" text-anchor="middle" font-family="Arial" font-size="11" fill="#89b4fa">92.13% coverage</text>
+  </g>
+
+  <g transform="translate(420, 650)">
+    <rect x="0" y="0" width="160" height="30" rx="6" fill="#313244"/>
+    <text x="80" y="20" text-anchor="middle" font-family="Arial" font-size="11" fill="#f9e2af">0 failures</text>
+  </g>
+
+  <g transform="translate(600, 650)">
+    <rect x="0" y="0" width="200" height="30" rx="6" fill="#313244"/>
+    <text x="100" y="20" text-anchor="middle" font-family="Arial" font-size="11" fill="#cba6f7">13m 15s runtime</text>
+  </g>
+</svg>
