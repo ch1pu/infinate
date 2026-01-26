@@ -410,6 +410,9 @@ Project/SESSION_*.md
 # MIT comparison docs (kept locally)
 MIT/
 
+# Ideas directory (local brainstorming, not public)
+ideas/
+
 # Session summaries (local only)
 SESSION_SUMMARY*.md
 
