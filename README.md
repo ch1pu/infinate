@@ -79,40 +79,6 @@ and like what you see, let's connect:
 
 ---
 
-## Quick Start
-
-```bash
-# Clone and install
-git clone https://github.com/ch1pu/infinate.git
-cd infinate/backend
-python3.11 -m venv .venv && source .venv/bin/activate
-pip install poetry && poetry install
-
-# Run tests
-poetry run pytest -m unit -v
-```
-
-```python
-import torch
-from spatial_engine.core.spatial_attention import SpatialAttention
-
-# Create O(k) spatial attention
-attention = SpatialAttention(
-    d_model=768,
-    n_heads=12,
-    spatial_radius=50.0
-)
-
-# Input: embeddings + 3D positions
-x = torch.randn(8, 1024, 768)        # [batch, seq_len, d_model]
-positions = torch.randn(8, 1024, 3)  # [batch, seq_len, 3]
-
-# O(k) attention - only attends to nearby tokens!
-output = attention(x, positions)
-```
-
----
-
 ## Key Results
 
 | Metric | INFINATE | O(n²) Baseline | Advantage |
@@ -197,6 +163,40 @@ Inspired by Quake physics exploits, INFINATE uses momentum-based navigation thro
 <p align="center">
   <img src="assets/images/strafe-jumping.svg" alt="Strafe Jumping: 7 Physics Exploits" width="800"/>
 </p>
+
+---
+
+## Quick Start
+
+```bash
+# Clone and install
+git clone https://github.com/ch1pu/infinate.git
+cd infinate/backend
+python3.11 -m venv .venv && source .venv/bin/activate
+pip install poetry && poetry install
+
+# Run tests
+poetry run pytest -m unit -v
+```
+
+```python
+import torch
+from spatial_engine.core.spatial_attention import SpatialAttention
+
+# Create O(k) spatial attention
+attention = SpatialAttention(
+    d_model=768,
+    n_heads=12,
+    spatial_radius=50.0
+)
+
+# Input: embeddings + 3D positions
+x = torch.randn(8, 1024, 768)        # [batch, seq_len, d_model]
+positions = torch.randn(8, 1024, 3)  # [batch, seq_len, 3]
+
+# O(k) attention - only attends to nearby tokens!
+output = attention(x, positions)
+```
 
 ---
 
