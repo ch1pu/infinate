@@ -23,19 +23,19 @@
   <!-- Background -->
   <rect x="0" y="0" width="900" height="200" fill="#f8fafc"/>
 
-  <!-- Step 1: Raw Text (centered at x=90) -->
-  <g transform="translate(55, 40)">
+  <!-- Step 1: Raw Text -->
+  <g transform="translate(45, 40)">
     <rect x="0" y="0" width="150" height="100" rx="12" fill="url(#gradBlue)" filter="url(#shadow)"/>
     <text x="75" y="25" text-anchor="middle" font-family="Arial" font-size="12" fill="#1e40af" font-weight="bold">1. RAW TEXT</text>
     <text x="75" y="55" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#1e3a8a">"Python loops</text>
     <text x="75" y="75" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#1e3a8a">are useful"</text>
   </g>
 
-  <!-- Arrow 1 (pointing RIGHT) -->
-  <line x1="215" y1="90" x2="260" y2="90" stroke="#6366f1" stroke-width="3" marker-end="url(#arrowRight)"/>
+  <!-- Arrow 1 -->
+  <line x1="205" y1="90" x2="250" y2="90" stroke="#6366f1" stroke-width="3" marker-end="url(#arrowRight)"/>
 
   <!-- Step 2: Embedding Model -->
-  <g transform="translate(270, 40)">
+  <g transform="translate(260, 40)">
     <rect x="0" y="0" width="150" height="100" rx="12" fill="url(#gradPurple)" filter="url(#shadow)"/>
     <text x="75" y="25" text-anchor="middle" font-family="Arial" font-size="12" fill="#6b21a8" font-weight="bold">2. EMBED</text>
     <rect x="20" y="40" width="110" height="45" rx="5" fill="#7c3aed" opacity="0.2"/>
@@ -43,11 +43,11 @@
     <text x="75" y="73" text-anchor="middle" font-family="monospace" font-size="10" fill="#5b21b6">encoder</text>
   </g>
 
-  <!-- Arrow 2 (pointing RIGHT) -->
-  <line x1="430" y1="90" x2="475" y2="90" stroke="#6366f1" stroke-width="3" marker-end="url(#arrowRight)"/>
+  <!-- Arrow 2 -->
+  <line x1="420" y1="90" x2="465" y2="90" stroke="#6366f1" stroke-width="3" marker-end="url(#arrowRight)"/>
 
   <!-- Step 3: Vector -->
-  <g transform="translate(485, 40)">
+  <g transform="translate(475, 40)">
     <rect x="0" y="0" width="150" height="100" rx="12" fill="url(#gradPurple)" filter="url(#shadow)"/>
     <text x="75" y="25" text-anchor="middle" font-family="Arial" font-size="12" fill="#6b21a8" font-weight="bold">3. VECTOR</text>
     <text x="75" y="50" text-anchor="middle" font-family="monospace" font-size="11" fill="#5b21b6">[0.23, 0.87,</text>
@@ -55,29 +55,29 @@
     <text x="75" y="80" text-anchor="middle" font-family="monospace" font-size="11" fill="#5b21b6">... 768 dims]</text>
   </g>
 
-  <!-- Arrow 3 (pointing RIGHT) -->
-  <line x1="645" y1="90" x2="690" y2="90" stroke="#6366f1" stroke-width="3" marker-end="url(#arrowRight)"/>
+  <!-- Arrow 3 -->
+  <line x1="635" y1="90" x2="680" y2="90" stroke="#6366f1" stroke-width="3" marker-end="url(#arrowRight)"/>
 
-  <!-- Step 4: 3D Position -->
-  <g transform="translate(700, 40)">
-    <rect x="0" y="0" width="150" height="100" rx="12" fill="url(#gradGreen)" filter="url(#shadow)"/>
-    <text x="75" y="25" text-anchor="middle" font-family="Arial" font-size="12" fill="#065f46" font-weight="bold">4. 3D POSITION</text>
+  <!-- Step 4: 3D Position (wider box, centered content) -->
+  <g transform="translate(690, 40)">
+    <rect x="0" y="0" width="165" height="100" rx="12" fill="url(#gradGreen)" filter="url(#shadow)"/>
+    <text x="82" y="25" text-anchor="middle" font-family="Arial" font-size="12" fill="#065f46" font-weight="bold">4. 3D POSITION</text>
 
-    <!-- Mini 3D coordinate system -->
-    <g transform="translate(40, 42)">
-      <!-- Axes -->
-      <line x1="30" y1="45" x2="30" y2="15" stroke="#065f46" stroke-width="2"/>
-      <line x1="30" y1="45" x2="60" y2="55" stroke="#065f46" stroke-width="2"/>
-      <line x1="30" y1="45" x2="5" y2="55" stroke="#065f46" stroke-width="2"/>
+    <!-- Mini 3D coordinate system (centered) -->
+    <g transform="translate(82, 58)">
+      <!-- Axes from center origin -->
+      <line x1="0" y1="0" x2="0" y2="-25" stroke="#065f46" stroke-width="2"/>
+      <line x1="0" y1="0" x2="25" y2="12" stroke="#065f46" stroke-width="2"/>
+      <line x1="0" y1="0" x2="-25" y2="12" stroke="#065f46" stroke-width="2"/>
       <!-- Axis labels -->
-      <text x="30" y="10" text-anchor="middle" font-family="Arial" font-size="10" fill="#065f46" font-weight="bold">y</text>
-      <text x="67" y="58" font-family="Arial" font-size="10" fill="#065f46" font-weight="bold">x</text>
-      <text x="-2" y="62" font-family="Arial" font-size="10" fill="#065f46" font-weight="bold">z</text>
-      <!-- Point -->
-      <circle cx="45" cy="30" r="7" fill="#10b981" stroke="#065f46" stroke-width="1"/>
+      <text x="0" y="-30" text-anchor="middle" font-family="Arial" font-size="10" fill="#065f46" font-weight="bold">y</text>
+      <text x="32" y="15" font-family="Arial" font-size="10" fill="#065f46" font-weight="bold">x</text>
+      <text x="-32" y="15" font-family="Arial" font-size="10" fill="#065f46" font-weight="bold">z</text>
+      <!-- Point in space -->
+      <circle cx="12" cy="-10" r="6" fill="#10b981" stroke="#065f46" stroke-width="1.5"/>
     </g>
 
-    <text x="75" y="95" text-anchor="middle" font-family="monospace" font-size="11" fill="#065f46" font-weight="bold">(12, 45, 8)</text>
+    <text x="82" y="95" text-anchor="middle" font-family="monospace" font-size="11" fill="#065f46" font-weight="bold">(12, 45, 8)</text>
   </g>
 
   <!-- Bottom label -->
