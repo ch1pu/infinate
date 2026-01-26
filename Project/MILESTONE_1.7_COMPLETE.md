@@ -39,19 +39,19 @@ and like what you see, let's connect:
 
 ## Executive Summary
 
-Milestone 1.7 successfully validates the complete integration between SpatialTransformer and VectorStore systems. All 23 tests pass, O(k) complexity is empirically verified, and performance exceeds all targets.
+Milestone 1.7 successfully validates the complete integration between SpatialTransformer and VectorStore systems. All 23 tests pass, O(log n + k) complexity is empirically verified, and performance exceeds all targets.
 
-### Key Achievement: O(k) Complexity VERIFIED End-to-End
+### Key Achievement: O(log n + k) ≈ Constant VERIFIED End-to-End
 
 ```
 ============================================================
-O(k) Complexity Verification with Vector Store
+O(log n + k) Complexity Verification with Vector Store
 ============================================================
   Context 1000: 11.82ms
   Context 2000: 12.96ms  (ratio: 1.10x)  ← Should be 2.0x for O(n)
   Context 4000: 12.61ms  (ratio: 1.07x)  ← Should be 16.0x for O(n²)
 
-  O(k) VERIFIED: 2x=1.10, 4x=1.07
+  Effectively constant VERIFIED: 2x=1.10, 4x=1.07
 ============================================================
 ```
 
@@ -189,7 +189,7 @@ bridge = TransformerBridge(
 )
 
 # Forward pass queries vector store automatically
-output = bridge(x, positions)  # O(k) complexity!
+output = bridge(x, positions)  # O(log n + k) complexity!
 ```
 
 ### Key Design Decisions
@@ -208,7 +208,7 @@ output = bridge(x, positions)  # O(k) complexity!
 | Criterion | Target | Actual | Status |
 |-----------|--------|--------|--------|
 | Tests passing | 23/23 | 23/23 | ✅ |
-| O(k) complexity | ratio <1.5 for 2x | 1.10x | ✅ |
+| O(log n + k) complexity | ratio <1.5 for 2x | 1.10x | ✅ |
 | Qdrant latency | <100ms | 13.91ms | ✅ |
 | pgvector latency | <150ms | 25.85ms | ✅ |
 | Throughput | >1000 tok/s | 12,161 tok/s | ✅ |
@@ -234,8 +234,8 @@ docker exec infinate_postgres_test pg_isready -U test
 
 ## Key Insights
 
-### 1. O(k) Complexity is Real
-The most important validation: **complexity ratios near 1.0** prove that processing time is constant regardless of context size. This is the core INFINITE innovation.
+### 1. Effectively Constant Complexity is Real
+The most important validation: **complexity ratios near 1.0** prove that processing time is effectively constant regardless of context size. The full pipeline is O(log n + k) where k dominates in practice. This is the core INFINITE innovation.
 
 ### 2. pgvector Performance
 pgvector performs well (~26ms) despite being in a Docker container with network overhead. Production with connection pooling would be faster.
@@ -299,7 +299,7 @@ docker exec infinate_postgres_test pg_isready -U test
 
 Milestone 1.7 successfully validates the complete INFINITE architecture:
 
-- ✅ **O(k) complexity verified** with real database queries
+- ✅ **O(log n + k) ≈ constant complexity verified** with real database queries
 - ✅ **Both backends working** (Qdrant + pgvector)
 - ✅ **Performance exceeds targets** (12x throughput, 7x latency margin)
 - ✅ **Clean architecture** (composition, no core modifications)
