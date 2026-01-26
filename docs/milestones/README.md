@@ -225,7 +225,7 @@ Physics-inspired navigation from Quake game mechanics. After rigorous research v
 | **M1.20** | Hybrid Attention Mode | Low | 6-8 hours | Best of both worlds (optional) |
 | **M1.21** | SISS (Super Sampling) | Medium | 8-14 days | DLSS-inspired LOD upscaling |
 | **M1.22** | RT Core Spatial Index | Low | Research | Hardware-accelerated k-NN (optional) |
-| **M1.23** | Skill Packs System | High | 2-3 weeks | Loadable knowledge packages |
+| **M1.23** | Skill Packs & Defragmentation | High | 2-3 weeks | Loadable knowledge packages + memory cleanup |
 
 ### M2.0+ LLM Integration
 
@@ -262,7 +262,7 @@ Use NVIDIA RT Cores (ray tracing hardware) for O(1) k-NN lookups:
 - Map spatial tokens to BVH (Bounding Volume Hierarchy)
 - Achieve true O(1) nearest-neighbor queries
 
-### M1.23: Skill Packs System
+### M1.23: Skill Packs & Defragmentation
 
 Loadable, versioned knowledge packages - like Neo learning Kung Fu in The Matrix:
 
@@ -278,6 +278,19 @@ load_skill_pack("python_v312")
 # - Defragmentation rules (archive failures, consolidate successes)
 ```
 
+**Sub-milestones:**
+
+| Sub-milestone | Effort | Description |
+|---------------|--------|-------------|
+| **M1.23a** | 1 day | Skill pack manifest schema (JSON format) |
+| **M1.23b** | 2-3 days | Skill pack loader (region assignment) |
+| **M1.23c** | 1-2 days | Metadata extensions (status, version, source) |
+| **M1.23d** | 2-3 days | Success/failure tracking system |
+| **M1.23e** | 3-5 days | Defragmentation engine |
+| **M1.23f** | 2-3 days | Defrag triggers (manual, scheduled, auto) |
+
+**Total:** 11-17 days
+
 **The Vision:**
 ```
 GPT-4 (1.8T params) = Reasoning + ALL Human Knowledge
@@ -289,8 +302,6 @@ Tiny Model (7B) + INFINATE = Pure Reasoning + Skill Packs
 
 "The model thinks. INFINATE remembers."
 ```
-
-📚 **See:** [BRAINSTORM_SISS_DLSS_INSPIRED.md](../../Project/BRAINSTORM_SISS_DLSS_INSPIRED.md) for full details
 
 ---
 
