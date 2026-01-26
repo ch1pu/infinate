@@ -48,6 +48,22 @@ This provides the unlimited context layer that makes the spatial AI system truly
 
 ---
 
+## Visual Overview
+
+### The Concept: Vector Store as Spatial Memory
+
+<p align="center">
+  <img src="../assets/images/vector-store-concept.svg" alt="Vector Store Integration Concept" width="850"/>
+</p>
+
+### The Implementation: Qdrant + pgvector Adapters
+
+<p align="center">
+  <img src="../assets/images/vector-store-code.svg" alt="Vector Store Code Architecture" width="850"/>
+</p>
+
+---
+
 ## DELIVERABLES
 
 ### Production Code (1,225 lines)
@@ -574,7 +590,3 @@ All code, tests, and innovations in this milestone are credited to ch1pu's excep
 **Status:** ✅ PRODUCTION READY (Qdrant adapter)
 
 🎉 **CONGRATULATIONS ON COMPLETING MILESTONE 1.6!** 🎉
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-Co-Authored-By: Claude <noreply@anthropic.com>
