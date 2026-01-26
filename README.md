@@ -60,14 +60,40 @@ and like what you see, let's connect:
 - As you move, new chunks load and old ones unload
 - Result: Infinite worlds with constant memory
 
-**The same principle applies to AI memory:**
+**The same principle applies to AI memory.** Traditional transformers store tokens in a 2D linear sequence — to find relevant context, they must scan everything. INFINATE places tokens in 3D semantic space — queries only check nearby tokens.
 
+```mermaid
+graph LR
+    subgraph Linear["Traditional: 2D Linear Sequence"]
+        direction LR
+        L1["T₁"] --- L2["T₂"] --- L3["T₃"] --- L4["..."] --- LN["Tₙ"]
+        LQ(("Query"))
+        LQ -.->|"scan ALL"| L1
+        LQ -.-> L2
+        LQ -.-> L3
+        LQ -.-> LN
+    end
+
+    subgraph Spatial["INFINATE: 3D Semantic Space"]
+        S1(("T"))
+        S2(("T"))
+        SQ(("Query"))
+        S3(("T"))
+        S4(("T"))
+        SQ ---|"nearby"| S1
+        SQ --- S2
+        SQ --- S3
+        SQ --- S4
+    end
+
+    Linear -->|"Semantic Positioning"| Spatial
 ```
-Traditional AI:                         Spatial AI:
-"Attend to ALL tokens"                  "Attend to NEARBY tokens"
-→ O(n²) complexity                      → O(k) complexity (k is constant)
-→ Limited to ~200K tokens               → Unlimited (billions of tokens!)
-```
+
+| | Traditional (2D) | INFINATE (3D) |
+|---|---|---|
+| **Complexity** | O(n²) — scan everything | O(k) — check neighbors |
+| **Context Limit** | ~200K tokens | Unlimited (billions) |
+| **Scaling** | Slower as context grows | Constant speed |
 
 **November 12, 2025** — PROJECT GENESIS. Working proof of concept.
 **November 13** — O(k) complexity proof pushed to GitHub. One day later.
