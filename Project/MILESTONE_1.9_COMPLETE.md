@@ -41,6 +41,24 @@ and like what you see, let's connect:
 
 Milestone 1.9 successfully stabilizes the test suite and documents the 92.13% code coverage achievement. All 150 tests now pass (149 passed, 1 skipped for GPU compatibility). The previously failing stress tests now pass reliably.
 
+---
+
+## Visual Overview
+
+### The Concept: From Flaky Tests to Stable Suite
+
+<p align="center">
+  <img src="../assets/images/test-stabilization-concept.svg" alt="Test Stabilization Concept" width="900"/>
+</p>
+
+### The Implementation: Trimmed Statistics & Auto-Warmup
+
+<p align="center">
+  <img src="../assets/images/test-stabilization-code.svg" alt="Test Stabilization Code Architecture" width="900"/>
+</p>
+
+---
+
 ### Key Achievement: Full Test Suite Stabilized
 
 ```
