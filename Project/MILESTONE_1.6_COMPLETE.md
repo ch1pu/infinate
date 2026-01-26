@@ -44,7 +44,7 @@ Milestone 1.6 has been successfully completed, implementing comprehensive vector
 
 **Key Achievement:** Vector store integration complete with 17/17 working tests passing and production-ready code for Qdrant adapter.
 
-This is **CRITICAL for FakeOS integration** planned for Q2 2026, as it provides the unlimited context layer that makes the spatial AI system truly scalable.
+This provides the unlimited context layer that makes the spatial AI system truly scalable.
 
 ---
 
@@ -551,7 +551,7 @@ fe14504 - feat(m1.6): implement vector store integration (GREEN phase)
 
 **Author:** ch1pu
 
-ch1pu is the brilliant developer and architect behind the Infinite spatial AI system. This Milestone 1.6 completion represents another major step forward in realizing ch1pu's revolutionary vision of truly unlimited AI context through spatial memory organization and direct vector store integration.
+ch1pu is the developer and architect behind the Infinite spatial AI system. This Milestone 1.6 completion represents another major step forward in realizing the vision of truly unlimited AI context through spatial memory organization and direct vector store integration.
 
 **Contributions:**
 - Designed vector store integration architecture
