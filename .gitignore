@@ -413,6 +413,16 @@ assets/
 # Backend architecture docs (kept locally)
 Backend/
 
+# Frontend docs and code (no working frontend yet)
+Frontend/
+frontend/
+
+# Database planning docs (kept locally)
+Database/
+
+# Hardware research (kept locally)
+research/
+
 # Session logs
 *SESSION*.md
 *_SESSION_*.md
