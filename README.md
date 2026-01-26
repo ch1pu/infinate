@@ -265,9 +265,9 @@ graph TB
 ```
 
 ```
-Complexity: O(k) per layer, O(k×L) total
+Attention: O(k) per layer, O(k×L) total
 Where k ≈ 50 neighbors, L = num layers
-CONSTANT regardless of total memory size!
+Effectively constant regardless of context size
 ```
 
 ---
