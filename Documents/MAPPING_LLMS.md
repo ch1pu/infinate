@@ -79,34 +79,17 @@ INFINATE + LLM Pipeline:
 
 *Note: This describes the planned integration (M2.0+), not current implementation.*
 
-```python
-def query_with_mapping(question: str) -> str:
-    # 1. Map question to spatial position
-    query_position = embed_to_position(question)
+**The Query-Map Loop:**
 
-    # 2. Check spatial neighborhood
-    nearby_knowledge = spatial_store.query_radius(
-        center=query_position,
-        radius=attention_radius
-    )
+1. **Map question to spatial position** - embed the query and find its location in semantic space
+2. **Check spatial neighborhood** - look for existing knowledge nearby
+3. **If sufficient knowledge exists** - synthesize answer from spatial store (no LLM needed)
+4. **If knowledge is insufficient** - query LLM for fresh answer
+5. **Map the response** - store LLM output in spatial structure for future queries
 
-    # 3. If sufficient knowledge exists, use it
-    if confidence(nearby_knowledge) > threshold:
-        return synthesize_from_spatial(nearby_knowledge)
+This creates a self-improving system: each LLM interaction enriches the spatial map, making future queries faster and cheaper.
 
-    # 4. Otherwise, query LLM for new knowledge
-    llm_response = llm.generate(question, context=nearby_knowledge)
-
-    # 5. CRYSTALLIZE: Store response in spatial structure
-    response_position = embed_to_position(llm_response)
-    spatial_store.insert(
-        content=llm_response,
-        position=response_position,
-        metadata={"source": "llm", "query": question}
-    )
-
-    return llm_response
-```
+*Implementation details: see `unreleased/m2_llm_mapping_concepts.py`*
 
 ### 2.3 The Mapping Effect
 
@@ -293,32 +276,23 @@ Not every LLM response should be mapped:
 
 ### 8.2 Staleness Management
 
-Mapped knowledge can become stale:
+Mapped knowledge can become stale. The refresh strategy should consider:
 
-```python
-def should_refresh(knowledge_point):
-    age = now() - knowledge_point.created_at
-    domain_volatility = get_volatility(knowledge_point.domain)
-
-    # Stable domains (math, physics): refresh rarely
-    # Volatile domains (news, APIs): refresh often
-    return age > (base_ttl / domain_volatility)
-```
+- **Domain volatility** - Math/physics stay fresh; news/APIs go stale quickly
+- **Age of knowledge** - Older mappings may need verification
+- **Query patterns** - Frequently accessed knowledge gets validated more often
 
 ### 8.3 Confidence Thresholds
 
 When to use mapped knowledge vs. query LLM:
 
-```python
-confidence = calculate_confidence(nearby_knowledge, query)
+| Confidence | Action |
+|------------|--------|
+| High (>0.9) | Use mapped knowledge directly |
+| Medium (0.6-0.9) | Use mapped, verify with LLM |
+| Low (<0.6) | Query LLM fresh |
 
-if confidence > 0.9:
-    return synthesize_spatial()      # High confidence: use mapped
-elif confidence > 0.6:
-    return synthesize_with_llm_check()  # Medium: verify with LLM
-else:
-    return query_llm_fresh()         # Low: need new extraction
-```
+*Implementation details: see `unreleased/m2_llm_mapping_concepts.py`*
 
 ---
 
