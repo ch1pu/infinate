@@ -73,28 +73,9 @@ INFINATE Pipeline:
 
 When data is stored this way, structure emerges:
 
-```
-                        Y (Recency)
-                        ↑
-                        │    ┌─────────────┐
-                        │    │ Recent Auth │
-                        │    │   Changes   │
-                        │    └─────────────┘
-                        │
-          ┌─────────┐   │   ┌─────────────┐
-          │ Frontend│   │   │   Backend   │
-          │   UI    │   │   │   API       │
-          └─────────┘   │   └─────────────┘
-                        │
-    ←───────────────────┼───────────────────→ X (Category)
-                        │
-          ┌─────────┐   │   ┌─────────────┐
-          │  Old    │   │   │   Legacy    │
-          │  CSS    │   │   │   Database  │
-          └─────────┘   │   └─────────────┘
-                        │
-                        ↓
-```
+![The Emergent Semantic Map](../assets/images/spatial-semantic-map.svg)
+
+*3D visualization showing semantic space with X (Category: Frontend ↔ Backend), Y (Recency: Recent ↑ Archived ↓), and Z (Abstraction: Interface ↔ Implementation) axes.*
 
 **Critical insight:** Similar code naturally clusters. Authentication logic groups together. Error handlers form neighborhoods. The map *emerges* from the semantics—it's not manually organized.
 
