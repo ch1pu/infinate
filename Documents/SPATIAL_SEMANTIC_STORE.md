@@ -256,19 +256,19 @@ After spatial indexing:
 
 **The structure emerges from semantics.** Related code finds each other.
 
-### 5.2 Navigation IS Reasoning
+### 5.2 Queries Become Local Lookups
 
-Traditional AI:
+Traditional vector search:
 ```
-Question → Search → Filter → Rank → Answer
+Query → Compare to ALL vectors → Sort → Return top-k
 ```
 
 Spatial Semantic Store:
 ```
-Question → Navigate to region → Look around → Answer
+Query → Map to position → Look at nearby positions → Return neighbors
 ```
 
-**The navigation path through semantic space mirrors how humans explore knowledge.** You don't search a library—you go to the right section and browse.
+**The spatial organization transforms global search into local lookup.** Instead of comparing against everything, you only examine what's nearby—because "nearby" and "relevant" mean the same thing in semantic space.
 
 ### 5.3 Multi-Scale Context
 
