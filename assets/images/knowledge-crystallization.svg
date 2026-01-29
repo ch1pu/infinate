@@ -1,0 +1,208 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400">
+  <defs>
+    <linearGradient id="bgCrystal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8fafc"/>
+      <stop offset="100%" style="stop-color:#e2e8f0"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.15"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="900" height="400" fill="url(#bgCrystal)"/>
+
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#1e293b">Knowledge Crystallization Over Time</text>
+  <text x="450" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#64748b">LLM responses crystallize into navigable spatial structure</text>
+
+  <!-- Timeline Arrow -->
+  <line x1="50" y1="350" x2="850" y2="350" stroke="#94a3b8" stroke-width="2"/>
+  <polygon points="850,350 840,345 840,355" fill="#94a3b8"/>
+  <text x="870" y="355" font-family="Arial" font-size="12" fill="#64748b">Time</text>
+
+  <!-- Stage 1: Empty -->
+  <g transform="translate(100, 100)">
+    <text x="50" y="-15" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#334155">Day 1</text>
+    <text x="50" y="0" text-anchor="middle" font-family="Arial" font-size="10" fill="#64748b">Empty Store</text>
+
+    <!-- Empty space with faint grid -->
+    <rect x="0" y="15" width="100" height="180" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1" filter="url(#shadow)"/>
+    <g opacity="0.1">
+      <line x1="25" y1="15" x2="25" y2="195" stroke="#94a3b8"/>
+      <line x1="50" y1="15" x2="50" y2="195" stroke="#94a3b8"/>
+      <line x1="75" y1="15" x2="75" y2="195" stroke="#94a3b8"/>
+      <line x1="0" y1="60" x2="100" y2="60" stroke="#94a3b8"/>
+      <line x1="0" y1="105" x2="100" y2="105" stroke="#94a3b8"/>
+      <line x1="0" y1="150" x2="100" y2="150" stroke="#94a3b8"/>
+    </g>
+
+    <!-- Single query point -->
+    <circle cx="50" cy="105" r="6" fill="#7c3aed" filter="url(#glow)"/>
+
+    <!-- Stats -->
+    <text x="50" y="215" text-anchor="middle" font-family="Arial" font-size="9" fill="#ef4444">100% LLM calls</text>
+    <text x="50" y="230" text-anchor="middle" font-family="Arial" font-size="9" fill="#64748b">0 crystallized</text>
+  </g>
+
+  <!-- Stage 2: Sparse -->
+  <g transform="translate(280, 100)">
+    <text x="75" y="-15" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#334155">Week 1</text>
+    <text x="75" y="0" text-anchor="middle" font-family="Arial" font-size="10" fill="#64748b">100 Queries</text>
+
+    <rect x="0" y="15" width="150" height="180" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1" filter="url(#shadow)"/>
+
+    <!-- Scattered knowledge points -->
+    <circle cx="30" cy="45" r="5" fill="#3b82f6" opacity="0.7"/>
+    <circle cx="70" cy="55" r="6" fill="#3b82f6" opacity="0.8"/>
+    <circle cx="45" cy="80" r="5" fill="#3b82f6" opacity="0.6"/>
+    <circle cx="110" cy="50" r="4" fill="#10b981" opacity="0.7"/>
+    <circle cx="95" cy="90" r="5" fill="#10b981" opacity="0.8"/>
+    <circle cx="35" cy="120" r="6" fill="#f59e0b" opacity="0.7"/>
+    <circle cx="80" cy="135" r="5" fill="#f59e0b" opacity="0.6"/>
+    <circle cx="120" cy="110" r="4" fill="#8b5cf6" opacity="0.7"/>
+    <circle cx="55" cy="160" r="5" fill="#8b5cf6" opacity="0.8"/>
+    <circle cx="100" cy="165" r="4" fill="#ef4444" opacity="0.6"/>
+
+    <!-- Query point -->
+    <circle cx="75" cy="105" r="6" fill="#7c3aed" filter="url(#glow)"/>
+
+    <!-- Stats -->
+    <text x="75" y="215" text-anchor="middle" font-family="Arial" font-size="9" fill="#f59e0b">~70% LLM calls</text>
+    <text x="75" y="230" text-anchor="middle" font-family="Arial" font-size="9" fill="#64748b">100 crystallized</text>
+  </g>
+
+  <!-- Stage 3: Clustered -->
+  <g transform="translate(480, 100)">
+    <text x="75" y="-15" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#334155">Month 1</text>
+    <text x="75" y="0" text-anchor="middle" font-family="Arial" font-size="10" fill="#64748b">1,000 Queries</text>
+
+    <rect x="0" y="15" width="150" height="180" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1" filter="url(#shadow)"/>
+
+    <!-- Cluster 1: Auth (blue) -->
+    <ellipse cx="40" cy="55" rx="30" ry="25" fill="#3b82f6" opacity="0.15"/>
+    <circle cx="30" cy="45" r="5" fill="#3b82f6" opacity="0.9"/>
+    <circle cx="50" cy="50" r="6" fill="#3b82f6" opacity="0.9"/>
+    <circle cx="35" cy="65" r="5" fill="#3b82f6" opacity="0.8"/>
+    <circle cx="55" cy="60" r="4" fill="#3b82f6" opacity="0.7"/>
+    <circle cx="25" cy="55" r="4" fill="#3b82f6" opacity="0.8"/>
+
+    <!-- Cluster 2: API (green) -->
+    <ellipse cx="110" cy="70" rx="28" ry="22" fill="#10b981" opacity="0.15"/>
+    <circle cx="100" cy="60" r="5" fill="#10b981" opacity="0.9"/>
+    <circle cx="120" cy="65" r="6" fill="#10b981" opacity="0.9"/>
+    <circle cx="105" cy="80" r="5" fill="#10b981" opacity="0.8"/>
+    <circle cx="125" cy="75" r="4" fill="#10b981" opacity="0.7"/>
+
+    <!-- Cluster 3: Database (orange) -->
+    <ellipse cx="50" cy="140" rx="32" ry="28" fill="#f59e0b" opacity="0.15"/>
+    <circle cx="40" cy="125" r="5" fill="#f59e0b" opacity="0.9"/>
+    <circle cx="60" cy="135" r="6" fill="#f59e0b" opacity="0.9"/>
+    <circle cx="45" cy="150" r="5" fill="#f59e0b" opacity="0.8"/>
+    <circle cx="65" cy="145" r="4" fill="#f59e0b" opacity="0.7"/>
+    <circle cx="35" cy="155" r="4" fill="#f59e0b" opacity="0.8"/>
+    <circle cx="55" cy="160" r="5" fill="#f59e0b" opacity="0.7"/>
+
+    <!-- Cluster 4: Frontend (purple) -->
+    <ellipse cx="115" cy="145" rx="25" ry="22" fill="#8b5cf6" opacity="0.15"/>
+    <circle cx="105" cy="135" r="5" fill="#8b5cf6" opacity="0.9"/>
+    <circle cx="125" cy="140" r="5" fill="#8b5cf6" opacity="0.8"/>
+    <circle cx="110" cy="155" r="4" fill="#8b5cf6" opacity="0.7"/>
+    <circle cx="120" cy="155" r="4" fill="#8b5cf6" opacity="0.8"/>
+
+    <!-- Query point finds cluster -->
+    <circle cx="45" cy="140" r="6" fill="#7c3aed" filter="url(#glow)"/>
+    <circle cx="45" cy="140" r="25" fill="none" stroke="#7c3aed" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
+
+    <!-- Stats -->
+    <text x="75" y="215" text-anchor="middle" font-family="Arial" font-size="9" fill="#10b981">~40% LLM calls</text>
+    <text x="75" y="230" text-anchor="middle" font-family="Arial" font-size="9" fill="#64748b">1,000+ crystallized</text>
+  </g>
+
+  <!-- Stage 4: Dense -->
+  <g transform="translate(680, 100)">
+    <text x="75" y="-15" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#334155">Year 1</text>
+    <text x="75" y="0" text-anchor="middle" font-family="Arial" font-size="10" fill="#64748b">100,000 Queries</text>
+
+    <rect x="0" y="15" width="150" height="180" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1" filter="url(#shadow)"/>
+
+    <!-- Dense cluster fills -->
+    <ellipse cx="40" cy="50" rx="35" ry="30" fill="#3b82f6" opacity="0.25"/>
+    <ellipse cx="115" cy="55" rx="30" ry="28" fill="#10b981" opacity="0.25"/>
+    <ellipse cx="45" cy="120" rx="38" ry="32" fill="#f59e0b" opacity="0.25"/>
+    <ellipse cx="115" cy="130" rx="30" ry="30" fill="#8b5cf6" opacity="0.25"/>
+    <ellipse cx="75" cy="170" rx="25" ry="20" fill="#ef4444" opacity="0.2"/>
+
+    <!-- Many small dense points -->
+    <!-- Auth cluster -->
+    <circle cx="25" cy="35" r="3" fill="#3b82f6"/><circle cx="35" cy="40" r="4" fill="#3b82f6"/>
+    <circle cx="45" cy="35" r="3" fill="#3b82f6"/><circle cx="55" cy="45" r="4" fill="#3b82f6"/>
+    <circle cx="30" cy="50" r="3" fill="#3b82f6"/><circle cx="40" cy="55" r="4" fill="#3b82f6"/>
+    <circle cx="50" cy="50" r="3" fill="#3b82f6"/><circle cx="35" cy="65" r="3" fill="#3b82f6"/>
+    <circle cx="45" cy="70" r="3" fill="#3b82f6"/><circle cx="55" cy="60" r="3" fill="#3b82f6"/>
+    <circle cx="25" cy="60" r="2" fill="#3b82f6"/><circle cx="60" cy="55" r="2" fill="#3b82f6"/>
+
+    <!-- API cluster -->
+    <circle cx="100" cy="40" r="3" fill="#10b981"/><circle cx="115" cy="45" r="4" fill="#10b981"/>
+    <circle cx="130" cy="50" r="3" fill="#10b981"/><circle cx="105" cy="55" r="3" fill="#10b981"/>
+    <circle cx="120" cy="60" r="4" fill="#10b981"/><circle cx="110" cy="70" r="3" fill="#10b981"/>
+    <circle cx="125" cy="65" r="3" fill="#10b981"/><circle cx="135" cy="60" r="2" fill="#10b981"/>
+
+    <!-- Database cluster -->
+    <circle cx="25" cy="105" r="3" fill="#f59e0b"/><circle cx="35" cy="110" r="4" fill="#f59e0b"/>
+    <circle cx="45" cy="105" r="3" fill="#f59e0b"/><circle cx="55" cy="115" r="4" fill="#f59e0b"/>
+    <circle cx="30" cy="120" r="3" fill="#f59e0b"/><circle cx="40" cy="125" r="4" fill="#f59e0b"/>
+    <circle cx="50" cy="120" r="3" fill="#f59e0b"/><circle cx="60" cy="130" r="3" fill="#f59e0b"/>
+    <circle cx="35" cy="135" r="3" fill="#f59e0b"/><circle cx="45" cy="140" r="3" fill="#f59e0b"/>
+    <circle cx="55" cy="135" r="2" fill="#f59e0b"/><circle cx="25" cy="130" r="2" fill="#f59e0b"/>
+    <circle cx="65" cy="125" r="2" fill="#f59e0b"/><circle cx="70" cy="115" r="2" fill="#f59e0b"/>
+
+    <!-- Frontend cluster -->
+    <circle cx="100" cy="115" r="3" fill="#8b5cf6"/><circle cx="115" cy="120" r="4" fill="#8b5cf6"/>
+    <circle cx="130" cy="125" r="3" fill="#8b5cf6"/><circle cx="105" cy="130" r="3" fill="#8b5cf6"/>
+    <circle cx="120" cy="135" r="4" fill="#8b5cf6"/><circle cx="110" cy="145" r="3" fill="#8b5cf6"/>
+    <circle cx="125" cy="140" r="3" fill="#8b5cf6"/><circle cx="135" cy="135" r="2" fill="#8b5cf6"/>
+    <circle cx="100" cy="145" r="2" fill="#8b5cf6"/><circle cx="130" cy="150" r="2" fill="#8b5cf6"/>
+
+    <!-- New cluster -->
+    <circle cx="65" cy="160" r="3" fill="#ef4444"/><circle cx="75" cy="165" r="3" fill="#ef4444"/>
+    <circle cx="85" cy="170" r="3" fill="#ef4444"/><circle cx="70" cy="175" r="2" fill="#ef4444"/>
+    <circle cx="80" cy="180" r="2" fill="#ef4444"/>
+
+    <!-- Query point - finds dense knowledge -->
+    <circle cx="40" cy="125" r="5" fill="#7c3aed" filter="url(#glow)"/>
+    <circle cx="40" cy="125" r="18" fill="none" stroke="#7c3aed" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
+
+    <!-- Stats -->
+    <text x="75" y="215" text-anchor="middle" font-family="Arial" font-size="9" fill="#10b981" font-weight="bold">~5% LLM calls</text>
+    <text x="75" y="230" text-anchor="middle" font-family="Arial" font-size="9" fill="#64748b">100,000+ crystallized</text>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(50, 355)">
+    <circle cx="10" cy="10" r="5" fill="#7c3aed" filter="url(#glow)"/>
+    <text x="22" y="14" font-family="Arial" font-size="10" fill="#64748b">Query</text>
+
+    <circle cx="90" cy="10" r="5" fill="#3b82f6"/>
+    <text x="102" y="14" font-family="Arial" font-size="10" fill="#64748b">Auth</text>
+
+    <circle cx="150" cy="10" r="5" fill="#10b981"/>
+    <text x="162" y="14" font-family="Arial" font-size="10" fill="#64748b">API</text>
+
+    <circle cx="200" cy="10" r="5" fill="#f59e0b"/>
+    <text x="212" y="14" font-family="Arial" font-size="10" fill="#64748b">Database</text>
+
+    <circle cx="280" cy="10" r="5" fill="#8b5cf6"/>
+    <text x="292" y="14" font-family="Arial" font-size="10" fill="#64748b">Frontend</text>
+
+    <text x="500" y="14" font-family="Arial" font-size="11" fill="#334155" font-weight="bold">Denser clusters = More spatial hits = Fewer LLM calls</text>
+  </g>
+
+</svg>
