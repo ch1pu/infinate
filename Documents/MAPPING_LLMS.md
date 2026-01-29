@@ -240,7 +240,7 @@ You don't keep going back to the mine for gold you've already extracted. You sto
 
 ---
 
-## 7. Relationship to Skill Packs (M1.23)
+## 7. Relationship to Skill Packs
 
 This mapping concept directly enables **Skill Packs**:
 
