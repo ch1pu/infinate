@@ -29,16 +29,16 @@ and like what you see, let's connect:
 ══════════════════════════════════════════════════════════════════════════════
 -->
 
-# INFINITE: Spatial Operating System for AI Context Management
+# INFINITE: Spatial Memory System for AI Context Management
 **System Architecture Overview**
 
 ---
 
 ## EXECUTIVE SUMMARY
 
-Infinite is a revolutionary spatial memory management system that gives local AI models (7B-8B parameters) effectively unlimited context through 3D navigation. By mapping code and knowledge to spatial coordinates and streaming context based on an avatar's position, we bypass the fundamental limitation of fixed context windows.
+Infinite is a spatial memory management system that gives local AI models (7B-8B parameters) effectively unlimited context through 3D spatial organization. By mapping code and knowledge to spatial coordinates and streaming context based on query position, we bypass the fundamental limitation of fixed context windows.
 
-**Core Innovation:** Transform AI's limited 8K token context window into an infinite spatial memory palace where proximity equals relevance and navigation controls context loading.
+**Core Innovation:** Transform AI's limited 8K token context window into an infinite spatial memory structure where proximity equals relevance and position determines context loading.
 
 ---
 
@@ -65,7 +65,7 @@ Local AI models have HARD LIMITS on context windows:
    - Store embeddings
    - Semantic search
    - But no unified visualization
-   - No intuitive navigation
+   - No spatial organization
 
 3. **Larger Models:**
    - 70B+ parameters
@@ -75,11 +75,11 @@ Local AI models have HARD LIMITS on context windows:
 
 ### Our Revolutionary Approach
 
-**Spatial Context Management:** The AI navigates a 3D memory palace where:
-- Position determines context
-- Movement streams new knowledge
+**Spatial Context Management:** Context is loaded based on spatial position:
+- Position determines what context is loaded
+- Movement through space streams new knowledge
 - Distance represents relevance
-- Multiple agents explore in parallel
+- Multiple query positions can be processed in parallel
 
 ```
 Traditional Linear Context:
@@ -122,43 +122,36 @@ Store in Octree Index
 Ready for Spatial Query
 ```
 
-### 2.2 Agent Avatar System
+### 2.2 Query Position System
 
-**Purpose:** AI models as navigable entities with view frustums
+**Purpose:** Map queries to spatial positions for context retrieval
 
 **Components:**
 - **Position:** (X, Y, Z) coordinates in memory space
-- **View Frustum:** Cone defining "visible" memory
-- **Context Window:** 8K tokens loaded from visible chunks
-- **Navigation Engine:** Smooth movement with predictive loading
+- **Attention Radius:** Sphere defining "relevant" memory
+- **Context Window:** 8K tokens loaded from nearby chunks
+- **Context Loader:** Loads/unloads based on query position
 
-**Avatar Properties:**
+**Query Properties:**
 ```typescript
-interface AIAgent {
+interface SpatialQuery {
   // Identity
   id: string;
-  model: "llama-8b" | "mistral-7b" | "phi-3";
+  queryText: string;
 
   // Spatial State
   position: Vector3;
-  orientation: Quaternion;
-  viewFrustum: {
-    near: 1.0;    // Meters
-    far: 100.0;   // Meters
-    fov: 60;      // Degrees
-  };
+  attentionRadius: number;
 
   // Context Management
   contextWindow: {
     maxTokens: 8192;
     currentTokens: number;
     chunks: MemoryChunk[];
-    loadedAt: Vector3[];  // Positions of loaded chunks
+    loadedPositions: Vector3[];
   };
 
   // Capabilities
-  canTeleport: boolean;
-  movementSpeed: number;  // Meters per second
   semanticSearchEnabled: boolean;
 }
 ```
@@ -171,21 +164,21 @@ interface AIAgent {
 
 | Component | Hardware | Workload | Performance Target |
 |-----------|----------|----------|-------------------|
-| **3D Rendering** | iGPU (Radeon 890M) | 3D visualization, avatars, UI | 60 FPS |
+| **3D Rendering** | iGPU (Radeon 890M) | 3D visualization, UI | 60 FPS |
 | **AI Inference** | dGPU (RTX 5060) | 2-3 models parallel | 30+ tokens/sec |
 | **Embeddings** | NPU (XDNA 2) | Semantic search | <10ms per query |
 | **Orchestration** | CPU (Zen 5) | Context streaming, octree | <100ms latency |
 
 ### 2.4 Context Streaming Protocol
 
-**Purpose:** Seamlessly load/unload memory as avatars move
+**Purpose:** Seamlessly load/unload memory based on query position
 
 **Algorithm:**
-1. Calculate frustum intersection with octree
-2. Sort visible chunks by distance
+1. Calculate attention radius intersection with octree
+2. Sort relevant chunks by distance
 3. Load nearest chunks first (up to 8K tokens)
-4. Unload chunks outside frustum
-5. Predictively prefetch based on movement vector
+4. Unload chunks outside radius
+5. Predictively prefetch based on query patterns
 
 **Performance Requirements:**
 - Update frequency: 10 Hz (every 100ms)
@@ -248,17 +241,17 @@ Z-axis (North-South): Abstraction Level
 ### 4.1 Core Visualizations
 
 **Memory Palace (Main View):**
-- simple 3D environment
+- 3D environment representing spatial memory
 - Buildings represent code files
 - Height = file size
 - Color = file type
 - Glow = recently accessed
 
-**Avatar Visualization:**
-- 3D model with view cone
-- Blue cone = context loading zone
-- Trail shows navigation history
-- Name tag shows model type
+**Query Visualization:**
+- 3D marker showing query position
+- Blue sphere = attention radius
+- Trail shows query history
+- Label shows query text
 
 **Context Meter (HUD):**
 ```
@@ -279,66 +272,65 @@ Z-axis (North-South): Abstraction Level
 
 ### 4.3 Interactive Elements
 
-**Navigation Controls:**
-- WASD movement
-- Mouse look
-- Shift to run
-- Space to jump/fly
-- T to teleport to semantic search result
+**Query Controls:**
+- Click to set query position
+- Drag to move query
+- Scroll to adjust attention radius
+- Search bar for semantic positioning
 
 **Semantic Search Interface:**
 - Floating search bar
 - Real-time suggestions
-- Visual path to results
+- Visual marker on results
 - Heatmap overlay for relevance
 
 ---
 
-## 5. MULTI-AGENT COLLABORATION
+## 5. MULTI-QUERY PROCESSING
 
-### 5.1 Agent Roles
+### 5.1 Query Roles
 
-**Architect Agent (Llama 8B):**
+**Architecture Query:**
 - Explores high-level structure
 - Maps relationships
-- Creates documentation
+- Gathers documentation context
 
-**Builder Agent (Mistral 7B):**
-- Implements features
-- Writes code
-- Tests functionality
+**Implementation Query:**
+- Focuses on specific code regions
+- Retrieves detailed implementation
+- Gets related tests
 
-**Reviewer Agent (Phi-3):**
-- Checks quality
-- Finds bugs
-- Suggests improvements
+**Review Query:**
+- Checks quality aspects
+- Finds potential issues
+- Retrieves standards/guidelines
 
 ### 5.2 Coordination Protocol
 
 **Shared Memory Space:**
-- All agents see the same 3D world
-- Modifications visible to all
-- Collision avoidance for navigation
+- All queries access same 3D structure
+- Results visible to coordinator
+- No overlap in attention radii
 
 **Communication Channels:**
-- Direct messaging between agents
-- Broadcast announcements
-- Task assignment queue
+- Query results aggregation
+- Context merging
+- Priority management
 
 **Workload Distribution:**
 ```
-User Query: "Refactor authentication system"
+User Request: "Refactor authentication system"
      ↓
-Coordinator assigns tasks:
-├─ Architect: Analyze current structure
-├─ Builder: Implement changes
-└─ Reviewer: Verify modifications
+Coordinator creates queries:
+├─ Architecture: Position at auth overview
+├─ Implementation: Position at auth code
+└─ Review: Position at security guidelines
      ↓
-Agents navigate to relevant code
+Parallel spatial lookups
      ↓
-Parallel execution with context isolation
+Merge context, provide to LLM
      ↓
-Merge results and present to user
+LLM generates response with full context
 ```
 
 ---
@@ -368,10 +360,10 @@ Merge results and present to user
 
 | Metric | Target | Impact |
 |--------|--------|---------|
-| **Navigation Responsiveness** | <16ms input lag | Smooth control |
+| **Interaction Responsiveness** | <16ms input lag | Smooth control |
 | **Visual Feedback** | Real-time updates | Clear understanding |
 | **Query to Answer** | <2 seconds | Fast responses |
-| **Context Awareness** | Visual indicators | User knows what AI "sees" |
+| **Context Awareness** | Visual indicators | User knows what's loaded |
 
 ---
 
@@ -379,20 +371,20 @@ Merge results and present to user
 
 ### 7.1 Revolutionary Aspects
 
-1. **Infinite Context Through Navigation**
+1. **Infinite Context Through Spatial Organization**
    - No fixed context limit
    - Spatial memory organization
-   - Intuitive navigation metaphor
+   - Position-based context loading
 
 2. **Visual Debugging**
-   - See what AI knows
-   - Watch AI work
-   - Understand AI decisions
+   - See what context is loaded
+   - Watch context changes
+   - Understand spatial relationships
 
-3. **Multi-Agent Parallelism**
-   - Multiple models working together
+3. **Multi-Query Parallelism**
+   - Multiple positions queried together
    - Independent context windows
-   - Collaborative problem-solving
+   - Collaborative context gathering
 
 4. **NPU Integration**
    - Hardware-accelerated embeddings
@@ -403,31 +395,31 @@ Merge results and present to user
 
 | Feature | Traditional AI | Infinite System |
 |---------|---------------|-----------------|
-| **Context Size** | 8K-128K tokens | Unlimited (navigable) |
+| **Context Size** | 8K-128K tokens | Unlimited (spatial) |
 | **Memory Organization** | Linear/flat | 3D spatial |
-| **Multi-Model** | Sequential | Parallel agents |
+| **Multi-Query** | Sequential | Parallel positions |
 | **Visualization** | None/limited | Full 3D world |
 | **Hardware Usage** | Single GPU | Multi-GPU + NPU |
-| **User Understanding** | Black box | Transparent navigation |
+| **User Understanding** | Black box | Transparent structure |
 
 ### 7.3 Use Case Impact
 
 **Software Development:**
-- Navigate entire codebases
-- AI understands full context
-- Visual debugging paths
-- Multi-agent code review
+- Access entire codebases spatially
+- AI gets full context for any query
+- Visual debugging of context loading
+- Multi-query code review
 
 **Research & Analysis:**
 - Explore vast datasets
 - Maintain context across documents
-- Visual knowledge graphs
-- Parallel research paths
+- Visual knowledge organization
+- Parallel research queries
 
 **Content Creation:**
 - Long-form writing with full context
 - Multi-modal content organization
-- Visual story planning
+- Visual content planning
 - Collaborative AI assistants
 
 ---
@@ -437,9 +429,9 @@ Merge results and present to user
 ### 8.1 Core Principles
 
 1. **Intuitive Over Complex**
-   - simple 3D interface
-   - Natural navigation
+   - 3D interface
    - Visual feedback
+   - Clear mental model
 
 2. **Performance First**
    - 60 FPS minimum
@@ -474,15 +466,19 @@ Merge results and present to user
 
 ## 9. CONCLUSION
 
-Infinite transforms how we interact with AI by solving the fundamental context limitation through spatial navigation. By combining cutting-edge hardware (NPU, multi-GPU) with intuitive visualization (3D memory palace) and innovative algorithms (spatial indexing, context streaming), we enable small local models to behave like massive cloud models while maintaining privacy and control.
+Infinite transforms how we provide context to AI by solving the fundamental context limitation through spatial organization. By combining cutting-edge hardware (NPU, multi-GPU) with intuitive visualization (3D memory palace) and innovative algorithms (spatial indexing, context streaming), we enable small local models to access unlimited context while maintaining privacy and control.
 
-The system is not just a technical achievement but a paradigm shift in human-AI interaction, making AI capabilities visible, understandable, and navigable.
+The system is not just a technical achievement but a paradigm shift in AI context management, making AI memory visible, understandable, and spatially organized.
 
 ---
 
 **Next Documents:**
-- DOCKER_ARCHITECTURE.md - Container design
-- INFRASTRUCTURE.md - System services
-- API_DESIGN.md - Backend endpoints
-- FRONTEND_ARCHITECTURE.md - 3D visualization
-- DATABASE_SCHEMA.md - Spatial storage
+- SPATIAL_SEMANTIC_STORE.md - Data structure details
+- CORE_INNOVATION.md - O(k) complexity proof
+- MAPPING_LLMS.md - LLM integration planning
+
+---
+
+**Document Version:** 2.0
+**Last Updated:** 2026-01-29
+**Author:** Adolfo Lopez (ch1pu)
