@@ -6,7 +6,7 @@ Author: Adolfo Lopez (ch1pu) - github.com/ch1pu
 Project: INFINATE - Infinite Context Spatial AI (github.com/ch1pu/infinate)
 -->
 
-# Mapping LLMs: Extracting Intelligence into Spatial Structure
+# Mapping LLMs: Building Context Through Spatial Storage
 
 **Author:** Adolfo Lopez (ch1pu)
 **Date:** January 29, 2026
@@ -18,11 +18,11 @@ Project: INFINATE - Infinite Context Spatial AI (github.com/ch1pu/infinate)
 
 ## Abstract
 
-INFINATE's Spatial Semantic Store creates more than an efficient index—it creates an **LLM mapping engine**. When connected to an LLM, the spatial structure automatically captures, organizes, and preserves the LLM's outputs. Over time, this transforms the LLM from a knowledge store (that must be queried repeatedly) into a knowledge *source* (that populates a persistent, navigable map).
+INFINATE's Spatial Semantic Store provides a way to **store and retrieve LLM outputs** efficiently. When connected to an LLM, the spatial structure captures and organizes responses for future context retrieval. Over time, this builds a rich context library that can be queried in O(k) time.
 
-**Mapping LLMs** = extracting their knowledge into spatial structure where it becomes permanently accessible at O(k) cost.
+**Mapping LLMs** = storing LLM outputs in spatial positions for efficient future retrieval.
 
-The result: **compound knowledge growth** where every LLM interaction enriches the spatial map, making future queries faster, cheaper, and more contextually aware.
+The result: **richer context** for LLM queries, with O(k) retrieval regardless of how much knowledge has been stored.
 
 ---
 
@@ -42,20 +42,17 @@ Traditional RAG Pipeline:
 
 **Limitations:**
 - Documents must exist before queries
-- LLM knowledge isn't captured back
-- Same questions = same LLM cost every time
-- No learning from interactions
+- Previous LLM responses aren't captured for reuse
+- Context retrieval is O(n) or O(n log n)
+- No way to build on prior conversations
 
-### 1.2 The Repeated Query Problem
+### 1.2 The Context Problem
 
-Ask an LLM "How does authentication work?" today, you get an answer.
-Ask the same question tomorrow—same compute cost, same latency.
-
-The LLM's knowledge is trapped inside inference. Every query is a fresh extraction that vanishes after the response.
+Each LLM query starts fresh. Previous responses that could provide useful context are lost. If you asked about authentication yesterday, that context isn't available today.
 
 ---
 
-## 2. The INFINATE Approach: Mapping LLM Knowledge
+## 2. The INFINATE Approach: Spatial Context Storage
 
 ### 2.1 Core Concept
 
@@ -63,55 +60,55 @@ The LLM's knowledge is trapped inside inference. Every query is a fresh extracti
 INFINATE + LLM Pipeline:
 ┌──────────┐    ┌─────────────┐    ┌─────────┐    ┌──────────┐
 │ Question │ →  │ Spatial     │ →  │   LLM   │ →  │  Answer  │
-└──────────┘    │ Lookup      │    │ (if new)│    └────┬─────┘
-                └──────┬──────┘    └─────────┘         │
-                       │                               │
+└──────────┘    │ Context     │    │ Reasons │    └────┬─────┘
+                │ Retrieval   │    └─────────┘         │
+                └──────┬──────┘         ↑              │
+                       │                │              │
+                       │          Context              │
                        ↓                               ↓
               ┌─────────────────────────────────────────┐
               │         Spatial Semantic Store          │
-              │  (Knowledge maps here)          │
+              │  (Context stored here for retrieval)    │
               └─────────────────────────────────────────┘
 ```
 
-**Key difference:** The LLM's output flows back into the spatial structure.
+**Key difference:** LLM outputs are stored spatially for future context retrieval. The LLM always does the reasoning.
 
 ### 2.2 How It Would Work (Conceptual)
 
 *Note: This describes the planned integration (M2.0+), not current implementation.*
 
-**The Query-Map Loop:**
+**The Context-Store Loop:**
 
-1. **Map question to spatial position** - embed the query and find its location in semantic space
-2. **Check spatial neighborhood** - look for existing knowledge nearby
-3. **If sufficient knowledge exists** - synthesize answer from spatial store (no LLM needed)
-4. **If knowledge is insufficient** - query LLM for fresh answer
-5. **Map the response** - store LLM output in spatial structure for future queries
+1. **Query comes in** - user asks a question
+2. **Retrieve spatial context** - find related stored knowledge in O(k)
+3. **Send to LLM with context** - LLM receives query + retrieved context
+4. **LLM generates answer** - LLM does the reasoning
+5. **Store the response** - map LLM output to spatial position for future context
 
-This creates a self-improving system: each LLM interaction enriches the spatial map, making future queries faster and cheaper.
+The LLM always reasons. INFINATE provides richer context through efficient retrieval.
 
 *Implementation details: see `unreleased/m2_llm_mapping_concepts.py`*
 
-### 2.3 The Mapping Effect
+### 2.3 The Compounding Context Effect
 
 ```
 Time 0: Empty spatial store
-        └── Every query hits LLM
+        └── LLM queries have no prior context
 
 Time 1: After 100 queries
-        └── 100 mapped knowledge points
-        └── Related queries find existing knowledge
-        └── LLM calls reduced ~30%
+        └── 100 stored responses
+        └── New queries can retrieve related prior responses as context
 
 Time 2: After 1,000 queries
-        └── 1,000+ knowledge points (some spawn sub-points)
-        └── Dense clusters form around common topics
-        └── LLM calls reduced ~60%
+        └── 1,000+ stored responses
+        └── Dense context available for most topics
+        └── LLM gets richer context, gives better answers
 
 Time 3: After 10,000 queries
-        └── Rich semantic landscape
-        └── Most queries satisfied spatially
-        └── LLM only called for genuinely new territory
-        └── LLM calls reduced ~85%
+        └── Rich context library
+        └── Almost any query has relevant prior context
+        └── LLM benefits from accumulated knowledge
 ```
 
 ---
@@ -129,40 +126,42 @@ LLM Response: "JWT tokens use base64 encoding for the header..."
                               ↓
                     Position: (auth_region, recent, implementation)
                               ↓
-              Automatically near: [OAuth, Session, Security, Tokens]
+              Stored near: [OAuth, Session, Security, Tokens]
 ```
 
-The response **finds its neighbors** without manual categorization.
+The response **finds its neighborhood** without manual categorization.
 
 ### 3.2 Compound Context
 
-Future queries about authentication now have context:
+Future queries about authentication now have context available:
 
 ```
 Query: "How do I refresh an expired token?"
                     ↓
-        Spatial lookup finds:
+        Spatial retrieval finds:
         - JWT token explanation (previous LLM response)
         - OAuth flow documentation
         - Session management code
                     ↓
-        LLM gets RICH context, gives BETTER answer
+        LLM receives query + rich context
                     ↓
-        Better answer maps, enriches future queries
+        LLM gives better answer (it has more to work with)
+                    ↓
+        Better answer stored, enriches future context
 ```
 
-**Knowledge compounds.** Each mapped response improves future responses.
+**Context compounds.** Each stored response improves future context retrieval.
 
 ### 3.3 The O(k) Advantage
 
-Traditional approach: Search all stored knowledge → O(n)
-Spatial approach: Navigate to relevant region → O(k)
+Traditional context retrieval: Search all stored knowledge → O(n)
+Spatial retrieval: Look up nearby positions → O(k)
 
-As mapped knowledge grows from 1,000 to 1,000,000 points:
-- Traditional: 1000× slower lookups
+As stored knowledge grows from 1,000 to 1,000,000 items:
+- Traditional: 1000× slower retrieval
 - Spatial: Same speed (only examine k neighbors)
 
-**Mapping scales infinitely** because retrieval cost is constant.
+**Context retrieval scales infinitely** because lookup cost is constant.
 
 ---
 
@@ -170,127 +169,124 @@ As mapped knowledge grows from 1,000 to 1,000,000 points:
 
 ![Knowledge Mapping Over Time](../assets/images/knowledge-mapping.svg)
 
-*The spatial map grows denser with each LLM interaction. Clusters form around frequently-queried topics. Dark regions represent well-understood areas where spatial lookup suffices; light regions trigger new LLM queries.*
+*The spatial map grows denser with each LLM interaction. Clusters form around frequently-discussed topics. Denser regions provide richer context for related queries.*
 
 ---
 
 ## 5. Practical Implications
 
-### 5.1 Cost Reduction
+### 5.1 Better Context, Better Answers
 
-| Queries | Traditional (all LLM) | With Mapping |
-|---------|----------------------|---------------------|
-| 100 | 100 LLM calls | 100 LLM calls |
-| 1,000 | 1,000 LLM calls | ~400 LLM calls |
-| 10,000 | 10,000 LLM calls | ~1,500 LLM calls |
-| 100,000 | 100,000 LLM calls | ~5,000 LLM calls |
+| Context Available | LLM Answer Quality |
+|-------------------|-------------------|
+| None | Generic, may miss nuances |
+| Some related docs | Better, more specific |
+| Rich prior conversation history | Best, builds on prior knowledge |
 
-**85-95% cost reduction** at scale through mapped knowledge reuse.
+INFINATE enables the third option at O(k) cost.
 
-### 5.2 Latency Improvement
+### 5.2 Retrieval Speed
 
 | Operation | Latency |
 |-----------|---------|
-| LLM inference | 500-2000ms |
-| Spatial lookup | 0.1-1ms |
+| Traditional retrieval (O(n)) | 10-100ms at scale |
+| Spatial retrieval (O(k)) | 0.1-1ms constant |
 
-When knowledge exists spatially: **500-2000× faster response**.
+Faster context retrieval means faster time-to-first-token for LLM responses.
 
-### 5.3 Quality Improvement
+### 5.3 Context Quality
 
-Counter-intuitively, mapping improves answer quality:
+Spatial organization provides naturally relevant context:
 
-1. **Consistent answers**: Same question returns same mapped answer
-2. **Rich context**: LLM sees related mapped knowledge
-3. **Error correction**: Bad answers can be updated in spatial store
-4. **Domain specialization**: The map becomes expert in your domain
+1. **Semantic proximity**: Retrieved context is semantically related
+2. **Temporal awareness**: Recent responses can be weighted higher
+3. **Topic clustering**: Related concepts are stored together
+4. **No manual tagging**: Organization emerges from embeddings
 
 ---
 
 ## 6. The "Mapping LLMs" Mental Model
 
-Think of it as mining:
+Think of it as building a library:
 
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                                                         │
-│                    LLM (Knowledge Mine)                 │
+│                    LLM (The Expert)                     │
 │                                                         │
-│    Contains vast knowledge, expensive to extract        │
+│    Reasons, generates answers, needs good context       │
 │                                                         │
 └────────────────────────┬────────────────────────────────┘
                          │
-                    Extraction
-                    (Queries)
+                    Answers flow down
+                    Context flows up
                          │
                          ↓
 ┌─────────────────────────────────────────────────────────┐
 │                                                         │
 │              Spatial Semantic Store                     │
-│              (Mapped Knowledge)                         │
+│              (The Library)                              │
 │                                                         │
-│    Extracted knowledge, cheap to access forever         │
+│    Stores past responses, retrieves relevant context    │
 │                                                         │
 └─────────────────────────────────────────────────────────┘
 ```
 
-**The LLM is the mine. The spatial store is the refinery.**
+**The LLM is the expert. The spatial store is the library.**
 
-You don't keep going back to the mine for gold you've already extracted. You store it, organize it, and access it efficiently.
+A well-organized library helps the expert give better answers. The expert still does the thinking.
 
 ---
 
 ## 7. Relationship to Skill Packs
 
-This mapping concept directly enables **Skill Packs**:
+This storage concept enables **Skill Packs**:
 
 ```
-Skill Pack = Pre-mapped knowledge domain
+Skill Pack = Pre-built context library for a domain
 
 "Python Expert" Skill Pack:
-├── 50,000 mapped Python Q&A pairs
+├── 50,000 stored Python Q&A pairs
 ├── Spatially organized by topic
 ├── Instantly loadable into any INFINATE instance
-└── Zero LLM calls for covered topics
+└── Rich context available immediately
 ```
 
-Skill Packs are essentially **pre-mined, pre-refined knowledge** ready to load.
-
-See: [BRAINSTORM_SISS_DLSS_INSPIRED.md](../Project/BRAINSTORM_SISS_DLSS_INSPIRED.md)
+Skill Packs are essentially **pre-built context libraries** ready to load.
 
 ---
 
 ## 8. Implementation Considerations (M2.0+ Planning)
 
-### 8.1 When to Map
+### 8.1 When to Store
 
-Not every LLM response should be mapped:
+Not every LLM response should be stored:
 
-| Response Type | Map? | Reason |
-|--------------|--------------|--------|
-| Factual explanations | ✅ Yes | Reusable knowledge |
+| Response Type | Store? | Reason |
+|--------------|--------|--------|
+| Factual explanations | ✅ Yes | Useful future context |
 | Code examples | ✅ Yes | High reuse value |
 | Personalized advice | ⚠️ Maybe | Context-dependent |
-| One-time calculations | ❌ No | Not reusable |
-| Conversational filler | ❌ No | No knowledge value |
+| One-time calculations | ❌ No | Not useful as context |
+| Conversational filler | ❌ No | No context value |
 
 ### 8.2 Staleness Management
 
-Mapped knowledge can become stale. The refresh strategy should consider:
+Stored knowledge can become stale. The refresh strategy should consider:
 
-- **Domain volatility** - Math/physics stay fresh; news/APIs go stale quickly
-- **Age of knowledge** - Older mappings may need verification
-- **Query patterns** - Frequently accessed knowledge gets validated more often
+- **Domain volatility** - Math/physics stay relevant; news/APIs go stale quickly
+- **Age of content** - Older entries may need updating
+- **Retrieval patterns** - Frequently retrieved content gets validated more often
 
-### 8.3 Confidence Thresholds
+### 8.3 Context Selection
 
-When to use mapped knowledge vs. query LLM:
+When retrieving context for a query:
 
-| Confidence | Action |
-|------------|--------|
-| High (>0.9) | Use mapped knowledge directly |
-| Medium (0.6-0.9) | Use mapped, verify with LLM |
-| Low (<0.6) | Query LLM fresh |
+| Retrieved Items | Action |
+|-----------------|--------|
+| Highly relevant (close) | Include as primary context |
+| Somewhat relevant (medium) | Include as secondary context |
+| Weakly relevant (far) | Exclude to avoid noise |
 
 *Implementation details: see `unreleased/m2_llm_mapping_concepts.py`*
 
@@ -301,22 +297,22 @@ When to use mapped knowledge vs. query LLM:
 > **Reminder:** This is M2.0 planning. The spatial infrastructure exists (M1.1-M1.11). LLM integration is the next major milestone.
 
 **The Insight:**
-INFINATE's spatial structure isn't just an index—it's a knowledge mapping engine that transforms LLMs from expensive-to-query knowledge stores into one-time knowledge sources.
+INFINATE's spatial structure provides O(k) context retrieval for LLM queries. By storing LLM outputs spatially, we build a growing context library that makes future queries richer.
 
 **The Mechanism (Planned for M2.0):**
-1. Query LLM when spatial knowledge is insufficient
-2. Map LLM response into spatial position
-3. Future queries find mapped knowledge in O(k)
-4. Knowledge compounds, costs decrease, quality improves
+1. LLM generates response
+2. Response is stored at spatial position based on embedding
+3. Future queries retrieve relevant stored responses as context
+4. LLM receives richer context, gives better answers
 
 **The Expected Result:**
-- 85-95% reduction in LLM calls at scale
-- 500-2000× faster responses for mapped knowledge
-- Compound improvement in answer quality
-- Foundation for pre-built Skill Packs
+- O(k) context retrieval regardless of library size
+- Richer context leads to better LLM answers
+- Context compounds over time
+- Foundation for pre-built Skill Packs (context libraries)
 
 **The Mental Model:**
-The LLM is the mine. INFINATE is the refinery. Don't keep mining what you've already extracted.
+The LLM is the expert. INFINATE is the library. A good library helps the expert give better answers.
 
 **Current Status:**
 - ✅ Spatial infrastructure ready (M1.1-M1.11 complete)
@@ -329,7 +325,6 @@ The LLM is the mine. INFINATE is the refinery. Don't keep mining what you've alr
 
 - INFINATE Spatial Semantic Store: `Documents/SPATIAL_SEMANTIC_STORE.md`
 - Core Innovation (O(k) Complexity): `Documents/CORE_INNOVATION.md`
-- Skill Packs Concept: `Project/BRAINSTORM_SISS_DLSS_INSPIRED.md`
 - Spatial Model Architecture: `Documents/SPATIAL_MODEL_ARCHITECTURE.md`
 
 ---
