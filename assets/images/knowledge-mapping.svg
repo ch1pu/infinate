@@ -20,8 +20,8 @@
   <rect x="0" y="0" width="900" height="400" fill="url(#bgCrystal)"/>
 
   <!-- Title -->
-  <text x="450" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#1e293b">Knowledge Crystallization Over Time</text>
-  <text x="450" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#64748b">LLM responses crystallize into navigable spatial structure</text>
+  <text x="450" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#1e293b">Knowledge Mapping Over Time</text>
+  <text x="450" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#64748b">LLM responses map into navigable spatial structure</text>
 
   <!-- Timeline Arrow -->
   <line x1="50" y1="350" x2="850" y2="350" stroke="#94a3b8" stroke-width="2"/>
@@ -49,7 +49,7 @@
 
     <!-- Stats -->
     <text x="50" y="215" text-anchor="middle" font-family="Arial" font-size="9" fill="#ef4444">100% LLM calls</text>
-    <text x="50" y="230" text-anchor="middle" font-family="Arial" font-size="9" fill="#64748b">0 crystallized</text>
+    <text x="50" y="230" text-anchor="middle" font-family="Arial" font-size="9" fill="#64748b">0 mapped</text>
   </g>
 
   <!-- Stage 2: Sparse -->
@@ -76,7 +76,7 @@
 
     <!-- Stats -->
     <text x="75" y="215" text-anchor="middle" font-family="Arial" font-size="9" fill="#f59e0b">~70% LLM calls</text>
-    <text x="75" y="230" text-anchor="middle" font-family="Arial" font-size="9" fill="#64748b">100 crystallized</text>
+    <text x="75" y="230" text-anchor="middle" font-family="Arial" font-size="9" fill="#64748b">100 mapped</text>
   </g>
 
   <!-- Stage 3: Clustered -->
@@ -123,7 +123,7 @@
 
     <!-- Stats -->
     <text x="75" y="215" text-anchor="middle" font-family="Arial" font-size="9" fill="#10b981">~40% LLM calls</text>
-    <text x="75" y="230" text-anchor="middle" font-family="Arial" font-size="9" fill="#64748b">1,000+ crystallized</text>
+    <text x="75" y="230" text-anchor="middle" font-family="Arial" font-size="9" fill="#64748b">1,000+ mapped</text>
   </g>
 
   <!-- Stage 4: Dense -->
@@ -182,7 +182,7 @@
 
     <!-- Stats -->
     <text x="75" y="215" text-anchor="middle" font-family="Arial" font-size="9" fill="#10b981" font-weight="bold">~5% LLM calls</text>
-    <text x="75" y="230" text-anchor="middle" font-family="Arial" font-size="9" fill="#64748b">100,000+ crystallized</text>
+    <text x="75" y="230" text-anchor="middle" font-family="Arial" font-size="9" fill="#64748b">100,000+ mapped</text>
   </g>
 
   <!-- Legend -->

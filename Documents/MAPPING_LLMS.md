@@ -55,7 +55,7 @@ The LLM's knowledge is trapped inside inference. Every query is a fresh extracti
 
 ---
 
-## 2. The INFINATE Approach: Knowledge Crystallization
+## 2. The INFINATE Approach: Mapping LLM Knowledge
 
 ### 2.1 Core Concept
 
@@ -69,7 +69,7 @@ INFINATE + LLM Pipeline:
                        ↓                               ↓
               ┌─────────────────────────────────────────┐
               │         Spatial Semantic Store          │
-              │  (Knowledge crystallizes here)          │
+              │  (Knowledge maps here)          │
               └─────────────────────────────────────────┘
 ```
 
@@ -80,7 +80,7 @@ INFINATE + LLM Pipeline:
 *Note: This describes the planned integration (M2.0+), not current implementation.*
 
 ```python
-def query_with_crystallization(question: str) -> str:
+def query_with_mapping(question: str) -> str:
     # 1. Map question to spatial position
     query_position = embed_to_position(question)
 
@@ -108,14 +108,14 @@ def query_with_crystallization(question: str) -> str:
     return llm_response
 ```
 
-### 2.3 The Crystallization Effect
+### 2.3 The Mapping Effect
 
 ```
 Time 0: Empty spatial store
         └── Every query hits LLM
 
 Time 1: After 100 queries
-        └── 100 crystallized knowledge points
+        └── 100 mapped knowledge points
         └── Related queries find existing knowledge
         └── LLM calls reduced ~30%
 
@@ -165,27 +165,27 @@ Query: "How do I refresh an expired token?"
                     ↓
         LLM gets RICH context, gives BETTER answer
                     ↓
-        Better answer crystallizes, enriches future queries
+        Better answer maps, enriches future queries
 ```
 
-**Knowledge compounds.** Each crystallized response improves future responses.
+**Knowledge compounds.** Each mapped response improves future responses.
 
 ### 3.3 The O(k) Advantage
 
 Traditional approach: Search all stored knowledge → O(n)
 Spatial approach: Navigate to relevant region → O(k)
 
-As crystallized knowledge grows from 1,000 to 1,000,000 points:
+As mapped knowledge grows from 1,000 to 1,000,000 points:
 - Traditional: 1000× slower lookups
 - Spatial: Same speed (only examine k neighbors)
 
-**Crystallization scales infinitely** because retrieval cost is constant.
+**Mapping scales infinitely** because retrieval cost is constant.
 
 ---
 
 ## 4. Visualization
 
-![Knowledge Crystallization Over Time](../assets/images/knowledge-crystallization.svg)
+![Knowledge Mapping Over Time](../assets/images/knowledge-mapping.svg)
 
 *The spatial map grows denser with each LLM interaction. Clusters form around frequently-queried topics. Dark regions represent well-understood areas where spatial lookup suffices; light regions trigger new LLM queries.*
 
@@ -195,14 +195,14 @@ As crystallized knowledge grows from 1,000 to 1,000,000 points:
 
 ### 5.1 Cost Reduction
 
-| Queries | Traditional (all LLM) | With Crystallization |
+| Queries | Traditional (all LLM) | With Mapping |
 |---------|----------------------|---------------------|
 | 100 | 100 LLM calls | 100 LLM calls |
 | 1,000 | 1,000 LLM calls | ~400 LLM calls |
 | 10,000 | 10,000 LLM calls | ~1,500 LLM calls |
 | 100,000 | 100,000 LLM calls | ~5,000 LLM calls |
 
-**85-95% cost reduction** at scale through crystallized knowledge reuse.
+**85-95% cost reduction** at scale through mapped knowledge reuse.
 
 ### 5.2 Latency Improvement
 
@@ -215,10 +215,10 @@ When knowledge exists spatially: **500-2000× faster response**.
 
 ### 5.3 Quality Improvement
 
-Counter-intuitively, crystallization improves answer quality:
+Counter-intuitively, mapping improves answer quality:
 
-1. **Consistent answers**: Same question returns same crystallized answer
-2. **Rich context**: LLM sees related crystallized knowledge
+1. **Consistent answers**: Same question returns same mapped answer
+2. **Rich context**: LLM sees related mapped knowledge
 3. **Error correction**: Bad answers can be updated in spatial store
 4. **Domain specialization**: The map becomes expert in your domain
 
@@ -244,7 +244,7 @@ Think of it as mining:
 ┌─────────────────────────────────────────────────────────┐
 │                                                         │
 │              Spatial Semantic Store                     │
-│              (Crystallized Knowledge)                   │
+│              (Mapped Knowledge)                         │
 │                                                         │
 │    Extracted knowledge, cheap to access forever         │
 │                                                         │
@@ -259,13 +259,13 @@ You don't keep going back to the mine for gold you've already extracted. You sto
 
 ## 7. Relationship to Skill Packs (M1.23)
 
-This crystallization concept directly enables **Skill Packs**:
+This mapping concept directly enables **Skill Packs**:
 
 ```
-Skill Pack = Pre-crystallized knowledge domain
+Skill Pack = Pre-mapped knowledge domain
 
 "Python Expert" Skill Pack:
-├── 50,000 crystallized Python Q&A pairs
+├── 50,000 mapped Python Q&A pairs
 ├── Spatially organized by topic
 ├── Instantly loadable into any INFINATE instance
 └── Zero LLM calls for covered topics
@@ -279,11 +279,11 @@ See: [BRAINSTORM_SISS_DLSS_INSPIRED.md](../Project/BRAINSTORM_SISS_DLSS_INSPIRED
 
 ## 8. Implementation Considerations (M2.0+ Planning)
 
-### 8.1 When to Crystallize
+### 8.1 When to Map
 
-Not every LLM response should be crystallized:
+Not every LLM response should be mapped:
 
-| Response Type | Crystallize? | Reason |
+| Response Type | Map? | Reason |
 |--------------|--------------|--------|
 | Factual explanations | ✅ Yes | Reusable knowledge |
 | Code examples | ✅ Yes | High reuse value |
@@ -293,7 +293,7 @@ Not every LLM response should be crystallized:
 
 ### 8.2 Staleness Management
 
-Crystallized knowledge can become stale:
+Mapped knowledge can become stale:
 
 ```python
 def should_refresh(knowledge_point):
@@ -307,13 +307,13 @@ def should_refresh(knowledge_point):
 
 ### 8.3 Confidence Thresholds
 
-When to use crystallized knowledge vs. query LLM:
+When to use mapped knowledge vs. query LLM:
 
 ```python
 confidence = calculate_confidence(nearby_knowledge, query)
 
 if confidence > 0.9:
-    return synthesize_spatial()      # High confidence: use crystal
+    return synthesize_spatial()      # High confidence: use mapped
 elif confidence > 0.6:
     return synthesize_with_llm_check()  # Medium: verify with LLM
 else:
