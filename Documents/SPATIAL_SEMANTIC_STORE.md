@@ -95,7 +95,7 @@ Spatial:      1. Map query to position (auth region)
 
 **The spatial organization means "relevant" and "nearby" are the same thing.**
 
-The query doesn't search—it *navigates* to the right region and looks around.
+The query doesn't search—it looks up the right region and examines what's nearby.
 
 ---
 
@@ -185,7 +185,7 @@ Octree Structure:
 |---------|---------------------|------------------------|
 | Storage | Flat embedding list | 3D spatial coordinates |
 | Organization | None (or approximate) | Semantic = Spatial |
-| Query method | Similarity search | Spatial navigation |
+| Query method | Similarity search | Spatial lookup |
 | Complexity | O(n) or O(n log n) | O(k) constant |
 | Scalability | Degrades with size | Constant regardless |
 
@@ -270,15 +270,15 @@ This is the LOD system (M1.10) - a natural consequence of spatial organization.
 
 ### 6.1 For AI Systems
 
-- **Unlimited context:** Navigate infinite data, load k at a time
+- **Unlimited context:** Access infinite data, retrieve k at a time
 - **Constant cost:** Query 1M tokens or 1B tokens, same compute
-- **Transparent reasoning:** Watch the AI navigate semantic space
+- **Efficient retrieval:** O(k) lookup regardless of total data size
 
 ### 6.2 For Knowledge Management
 
 - **Self-organizing archives:** Documents find their place
 - **Emergent connections:** Related knowledge clusters naturally
-- **Intuitive exploration:** Browse knowledge like exploring a world
+- **Intuitive access:** Browse knowledge by semantic proximity
 
 ### 6.3 For Database Design
 
@@ -295,7 +295,7 @@ The Spatial Semantic Store is a novel data structure where:
 1. **Data is mapped to 3D coordinates based on meaning**
 2. **Similar concepts become spatial neighbors**
 3. **An emergent semantic landscape forms automatically**
-4. **Queries navigate rather than search**
+4. **Queries lookup rather than search**
 5. **O(k) complexity is a natural consequence of the structure**
 
 The innovation is not the query algorithm—it's the organization. By doing the hard work at write time (mapping meaning to position), read time becomes trivial (look nearby).
