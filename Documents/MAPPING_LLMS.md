@@ -10,7 +10,9 @@ Project: INFINATE - Infinite Context Spatial AI (github.com/ch1pu/infinate)
 
 **Author:** Adolfo Lopez (ch1pu)
 **Date:** January 29, 2026
-**Status:** Technical Concept
+**Status:** M2.0 Planning Document (Ideas & Architecture)
+
+> **Note:** This document describes planned functionality for **Milestone 2.0: LLM Integration**. The concepts here build on INFINATE's existing spatial infrastructure (M1.1-M1.11) but are not yet implemented. This serves as architectural planning and vision documentation.
 
 ---
 
@@ -322,23 +324,30 @@ else:
 
 ## 9. Summary
 
-**The Insight:**
-INFINATE's spatial structure isn't just an index—it's a knowledge crystallization engine that transforms LLMs from expensive-to-query knowledge stores into one-time knowledge sources.
+> **Reminder:** This is M2.0 planning. The spatial infrastructure exists (M1.1-M1.11). LLM integration is the next major milestone.
 
-**The Mechanism:**
+**The Insight:**
+INFINATE's spatial structure isn't just an index—it's a knowledge mapping engine that transforms LLMs from expensive-to-query knowledge stores into one-time knowledge sources.
+
+**The Mechanism (Planned for M2.0):**
 1. Query LLM when spatial knowledge is insufficient
-2. Crystallize LLM response into spatial position
-3. Future queries find crystallized knowledge in O(k)
+2. Map LLM response into spatial position
+3. Future queries find mapped knowledge in O(k)
 4. Knowledge compounds, costs decrease, quality improves
 
-**The Result:**
+**The Expected Result:**
 - 85-95% reduction in LLM calls at scale
-- 500-2000× faster responses for crystallized knowledge
+- 500-2000× faster responses for mapped knowledge
 - Compound improvement in answer quality
 - Foundation for pre-built Skill Packs
 
 **The Mental Model:**
 The LLM is the mine. INFINATE is the refinery. Don't keep mining what you've already extracted.
+
+**Current Status:**
+- ✅ Spatial infrastructure ready (M1.1-M1.11 complete)
+- ⏳ LLM integration planned (M2.0)
+- 📋 This document serves as architectural planning
 
 ---
 
