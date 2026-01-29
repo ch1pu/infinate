@@ -131,6 +131,6 @@
 
   <!-- Video game analogy -->
   <text x="220" y="385" text-anchor="middle" font-family="Arial" font-size="11" fill="#64748b">
-    Like Minecraft: nearby chunks = full detail, distant chunks = simplified
+    Like 3D games: nearby = full detail, distant = simplified
   </text>
 </svg>

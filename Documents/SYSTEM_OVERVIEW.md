@@ -171,7 +171,7 @@ interface AIAgent {
 
 | Component | Hardware | Workload | Performance Target |
 |-----------|----------|----------|-------------------|
-| **3D Rendering** | iGPU (Radeon 890M) | Voxel world, avatars, UI | 60 FPS |
+| **3D Rendering** | iGPU (Radeon 890M) | 3D visualization, avatars, UI | 60 FPS |
 | **AI Inference** | dGPU (RTX 5060) | 2-3 models parallel | 30+ tokens/sec |
 | **Embeddings** | NPU (XDNA 2) | Semantic search | <10ms per query |
 | **Orchestration** | CPU (Zen 5) | Context streaming, octree | <100ms latency |
@@ -248,7 +248,7 @@ Z-axis (North-South): Abstraction Level
 ### 4.1 Core Visualizations
 
 **Memory Palace (Main View):**
-- simple 3D voxel world
+- simple 3D environment
 - Buildings represent code files
 - Height = file size
 - Color = file type
