@@ -73,7 +73,9 @@ INFINATE + LLM Pipeline:
 
 **Key difference:** The LLM's output flows back into the spatial structure.
 
-### 2.2 How It Works
+### 2.2 How It Would Work (Conceptual)
+
+*Note: This describes the planned integration (M2.0+), not current implementation.*
 
 ```python
 def query_with_crystallization(question: str) -> str:
@@ -273,7 +275,7 @@ See: [BRAINSTORM_SISS_DLSS_INSPIRED.md](../Project/BRAINSTORM_SISS_DLSS_INSPIRED
 
 ---
 
-## 8. Implementation Considerations
+## 8. Implementation Considerations (M2.0+ Planning)
 
 ### 8.1 When to Crystallize
 
