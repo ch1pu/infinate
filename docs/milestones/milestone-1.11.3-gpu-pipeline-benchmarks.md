@@ -253,11 +253,44 @@ creation, spatial encoding, transformer stacking, and vector store retrieval.
 
 ---
 
-## Next: M1.11.4 — Hybrid CPU/GPU Router
+## Next: M1.11.4 — Full Pipeline GPU Benchmarks + Hybrid Router
 
-M1.11.3 benchmark data shows CPU wins below ~20K tokens and GPU wins above (3.9x at 50K).
-Both code paths are proven working. The natural next step is a hybrid router that picks
-the optimal device per query based on context size.
+M1.11.3 only benchmarks `NavigationAttention.query()` — 3 of 7 README pipeline stages.
+M1.11.4 closes this gap with 4 phases:
 
-See `Project/MILESTONE_1.11.3_COMPLETE.md` "Next: M1.11.4" section for full design
-context, data tables, and implementation sketch.
+| Phase | Goal |
+|-------|------|
+| **A** | Get all 7 pipeline stages running and verified on GPU |
+| **B** | Full pipeline O(n²) baseline comparison (like M1.8 but with complete pipeline) |
+| **C** | Hybrid CPU/GPU router with auto-calibrate threshold (~15K default) |
+| **D** | Full pipeline GPU vs CPU comparison to find true crossover point |
+
+### Phase A: Full Pipeline GPU Coverage
+
+| Stage | Component | M1.11.3 Status | M1.11.4 Goal |
+|-------|-----------|----------------|--------------|
+| 1 | SpatialToken | Not tested | Verify on GPU |
+| 2 | SpatialEncoding | Not tested | Verify on GPU |
+| 3 | SpatialAttention O(k) | **Tested** | Confirm via full pipeline |
+| 4 | SpatialTransformer (stacked) | Not tested | Multi-layer on GPU |
+| 5 | VectorStore (Qdrant/pgvector) | Not tested | In-memory on GPU tensors |
+| 6 | LOD System | **Tested** | Confirm via full pipeline |
+| 7 | Strafe Jump Navigation | **Tested** | Confirm via full pipeline |
+
+### Phase B: Full Pipeline O(n²) Baseline Comparison
+
+M1.8 compared O(k) vs O(n²) but only with `SpatialAttention` alone. M1.11.4 repeats
+that comparison with the true end-to-end pipeline (all 7 stages), producing the first
+honest "full pipeline speedup" numbers.
+
+### Phase C: Hybrid CPU/GPU Router
+
+`HybridNavigationAttention` wrapper with two upfront instances (CPU + GPU), auto-calibrate
+threshold (default ~15K), Option C data placement (accept any device, move if needed),
+same `.query()` API. See `Project/MILESTONE_1.11.3_COMPLETE.md` for M1.11.3 benchmark
+data tables showing the crossover.
+
+### Phase D: Full Pipeline GPU vs CPU Comparison
+
+Benchmark all 7 stages on both devices (1K → 50K tokens) to find the true full-pipeline
+crossover point, which may differ from the NavigationAttention-only ~20K crossover.

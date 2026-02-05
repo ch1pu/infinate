@@ -431,13 +431,46 @@ based on context size — and the benchmark data now tells us exactly where the 
 
 ---
 
-## Next: M1.11.4 — Hybrid CPU/GPU Router
+## Next: M1.11.4 — Full Pipeline GPU Benchmarks + Hybrid Router
 
-M1.11.3 data shows a clear split: CPU wins below ~20K tokens, GPU wins above.
-Both code paths are proven working. M1.11.4 should build a hybrid router that
-automatically picks the optimal device per query based on context size.
+M1.11.3 proved GPU works for `NavigationAttention.query()` — but that only covers
+3 of 7 README pipeline stages. M1.11.4 closes this gap with 4 phases:
 
-### Design Context from M1.11.3 Data
+### Phase A: Full Pipeline GPU Coverage (All 7 Stages)
+
+Get every pipeline stage running on GPU and verified individually:
+
+| Stage | Component | GPU Status After M1.11.3 | M1.11.4 Goal |
+|-------|-----------|--------------------------|--------------|
+| 1 | SpatialToken | Not tested on GPU | Verify creation + device placement |
+| 2 | SpatialEncoding | Not tested on GPU | Verify encoding on CUDA tensors |
+| 3 | SpatialAttention O(k) | **Tested** (M1.11.3) | Confirm via full pipeline |
+| 4 | SpatialTransformer (stacked) | Not tested on GPU | Multi-layer forward on GPU |
+| 5 | VectorStore (Qdrant/pgvector) | Not tested on GPU | In-memory adapter on GPU tensors |
+| 6 | LOD System | **Tested** (M1.11.3) | Confirm via full pipeline |
+| 7 | Strafe Jump Navigation | **Tested** (M1.11.3) | Confirm via full pipeline |
+
+### Phase B: Full Pipeline O(n²) Baseline Comparison
+
+M1.8 compared O(k) vs O(n²) but only with `SpatialAttention` alone. M1.11.4 repeats
+that comparison with the true end-to-end pipeline (all 7 stages):
+
+```
+Full Pipeline (all 7 stages):
+  SpatialToken → SpatialEncoding → SpatialAttention → SpatialTransformer
+  → VectorStore → LOD → Strafe Jump Navigation
+
+Compare:
+  - Full pipeline O(k) on CPU  vs  O(n²) baseline on CPU
+  - Full pipeline O(k) on GPU  vs  O(n²) baseline on GPU (if applicable)
+  - Scaling: 1K → 50K tokens through the complete pipeline
+```
+
+This produces the first honest "full pipeline speedup" numbers (not just attention-layer).
+
+### Phase C: Hybrid CPU/GPU Router
+
+M1.11.3 data shows CPU wins below ~20K tokens, GPU wins above:
 
 ```
 Tokens    CPU (ms)    GPU (ms)    Optimal Device
@@ -450,25 +483,37 @@ Tokens    CPU (ms)    GPU (ms)    Optimal Device
 50,000      79.01       20.39    GPU  (3.9x faster)
 ```
 
+**Design decisions:**
+
+- **Auto-calibrate threshold**: Default crossover at ~15K tokens, with optional
+  startup calibration on actual hardware
+- **Two upfront instances**: Hold both CPU and GPU `NavigationAttention` in memory
+- **Option C data placement**: Accept input on any device, move to target device
+  only if needed (no cross-device transfers in the common case)
+- **Same API**: `HybridNavigationAttention.query()` matches existing interface
+- **Minimal overhead**: Router decision < 0.1ms
+
+### Phase D: Full Pipeline GPU vs CPU Comparison
+
+With all 7 stages on GPU (Phase A) and the hybrid router (Phase C), benchmark the
+complete pipeline on both devices to find the true crossover point — which may differ
+from the NavigationAttention-only crossover found in M1.11.3.
+
+```
+Full Pipeline GPU vs CPU:
+  - Latency per context size (1K → 50K) through all 7 stages
+  - Find real crossover point (may differ from ~20K NavigationAttention-only)
+  - Update hybrid router threshold with full-pipeline data
+  - Memory scaling comparison (GPU VRAM vs CPU RAM)
+```
+
 ### Key Requirements
 
-- **Static threshold**: Default crossover at ~15K tokens (conservative, favoring GPU
-  slightly early since its latency variance is lower — see p95 values)
-- **Auto-calibration** (optional): Run 2-3 quick benchmarks at startup on actual
-  hardware to find the real crossover point, since it will shift on different
-  CPU/GPU combinations
-- **Minimal overhead**: The router decision itself should add < 0.1ms
-- **Both paths already work**: `NavigationAttention` on CPU (default) and
-  `NavigationAttention().to("cuda")` both produce correct results with matching
-  navigation metrics (verified in M1.11.3 `test_gpu_navigation_quality_parity`)
-- **Memory note**: GPU peak at 50K is 207 MB — plenty of room on 16 GB card,
-  no need to worry about OOM for context sizes up to ~1M tokens
-
-### Implementation Sketch
-
-A `HybridNavigationAttention` wrapper holding both a CPU and GPU instance, routing
-queries based on `len(context_embeddings)` vs a configurable threshold. Data stays
-on the chosen device (no cross-device transfers in the hot path).
+- **New files only**: Do not modify existing M1.11.3 test/conftest files
+- **Both paths already work** (for NavigationAttention): CPU default and
+  `.to("cuda")` produce correct results with matching navigation metrics
+  (verified in M1.11.3 `test_gpu_navigation_quality_parity`)
+- **Memory note**: GPU peak at 50K is 207 MB — plenty of room on 16 GB card
 
 ---
 
