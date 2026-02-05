@@ -1,0 +1,166 @@
+M1.11.3 GPU Full Pipeline Benchmarks - Raw Test Output
+=======================================================
+Date: February 5, 2026
+Command: poetry run pytest spatial_engine/tests/test_m1113_gpu_pipeline_benchmarks.py -v -s --no-cov
+Platform: Python 3.13.9, pytest-7.4.4, PyTorch 2.10.0+cu128, CUDA 12.8
+GPU: NVIDIA GeForce RTX 5060 (SM_120, Blackwell)
+CPU: AMD Zen 5 (AI Max 350)
+Result: 18 passed, 1 warning in 23.95s
+
+=============================================== test session starts ===============================================
+platform linux -- Python 3.13.9, pytest-7.4.4, pluggy-1.6.0 -- /home/ch1pu/infinate/backend/.venv/bin/python
+cachedir: .pytest_cache
+benchmark: 4.0.0 (defaults: timer=time.perf_counter disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=False warmup_iterations=100000)
+rootdir: /home/ch1pu/infinate/backend
+configfile: pyproject.toml
+plugins: benchmark-4.0.0, cov-4.1.0, asyncio-0.21.2, anyio-4.12.0
+asyncio: mode=Mode.STRICT
+collected 18 items
+
+spatial_engine/tests/test_m1113_gpu_pipeline_benchmarks.py::TestM1113GPUGuardFixes::test_navigation_attention_gpu_device_placement
+GPU device placement: output on cuda:0
+  Steps: 10, Attention ops: 1
+PASSED
+spatial_engine/tests/test_m1113_gpu_pipeline_benchmarks.py::TestM1113GPUGuardFixes::test_spatial_attention_gpu_execution
+SpatialAttention GPU execution: torch.Size([2, 16, 768]) on cuda:0
+PASSED
+spatial_engine/tests/test_m1113_gpu_pipeline_benchmarks.py::TestM1113GPUGuardFixes::test_spatial_attention_device_transfer
+Device transfer CPU->GPU: torch.Size([2, 10, 768]) on cuda:0
+PASSED
+spatial_engine/tests/test_m1113_gpu_pipeline_benchmarks.py::TestM1113GPUFullPipeline::test_full_pipeline_gpu_forward
+GPU full pipeline forward: torch.Size([256]) on cuda:0
+  Steps: 10, Ops: 1
+  Tokens accessed: 1996
+PASSED
+spatial_engine/tests/test_m1113_gpu_pipeline_benchmarks.py::TestM1113GPUFullPipeline::test_full_pipeline_gpu_with_navigation
+GPU navigation (5K tokens): 10 steps
+  Attention ops: 1, Tokens: 4990
+PASSED
+spatial_engine/tests/test_m1113_gpu_pipeline_benchmarks.py::TestM1113GPUFullPipeline::test_full_pipeline_gpu_no_navigation_baseline
+GPU no-navigation baseline: steps=0
+PASSED
+spatial_engine/tests/test_m1113_gpu_pipeline_benchmarks.py::TestM1113GPUFullPipeline::test_full_pipeline_gpu_output_consistency
+GPU output consistency: 10 runs within atol=0.02 (worst diff: 1.81e-02)
+PASSED
+spatial_engine/tests/test_m1113_gpu_pipeline_benchmarks.py::TestM1113GPUvsCPUBenchmarks::test_gpu_vs_cpu_latency_small_context
+M1.11.3 GPU vs CPU — Small Context (1,000 tokens)
+=================================================================
+Device                Mean (ms)   p50 (ms)   p95 (ms)      Tok/sec
+-----------------------------------------------------------------
+CPU                        3.70       3.83       5.22      270,205
+NVIDIA GeForce RTX 5      18.26      16.32      31.84       54,750
+-----------------------------------------------------------------
+GPU Speedup: 0.20x
+GPU Peak Memory: 14.3 MB
+=================================================================
+PASSED
+spatial_engine/tests/test_m1113_gpu_pipeline_benchmarks.py::TestM1113GPUvsCPUBenchmarks::test_gpu_vs_cpu_latency_medium_context
+M1.11.3 GPU vs CPU — Medium Context (5,000 tokens)
+=================================================================
+Device                Mean (ms)   p50 (ms)   p95 (ms)      Tok/sec
+-----------------------------------------------------------------
+CPU                        8.43       8.18      11.02      592,877
+NVIDIA GeForce RTX 5      16.47      16.25      17.89      303,511
+-----------------------------------------------------------------
+GPU Speedup: 0.51x
+GPU Peak Memory: 30.0 MB
+=================================================================
+PASSED
+spatial_engine/tests/test_m1113_gpu_pipeline_benchmarks.py::TestM1113GPUvsCPUBenchmarks::test_gpu_vs_cpu_latency_large_context
+M1.11.3 GPU vs CPU — Large Context (20,000 tokens)
+=================================================================
+Device                Mean (ms)   p50 (ms)   p95 (ms)      Tok/sec
+-----------------------------------------------------------------
+CPU                       27.33      27.76      32.56      731,840
+NVIDIA GeForce RTX 5      16.91      16.81      17.61    1,182,508
+-----------------------------------------------------------------
+GPU Speedup: 1.62x
+GPU Peak Memory: 90.8 MB
+=================================================================
+PASSED
+spatial_engine/tests/test_m1113_gpu_pipeline_benchmarks.py::TestM1113GPUvsCPUBenchmarks::test_gpu_vs_cpu_scaling_curve
+M1.11.3 GPU vs CPU Scaling Curve
+================================================================================
+  Tokens   CPU Mean   GPU Mean    Speedup  GPU Peak MB
+--------------------------------------------------------------------------------
+   1,000       3.94      16.50       0.24x         14.3
+   2,000       4.23      17.24       0.25x         18.2
+   5,000       6.37      16.65       0.38x         30.0
+  10,000      11.82      16.20       0.73x         50.2
+  20,000      27.88      16.96       1.64x         90.8
+  50,000      79.01      20.39       3.88x        206.8
+--------------------------------------------------------------------------------
+GPU crossover point: ~20,000 tokens
+================================================================================
+PASSED
+spatial_engine/tests/test_m1113_gpu_pipeline_benchmarks.py::TestM1113GPUvsCPUBenchmarks::test_gpu_vs_cpu_throughput
+M1.11.3 Sustained Throughput (2,000 tokens, 5.0s)
+============================================================
+Device        Queries      Q/sec         Tok/sec
+------------------------------------------------------------
+CPU               969      193.5         387,092
+GPU               290       57.8         115,667
+------------------------------------------------------------
+GPU Throughput Speedup: 0.30x
+============================================================
+PASSED
+spatial_engine/tests/test_m1113_gpu_pipeline_benchmarks.py::TestM1113GPUMemoryProfiling::test_gpu_memory_scaling
+M1.11.3 GPU Memory Scaling
+=======================================================
+  Tokens   Allocated MB    Peak MB    Ratio
+-------------------------------------------------------
+   1,000          11.38      14.32     1.00x
+   5,000          15.33      30.04     2.10x
+  10,000          20.27      50.15     3.50x
+  50,000          59.79     206.85    14.45x
+-------------------------------------------------------
+Token ratio (50K/1K): 50.0x | Memory ratio: 14.45x
+O(k) VERIFIED: Memory grows sublinearly with tokens
+=======================================================
+PASSED
+spatial_engine/tests/test_m1113_gpu_pipeline_benchmarks.py::TestM1113GPUMemoryProfiling::test_gpu_memory_breakdown
+M1.11.3 GPU Memory Breakdown (10K tokens)
+=============================================
+  Model params:         1.26 MB
+  Input tensors:        9.88 MB
+  Forward overhead:    29.88 MB
+  Peak total:          50.15 MB
+=============================================
+PASSED
+spatial_engine/tests/test_m1113_gpu_pipeline_benchmarks.py::TestM1113GPUMemoryProfiling::test_gpu_memory_cleanup
+M1.11.3 GPU Memory Cleanup
+========================================
+  Baseline:           9.12 MB
+  Peak:              20.27 MB
+  After cleanup:      9.12 MB
+========================================
+PASSED
+spatial_engine/tests/test_m1113_gpu_pipeline_benchmarks.py::TestM1113GPUNavigationMetrics::test_gpu_navigation_metrics_correctness
+GPU NavigationMetrics correctness verified:
+  steps=10, ops=1
+  tokens=4990, warps=0
+  converged=False, similarity=0.0000
+PASSED
+spatial_engine/tests/test_m1113_gpu_pipeline_benchmarks.py::TestM1113GPUNavigationMetrics::test_gpu_navigation_quality_parity
+GPU vs CPU Navigation Quality Parity (5,000 tokens)
+==================================================
+  Metric                           CPU        GPU
+  ---------------------------------------------
+  Steps taken                       10         10
+  Attention ops                      1          1
+  Tokens accessed                 4988       4990
+  Converged                      False      False
+==================================================
+PASSED
+spatial_engine/tests/test_m1113_gpu_pipeline_benchmarks.py::TestM1113ResultsSaver::test_z_save_results
+Results saved to: /home/ch1pu/infinate/backend/spatial_engine/tests/../../test_results/test-results-m1.11.3.md
+Total benchmarks recorded: 17
+PASSED
+
+================================================ warnings summary =================================================
+.venv/lib/python3.13/site-packages/_pytest/config/__init__.py:754
+  /home/ch1pu/infinate/backend/.venv/lib/python3.13/site-packages/_pytest/config/__init__.py:754: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: spatial_engine.tests.conftest_m1113
+    self.import_plugin(import_spec)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+========================================= 18 passed, 1 warning in 23.95s ==========================================

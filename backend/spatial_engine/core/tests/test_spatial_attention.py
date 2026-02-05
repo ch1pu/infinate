@@ -84,16 +84,11 @@ class TestSpatialAttention:
 
         # Test on GPU if available AND compatible
         if torch.cuda.is_available():
-            try:
-                cap = torch.cuda.get_device_capability()
-                # RTX 50xx series (SM_120) not yet supported by PyTorch 2.x
-                if cap[0] >= 12:
-                    pytest.skip(
-                        f"GPU compute capability sm_{cap[0]}{cap[1]} "
-                        "not supported by current PyTorch"
-                    )
-            except Exception as e:
-                pytest.skip(f"GPU capability check failed: {e}")
+            from spatial_engine.tests.conftest import check_cuda_compatible
+
+            is_ok, reason = check_cuda_compatible()
+            if not is_ok:
+                pytest.skip(reason)
 
             attention_gpu = attention_cpu.cuda()
             x_gpu = x.cuda()

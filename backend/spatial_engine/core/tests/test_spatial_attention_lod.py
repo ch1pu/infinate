@@ -43,7 +43,7 @@ class TestSpatialAttentionWithLODInit:
         """Test initialization with custom LOD configuration."""
         custom_levels = [
             LODLevel("close", 0.0, 100.0, 1, 100),
-            LODLevel("far", 100.0, float('inf'), 10, 10),
+            LODLevel("far", 100.0, float("inf"), 10, 10),
         ]
         config = LODConfig(levels=custom_levels)
 
@@ -75,9 +75,7 @@ class TestSpatialAttentionWithLODInit:
 
     def test_compression_methods(self):
         """Test both compression methods work."""
-        attn_merge = SpatialAttentionWithLOD(
-            d_model=768, n_heads=12, compression_method="merge"
-        )
+        attn_merge = SpatialAttentionWithLOD(d_model=768, n_heads=12, compression_method="merge")
         attn_cluster = SpatialAttentionWithLOD(
             d_model=768, n_heads=12, compression_method="cluster"
         )
@@ -146,9 +144,7 @@ class TestSpatialAttentionWithLODForward:
 
     def test_lod_disabled_bypass(self):
         """Test LOD disabled bypasses compression."""
-        attn = SpatialAttentionWithLOD(
-            d_model=768, n_heads=12, enable_lod=False
-        )
+        attn = SpatialAttentionWithLOD(d_model=768, n_heads=12, enable_lod=False)
 
         x = torch.randn(2, 16, 768)
         positions = torch.randn(2, 16, 3) * 100.0
@@ -213,14 +209,14 @@ class TestLODContextExpansion:
 
         stats = attn.get_lod_statistics(positions)
 
-        assert 'total_tokens' in stats
-        assert 'context_expansion' in stats
-        assert 'near_count' in stats
-        assert 'medium_count' in stats
-        assert 'far_count' in stats
-        assert 'beyond_count' in stats
+        assert "total_tokens" in stats
+        assert "context_expansion" in stats
+        assert "near_count" in stats
+        assert "medium_count" in stats
+        assert "far_count" in stats
+        assert "beyond_count" in stats
 
-        assert stats['total_tokens'] == 100
+        assert stats["total_tokens"] == 100
 
     def test_lod_improves_context_coverage(self, attn):
         """Test LOD provides better context coverage than hard cutoff."""
@@ -235,10 +231,7 @@ class TestLODContextExpansion:
         # With LOD, we should have tokens at multiple levels
         # Note: counts are summed across all batches
         total_visible = (
-            stats['near_count'] +
-            stats['medium_count'] +
-            stats['far_count'] +
-            stats['beyond_count']
+            stats["near_count"] + stats["medium_count"] + stats["far_count"] + stats["beyond_count"]
         )
 
         # All tokens across all batches should be assigned
@@ -264,9 +257,7 @@ class TestBackwardCompatibility:
 
     def test_lod_disabled_matches_base(self):
         """Test LOD disabled produces similar results to base attention."""
-        base_attn = SpatialAttention(
-            d_model=768, n_heads=12, spatial_radius=50.0
-        )
+        base_attn = SpatialAttention(d_model=768, n_heads=12, spatial_radius=50.0)
         lod_attn = SpatialAttentionWithLOD(
             d_model=768, n_heads=12, spatial_radius=50.0, enable_lod=False
         )
@@ -319,7 +310,7 @@ class TestCreateLODAttention:
         """Test factory with custom LOD levels."""
         custom_levels = [
             LODLevel("close", 0.0, 100.0, 1, 100),
-            LODLevel("distant", 100.0, float('inf'), 50, 10),
+            LODLevel("distant", 100.0, float("inf"), 50, 10),
         ]
 
         attn = create_lod_attention(custom_levels=custom_levels)
@@ -377,12 +368,11 @@ class TestDevicePlacement:
     @pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
     def test_gpu_execution(self):
         """Test LOD attention works on GPU."""
-        try:
-            cap = torch.cuda.get_device_capability()
-            if cap[0] >= 12:
-                pytest.skip("GPU compute capability not supported by current PyTorch")
-        except Exception:
-            pytest.skip("GPU capability check failed")
+        from spatial_engine.tests.conftest import check_cuda_compatible
+
+        is_ok, reason = check_cuda_compatible()
+        if not is_ok:
+            pytest.skip(reason)
 
         attn = SpatialAttentionWithLOD(d_model=768, n_heads=12).cuda()
 

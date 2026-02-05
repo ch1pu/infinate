@@ -21,7 +21,7 @@ Project: INFINATE - Infinite Context Spatial AI (github.com/ch1pu/infinate)
 # Milestone 1.11.2: Full Pipeline E2E Tests - Test Results
 
 **Status:** COMPLETE
-**Date:** 2026-02-05 20:02 UTC
+**Date:** 2026-02-05 21:27 UTC
 **Author:** Adolfo Lopez (ch1pu)
 **License:** Apache 2.0 - Open Source
 
@@ -38,9 +38,9 @@ instead of stopping at the Navigator step.
 | Metric | Value |
 |--------|-------|
 | Full Pipeline Tests | 2 |
-| Full Pipeline Mean Latency | 146.31ms |
-| Partial Pipeline Mean Latency | 87.69ms |
-| Full Pipeline Overhead | 1.67x |
+| Full Pipeline Mean Latency | 141.99ms |
+| Partial Pipeline Mean Latency | 82.87ms |
+| Full Pipeline Overhead | 1.71x |
 | Output Shape Verified | (256,) |
 
 ---
@@ -63,11 +63,11 @@ instead of stopping at the Navigator step.
 | Output shape | (256,) |
 | Navigation steps | 10 |
 | Attention operations | 1 |
-| Tokens accessed (LOD) | 998 |
+| Tokens accessed (LOD) | 986 |
 | Warp count | 0 |
 | Converged | False |
-| Final similarity | 0.0862 |
-| Trajectory length | 72.88 |
+| Final similarity | -0.0336 |
+| Trajectory length | 65.59 |
 
 ---
 
@@ -93,10 +93,10 @@ instead of stopping at the Navigator step.
 
 | Pipeline | Mean (ms) | p50 (ms) | p95 (ms) |
 |----------|-----------|----------|----------|
-| Partial (Nav only) | 87.69 | 85.33 | 139.66 |
-| Full (Nav+LOD+Attn) | 146.31 | 146.73 | 152.50 |
+| Partial (Nav only) | 82.87 | 72.51 | 133.59 |
+| Full (Nav+LOD+Attn) | 141.99 | 147.03 | 151.73 |
 
-**Full Pipeline Overhead:** 1.67x
+**Full Pipeline Overhead:** 1.71x
 
 ### Navigation Metrics (Last Run)
 
@@ -112,28 +112,6 @@ instead of stopping at the Navigator step.
 
 ---
 
-## GPU Test Results (RTX 5060 SM_120)
-
-After upgrading PyTorch to 2.10.0+cu128 and fixing the GPU compatibility guard,
-existing GPU tests were run (`poetry run pytest -k "gpu or cuda" -v -s`):
-
-| Test | Status | Detail |
-|------|--------|--------|
-| `test_gpu_utilization_comparison` | **PASS** | 14,557 tokens/sec on RTX 5060 |
-| `test_gpu_memory_scaling` | **FAIL** | Device mismatch — model on CPU, input on CUDA |
-| `test_gpu_execution` | **SKIP** | Old hard-coded SM check (not using updated guard) |
-
-**First GPU test to ever pass in this project.**
-
-### GPU Failure Analysis
-
-- `test_gpu_memory_scaling`: `NavigationAttention()` model weights stay on CPU.
-  Test needs `.to(device)` on the model before passing CUDA tensors. Test-level bug.
-- `test_gpu_execution`: Has its own SM architecture skip in `test_spatial_attention_lod.py`,
-  not using the updated `check_cuda_compatible()` runtime test.
-
----
-
 ## Conclusion
 
 M1.11.2 successfully corrects the E2E test gap from M1.11 by running
@@ -141,12 +119,9 @@ the **complete** NavigationAttention.query() pipeline. All tests verify
 that the output tensor has the correct shape, that attention was actually
 computed (not just navigation), and that LOD compression processed tokens.
 
-GPU support was restored (PyTorch 2.10.0+cu128, SM_120) with the first GPU
-test passing at 14,557 tokens/sec. Two remaining GPU tests need fixes in M1.11.3.
-
 ---
 
 **Status:** COMPLETE
-**Date:** 2026-02-05 20:02 UTC
+**Date:** 2026-02-05 21:27 UTC
 **Author:** Adolfo Lopez (ch1pu)
 **License:** Apache 2.0 - Open Source

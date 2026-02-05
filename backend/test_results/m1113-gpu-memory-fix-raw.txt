@@ -1,0 +1,37 @@
+M1.11.3 GPU Memory Fix — Raw Test Output
+==========================================
+Date: February 5, 2026
+Command: poetry run pytest spatial_engine/tests/test_m111_navigation_benchmarks.py::TestMemoryComplexity::test_gpu_memory_scaling -v -s --no-cov
+Fix: Added .to(device) to NavigationAttention at line 1026 of test_m111_navigation_benchmarks.py
+Result: 1 passed in 5.41s
+
+=============================================== test session starts ===============================================
+platform linux -- Python 3.13.9, pytest-7.4.4, pluggy-1.6.0
+rootdir: /home/ch1pu/infinate/backend
+configfile: pyproject.toml
+plugins: benchmark-4.0.0, cov-4.1.0, asyncio-0.21.2, anyio-4.12.0
+asyncio: mode=Mode.STRICT
+collected 1 item
+
+spatial_engine/tests/test_m111_navigation_benchmarks.py::TestMemoryComplexity::test_gpu_memory_scaling
+======================================================================
+M1.11 GPU MEMORY SCALING TEST
+======================================================================
+
+    Tokens     Peak GPU Memory (MB)
+----------------------------------------
+      1000                    12.17
+      2000                    16.44
+      5000                    26.51
+     10000                    42.60
+
+========================================
+Token increase:  10x
+GPU Memory increase: 3.50x
+========================================
+
+RESULT: GPU MEMORY O(k) VERIFIED
+======================================================================
+PASSED
+
+================================================ 1 passed in 5.41s ================================================

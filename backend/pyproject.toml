@@ -119,6 +119,9 @@ markers = [
     "m111_mit: M1.11 MIT RLM comparison tests",
     "m1112: M1.11.2 Full Pipeline E2E tests",
     "m1112_integration: M1.11.2 full pipeline integration tests",
+    "m1113: M1.11.3 GPU Full Pipeline Benchmark tests",
+    "m1113_gpu: M1.11.3 GPU-specific tests",
+    "m1113_benchmark: M1.11.3 benchmark tests",
 ]
 
 [build-system]

@@ -1023,7 +1023,7 @@ class TestMemoryComplexity:
             k_neighbors=50,
             enable_navigation=True,
             enable_lod=True,
-        )
+        ).to(device)
 
         memory_results: list[tuple[int, float]] = []
         sizes = [1000, 2000, 5000, 10000]
