@@ -58,6 +58,8 @@ GPU support for the RTX 5060 (SM_120/Blackwell) for the first time.
 | PyTorch Upgrade | 2.7.1+cu126 -> 2.10.0+cu128 |
 | GPU Support Enabled | RTX 5060 SM_120 now works (was always skipped) |
 | GPU Guard Fixed | Runtime kernel test replaces hard-coded SM limit |
+| First GPU Test Passed | `test_gpu_utilization_comparison` — 14,557 tokens/sec |
+| GPU Tests Status | 1 PASSED, 1 FAILED (device mismatch), 1 SKIPPED (old SM check) |
 
 ---
 
@@ -137,6 +139,51 @@ venv-local torch and nvidia packages that were shadowing the system installation
 
 ---
 
+## GPU Test Results
+
+After restoring GPU support, existing GPU tests were run (`poetry run pytest -k "gpu or cuda" -v -s`):
+
+| Test | File | Status | Detail |
+|------|------|--------|--------|
+| `test_gpu_utilization_comparison` | `test_m111_navigation_benchmarks.py` | **PASS** | 14,557 tokens/sec on RTX 5060 SM_120 |
+| `test_gpu_memory_scaling` | `test_m111_navigation_benchmarks.py` | **FAIL** | Device mismatch — model on CPU, input on CUDA |
+| `test_gpu_execution` | `test_spatial_attention_lod.py` | **SKIP** | Still has old hard-coded SM check (not using updated `check_cuda_compatible()`) |
+
+### test_gpu_utilization_comparison — PASSED
+
+First GPU test to ever pass in this project. The RTX 5060 SM_120 executed
+NavigationAttention successfully:
+
+| Metric | Value |
+|--------|-------|
+| GPU Tokens/sec | 14,557 |
+| Device | RTX 5060 (SM_120 Blackwell) |
+| PyTorch | 2.10.0+cu128 |
+
+### test_gpu_memory_scaling — FAILED
+
+```
+RuntimeError: Expected all tensors to be on the same device,
+but found at least two devices, cuda:0 and cpu!
+```
+
+**Root Cause:** `NavigationAttention()` model weights stay on CPU. The test creates
+CUDA input tensors but never calls `.to(device)` on the model itself. The model's
+internal `SpatialAttention` linear layers remain on CPU while the query tensor is
+on CUDA.
+
+**Fix (for M1.11.3):** Add `nav_attention.to(device)` before passing CUDA tensors.
+
+### test_gpu_execution — SKIPPED
+
+This test in `test_spatial_attention_lod.py` has its own hard-coded SM architecture
+check that hasn't been updated to use the new runtime `check_cuda_compatible()` from
+`conftest.py`. It still blocks SM_120 even though PyTorch 2.10.0+cu128 supports it.
+
+**Fix (for M1.11.3):** Update the skip condition to use `check_cuda_compatible()`.
+
+---
+
 ## Pipeline Gap Audit
 
 Investigation during M1.11.2 revealed the pipeline coverage across all test files:
@@ -200,34 +247,40 @@ still exercise partial or incomplete pipelines:
 The reported speedup numbers (10,317x, 2,586x, etc.) from these benchmarks may need
 re-validation once they are run through the full pipeline.
 
-### 2. GPU Unblocked But Not Used
+### 2. GPU Tests Partially Working — 1 PASS, 1 FAIL, 1 SKIP
 
 M1.11.2 fixed the GPU compatibility guard and upgraded PyTorch to 2.10.0+cu128 with
-SM_120 support. However:
+SM_120 support. Running existing GPU tests revealed:
 
-- **All M1.11.2 tests run on CPU only** — no GPU test paths were added
-- **All existing tests are CPU-only** except one (`test_gpu_memory_scaling` in
-  `test_m111_navigation_benchmarks.py`) which was always skipped before
-- **No GPU benchmarks exist** — all reported speedup numbers are CPU-only
-- The GPU guard fix (`check_cuda_compatible()`) enables future GPU tests but
-  M1.11.2 itself doesn't exercise it
+- **`test_gpu_utilization_comparison` PASSED** — 14,557 tokens/sec on RTX 5060 SM_120.
+  First GPU test to ever pass in this project.
+- **`test_gpu_memory_scaling` FAILED** — `NavigationAttention` model weights stay on CPU
+  when input tensors are on CUDA. Needs `.to(device)` call on the model. This is a
+  test-level bug, not an engine bug.
+- **`test_gpu_execution` SKIPPED** — Still has its own hard-coded SM architecture check
+  in `test_spatial_attention_lod.py`, not using the updated `check_cuda_compatible()`.
+- **All M1.11.2 full pipeline tests run on CPU only** — no GPU test paths were added
+- **All reported speedup numbers are CPU-only** — no GPU benchmarks exist yet
 
 ### 3. No GPU vs CPU Comparison Data
 
-With GPU now available, there's no baseline comparison of:
+With GPU now partially working (1 of 3 tests pass), there's no baseline comparison of:
 - Full pipeline latency on GPU vs CPU
 - Memory usage on GPU vs CPU
 - Scaling characteristics on GPU
+- The one passing GPU test (14,557 tokens/sec) has no CPU equivalent for comparison
 
 ### What M1.11.3 Should Address
 
 M1.11.3 should start a **new series of testing and benchmarking** that:
 
-1. **Runs the full pipeline on GPU** — NavigationAttention.query() with CUDA tensors
-2. **Re-benchmarks all milestones through the full pipeline** — not just SpatialTransformer
-3. **Tracks absolute results** — latency, memory, tokens/sec (not just comparisons)
-4. **Produces GPU vs CPU comparison data** — real numbers for the RTX 5060 SM_120
-5. **Saves structured benchmark results** — machine-readable format for tracking over time
+1. **Fixes `test_gpu_memory_scaling`** — Add `.to(device)` on NavigationAttention before CUDA input
+2. **Fixes `test_gpu_execution`** — Update `test_spatial_attention_lod.py` to use `check_cuda_compatible()` instead of hard-coded SM check
+3. **Runs the full pipeline on GPU** — NavigationAttention.query() with CUDA tensors
+4. **Re-benchmarks all milestones through the full pipeline** — not just SpatialTransformer
+5. **Tracks absolute results** — latency, memory, tokens/sec (not just comparisons)
+6. **Produces GPU vs CPU comparison data** — real numbers for the RTX 5060 SM_120
+7. **Saves structured benchmark results** — machine-readable format for tracking over time
 
 ---
 

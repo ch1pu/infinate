@@ -112,12 +112,37 @@ instead of stopping at the Navigator step.
 
 ---
 
+## GPU Test Results (RTX 5060 SM_120)
+
+After upgrading PyTorch to 2.10.0+cu128 and fixing the GPU compatibility guard,
+existing GPU tests were run (`poetry run pytest -k "gpu or cuda" -v -s`):
+
+| Test | Status | Detail |
+|------|--------|--------|
+| `test_gpu_utilization_comparison` | **PASS** | 14,557 tokens/sec on RTX 5060 |
+| `test_gpu_memory_scaling` | **FAIL** | Device mismatch — model on CPU, input on CUDA |
+| `test_gpu_execution` | **SKIP** | Old hard-coded SM check (not using updated guard) |
+
+**First GPU test to ever pass in this project.**
+
+### GPU Failure Analysis
+
+- `test_gpu_memory_scaling`: `NavigationAttention()` model weights stay on CPU.
+  Test needs `.to(device)` on the model before passing CUDA tensors. Test-level bug.
+- `test_gpu_execution`: Has its own SM architecture skip in `test_spatial_attention_lod.py`,
+  not using the updated `check_cuda_compatible()` runtime test.
+
+---
+
 ## Conclusion
 
 M1.11.2 successfully corrects the E2E test gap from M1.11 by running
 the **complete** NavigationAttention.query() pipeline. All tests verify
 that the output tensor has the correct shape, that attention was actually
 computed (not just navigation), and that LOD compression processed tokens.
+
+GPU support was restored (PyTorch 2.10.0+cu128, SM_120) with the first GPU
+test passing at 14,557 tokens/sec. Two remaining GPU tests need fixes in M1.11.3.
 
 ---
 
