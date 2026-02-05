@@ -394,6 +394,28 @@ M1.11.3 fixed it with the same `.to(device)` pattern used in the new GPU benchma
 M1.11.3 proved that both CPU and GPU code paths work correctly and produced the first
 real benchmark data. But it also exposed clear limitations:
 
+### Not the Full Pipeline
+
+M1.11.3 benchmarks only cover the `NavigationAttention.query()` path — 3 of 7 stages
+from the README architecture:
+
+| README Pipeline Stage | Tested on GPU in M1.11.3? | Notes |
+|-----------------------|---------------------------|-------|
+| SpatialToken | No | Raw tensors passed directly, SpatialToken not used |
+| SpatialEncoding | No | Positions passed as raw 3D coords, encoding skipped |
+| **SpatialAttention O(k)** | **Yes** | `self.attention(x, pos)` |
+| SpatialTransformer | No | Single attention layer used, not stacked blocks |
+| VectorStore (Qdrant/pgvector) | No | In-memory tensors only, no external store |
+| **LOD System** | **Yes** | `self._apply_lod_compression()` |
+| **Strafe Jump Navigation** | **Yes** | `self.navigator.navigate()` |
+
+The M1.11.3 GPU benchmarks measure the in-memory query path (Navigate → LOD → Attend),
+not a true end-to-end pipeline that includes token creation, encoding, transformer stacking,
+and vector store retrieval. Future milestones should work toward benchmarking the complete
+pipeline on GPU.
+
+### Other Shortcomings
+
 | Shortcoming | Impact | Evidence |
 |-------------|--------|----------|
 | **No automatic device selection** | Users must manually choose CPU or GPU | Every test explicitly creates either a CPU or GPU model instance |

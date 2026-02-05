@@ -224,18 +224,32 @@ poetry run ruff check <m1113 files>      # All clean
 ## M1.11.3 Shortcomings
 
 M1.11.3 answered the question "does GPU help?" — yes, above ~20K tokens. But it left
-several gaps that a production system would need to address:
+several gaps:
 
-1. **Manual device selection** — No code automatically picks CPU vs GPU. Every test
-   creates a model on one device or the other explicitly.
-2. **GPU penalty at small contexts** — 4.2x slower than CPU at 1K tokens due to the
-   ~16ms CUDA kernel launch floor. Blindly using GPU hurts small queries.
-3. **CPU bottleneck at large contexts** — 3.9x slower than GPU at 50K tokens. CPU
-   latency scales linearly while GPU stays nearly flat.
-4. **Double memory for both paths** — Benchmarks create separate CPU and GPU
-   `NavigationAttention` instances. No shared or lazy-loaded approach.
-5. **Crossover point is documentation-only** — The ~20K threshold exists in reports
-   but not in any code logic.
+### Not the Full Pipeline
+
+M1.11.3 only benchmarks `NavigationAttention.query()` — 3 of 7 README pipeline stages:
+
+| Stage | GPU Tested? |
+|-------|-------------|
+| SpatialToken | No — raw tensors used |
+| SpatialEncoding | No — raw 3D coords used |
+| **SpatialAttention O(k)** | **Yes** |
+| SpatialTransformer (stacked) | No — single layer only |
+| VectorStore (Qdrant/pgvector) | No — in-memory only |
+| **LOD System** | **Yes** |
+| **Strafe Jump Navigation** | **Yes** |
+
+Future milestones should benchmark the true end-to-end pipeline including token
+creation, spatial encoding, transformer stacking, and vector store retrieval.
+
+### Other Gaps
+
+1. **Manual device selection** — No code automatically picks CPU vs GPU.
+2. **GPU penalty at small contexts** — 4.2x slower than CPU at 1K tokens.
+3. **CPU bottleneck at large contexts** — 3.9x slower than GPU at 50K tokens.
+4. **Double memory for both paths** — Separate CPU and GPU instances required.
+5. **Crossover point is documentation-only** — ~20K threshold not in code.
 
 ---
 
