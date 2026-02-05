@@ -138,5 +138,27 @@ poetry run pytest --cov=spatial_engine --cov-report=term-missing
 
 ---
 
+## M1.11.2 Shortcomings
+
+### Not the Full Pipeline
+
+M1.11.2's "full pipeline" tests use `NavigationAttention.query()`, which only covers
+3 of 7 README pipeline stages:
+
+| Stage | Tested? |
+|-------|---------|
+| SpatialToken | No — raw tensors used |
+| SpatialEncoding | No — raw 3D coords used |
+| **SpatialAttention O(k)** | **Yes** |
+| SpatialTransformer (stacked) | No — single layer only |
+| VectorStore (Qdrant/pgvector) | Qdrant used for retrieval, not as pipeline stage |
+| **LOD System** | **Yes** |
+| **Strafe Jump Navigation** | **Yes** |
+
+See `Project/MILESTONE_1.11.2_COMPLETE.md` "Shortcomings & Known Gaps" for additional
+gaps including GPU test failures and missing benchmark re-verification.
+
+---
+
 **Author:** Adolfo Lopez (ch1pu)
 **License:** Apache 2.0 - Open Source

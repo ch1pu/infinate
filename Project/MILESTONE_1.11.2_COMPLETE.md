@@ -230,6 +230,24 @@ Investigation during M1.11.2 revealed the pipeline coverage across all test file
 
 ## Shortcomings & Known Gaps
 
+### 0. Not the Full Pipeline
+
+M1.11.2's "full pipeline" tests use `NavigationAttention.query()`, which only covers
+3 of 7 README pipeline stages:
+
+| Stage | GPU Tested? |
+|-------|-------------|
+| SpatialToken | No — raw tensors used |
+| SpatialEncoding | No — raw 3D coords used |
+| **SpatialAttention O(k)** | **Yes** |
+| SpatialTransformer (stacked) | No — single layer only |
+| VectorStore (Qdrant/pgvector) | Qdrant used for retrieval, not as pipeline stage |
+| **LOD System** | **Yes** |
+| **Strafe Jump Navigation** | **Yes** |
+
+Future milestones should benchmark the true end-to-end pipeline including token
+creation, spatial encoding, transformer stacking, and vector store retrieval.
+
 ### 1. Previous Benchmarks Not Re-verified for Full Pipeline
 
 M1.11.2 only added **new** full pipeline tests. It did NOT audit or re-run previous
