@@ -29,8 +29,8 @@ import torch
 def check_cuda_compatible() -> tuple[bool, str]:
     """Check if CUDA is available and compatible with PyTorch.
 
-    RTX 50xx series (SM_120/Blackwell) is not yet supported by PyTorch 2.x.
-    This function detects incompatible GPUs to allow graceful test skipping.
+    Tests actual GPU kernel execution rather than hard-coding architecture limits.
+    PyTorch 2.10.0+cu128 supports SM_120 (RTX 50xx Blackwell).
 
     Returns:
         Tuple of (is_compatible, reason_if_not)
@@ -39,14 +39,12 @@ def check_cuda_compatible() -> tuple[bool, str]:
         return False, "CUDA not available"
 
     try:
-        cap = torch.cuda.get_device_capability()
-        # RTX 50xx series (SM_120) not yet supported by PyTorch 2.x
-        # SM_90 (Hopper) is the latest fully supported architecture
-        if cap[0] >= 12:
-            return False, f"GPU SM_{cap[0]}{cap[1]} not supported by PyTorch"
+        # Try actual GPU operation instead of hard-coding SM limits
+        t = torch.zeros(1, device="cuda")
+        del t
         return True, ""
     except Exception as e:
-        return False, f"GPU capability check failed: {e}"
+        return False, f"GPU not compatible with PyTorch: {e}"
 
 
 @pytest.fixture

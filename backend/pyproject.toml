@@ -117,6 +117,8 @@ markers = [
     "m111_integration: M1.11 integration tests",
     "m111_qdrant: M1.11 Qdrant integration tests",
     "m111_mit: M1.11 MIT RLM comparison tests",
+    "m1112: M1.11.2 Full Pipeline E2E tests",
+    "m1112_integration: M1.11.2 full pipeline integration tests",
 ]
 
 [build-system]
