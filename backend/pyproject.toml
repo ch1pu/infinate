@@ -122,6 +122,10 @@ markers = [
     "m1113: M1.11.3 GPU Full Pipeline Benchmark tests",
     "m1113_gpu: M1.11.3 GPU-specific tests",
     "m1113_benchmark: M1.11.3 benchmark tests",
+    "m1114: M1.11.4 Full Pipeline GPU Coverage tests",
+    "m1114_gpu: M1.11.4 GPU-specific pipeline stage tests",
+    "m1115: M1.11.5 GPU-Resident Vector Store tests",
+    "m1115_gpu: M1.11.5 GPU-specific spatial index tests",
 ]
 
 [build-system]

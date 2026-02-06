@@ -138,12 +138,15 @@ class LODConfig:
         With spatial spread, actual representation is 5,000+ tokens → 60× expansion!
     """
 
-    levels: list[LODLevel] = field(default_factory=lambda: [
-        LODLevel("near", 0.0, 50.0, 1, 50),
-        LODLevel("medium", 50.0, 150.0, 5, 25),
-        LODLevel("far", 150.0, 500.0, 20, 10),
-        LODLevel("beyond", 500.0, float('inf'), 100, 5),
-    ])
+    levels: list[LODLevel] = field(
+        default_factory=lambda: [
+            LODLevel("near", 0.0, 50.0, 1, 50),
+            LODLevel("medium", 50.0, 150.0, 5, 25),
+            LODLevel("far", 150.0, 500.0, 20, 10),
+            LODLevel("beyond", 500.0, 2000.0, 100, 5),
+            LODLevel("horizon", 2000.0, float("inf"), 500, 3),
+        ]
+    )
 
     def get_level_by_distance(self, distance: float) -> LODLevel:
         """Get the LOD level for a given distance.
@@ -227,8 +230,7 @@ class HierarchicalLOD(nn.Module):
 
         if compression_method not in ["merge", "cluster"]:
             raise ValueError(
-                f"compression_method must be 'merge' or 'cluster', "
-                f"got '{compression_method}'"
+                f"compression_method must be 'merge' or 'cluster', " f"got '{compression_method}'"
             )
 
         self.d_model = d_model
@@ -238,7 +240,7 @@ class HierarchicalLOD(nn.Module):
     def assign_lod_levels(
         self,
         query_position: torch.Tensor,  # [3] or [batch, 3]
-        key_positions: torch.Tensor,   # [seq_len, 3] or [batch, seq_len, 3]
+        key_positions: torch.Tensor,  # [seq_len, 3] or [batch, seq_len, 3]
     ) -> dict[str, torch.Tensor]:
         """Assign LOD levels to all key positions based on distance from query.
 
@@ -279,8 +281,8 @@ class HierarchicalLOD(nn.Module):
 
     def compress_tokens(
         self,
-        tokens: torch.Tensor,           # [seq_len, d_model] or [batch, seq_len, d_model]
-        positions: torch.Tensor,         # [seq_len, 3] or [batch, seq_len, 3]
+        tokens: torch.Tensor,  # [seq_len, d_model] or [batch, seq_len, d_model]
+        positions: torch.Tensor,  # [seq_len, 3] or [batch, seq_len, 3]
         lod_level: LODLevel,
     ) -> tuple[torch.Tensor, torch.Tensor]:
         """Compress tokens at a given LOD level.
@@ -365,8 +367,8 @@ class HierarchicalLOD(nn.Module):
             positions = torch.cat([positions, padding_positions], dim=1)
 
         # Truncate to n_groups * ratio
-        tokens = tokens[:, :n_groups * ratio, :]
-        positions = positions[:, :n_groups * ratio, :]
+        tokens = tokens[:, : n_groups * ratio, :]
+        positions = positions[:, : n_groups * ratio, :]
 
         # Reshape and average
         tokens = tokens.view(batch_size, n_groups, ratio, d_model)
@@ -434,18 +436,14 @@ class HierarchicalLOD(nn.Module):
             batch_tokens = tokens[b]  # [seq_len, d_model]
 
             # K-means clustering
-            centroids, assignments = self._kmeans(
-                batch_positions,
-                k=k,
-                max_iters=10
-            )
+            centroids, assignments = self._kmeans(batch_positions, k=k, max_iters=10)
 
             # Average tokens within each cluster
             cluster_tokens = []
             cluster_positions = []
 
             for i in range(k):
-                mask = (assignments == i)
+                mask = assignments == i
                 if mask.sum() > 0:
                     cluster_tokens.append(batch_tokens[mask].mean(dim=0))
                     cluster_positions.append(batch_positions[mask].mean(dim=0))
@@ -496,7 +494,7 @@ class HierarchicalLOD(nn.Module):
             # Update centroids
             new_centroids = centroids.clone()
             for i in range(k):
-                mask = (assignments == i)
+                mask = assignments == i
                 if mask.sum() > 0:
                     new_centroids[i] = positions[mask].mean(dim=0)
 
@@ -510,11 +508,11 @@ class HierarchicalLOD(nn.Module):
 
     def forward(
         self,
-        query: torch.Tensor,            # [batch, seq_len, d_model]
-        query_positions: torch.Tensor,   # [batch, seq_len, 3]
-        keys: torch.Tensor,              # [batch, context_len, d_model]
-        key_positions: torch.Tensor,     # [batch, context_len, 3]
-        values: torch.Tensor,            # [batch, context_len, d_model]
+        query: torch.Tensor,  # [batch, seq_len, d_model]
+        query_positions: torch.Tensor,  # [batch, seq_len, 3]
+        keys: torch.Tensor,  # [batch, context_len, d_model]
+        key_positions: torch.Tensor,  # [batch, context_len, 3]
+        values: torch.Tensor,  # [batch, context_len, d_model]
     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         """Apply LOD compression to keys and values for each query.
 
@@ -537,7 +535,7 @@ class HierarchicalLOD(nn.Module):
             and compressing context tokens based on their distance from that query.
         """
         batch_size, seq_len, d_model = query.shape
-        context_len = keys.shape[1]
+        _context_len = keys.shape[1]  # noqa: F841
 
         # For simplicity, use the centroid of query positions for LOD assignment
         # In a full implementation, each query position would have its own LOD view
@@ -575,12 +573,8 @@ class HierarchicalLOD(nn.Module):
                 level_positions = key_positions[b, item_mask]  # [n_level, 3]
 
                 # Compress
-                comp_keys, comp_pos = self.compress_tokens(
-                    level_keys, level_positions, level
-                )
-                comp_values, _ = self.compress_tokens(
-                    level_values, level_positions, level
-                )
+                comp_keys, comp_pos = self.compress_tokens(level_keys, level_positions, level)
+                comp_values, _ = self.compress_tokens(level_values, level_positions, level)
 
                 batch_keys.append(comp_keys)
                 batch_values.append(comp_values)

@@ -48,16 +48,21 @@ Author: ch1pu (Adolfo Lopez)
 Milestone: 1.11 - Strafe Jumping Navigation (Integration)
 """
 
+from __future__ import annotations
+
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
 from spatial_engine.core.lod import LODConfig, LODLevel
-from spatial_engine.core.momentum_navigator import MomentumNavigator, NavigationResult
+from spatial_engine.core.momentum_navigator import MomentumNavigator
 from spatial_engine.core.spatial_attention import SpatialAttention
+
+if TYPE_CHECKING:
+    from spatial_engine.vector_store.gpu_spatial_index import GPUSpatialIndex
 
 
 @dataclass
@@ -141,6 +146,7 @@ class NavigationAttention(nn.Module):
         enable_navigation: bool = True,
         enable_lod: bool = True,
         navigation_max_steps: int = 10,
+        gpu_index: GPUSpatialIndex | None = None,
     ) -> None:
         super().__init__()
 
@@ -161,6 +167,7 @@ class NavigationAttention(nn.Module):
         self.enable_navigation = enable_navigation
         self.enable_lod = enable_lod
         self.navigation_max_steps = navigation_max_steps
+        self.gpu_index = gpu_index
 
         # Core attention mechanism (M1.3)
         self.attention = SpatialAttention(
@@ -197,10 +204,16 @@ class NavigationAttention(nn.Module):
     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         """Select k nearest tokens to query position.
 
+        If a GPU spatial index is loaded, uses O(1) hash lookup instead of
+        O(n) brute-force distance computation.
+
         Returns:
             (selected_embeddings, selected_positions, selected_indices)
         """
-        # Compute distances
+        if self.gpu_index is not None and self.gpu_index.is_loaded:
+            return self.gpu_index.query(query_position, k=k)
+
+        # Fallback: O(n) brute-force (backward compatible)
         distances = torch.norm(positions - query_position.unsqueeze(0), dim=-1)
 
         # Get k nearest
@@ -246,21 +259,25 @@ class NavigationAttention(nn.Module):
                 if n_groups > 0:
                     # Reshape and average
                     group_size = len(level_emb) // n_groups
-                    compressed_emb = level_emb[: n_groups * group_size].view(
-                        n_groups, group_size, -1
-                    ).mean(dim=1)
-                    compressed_pos = level_pos[: n_groups * group_size].view(
-                        n_groups, group_size, -1
-                    ).mean(dim=1)
+                    compressed_emb = (
+                        level_emb[: n_groups * group_size]
+                        .view(n_groups, group_size, -1)
+                        .mean(dim=1)
+                    )
+                    compressed_pos = (
+                        level_pos[: n_groups * group_size]
+                        .view(n_groups, group_size, -1)
+                        .mean(dim=1)
+                    )
                     tokens_represented += n_groups * group_size
                 else:
-                    compressed_emb = level_emb[:level.max_tokens]
-                    compressed_pos = level_pos[:level.max_tokens]
+                    compressed_emb = level_emb[: level.max_tokens]
+                    compressed_pos = level_pos[: level.max_tokens]
                     tokens_represented += len(compressed_emb)
             else:
                 # No compression needed
-                compressed_emb = level_emb[:level.max_tokens]
-                compressed_pos = level_pos[:level.max_tokens]
+                compressed_emb = level_emb[: level.max_tokens]
+                compressed_pos = level_pos[: level.max_tokens]
                 tokens_represented += len(compressed_emb)
 
             compressed_emb_list.append(compressed_emb)
@@ -337,8 +354,8 @@ class NavigationAttention(nn.Module):
                 query_position, compressed_pos, compressed_emb, self.k_neighbors
             )
         else:
-            selected_emb = context_embeddings[:self.k_neighbors]
-            selected_pos = context_positions[:self.k_neighbors]
+            selected_emb = context_embeddings[: self.k_neighbors]
+            selected_pos = context_positions[: self.k_neighbors]
             indices = torch.arange(min(self.k_neighbors, len(context_embeddings)))
 
         # Perform attention operation
@@ -357,6 +374,108 @@ class NavigationAttention(nn.Module):
             output = torch.zeros(self.d_model, device=device)
 
         # Compute similarity to target if provided
+        if target_embedding is not None:
+            metrics.final_similarity = F.cosine_similarity(
+                output.unsqueeze(0), target_embedding.unsqueeze(0)
+            ).item()
+
+        return output, metrics
+
+    def query_gpu_resident(
+        self,
+        query: torch.Tensor,
+        target_embedding: Optional[torch.Tensor] = None,
+        start_position: Optional[torch.Tensor] = None,
+    ) -> tuple[torch.Tensor, NavigationMetrics]:
+        """Query using GPU-resident index — no CPU→GPU transfer needed.
+
+        Streamlined path that pulls k neighbors directly from the GPU
+        spatial index. Everything stays on GPU: index lookup, LOD
+        compression, attention.
+
+        Requires gpu_index to be set and loaded.
+
+        Args:
+            query: Query embedding [d_model]
+            target_embedding: Target we're looking for (for metrics)
+            start_position: Starting position (default: origin)
+
+        Returns:
+            (attended_output, metrics)
+
+        Raises:
+            RuntimeError: If gpu_index is not set or not loaded
+        """
+        if self.gpu_index is None or not self.gpu_index.is_loaded:
+            raise RuntimeError(
+                "query_gpu_resident requires a loaded gpu_index. "
+                "Use query() for the standard path."
+            )
+
+        device = query.device
+        metrics = NavigationMetrics()
+
+        if start_position is None:
+            start_position = torch.zeros(3, device=device)
+
+        # Navigate to find optimal query position (uses gpu_index for context)
+        if self.enable_navigation:
+            self.navigator.reset(device=device)
+            self.navigator._state.position = start_position.clone()
+
+            # Get a sample of nearby tokens for navigation guidance
+            sample_emb, sample_pos, _ = self.gpu_index.query(start_position, k=200)
+
+            nav_result = self.navigator.navigate(
+                query=query,
+                max_steps=self.navigation_max_steps,
+                use_circle_jump=True,
+                context_embeddings=sample_emb,
+                context_positions=sample_pos,
+            )
+
+            query_position = nav_result.position
+            metrics.steps_taken = nav_result.steps_taken
+            metrics.warp_count = nav_result.warp_count
+            metrics.converged = nav_result.converged
+            metrics.trajectory_length = nav_result.trajectory_length
+            metrics.temperature_schedule = nav_result.temperature_schedule
+        else:
+            query_position = start_position
+            metrics.steps_taken = 0
+
+        # Get candidates from GPU index (wider than k for LOD compression)
+        candidate_emb, candidate_pos, _ = self.gpu_index.query(
+            query_position, k=min(200, self.gpu_index.token_count)
+        )
+
+        # Apply LOD compression on candidates
+        compressed_emb, compressed_pos, tokens_represented = self._apply_lod_compression(
+            query_position, candidate_emb, candidate_pos
+        )
+        metrics.tokens_accessed = tokens_represented
+
+        # Select k nearest from compressed
+        if len(compressed_emb) > 0:
+            distances = torch.norm(compressed_pos - query_position.unsqueeze(0), dim=-1)
+            k = min(self.k_neighbors, len(distances))
+            _, indices = torch.topk(distances, k, largest=False)
+            selected_emb = compressed_emb[indices]
+            selected_pos = compressed_pos[indices]
+        else:
+            selected_emb = candidate_emb[: self.k_neighbors]
+            selected_pos = candidate_pos[: self.k_neighbors]
+
+        # Attention
+        if len(selected_emb) > 0:
+            x = selected_emb.unsqueeze(0)
+            pos = selected_pos.unsqueeze(0)
+            metrics.attention_ops = 1
+            attended = self.attention(x, pos)
+            output = attended.squeeze(0).mean(dim=0)
+        else:
+            output = torch.zeros(self.d_model, device=device)
+
         if target_embedding is not None:
             metrics.final_similarity = F.cosine_similarity(
                 output.unsqueeze(0), target_embedding.unsqueeze(0)
@@ -417,18 +536,14 @@ class BaselineNavigator(nn.Module):
 
             if self.method == "greedy":
                 # Find highest similarity token within radius
-                distances = torch.norm(
-                    context_positions - position.unsqueeze(0), dim=-1
-                )
+                distances = torch.norm(context_positions - position.unsqueeze(0), dim=-1)
                 within_radius = distances <= self.spatial_radius * 3
 
                 if within_radius.sum() == 0:
                     break
 
                 # Compute similarities
-                similarities = F.cosine_similarity(
-                    context_embeddings, query.unsqueeze(0), dim=-1
-                )
+                similarities = F.cosine_similarity(context_embeddings, query.unsqueeze(0), dim=-1)
                 similarities[~within_radius] = -float("inf")
 
                 # Move toward best token
@@ -519,9 +634,7 @@ class BaselineAttention(nn.Module):
         metrics.steps_taken = steps
 
         # Select k nearest
-        distances = torch.norm(
-            context_positions - final_position.unsqueeze(0), dim=-1
-        )
+        distances = torch.norm(context_positions - final_position.unsqueeze(0), dim=-1)
         k = min(self.k_neighbors, len(distances))
         _, indices = torch.topk(distances, k, largest=False)
 

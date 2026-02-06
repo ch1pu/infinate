@@ -199,9 +199,9 @@ class TestLODContextExpansion:
         """Test context expansion ratio is reported correctly."""
         ratio = attn.context_expansion_ratio
 
-        # Default config gives ~10× expansion
-        assert ratio > 9.0
-        assert ratio < 11.0
+        # Default config gives ~25.5× expansion (5 levels with horizon)
+        assert ratio > 25.0
+        assert ratio < 26.0
 
     def test_lod_statistics(self, attn):
         """Test LOD statistics are computed correctly."""

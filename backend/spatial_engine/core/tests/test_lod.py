@@ -77,11 +77,11 @@ class TestLODConfig:
         """Test default LOD configuration has expected levels."""
         config = LODConfig()
 
-        assert len(config.levels) == 4
+        assert len(config.levels) == 5
 
         # Check level names
         names = [level.name for level in config.levels]
-        assert names == ["near", "medium", "far", "beyond"]
+        assert names == ["near", "medium", "far", "beyond", "horizon"]
 
     def test_default_config_near_level(self):
         """Test default near level configuration."""
@@ -101,7 +101,7 @@ class TestLODConfig:
 
         assert beyond.name == "beyond"
         assert beyond.min_radius == 500.0
-        assert beyond.max_radius == float('inf')
+        assert beyond.max_radius == 2000.0
         assert beyond.compression_ratio == 100
         assert beyond.max_tokens == 5
 
@@ -145,7 +145,7 @@ class TestLODConfig:
         assert level.name == "far"
 
     def test_get_level_by_distance_beyond(self):
-        """Test getting beyond level by distance."""
+        """Test getting beyond and horizon levels by distance."""
         config = LODConfig()
 
         level = config.get_level_by_distance(500.0)
@@ -154,8 +154,14 @@ class TestLODConfig:
         level = config.get_level_by_distance(1000.0)
         assert level.name == "beyond"
 
-        level = config.get_level_by_distance(1e10)
+        level = config.get_level_by_distance(1999.9)
         assert level.name == "beyond"
+
+        level = config.get_level_by_distance(2000.0)
+        assert level.name == "horizon"
+
+        level = config.get_level_by_distance(1e10)
+        assert level.name == "horizon"
 
     def test_get_level_by_distance_boundary(self):
         """Test boundary conditions for distance levels."""
@@ -177,15 +183,15 @@ class TestLODConfig:
         """Test total tokens calculation."""
         config = LODConfig()
 
-        # 50 + 25 + 10 + 5 = 90
-        assert config.total_tokens == 90
+        # 50 + 25 + 10 + 5 + 3 = 93
+        assert config.total_tokens == 93
 
     def test_theoretical_context(self):
         """Test theoretical context calculation."""
         config = LODConfig()
 
-        # 50*1 + 25*5 + 10*20 + 5*100 = 50 + 125 + 200 + 500 = 875
-        assert config.theoretical_context == 875
+        # 50*1 + 25*5 + 10*20 + 5*100 + 3*500 = 50 + 125 + 200 + 500 + 1500 = 2375
+        assert config.theoretical_context == 2375
 
 
 class TestHierarchicalLOD:
@@ -599,9 +605,9 @@ class TestHierarchicalLOD:
         """Test context expansion ratio calculation."""
         ratio = lod.get_context_expansion_ratio()
 
-        # Default config: 875 / 90 ≈ 9.72
-        assert ratio > 9.0
-        assert ratio < 10.0
+        # Default config: 2375 / 93 ≈ 25.5
+        assert ratio > 25.0
+        assert ratio < 26.0
 
     def test_context_expansion_at_least_50x(self):
         """Test LOD achieves target 50× context expansion.
@@ -657,8 +663,8 @@ class TestLODIntegration:
     def test_default_config_singleton(self):
         """Test DEFAULT_LOD_CONFIG is accessible."""
         assert DEFAULT_LOD_CONFIG is not None
-        assert len(DEFAULT_LOD_CONFIG.levels) == 4
-        assert DEFAULT_LOD_CONFIG.total_tokens == 90
+        assert len(DEFAULT_LOD_CONFIG.levels) == 5
+        assert DEFAULT_LOD_CONFIG.total_tokens == 93
 
     def test_empty_level_handling(self):
         """Test handling of empty LOD levels."""
