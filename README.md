@@ -275,30 +275,38 @@ INFINATE processes queries through 7 stages. Each stage is a standalone class in
 
 ```mermaid
 graph LR
-    subgraph Data["Data Layer"]
-        S5["Stage 5: VectorStore\n(Qdrant / pgvector / GPU)"]
+    subgraph Storage["Infinite Memory (Vector Store)"]
+        VS["Stage 5: VectorStore\n(Qdrant / pgvector)\nBillions of tokens on disk"]
     end
 
-    subgraph Core["Core Pipeline"]
-        S1["Stage 1: SpatialToken\nposition + embedding"]
-        S2["Stage 2: SpatialEncoding\n3D sinusoidal encoding"]
-        S4["Stage 4: SpatialTransformer\nfeed-forward + residual"]
+    subgraph VRAM["Loaded Map (GPU VRAM)"]
+        GI["GPUSpatialIndex\nSpatial hash grid\nUp to ~14.5M tokens"]
     end
 
-    subgraph NavBundle["NavigationAttention.query()"]
-        S3["Stage 3: SpatialAttention\nO(k) spatial attention"]
-        S6["Stage 6: LOD\n5-level compression (25.5×)"]
-        S7["Stage 7: Navigation\n7 Quake physics exploits"]
+    subgraph Pipeline["Query Pipeline (all on GPU)"]
+        S1["Stage 1: SpatialToken"]
+        S2["Stage 2: SpatialEncoding"]
+
+        subgraph NavBundle["NavigationAttention.query()"]
+            S7["Stage 7: Navigation"]
+            S6["Stage 6: LOD (25.5×)"]
+            S3["Stage 3: SpatialAttention O(k)"]
+        end
+
+        S4["Stage 4: SpatialTransformer"]
     end
 
-    S5 -->|"retrieve"| S1
+    VS -->|"'Loading Screen'\nOne-time: 125ms for 1M"| GI
+    GI -->|"O(k) lookup"| S1
     S1 --> S2
     S2 --> S7
     S7 --> S6
     S6 --> S3
     S3 --> S4
-    S4 -->|"result"| Out["Query Output"]
+    S4 --> Out["Query Output\n~27ms at any scale"]
 ```
+
+**The video game analogy:** The vector store is the full game world on disk — unlimited size. The GPU spatial index is the currently loaded map in VRAM — a chunk that fits in memory (~14.5M tokens in 16GB). The "loading screen" is the one-time transfer. Once loaded, every query runs at O(k) without touching the vector store again.
 
 Stages 3, 6, and 7 are bundled inside `NavigationAttention.query()` — the navigator finds the optimal position (7), LOD compresses context at that position (6), then spatial attention attends to the compressed tokens (3).
 
@@ -316,23 +324,35 @@ Stages 3, 6, and 7 are bundled inside `NavigationAttention.query()` — the navi
 | 7 | `MomentumNavigator` | `core/momentum_navigator.py` | Quake-inspired physics navigation |
 | — | `NavigationAttention` | `integration/navigation_attention.py` | Bundles stages 3+6+7, main entry point |
 
-### GPU-Resident Mode (M1.11.5)
+### GPU-Resident Mode: The "Loading Screen" (M1.11.5)
 
-`GPUSpatialIndex` is a PyTorch-native spatial hash grid that lives entirely in GPU VRAM.
+Video games don't stream the entire world every frame — they load a map into memory once, then render at constant cost. INFINATE works the same way.
 
 ```
-Load phase (one-time):
-  Embeddings + positions → hash into 3D grid cells → sort by cell → build CSR index
-  1M tokens: ~125ms to load
-
-Query phase (repeatable, O(k)):
-  Hash query position → check 27 neighbor cells → gather candidates → topk(k=50)
-  1M tokens: ~27ms per query (same speed as 1K — true O(k))
+┌─────────────────────────────────────────────────────────────┐
+│  Vector Store (disk/container)                              │
+│  The full infinite memory space — billions of tokens        │
+│  Qdrant, pgvector, or any backend                           │
+└──────────────────────┬──────────────────────────────────────┘
+                       │ "Loading Screen" (one-time O(n))
+                       │ 1M tokens: ~125ms
+                       ▼
+┌─────────────────────────────────────────────────────────────┐
+│  GPU Spatial Index (VRAM)                                   │
+│  Currently loaded map — up to ~14.5M tokens in 16GB         │
+│  Spatial hash: floor(position / cell_size) → 3D grid cells  │
+│  CSR index: cell_starts[] + cell_counts[] for O(1) lookup   │
+└──────────────────────┬──────────────────────────────────────┘
+                       │ Query (repeatable, O(k))
+                       │ 27 neighbor cells → candidates → topk(k=50)
+                       │ 1M tokens: ~27ms (same speed as 1K)
+                       ▼
+                  Query Result
 ```
 
-`NavigationAttention` accepts an optional `gpu_index` parameter. When provided, `_select_k_nearest` uses the spatial hash instead of brute-force distance computation. A separate `query_gpu_resident()` method skips CPU→GPU transfer entirely — the data never leaves VRAM.
+**What's built today:** One map at a time. `GPUSpatialIndex.load()` hashes all tokens into a 3D grid on GPU, and `NavigationAttention.query_gpu_resident()` runs the full pipeline without any CPU→GPU transfer. VRAM budget is a hard cap — loads exceeding it are rejected.
 
-There is no automatic routing between transfer and GPU-resident paths. You choose which method to call.
+**What's not built yet:** Multiple maps, map swapping, LRU eviction. The full infinite memory lives in the vector store, but currently only one chunk can be loaded into VRAM at a time. Automatic routing between transfer and GPU-resident paths is also not implemented — you choose which method to call.
 
 ### LOD Hierarchy (5 Levels)
 
