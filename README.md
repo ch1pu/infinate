@@ -407,6 +407,7 @@ Like video games render distant mountains as low-poly meshes, INFINATE compresse
 | Milestone | Description | Status |
 |-----------|-------------|--------|
 | **M2.0** | **LLM integration (spatial memory + local LLM)** | **🔜 Next** |
+| **M2.1** | **Context defragmentation (memory maintenance)** | Planned |
 
 ### Deferred (As Needed)
 
@@ -425,7 +426,7 @@ These milestones were originally planned between M1.11 and M2.0 but are deferred
 | M1.20 | Hybrid attention mode | ⏸️ As needed | Optional |
 | M1.21 | SISS (Spatial Intelligence Super Sampling) | ⏸️ As needed | DLSS-inspired LOD upscaling |
 | M1.22 | RT Core spatial index | ⏸️ As needed | Hardware-accelerated k-NN, optional |
-| M1.23 | Skill Packs system | ⏸️ As needed | Loadable knowledge packages |
+| M1.23 | Skill Packs system | ⏸️ As needed | Loadable knowledge packages (defrag moved to M2.1) |
 
 ---
 
