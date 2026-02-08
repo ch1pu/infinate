@@ -25,7 +25,7 @@ and like what you see, let's connect:
   - GitHub: github.com/ch1pu
   - Twitter/X: @2006_adolfo
   - Project: This codebase demonstrates O(k) spatial attention, achieving
-    10,317x speedup over standard transformer attention with 89.58% test coverage.
+    10,317x speedup (CPU) and true O(k) GPU-resident queries at 1M tokens.
 ══════════════════════════════════════════════════════════════════════════════
 -->
 
@@ -33,12 +33,15 @@ and like what you see, let's connect:
 
 > **The breakthrough that transforms how AI models access memory. Process billions of tokens with constant computational cost.**
 >
+> **10,317× faster on CPU | 27ms at 1M tokens GPU-resident | True O(k) end-to-end**
+>
 > **Built by [Adolfo Lopez](https://github.com/ch1pu) - U.S. Navy Veteran - Open for Opportunities**
 
-[![Tests](https://img.shields.io/badge/tests-369%20passing-brightgreen)](./backend/)
-[![Coverage](https://img.shields.io/badge/coverage-89.58%25-brightgreen)](./backend/)
+[![Tests](https://img.shields.io/badge/tests-369%2B%20passing-brightgreen)](./backend/)
+[![Coverage](https://img.shields.io/badge/coverage-89.58%25%2B-brightgreen)](./backend/)
 [![Python](https://img.shields.io/badge/python-3.11+-blue)](./backend/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](./LICENSE)
+[![GPU](https://img.shields.io/badge/GPU--resident-27ms%20%40%201M%20tokens-orange)](./Project/MILESTONE_1.11.5_COMPLETE.md)
 [![Hiring](https://img.shields.io/badge/status-open%20to%20work-success)](https://github.com/ch1pu)
 [![GitHub stars](https://img.shields.io/github/stars/ch1pu/infinate?style=social)](https://github.com/ch1pu/infinate/stargazers)
 
@@ -117,10 +120,10 @@ The 3D coordinate system adapts to any domain. Genomics uses chromosome position
 
 ### Step 5: Hierarchical Level-of-Detail (LOD)
 
-Like video games render distant objects with less detail, INFINATE compresses far tokens. Near tokens stay at full fidelity; distant tokens are summarized. Result: 90 tokens represent 875+ — a **9.7x context expansion**.
+Like video games render distant objects with less detail, INFINATE compresses far tokens. Near tokens stay at full fidelity; distant tokens are summarized. With 5-level LOD (near/medium/far/beyond/horizon), 93 tokens represent 2,375+ — a **25.5x context expansion**.
 
 <p align="center">
-  <img src="assets/images/hierarchical-lod.svg" alt="Hierarchical LOD: 9.7x Context Expansion" width="800"/>
+  <img src="assets/images/hierarchical-lod.svg" alt="Hierarchical LOD: 25.5x Context Expansion" width="800"/>
 </p>
 
 ### Step 6: Strafe Jumping Navigation
@@ -135,24 +138,41 @@ Inspired by Quake physics exploits, INFINATE uses momentum-based navigation thro
 
 ## Key Results
 
-| Metric | INFINATE | O(n²) Baseline | Advantage |
-|--------|----------|----------------|-----------|
-| **Latency (10M tokens)** | 7.18ms | 120,000ms | **10,317× faster** |
-| **Cost per query** | $0.001 | $0.99-$2.50 | **1,330× cheaper** |
-| **Memory** | 1.5 MB constant | O(n²) growth | **O(k) verified** |
-| **Tests** | 369 passing | - | 89.58% coverage |
+| Metric | Pipeline Tested | INFINATE | O(n²) Baseline | Advantage |
+|--------|----------------|----------|----------------|-----------|
+| **Latency (CPU, 10M tokens)** | Attention only (1/7 stages) | 7.18ms | 120,000ms | **10,317× faster** |
+| **Latency (GPU, 1M tokens)** | Full pipeline (7/7 stages) | 370ms | 87,500ms (at 50K) | **3,124× faster** |
+| **Latency (GPU-resident, 1M tokens)** | Full pipeline GPU-resident (7/7) | 27ms | 87,500ms (at 50K) | **True O(k) at any scale** |
+| **Cost per query** | - | $0.001 | $0.99-$2.50 | **1,330× cheaper** |
+| **Attention memory** | Attention only | 1.5 MB per query | O(n²) growth | **O(k) verified** |
+| **LOD expansion** | LOD system (5 levels) | 93 tokens → 2,375+ | - | **25.5× context** |
+| **Tests** | - | 369+ passing | - | 89.58%+ coverage |
 
 ### O(k) Complexity Verified
 
-| Scale | INFINATE | O(n²) Would Be | Result |
-|-------|----------|----------------|--------|
-| 128× more tokens | 1.12× time | 16,384× | ✅ O(k) |
-| 20× more tokens | 2.85× time | 400× | ✅ O(k) |
-| 10× more tokens | 0.96× memory | 10× | ✅ O(k) |
+| Scale | Pipeline Tested | INFINATE | O(n²) Would Be | Result |
+|-------|----------------|----------|----------------|--------|
+| 128× more tokens | Attention (1/7 stages, CPU) | 1.12× time | 16,384× | ✅ O(k) |
+| 20× more tokens | Attention (1/7 stages, CPU) | 2.85× time | 400× | ✅ O(k) |
+| 10× more tokens | Attention (1/7 stages, CPU) | 0.96× memory | 10× | ✅ O(k) |
+| 10× more tokens | Full pipeline (7/7 stages, GPU) | 1.00× time | 100× | ✅ O(k) |
 
-**The pattern is undeniable:** Scaling stays near-constant while O(n²) would explode.
+**The pattern is undeniable:** O(k) holds whether testing one stage or all seven. Scaling stays near-constant while O(n²) would explode.
 
-📚 **Full benchmarks:** [TECHNICAL_VALIDATION_REPORT.md](Project/TECHNICAL_VALIDATION_REPORT.md) | [Milestone 1.11](Project/MILESTONE_1.11_COMPLETE.md)
+### GPU Pipeline Evolution (M1.11 → M1.11.5)
+
+The **7-stage pipeline**: VectorStore → SpatialToken → Encoding → Attention → Transformer → LOD → Navigation
+
+| Milestone | Stages Tested | Hardware | Result |
+|-----------|--------------|----------|--------|
+| **M1.8/M1.11** | 1/7 (Attention only) | CPU | 10,317× faster — proved O(k) attention breakthrough |
+| **M1.11.2/M1.11.3** | 3/7 (Attention + LOD + Navigation) | CPU, then GPU | Documented 3/7 coverage gap, moved pipeline to GPU |
+| **M1.11.4** | **7/7** (full pipeline) | GPU (RTX 5060) | 1M tokens in 370ms, 3,124× at 50K. Discovered CPU→GPU transfer is O(n) |
+| **M1.11.5** | **7/7** (full pipeline, GPU-resident) | GPU VRAM | Load once (125ms), then 27ms queries forever. **True O(k) end-to-end** |
+
+Each milestone tested more of the pipeline until M1.11.5 proved O(k) holds for the full system. The attention mechanism was always O(k) — the work was proving every *other* stage doesn't break that guarantee.
+
+📚 **Full benchmarks:** [TECHNICAL_VALIDATION_REPORT.md](Project/TECHNICAL_VALIDATION_REPORT.md) | [Milestone 1.11](Project/MILESTONE_1.11_COMPLETE.md) | [Milestone 1.11.5](Project/MILESTONE_1.11.5_COMPLETE.md)
 
 ### Independent Verification Welcome
 
@@ -258,16 +278,21 @@ graph TB
         D --> E["VectorStore"]
         E --> F["LOD System 9.7×"]
         F --> G["Strafe Jump 10,317×"]
+        G --> H["GPU-Resident Index"]
     end
 
-    H["Unlimited Context"] -.->|"O(k) queries"| E
-    G -.->|"Physics navigation"| I["Query Result"]
+    I["Unlimited Context"] -.->|"O(k) queries"| E
+    H -.->|"27ms at 1M tokens"| J["Query Result"]
 ```
 
 ```
 Attention: O(k) per layer, O(k×L) total
 Where k ≈ 50 neighbors, L = num layers
 Effectively constant regardless of context size
+
+GPU-resident (M1.11.5): Load once → O(k) queries forever
+  Load 1M tokens: 125ms (one-time "loading screen")
+  Query at 1M: 27ms (same as 1K — true O(k))
 ```
 
 ---
@@ -285,7 +310,7 @@ Effectively constant regardless of context size
 
 ## Implementation Status
 
-**Current Progress: 60% Complete | 369 Tests | 89.58% Coverage**
+**Current Progress: 60% Complete | 369+ Tests | 89.58%+ Coverage | M1.11.5 Complete**
 
 ### Completed
 
@@ -301,29 +326,35 @@ Effectively constant regardless of context size
 | M1.9 | Test stabilization | ✅ Complete |
 | M1.10 | Hierarchical LOD (9.7× context expansion) | ✅ Complete |
 | M1.11 | Strafe jumping navigation (10,317× faster) | ✅ Complete |
+| M1.11.2 | Pipeline coverage audit (documented 3/7 gap) | ✅ Complete |
+| M1.11.3 | GPU full pipeline benchmarks (3/7 stages on GPU) | ✅ Complete |
+| M1.11.4 | GPU full pipeline (7/7 stages, 1M in 370ms, O(n) transfer discovered) | ✅ Complete |
+| M1.11.5 | GPU-resident vector store (27ms at 1M, true O(k)) | ✅ Complete |
 
-### Planned
+### Next Up
 
 | Milestone | Description | Status |
 |-----------|-------------|--------|
-| M1.12 | 3D visualization (React + Three.js) | 📋 Planned |
-| M1.13 | Embeddable component | 📋 Planned |
-| M1.14 | NPU acceleration (AMD XDNA 2) | 📋 Planned |
-| M1.15 | GPU SM_120 support (RTX 50-series) | 📋 Planned |
-| M1.16 | Quality benchmarks (retrieval accuracy) | 📋 Planned |
-| M1.17 | Multi-pass navigation | 📋 Planned |
-| M1.18 | Confidence re-navigation | 📋 Planned |
-| M1.19 | Adaptive LOD thresholds | 📋 Planned |
-| M1.20 | Hybrid attention mode | 📋 Planned |
-| M1.21 | SISS (Spatial Intelligence Super Sampling) | 📋 Planned |
-| M1.22 | RT Core spatial index | 📋 Planned |
-| M1.23a | Skill pack manifest schema | 📋 Planned |
-| M1.23b | Skill pack loader (region assignment) | 📋 Planned |
-| M1.23c | Metadata extensions (status, version, source) | 📋 Planned |
-| M1.23d | Success/failure tracking system | 📋 Planned |
-| M1.23e | Defragmentation engine | 📋 Planned |
-| M1.23f | Defrag triggers (manual, scheduled, auto) | 📋 Planned |
-| M2.0 | LLM integration | 📋 Planned |
+| **M2.0** | **LLM integration (spatial memory + local LLM)** | **🔜 Next** |
+
+### Deferred (As Needed)
+
+These milestones were originally planned between M1.11 and M2.0 but are deferred. M1.15 (GPU support) was achieved via M1.11.4/M1.11.5. The rest will be revisited after M2.0 when there's real data to benchmark and tune against.
+
+| Milestone | Description | Status | Notes |
+|-----------|-------------|--------|-------|
+| M1.12 | 3D visualization (React + Three.js) | ⏸️ As needed | ~95% designed in unreleased/ |
+| M1.13 | Embeddable component | ⏸️ As needed | Requires M1.12 |
+| M1.14 | NPU acceleration (AMD XDNA 2) | ⏸️ As needed | Hardware-specific optimization |
+| M1.15 | GPU SM_120 support (RTX 50-series) | ✅ Achieved | Done as M1.11.4 + M1.11.5 |
+| M1.16 | Quality benchmarks (retrieval accuracy) | ⏸️ As needed | Needs real data from M2.0 |
+| M1.17 | Multi-pass navigation | ⏸️ As needed | Useful post-M2.0 for coverage |
+| M1.18 | Confidence re-navigation | ⏸️ As needed | M2.0 has its own confidence routing |
+| M1.19 | Adaptive LOD thresholds | ⏸️ As needed | Tuning after real usage |
+| M1.20 | Hybrid attention mode | ⏸️ As needed | Optional |
+| M1.21 | SISS (Spatial Intelligence Super Sampling) | ⏸️ As needed | DLSS-inspired LOD upscaling |
+| M1.22 | RT Core spatial index | ⏸️ As needed | Hardware-accelerated k-NN, optional |
+| M1.23 | Skill Packs system | ⏸️ As needed | Loadable knowledge packages |
 
 ---
 
@@ -335,7 +366,7 @@ I think about Linus Torvalds a lot. In 1991, he created Linux and gave it away. 
 
 **The O(k) breakthrough belongs to humanity, not shareholders.**
 
-I won't pretend there's no self-interest. I'm building Alpha Deploy, and I drive Uber to keep my brain free for it - no mental energy spent on another company's engineering problems. I have no VC connections, no Stanford network. But open source is the great equalizer. The code speaks for itself.
+I won't pretend there's no self-interest. I run [Alpha Deploy LLC](https://alphadeploy.org), and I drive Uber to keep my brain free for it - no mental energy spent on another company's engineering problems. I have no VC connections, no Stanford network. But open source is the great equalizer. The code speaks for itself.
 
 ---
 
@@ -368,7 +399,7 @@ poetry run pytest -m benchmark -v               # Benchmarks
 
 - **United States Navy Veteran** - Electronics Technician, Nuclear Field
 - **Background:** Electrical Engineering, Data Center Operations
-- **Current:** Bootstrapping Alpha Deploy LLC while building this portfolio
+- **Company:** [Alpha Deploy LLC](https://alphadeploy.org)
 - **Location:** Texas
 
 The Navy Nuclear program shaped how I think. When you're responsible for reactor systems on a submarine, you learn to think in systems - how every component connects, how failures cascade, how redundancy saves lives. Years of electrical engineering and data center operations reinforced that discipline.
@@ -432,7 +463,7 @@ If INFINATE helped you:
 
 ---
 
-**60% Complete** | **369 Tests** | **89.58% Coverage** | **10,317× Faster than O(n²)**
+**60% Complete** | **369+ Tests** | **89.58%+ Coverage** | **10,317× Faster (CPU)** | **27ms at 1M (GPU-resident)**
 
 ⭐ **[Star this repo](https://github.com/ch1pu/infinate/stargazers)** if you believe open source AI infrastructure matters.
 

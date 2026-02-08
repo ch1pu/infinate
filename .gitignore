@@ -6,6 +6,11 @@
 # MIT COMPARISON DOCS (INTERNAL ONLY)
 # ================================
 MIT/
+
+# ================================
+# AGENT OUTPUT (LOCAL ONLY)
+# ================================
+agent/
 # Comprehensive ignore patterns to prevent accidental secret exposure
 # Last Updated: 2025-01-12
 
