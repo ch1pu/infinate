@@ -176,7 +176,7 @@ Each milestone tested more of the pipeline until M1.11.5 proved O(k) holds for t
 
 ### Independent Verification Welcome
 
-Over 1,300 clones and counting. If you reproduce our O(k) benchmarks:
+Over 2,500 clones and counting. If you reproduce our O(k) benchmarks:
 
 1. Run `poetry run pytest -m benchmark -v`
 2. Compare your results to our [published benchmarks](Project/TECHNICAL_VALIDATION_REPORT.md)
