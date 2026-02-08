@@ -274,36 +274,35 @@ attention_weights = softmax(combined)          # Only ~k non-zero values!
 INFINATE processes queries through 7 stages. Each stage is a standalone class in the `spatial_engine` package.
 
 ```mermaid
-graph LR
-    subgraph Storage["Infinite Memory (Vector Store)"]
-        VS["Stage 5: VectorStore\n(Qdrant / pgvector)\nBillions of tokens on disk"]
+graph TB
+    subgraph Storage["💾 Infinite Memory — Vector Store"]
+        VS["Qdrant / pgvector / any backend\nBillions of tokens on disk"]
     end
 
-    subgraph VRAM["Loaded Map (GPU VRAM)"]
-        GI["GPUSpatialIndex\nSpatial hash grid\nUp to ~14.5M tokens"]
-    end
+    Storage -->|"⏳ Loading Screen — one-time O(n)\n1M tokens in ~125ms"| VRAM
 
-    subgraph Pipeline["Query Pipeline (all on GPU)"]
-        S1["Stage 1: SpatialToken"]
-        S2["Stage 2: SpatialEncoding"]
+    subgraph VRAM["⚡ Loaded Map — GPU VRAM"]
+        GI["GPUSpatialIndex\nSpatial hash grid · up to ~14.5M tokens"]
 
-        subgraph NavBundle["NavigationAttention.query()"]
-            S7["Stage 7: Navigation"]
-            S6["Stage 6: LOD (25.5×)"]
-            S3["Stage 3: SpatialAttention O(k)"]
+        GI --> S1["1 · SpatialToken\nposition + embedding"]
+        S1 --> S2["2 · SpatialEncoding\n3D sinusoidal"]
+        S2 --> S7
+
+        subgraph Nav["🎮 NavigationAttention.query( )"]
+            S7["7 · Navigation\nQuake physics exploits"]
+            S7 --> S6["6 · LOD\n5-level compression · 25.5×"]
+            S6 --> S3["3 · SpatialAttention\nO(k) · k=50 neighbors"]
         end
 
-        S4["Stage 4: SpatialTransformer"]
+        S3 --> S4["4 · SpatialTransformer\nfeed-forward + residual"]
     end
 
-    VS -->|"'Loading Screen'\nOne-time: 125ms for 1M"| GI
-    GI -->|"O(k) lookup"| S1
-    S1 --> S2
-    S2 --> S7
-    S7 --> S6
-    S6 --> S3
-    S3 --> S4
-    S4 --> Out["Query Output\n~27ms at any scale"]
+    S4 --> Out["✅ Query Output\n~27ms at 1M tokens"]
+
+    style Storage fill:#1a1a2e,stroke:#e94560,color:#eee
+    style VRAM fill:#0f3460,stroke:#e94560,color:#eee
+    style Nav fill:#16213e,stroke:#53a8b6,color:#eee
+    style Out fill:#1b998b,stroke:#1b998b,color:#fff
 ```
 
 **The video game analogy:** The vector store is the full game world on disk — unlimited size. The GPU spatial index is the currently loaded map in VRAM — a chunk that fits in memory (~14.5M tokens in 16GB). The "loading screen" is the one-time transfer. Once loaded, every query runs at O(k) without touching the vector store again.
