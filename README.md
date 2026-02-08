@@ -269,31 +269,83 @@ attention_weights = softmax(combined)          # Only ~k non-zero values!
 
 ## Architecture
 
+### The 7-Stage Pipeline
+
+INFINATE processes queries through 7 stages. Each stage is a standalone class in the `spatial_engine` package.
+
 ```mermaid
-graph TB
-    subgraph "INFINATE O(k) Architecture"
-        A["SpatialToken"] --> B["SpatialEncoding"]
-        B --> C["SpatialAttention O(k)"]
-        C --> D["SpatialTransformer"]
-        D --> E["VectorStore"]
-        E --> F["LOD System 9.7×"]
-        F --> G["Strafe Jump 10,317×"]
-        G --> H["GPU-Resident Index"]
+graph LR
+    subgraph Data["Data Layer"]
+        S5["Stage 5: VectorStore\n(Qdrant / pgvector / GPU)"]
     end
 
-    I["Unlimited Context"] -.->|"O(k) queries"| E
-    H -.->|"27ms at 1M tokens"| J["Query Result"]
+    subgraph Core["Core Pipeline"]
+        S1["Stage 1: SpatialToken\nposition + embedding"]
+        S2["Stage 2: SpatialEncoding\n3D sinusoidal encoding"]
+        S4["Stage 4: SpatialTransformer\nfeed-forward + residual"]
+    end
+
+    subgraph NavBundle["NavigationAttention.query()"]
+        S3["Stage 3: SpatialAttention\nO(k) spatial attention"]
+        S6["Stage 6: LOD\n5-level compression (25.5×)"]
+        S7["Stage 7: Navigation\n7 Quake physics exploits"]
+    end
+
+    S5 -->|"retrieve"| S1
+    S1 --> S2
+    S2 --> S7
+    S7 --> S6
+    S6 --> S3
+    S3 --> S4
+    S4 -->|"result"| Out["Query Output"]
 ```
 
-```
-Attention: O(k) per layer, O(k×L) total
-Where k ≈ 50 neighbors, L = num layers
-Effectively constant regardless of context size
+Stages 3, 6, and 7 are bundled inside `NavigationAttention.query()` — the navigator finds the optimal position (7), LOD compresses context at that position (6), then spatial attention attends to the compressed tokens (3).
 
-GPU-resident (M1.11.5): Load once → O(k) queries forever
-  Load 1M tokens: 125ms (one-time "loading screen")
-  Query at 1M: 27ms (same as 1K — true O(k))
+### Production Classes
+
+| Stage | Class | File | Purpose |
+|-------|-------|------|---------|
+| 1 | `SpatialToken` | `core/spatial_token.py` | Token with 3D position + embedding |
+| 2 | `SpatialPositionEncoding` | `core/spatial_encoding.py` | Sinusoidal 3D position encoding |
+| 3 | `SpatialAttention` | `core/spatial_attention.py` | O(k) attention with distance decay |
+| 4 | `SpatialTransformer` | `core/spatial_transformer.py` | Feed-forward block with residuals |
+| 5 | `QdrantAdapter` / `PgvectorAdapter` | `vector_store/` | Vector store backends |
+| 5 | `GPUSpatialIndex` | `vector_store/gpu_spatial_index.py` | GPU VRAM spatial hash (M1.11.5) |
+| 6 | `LODConfig` / `LODCompressor` | `core/lod.py` | 5-level hierarchical compression |
+| 7 | `MomentumNavigator` | `core/momentum_navigator.py` | Quake-inspired physics navigation |
+| — | `NavigationAttention` | `integration/navigation_attention.py` | Bundles stages 3+6+7, main entry point |
+
+### GPU-Resident Mode (M1.11.5)
+
+`GPUSpatialIndex` is a PyTorch-native spatial hash grid that lives entirely in GPU VRAM.
+
 ```
+Load phase (one-time):
+  Embeddings + positions → hash into 3D grid cells → sort by cell → build CSR index
+  1M tokens: ~125ms to load
+
+Query phase (repeatable, O(k)):
+  Hash query position → check 27 neighbor cells → gather candidates → topk(k=50)
+  1M tokens: ~27ms per query (same speed as 1K — true O(k))
+```
+
+`NavigationAttention` accepts an optional `gpu_index` parameter. When provided, `_select_k_nearest` uses the spatial hash instead of brute-force distance computation. A separate `query_gpu_resident()` method skips CPU→GPU transfer entirely — the data never leaves VRAM.
+
+There is no automatic routing between transfer and GPU-resident paths. You choose which method to call.
+
+### LOD Hierarchy (5 Levels)
+
+| Level | Radius | Compression | Max Tokens | Represents |
+|-------|--------|-------------|------------|------------|
+| **near** | 0–50 | 1:1 (full) | 50 | 50 tokens |
+| **medium** | 50–150 | 5:1 | 25 | 125 tokens |
+| **far** | 150–500 | 20:1 | 10 | 200 tokens |
+| **beyond** | 500–2000 | 100:1 | 5 | 500 tokens |
+| **horizon** | 2000–∞ | 500:1 | 3 | 1,500 tokens |
+| | | **Total** | **93 tokens** | **2,375+ tokens (25.5×)** |
+
+Like video games render distant mountains as low-poly meshes, INFINATE compresses far tokens. Near tokens get full fidelity. The "horizon" level (added in M1.11.5) extends visibility with heavy compression — 3 tokens summarize everything beyond radius 2000.
 
 ---
 
