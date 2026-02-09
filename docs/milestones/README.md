@@ -311,7 +311,6 @@ poetry run pytest -m m1115 -v -s --no-cov           # M1.11.5 GPU-resident tests
 
 - **[README.md](../../README.md)** - Project overview and key results
 - **[TECHNICAL_VALIDATION_REPORT.md](../../Project/TECHNICAL_VALIDATION_REPORT.md)** - Independent validation of all benchmarks
-- **[FUTURE_VISION.md](../../Project/FUTURE_VISION.md)** - Complete roadmap
 - **[Documents/CORE_INNOVATION.md](../../Documents/CORE_INNOVATION.md)** - O(k) complexity proof
 
 ---
