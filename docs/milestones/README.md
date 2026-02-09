@@ -25,87 +25,54 @@ and like what you see, let's connect:
   - GitHub: github.com/ch1pu
   - Twitter/X: @2006_adolfo
   - Project: This codebase demonstrates O(k) spatial attention, achieving
-    10,317x speedup over standard transformer attention with 89.58% test coverage.
+    10,317x speedup (CPU) and true O(k) GPU-resident queries at 1M tokens.
 ══════════════════════════════════════════════════════════════════════════════
 -->
 
 # Milestone Documentation
 
-**Project:** Infinite - Spatial AI Development Environment
-**Current Progress:** Phase 1 Complete (M1.1-M1.4, M1.6-M1.11 | M1.5 skipped)
-**Total Development Time:** ~32+ hours
+**Project:** INFINATE - Infinite Context Spatial AI
+**Current Progress:** 14 milestones complete (M1.1-M1.4, M1.6-M1.11.5 | M1.5 skipped)
+**Total Tests:** 431+ passing | 89.58%+ coverage
 **License:** Apache 2.0 - Open Source
+**Last Updated:** February 8, 2026
 
 ---
 
-## Visual Progress Summary
+## Progress Summary
 
 ```
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║                 INFINITE MILESTONE PROGRESS - PHASE 1 COMPLETE               ║
+║                  INFINATE MILESTONE PROGRESS — 14/14 COMPLETE               ║
 ╠══════════════════════════════════════════════════════════════════════════════╣
 ║                                                                              ║
-║  ┌────────────────────────────────────────────────────────────────────────┐  ║
-║  │ PROGRESS ██████████████████████████████████████████████████ 100%(10/10)│  ║
-║  └────────────────────────────────────────────────────────────────────────┘  ║
-║                                                                              ║
-║  M1.1 SpatialToken      ✅ ████████████████████████ COMPLETE                 ║
-║  M1.2 SpatialEncoding   ✅ ████████████████████████ COMPLETE                 ║
-║  M1.3 SpatialAttention  ✅ ████████████████████████ COMPLETE (O(k)!)         ║
-║  M1.4 SpatialTransformer✅ ████████████████████████ COMPLETE                 ║
-║  M1.5 Position Enhanced ⏭️  ░░░░░░░░░░░░░░░░░░░░░░░░ SKIPPED                  ║
-║  M1.6 Vector Store      ✅ ████████████████████████ COMPLETE                 ║
-║  M1.7 Integration       ✅ ████████████████████████ COMPLETE                 ║
-║  M1.8 O(n²) baseline Compare   ✅ ████████████████████████ COMPLETE (1,100×!)       ║
-║  M1.9 Test Stability    ✅ ████████████████████████ COMPLETE (92%!)          ║
-║  M1.10 Hierarchical LOD ✅ ████████████████████████ COMPLETE (2,586×!)       ║
-║  M1.11 Strafe Jumping   ✅ ████████████████████████ COMPLETE (10,317×!) 🆕   ║
+║  M1.1  SpatialToken       ✅ ████████████████████████ COMPLETE               ║
+║  M1.2  SpatialEncoding    ✅ ████████████████████████ COMPLETE               ║
+║  M1.3  SpatialAttention   ✅ ████████████████████████ COMPLETE (O(k)!)       ║
+║  M1.4  SpatialTransformer ✅ ████████████████████████ COMPLETE               ║
+║  M1.5  Position Enhanced  ⏭️  ░░░░░░░░░░░░░░░░░░░░░░░░ SKIPPED              ║
+║  M1.6  Vector Store       ✅ ████████████████████████ COMPLETE               ║
+║  M1.7  Integration        ✅ ████████████████████████ COMPLETE               ║
+║  M1.8  Baseline Compare   ✅ ████████████████████████ COMPLETE (1,100×!)     ║
+║  M1.9  Test Stability     ✅ ████████████████████████ COMPLETE               ║
+║  M1.10 Hierarchical LOD   ✅ ████████████████████████ COMPLETE (2,586×!)     ║
+║  M1.11 Strafe Jumping     ✅ ████████████████████████ COMPLETE (10,317×!)    ║
+║  M1.11.2 Pipeline Audit   ✅ ████████████████████████ COMPLETE (3/7 gap)     ║
+║  M1.11.3 GPU Pipeline     ✅ ████████████████████████ COMPLETE (GPU move)    ║
+║  M1.11.4 Full Pipeline    ✅ ████████████████████████ COMPLETE (7/7, 370ms)  ║
+║  M1.11.5 GPU-Resident     ✅ ████████████████████████ COMPLETE (27ms!) 🆕    ║
 ║                                                                              ║
 ║  ─────────────────────────────────────────────────────────────────────────   ║
 ║                                                                              ║
-║  📊 TESTS: 369 total │ 369 passing │ 3 skipped │ 99.2% pass rate             ║
-║  📈 COVERAGE: 89.58% overall │ 8323 statements │ 867 missed                  ║
+║  📊 TESTS: 431+ total │ 431+ passing │ 89.58%+ coverage                     ║
+║  ⚡ HEADLINE: 27ms at 1M tokens (GPU-resident) │ True O(k) end-to-end       ║
 ║                                                                              ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 ```
 
-### M1.11 Strafe Jumping: The Latest Breakthrough
-
-```
-PERFORMANCE vs O(n²) baseline
-═══════════════════════════════════════════════════════════════════════════════
-
-  LATENCY (10M tokens) - IN-MEMORY
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │ O(n²) baseline      ████████████████████████████████████████████ 120,000ms   │
-  │ INFINITE+M11 ▏                                            7.18ms      │
-  └────────────────────────────────────────────────────────────────────────┘
-                         ⚡ 16,722× FASTER ⚡
-
-  7 PHYSICS EXPLOITS FROM QUAKE
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │ 1. Warp Lanes       │ Jump to distant high-similarity tokens          │
-  │ 2. Shell Memory     │ Organize at optimal radii (0.9r, 1.9r, 2.9r)    │
-  │ 3. LOD Hopping      │ Exploit 80% fidelity cliffs at boundaries       │
-  │ 4. Bunny Hop        │ Accumulate momentum across queries              │
-  │ 5. Circle Jump      │ Broad→specific two-phase navigation             │
-  │ 6. Temperature Surf │ Hot→cold annealing (explore→exploit)            │
-  │ 7. Attention Ratchet│ Directed warp graph awareness                   │
-  └────────────────────────────────────────────────────────────────────────┘
-                         🎮 QUAKE PHYSICS → AI NAVIGATION 🎮
-
-═══════════════════════════════════════════════════════════════════════════════
-```
-
 ---
 
-## Overview
-
-This directory contains implementation guides for all Infinite milestones. Each milestone builds upon previous work to create the revolutionary O(k) constant complexity spatial AI system.
-
----
-
-## Completed Milestones (10/10)
+## Completed Milestones (14/14)
 
 | Milestone | Name | Status | Duration | Guide |
 |-----------|------|--------|----------|-------|
@@ -113,53 +80,50 @@ This directory contains implementation guides for all Infinite milestones. Each 
 | **M1.2** | Spatial Position Encoding | ✅ Complete | 3h 30min | [milestone-1.2-spatial-encoding.md](milestone-1.2-spatial-encoding.md) |
 | **M1.3** | Spatial Attention | ✅ Complete | 4h 00min | [milestone-1.3-spatial-attention.md](milestone-1.3-spatial-attention.md) |
 | **M1.4** | Spatial Transformer | ✅ Complete | 2h 43min | [milestone-1.4-spatial-transformer.md](milestone-1.4-spatial-transformer.md) |
-| **M1.5** | Position Encoding Enhancements | ⏭️ Skipped | - | *(skipped - not needed for core functionality)* |
+| **M1.5** | Position Encoding Enhancements | ⏭️ Skipped | - | *(not needed for core functionality)* |
 | **M1.6** | Vector Store Integration | ✅ Complete | 2h 45min | [milestone-1.6-vector-store.md](milestone-1.6-vector-store.md) |
 | **M1.7** | Integration Testing | ✅ Complete | ~2h | [milestone-1.7-integration-testing.md](milestone-1.7-integration-testing.md) |
-| **M1.8** | O(n²) baseline Comparison | ✅ Complete | ~3h | [milestone-1.8-baseline-comparison.md](milestone-1.8-baseline-comparison.md) |
+| **M1.8** | Baseline Comparison | ✅ Complete | ~3h | [milestone-1.8-baseline-comparison.md](milestone-1.8-baseline-comparison.md) |
 | **M1.9** | Test Stabilization | ✅ Complete | ~2h | [milestone-1.9-test-stabilization.md](milestone-1.9-test-stabilization.md) |
 | **M1.10** | Hierarchical LOD | ✅ Complete | ~4h | [milestone-1.10-hierarchical-lod.md](milestone-1.10-hierarchical-lod.md) |
 | **M1.11** | Strafe Jumping Navigation | ✅ Complete | ~8h | [milestone-1.11-strafe-navigation.md](milestone-1.11-strafe-navigation.md) |
-
-**Total Time:** ~32 hours for completed milestones
+| **M1.11.2** | Pipeline Coverage Audit | ✅ Complete | ~2h | [MILESTONE_1.11.2_COMPLETE.md](../../Project/MILESTONE_1.11.2_COMPLETE.md) |
+| **M1.11.3** | GPU Full Pipeline (3/7) | ✅ Complete | ~3h | [MILESTONE_1.11.3_COMPLETE.md](../../Project/MILESTONE_1.11.3_COMPLETE.md) |
+| **M1.11.4** | GPU Full Pipeline (7/7) | ✅ Complete | ~6h | [MILESTONE_1.11.4_COMPLETE.md](../../Project/MILESTONE_1.11.4_COMPLETE.md) |
+| **M1.11.5** | GPU-Resident Vector Store | ✅ Complete | ~4h | [MILESTONE_1.11.5_COMPLETE.md](../../Project/MILESTONE_1.11.5_COMPLETE.md) |
 
 ---
 
-## Latest Achievement: M1.11 Strafe Jumping Navigation
+## The GPU Pipeline Evolution (M1.11 → M1.11.5)
 
-**Completed:** January 20, 2026 | **Duration:** ~8 hours
+The 7-stage pipeline: VectorStore → SpatialToken → Encoding → Attention → Transformer → LOD → Navigation
 
-Physics-inspired navigation from Quake game mechanics. After rigorous research validation, **7 of 9 proposed exploits were validated and implemented**.
+| Milestone | What Happened | Stages Tested | Key Result |
+|-----------|---------------|:-------------:|------------|
+| **M1.8/M1.11** | Proved O(k) attention breakthrough | 1/7 | 10,317× faster (CPU, attention only) |
+| **M1.11.2** | Audited pipeline, found only 3/7 tested | 3/7 | Documented the coverage gap |
+| **M1.11.3** | Moved pipeline to GPU (RTX 5060) | 3/7 → GPU | Crossover at ~20K tokens, SM_120 support |
+| **M1.11.4** | First full 7/7 pipeline benchmark | **7/7** | 1M in 370ms, discovered O(n) transfer bottleneck |
+| **M1.11.5** | GPU-resident "loading screen" | **7/7 GPU-resident** | 27ms at 1M (true O(k)), 25.5× LOD |
 
-### M1.11 Benchmark Results (In-Memory)
+Each milestone tested more of the pipeline until M1.11.5 proved O(k) holds for the full system.
 
-| Dataset | Tokens | O(n²) baseline | INFINITE+M11 | Speedup |
-|---------|--------|---------|--------------|---------|
-| CodeQA | 100K | 15,000ms | 3.57ms | **4,198×** |
-| OOLONG | 500K | 35,000ms | 4.06ms | **8,628×** |
-| BrowseComp+ | 10M | 120,000ms | 7.18ms | **16,722×** |
-| **Average** | - | - | - | **10,317×** |
+### M1.11.5: GPU-Resident Vector Store (Latest)
 
-### M1.11 Benchmark Results (Qdrant Production)
+**Completed:** February 8, 2026
 
-| Dataset | Tokens | O(n²) baseline | Qdrant+M11 | Speedup |
-|---------|--------|---------|------------|---------|
-| CodeQA | 100K | 15,000ms | 30.64ms | **490×** |
-| OOLONG | 500K | 35,000ms | 50.61ms | **692×** |
-| BrowseComp+ | 10M | 120,000ms | 184.19ms | **652×** |
-| **Average** | - | - | - | **533×** |
+The "loading screen" pattern — load tokens into GPU VRAM once, query forever at O(k).
 
-**Key Results:**
-- **10,317× faster** than O(n²) baseline (in-memory)
-- **533× faster** than O(n²) baseline (Qdrant production)
-- **1,330× cheaper** than O(n²) baseline
-- **O(k) latency verified** (2.85× time for 20× tokens, not 400×)
-- **O(k) memory verified** (0.96× memory for 10× tokens, not 10×)
-- **1.50 MB constant memory** (Qdrant container, regardless of token count)
-- **151 new tests** (all passed)
-- **89.58% coverage** overall
+| Metric | Result |
+|--------|--------|
+| Load 1M tokens | 125ms (one-time) |
+| Query at 1M | **27ms** (same as 1K — true O(k)) |
+| vs transfer pipeline | **18.27× faster** at 1M |
+| LOD expansion | **25.5×** (5-level: near/medium/far/beyond/horizon) |
+| Max VRAM capacity | ~14.5M tokens (16GB) |
+| New tests | 28 (zero regressions) |
 
-### 7 Validated Physics Exploits
+### M1.11 Strafe Jumping: 7 Physics Exploits
 
 ```
 ╔═════════════════════════════════════════════════════════════════════════╗
@@ -177,215 +141,119 @@ Physics-inspired navigation from Quake game mechanics. After rigorous research v
 ╚═════╧════════════════════╧═════════╧═══════════════════════════════════╝
 ```
 
-### O(k) Scaling Verification
+---
 
-| Scale | M1.11 Time | Baseline Time | M1.11 Speedup |
-|-------|------------|---------------|---------------|
-| 500 tokens | 3.79ms | 3.65ms | 0.96× |
-| 5,000 tokens | 6.90ms | 5.09ms | 0.74× |
-| 10,000 tokens | 10.80ms | 26.93ms | **2.49×** |
+## O(k) Scaling Verification
 
-**20× tokens → 2.85× time** (vs 400× for O(n²)) = **O(k) LATENCY VERIFIED**
+### CPU (M1.11, attention only — 1/7 stages)
 
-### O(k) Memory Verification (Qdrant Container)
+| Metric | Result | O(n²) Would Be |
+|--------|--------|-----------------|
+| 20× tokens → time | 2.85× | 400× |
+| 10× tokens → memory | 0.96× | 10× |
+| 128× tokens → time | 1.12× | 16,384× |
 
-| Tokens | Peak Memory | Scaling vs 500 |
-|--------|-------------|----------------|
-| 500 | 1.56 MB | baseline |
-| 1,000 | 1.50 MB | 0.96× |
-| 2,000 | 1.50 MB | 0.96× |
-| 5,000 | 1.50 MB | 0.96× |
+### GPU (M1.11.4, full pipeline — 7/7 stages)
 
-**10× tokens → 0.96× memory** (vs 10× for O(n)) = **O(k) MEMORY VERIFIED**
+| Scale | Pipeline Time | Scaling |
+|------:|:------------:|---------|
+| 1K | 19ms | baseline |
+| 10K | 19ms | **1.00×** (flat — O(k)) |
+| 100K | 40ms | O(n) transfer emerging |
+| 1M | 370ms | O(n) transfer dominant |
 
-| Mode | Peak Memory | Comparison |
-|------|-------------|------------|
-| Qdrant In-Memory | 3.97 MB | baseline |
-| Qdrant Docker Container | 1.50 MB | **-62.2%** |
+### GPU-Resident (M1.11.5, full pipeline — 7/7 stages)
 
-**Key Finding:** Container mode uses **62% LESS memory** than in-memory mode!
+| Scale | Pipeline Time | Scaling |
+|------:|:------------:|---------|
+| 1K | 29ms | baseline |
+| 10K | 27ms | **0.93×** (flat) |
+| 100K | 27ms | **0.93×** (flat) |
+| 1M | 27ms | **0.93×** (flat — true O(k)) |
+
+**The progression:** O(k) attention proven on CPU → full pipeline reveals O(n) transfer on GPU → GPU-resident eliminates transfer → true O(k) end-to-end at any scale.
+
+---
+
+## Test Statistics
+
+| Milestone | Tests | Pipeline Stages | Coverage |
+|-----------|:-----:|:---------------:|----------|
+| M1.1 | 12 | — | 100% |
+| M1.2 | 17 | — | 95% |
+| M1.3 | 24 | 1/7 | 98% |
+| M1.4 | 20 | — | 72-77% |
+| M1.6 | 17 | — | 89-96% |
+| M1.7 | 18 | — | ~90% |
+| M1.8 | 25 | 1/7 | ~90% |
+| M1.9 | 4 | — | ~92% |
+| M1.10 | 67 | 1/7 | 93-98% |
+| M1.11 | 151 | 1/7 (CPU) | 89-99% |
+| M1.11.2 | 14 | 3/7 (CPU) | — |
+| M1.11.3 | 20 | 3/7 (GPU) | — |
+| M1.11.4 | 28 | 7/7 (GPU) | — |
+| M1.11.5 | 28 | 7/7 (GPU-resident) | — |
+| **Total** | **431+** | **7/7 validated** | **89.58%+** |
 
 ---
 
 ## Upcoming Milestones
 
-### Pre-M2.0 Improvements (M1.12-M1.23)
-
-| Milestone | Name | Priority | Est. Time | Description |
-|-----------|------|----------|-----------|-------------|
-| **M1.12** | 3D Visualization | 🔴 Next | 4-6 weeks | React + Three.js simple 3D UI |
-| **M1.13** | FakeOS Embed | Medium | 1-2 weeks | Embed viz in FakeOS dashboard |
-| **M1.14a** | NPU Acceleration (Standalone) | High | 1-2 weeks | torch_directml/ROCm for AMD XDNA 2 |
-| **M1.14b** | AIOS Syscalls (Integration) | Medium | 1-2 weeks | PyO3 bridge to kernel |
-| **M1.15** | GPU SM_120 Support | High | 1-4 hours | Enable RTX 50-series |
-| **M1.16** | Quality Benchmarks | High | 3-4 hours | Retrieval accuracy metrics |
-| **M1.17** | Multi-Pass Navigation | High | 4-6 hours | Search multiple times |
-| **M1.18** | Confidence Re-Navigation | Medium | 4-5 hours | Self-correcting search |
-| **M1.19** | Adaptive LOD Thresholds | Medium | 2-3 hours | Query-appropriate fidelity |
-| **M1.20** | Hybrid Attention Mode | Low | 6-8 hours | Best of both worlds (optional) |
-| **M1.21** | SISS (Super Sampling) | Medium | 8-14 days | DLSS-inspired LOD upscaling |
-| **M1.22** | RT Core Spatial Index | Low | Research | Hardware-accelerated k-NN (optional) |
-| **M1.23** | Skill Packs | High | 1-2 weeks | Loadable knowledge packages (defrag moved to M2.1) |
-
 ### M2.0+ LLM Integration & Memory Maintenance
 
 | Milestone | Name | Priority | Est. Time | Description |
 |-----------|------|----------|-----------|-------------|
-| **M2.0** | Spatial LLM Integration | 🔴 Next | 10-12 hours | LLM integration with spatial attention |
+| **M2.0** | Spatial LLM Integration | 🔴 Next | 10-12 hours | LLM + spatial memory chat loop with confidence routing |
 | **M2.1** | Context Defragmentation | High | 7-11 days | Memory maintenance — archive failures, consolidate successes |
 | **M2.2** | Spatial Transformer Training | Medium | 10-12 hours | Training pipeline |
 
----
+### Deferred (As Needed)
 
-## M1.21-M1.23: The Paradigm Shift
+These milestones are deferred until after M2.0. M1.15 (GPU support) was achieved via M1.11.4/M1.11.5. Quality milestones need real data from M2.0 to benchmark against.
 
-These milestones enable the paradigm shift where **tiny reasoning models + INFINATE replace giant LLMs**:
-
-### M1.21: SISS (Spatial Intelligence Super Sampling)
-
-DLSS upscales low-resolution images to high-resolution using AI. SISS does the same for compressed LOD tokens:
-
-```
-DLSS FOR GRAPHICS:
-  Render at 1080p → AI Upscale → Output at 4K (same quality, 4× less compute)
-
-SISS FOR SPATIAL AI:
-  Compress 5,000 tokens → LOD (90 tokens) → AI Upscale → Effective 5,000 tokens
-  (Same quality, 55× less compute!)
-```
-
-### M1.22: RT Core Spatial Index (Optional)
-
-Use NVIDIA RT Cores (ray tracing hardware) for O(1) k-NN lookups:
-
-- RT Cores process ray-AABB intersections at hardware speed
-- Map spatial tokens to BVH (Bounding Volume Hierarchy)
-- Achieve true O(1) nearest-neighbor queries
-
-### M1.23: Skill Packs
-
-Loadable, versioned knowledge packages - like Neo learning Kung Fu in The Matrix:
-
-```python
-# Load a skill pack
-load_skill_pack("python_v312")
-# INFINATE: "I know Python 3.12."
-
-# Skill packs include:
-# - Curated knowledge tokens with spatial coordinates
-# - Version control (python_v312, python_v311, etc.)
-# - Organic learning metadata (success/failure counts)
-```
-
-**Sub-milestones:**
-
-| Sub-milestone | Effort | Description |
-|---------------|--------|-------------|
-| **M1.23a** | 1 day | Skill pack manifest schema (JSON format) |
-| **M1.23b** | 2-3 days | Skill pack loader (region assignment) |
-| **M1.23c** | 1-2 days | Metadata extensions (status, version, source) |
-| **M1.23d** | 2-3 days | Success/failure tracking system |
-
-**Total:** 7-9 days
-
-**Note:** Defragmentation (M1.23e-f) moved to **M2.1** — it requires organic learning data from M2.0 to be meaningful.
-
-**The Vision:**
-```
-GPT-4 (1.8T params) = Reasoning + ALL Human Knowledge
-                      └── 90% is STORAGE, not computation
-
-Tiny Model (7B) + INFINATE = Pure Reasoning + Skill Packs
-                             └── 100% is COMPUTATION
-                             └── Knowledge loaded on demand
-
-"The model thinks. INFINATE remembers."
-```
+| Milestone | Name | Priority | Description |
+|-----------|------|----------|-------------|
+| **M1.12** | 3D Visualization | Medium | React + Three.js (~95% designed) |
+| **M1.13** | Embeddable Component | Medium | Requires M1.12 |
+| **M1.14** | NPU Acceleration | Medium | AMD XDNA 2 hardware-specific |
+| **M1.15** | GPU SM_120 Support | ✅ Achieved | Done as M1.11.4 + M1.11.5 |
+| **M1.16** | Quality Benchmarks | High | Needs real data from M2.0 |
+| **M1.17** | Multi-Pass Navigation | High | Better coverage post-M2.0 |
+| **M1.18** | Confidence Re-Navigation | Medium | M2.0 has its own routing |
+| **M1.19** | Adaptive LOD Thresholds | Medium | Tuning after real usage |
+| **M1.20** | Hybrid Attention Mode | Low | Optional |
+| **M1.21** | SISS (Super Sampling) | Medium | DLSS-inspired LOD upscaling |
+| **M1.22** | RT Core Spatial Index | Low | Hardware-accelerated k-NN, optional |
+| **M1.23** | Skill Packs | High | Loadable knowledge packages (defrag moved to M2.1) |
 
 ---
 
 ## Milestone Dependency Graph
 
 ```mermaid
-graph LR
-    M1["M1.1<br/>SpatialToken<br/>✅"] --> M2["M1.2<br/>SpatialEncoding<br/>✅"]
-    M2 --> M3["M1.3<br/>SpatialAttention<br/>✅ O(k)!"]
-    M3 --> M4["M1.4<br/>Transformer<br/>✅"]
-    M4 --> M6["M1.6<br/>VectorStore<br/>✅"]
-    M6 --> M7["M1.7<br/>Integration<br/>✅"]
-    M7 --> M8["M1.8<br/>Baseline Comparison<br/>✅ 1,100×!"]
-    M8 --> M9["M1.9<br/>Test Stability<br/>✅ 92%"]
-    M9 --> M10["M1.10<br/>LOD System<br/>✅ 2,586×!"]
-    M10 --> M11["M1.11<br/>Strafe Jump<br/>✅ 10,317×!"]
-    M11 --> M20["M2.0<br/>Spatial LLM<br/>📋 NEXT"]
+graph TB
+    M1["M1.1 SpatialToken ✅"] --> M2["M1.2 SpatialEncoding ✅"]
+    M2 --> M3["M1.3 SpatialAttention ✅\nO(k) proven"]
+    M3 --> M4["M1.4 Transformer ✅"]
+    M4 --> M6["M1.6 VectorStore ✅"]
+    M6 --> M7["M1.7 Integration ✅"]
+    M7 --> M8["M1.8 Baseline ✅\n1,100×"]
+    M8 --> M9["M1.9 Stability ✅"]
+    M9 --> M10["M1.10 LOD ✅\n2,586×"]
+    M10 --> M11["M1.11 Strafe Jump ✅\n10,317×"]
+    M11 --> M112["M1.11.2 Pipeline Audit ✅\n3/7 gap found"]
+    M112 --> M113["M1.11.3 GPU Pipeline ✅\n3/7 on GPU"]
+    M113 --> M114["M1.11.4 Full Pipeline ✅\n7/7, 370ms at 1M"]
+    M114 --> M115["M1.11.5 GPU-Resident ✅\n27ms at 1M"]
+    M115 --> M20["M2.0 LLM Integration\n🔜 NEXT"]
+    M20 --> M21["M2.1 Defragmentation\nPlanned"]
 
     style M3 fill:#90EE90,stroke:#228B22
-    style M8 fill:#90EE90,stroke:#228B22
-    style M10 fill:#90EE90,stroke:#228B22
-    style M11 fill:#FFD700,stroke:#DAA520
+    style M11 fill:#90EE90,stroke:#228B22
+    style M115 fill:#FFD700,stroke:#DAA520
+    style M20 fill:#87CEEB,stroke:#4682B4
+    style M21 fill:#87CEEB,stroke:#4682B4
 ```
-
-### Milestone Flow (ASCII)
-
-```
-M1.1 SpatialToken
-    ↓
-M1.2 SpatialPositionEncoding
-    ↓
-M1.3 SpatialAttention ──────→ O(k) BREAKTHROUGH!
-    ↓
-M1.4 SpatialTransformer ────→ O(k) VERIFIED!
-    ↓
-   [M1.5 Skipped] ──────────→ (not needed for core)
-    ↓
-M1.6 VectorStore ───────────→ UNLIMITED CONTEXT!
-    ↓
-M1.7 Integration Testing ───→ O(k) INTEGRATION VERIFIED!
-    ↓
-M1.8 O(n²) baseline Comparison ────→ 1,100-4,331× FASTER THAN O(n²)!
-    ↓
-M1.9 Test Stabilization ────→ 150 TESTS, 92% COVERAGE!
-    ↓
-M1.10 Hierarchical LOD ─────→ 2,586× FASTER, 9.7× CONTEXT!
-    ↓
-M1.11 Strafe Jumping ───────→ 10,317× FASTER, 7 EXPLOITS! ✅
-    ↓
-M2.0 Spatial LLM ───────────→ NEXT
-```
-
----
-
-## Key Achievement: O(k) Complexity
-
-The core innovation proven across milestones:
-
-| Measurement | O(n²) Expected | O(k) Actual |
-|-------------|----------------|-------------|
-| 2× sequence | 4.0× time | **2.52×** time |
-| 4× sequence | 16.0× time | **10.05×** time |
-
-**Result:** Sub-quadratic scaling verified! Enables truly unlimited context.
-
----
-
-## Test Statistics
-
-| Milestone | Tests | Pass Rate | Coverage |
-|-----------|-------|-----------|----------|
-| M1.1 | 12/12 | 100% | 100% |
-| M1.2 | 17/17 | 100% | 95% |
-| M1.3 | 24/25 | 96% | 98% |
-| M1.4 | 20/20 | 100% | 72-77% |
-| M1.5 | - | ⏭️ Skipped | - |
-| M1.6 | 17/17 | 100% | 89-96% |
-| M1.7 | 18/18 | 100% | ~90% |
-| M1.8 | 25/25 | 100% | ~90% |
-| M1.9 | 4/4 | 100% | ~92% |
-| M1.10 | 67/68 | 98.5% | 93-98% |
-| M1.11 | 151/151 | 100% | 89-99% |
-| **Total** | **369** | **99.2%** | **89.58%** |
-
-*(369 passed, 3 skipped for GPU compatibility)*
 
 ---
 
@@ -393,105 +261,61 @@ The core innovation proven across milestones:
 
 ### Read in Order
 
-1. **[M1.1](milestone-1.1-spatial-token.md)** - Understand the foundation
-2. **[M1.2](milestone-1.2-spatial-encoding.md)** - 3D position encoding
+1. **[M1.1](milestone-1.1-spatial-token.md)** - Foundation: tokens with 3D positions
+2. **[M1.2](milestone-1.2-spatial-encoding.md)** - 3D sinusoidal position encoding
 3. **[M1.3](milestone-1.3-spatial-attention.md)** - THE O(k) breakthrough
-4. **[M1.4](milestone-1.4-spatial-transformer.md)** - Complete architecture
-5. ~~M1.5~~ - *(skipped)*
-6. **[M1.6](milestone-1.6-vector-store.md)** - Unlimited context
-7. **[M1.7](milestone-1.7-integration-testing.md)** - Integration verified
-8. **[M1.8](milestone-1.8-baseline-comparison.md)** - O(n²) baseline comparison (1,100-4,331×!)
-9. **[M1.9](milestone-1.9-test-stabilization.md)** - Test stabilization
-10. **[M1.10](milestone-1.10-hierarchical-lod.md)** - Hierarchical LOD (2,586× faster, 9.7× context)
-11. **[M1.11](milestone-1.11-strafe-navigation.md)** - Strafe Jumping (10,317× faster, 7 physics exploits) ✅
+4. **[M1.4](milestone-1.4-spatial-transformer.md)** - Complete transformer architecture
+5. **[M1.6](milestone-1.6-vector-store.md)** - Unlimited context via vector stores
+6. **[M1.7](milestone-1.7-integration-testing.md)** - Integration verified
+7. **[M1.8](milestone-1.8-baseline-comparison.md)** - Baseline comparison (1,100-4,331×)
+8. **[M1.9](milestone-1.9-test-stabilization.md)** - Test stabilization
+9. **[M1.10](milestone-1.10-hierarchical-lod.md)** - LOD system (2,586× faster, 9.7× context)
+10. **[M1.11](milestone-1.11-strafe-navigation.md)** - Strafe jumping (10,317×, 7 physics exploits)
+11. **[M1.11.2](../../Project/MILESTONE_1.11.2_COMPLETE.md)** - Pipeline audit (found 3/7 coverage gap)
+12. **[M1.11.3](../../Project/MILESTONE_1.11.3_COMPLETE.md)** - GPU pipeline (RTX 5060, SM_120)
+13. **[M1.11.4](../../Project/MILESTONE_1.11.4_COMPLETE.md)** - Full 7/7 pipeline (1M in 370ms)
+14. **[M1.11.5](../../Project/MILESTONE_1.11.5_COMPLETE.md)** - GPU-resident (27ms at 1M, true O(k))
 
 ### Run Tests
 
 ```bash
 cd /home/ch1pu/infinate/backend
 source .venv/bin/activate
-poetry run pytest spatial_engine/ -v --cov
-```
-
-### Try the Code
-
-```python
-# Complete pipeline (M1.1 → M1.11)
-from spatial_engine.core import (
-    SpatialToken,
-    SpatialPositionEncoding,
-    SpatialAttention,
-    SpatialTransformer,
-    # M1.10 LOD System
-    SpatialAttentionWithLOD,
-    create_lod_attention,
-    HierarchicalLOD,
-    # M1.11 Strafe Jumping Navigation
-    MomentumNavigator,
-    WarpLaneDetector,
-)
-from spatial_engine.integration import NavigationAttention
-from spatial_engine.vector_store import QdrantAdapter
-import torch
-
-# Create strafe-jumping navigator (10,317× faster than O(n²) baseline!)
-nav = MomentumNavigator(
-    d_model=768,
-    momentum=0.9,
-    warp_threshold=0.95,
-    attention_radius=50.0
-)
-
-# Generate sample data
-embeddings = torch.randn(1000, 768)
-positions = torch.randn(1000, 3) * 500.0
-query = torch.randn(768)
-
-# Navigate with physics-inspired exploits
-result = nav.navigate(
-    query=query,
-    max_steps=10,
-    use_circle_jump=True,
-    context_embeddings=embeddings,
-    context_positions=positions
-)
-
-print(f"Steps taken: {result.steps_taken}")
-print(f"Warps used: {result.warp_count}")
-print(f"Converged: {result.converged}")
+poetry run pytest spatial_engine/ -v --cov          # Full suite
+poetry run pytest -m benchmark -v                   # Benchmarks only
+poetry run pytest -m m1115 -v -s --no-cov           # M1.11.5 GPU-resident tests
 ```
 
 ---
 
-## Related Documentation
-
-- **CLAUDE.md** - Main project guide
-- **Project/STATUS.md** - Current project status
-- **Project/MILESTONE_*.md** - Detailed completion reports
-- **Documents/CORE_INNOVATION.md** - O(k) complexity proof
-- **Documents/SPATIAL_MODEL_ARCHITECTURE.md** - Full architecture
-
----
-
-## Project Origin
+## Project Timeline
 
 | Event | Date |
 |-------|------|
 | Driving Epiphany | October 2025 |
 | PROJECT GENESIS | November 12, 2025 |
 | GitHub Proof Push | November 13, 2025 |
-| M1.1-M1.3 Complete | January 13, 2025 |
-| M1.4 + M1.6 Complete | December 1, 2025 |
-| M1.7 Integration Testing | January 2026 |
-| M1.8 O(n²) baseline Comparison | January 2026 |
-| M1.9 Test Stabilization | January 18, 2026 |
+| M1.1-M1.4 Complete | December 2025 |
+| M1.6-M1.7 Complete | January 2026 |
+| M1.8-M1.9 Complete | January 18, 2026 |
 | M1.10 LOD Complete | January 19, 2026 |
-| **M1.11 Strafe Jumping Complete** | **January 20, 2026** |
+| M1.11 Strafe Jumping Complete | January 20, 2026 |
+| M1.11.2 Pipeline Audit | February 3, 2026 |
+| M1.11.3 GPU Pipeline | February 4, 2026 |
+| M1.11.4 Full Pipeline (7/7) | February 5, 2026 |
+| **M1.11.5 GPU-Resident** | **February 8, 2026** |
+
+---
+
+## Related Documentation
+
+- **[README.md](../../README.md)** - Project overview and key results
+- **[TECHNICAL_VALIDATION_REPORT.md](../../Project/TECHNICAL_VALIDATION_REPORT.md)** - Independent validation of all benchmarks
+- **[FUTURE_VISION.md](../../Project/FUTURE_VISION.md)** - Complete roadmap
+- **[Documents/CORE_INNOVATION.md](../../Documents/CORE_INNOVATION.md)** - O(k) complexity proof
 
 ---
 
 **Author:** Adolfo Lopez (ch1pu)
-**Last Updated:** January 20, 2026
+**Last Updated:** February 8, 2026
 **License:** Apache 2.0 - Open Source
-
-**Note:** M1.5 (Position Encoding Enhancements) was skipped - the core spatial encoding from M1.2 proved sufficient for O(k) complexity. M1.11 (Strafe Jumping Navigation) applies Quake physics-inspired navigation to semantic space - achieving 10,317× speedup over O(n²) baseline (in-memory) with 7 validated physics exploits. This novel innovation is freely available under Apache 2.0.
