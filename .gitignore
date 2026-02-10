@@ -424,6 +424,7 @@ SESSION_SUMMARY*.md
 
 # Unreleased milestones (star-based release strategy)
 unreleased/
+backend/unreleased/
 
 # Security audit docs (kept locally)
 Security/
